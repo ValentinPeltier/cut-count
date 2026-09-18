@@ -66,11 +66,14 @@ See `src/scripts/` for additional importers.
 
 ## Tests
 
+`.env.test` is an overlay on `.env`: only the test DB (Postgres 5433), `NODE_ENV`, and ports 3001. Copy both dist files first (`cp .env.dist .env` and `cp .env.test.dist .env.test`).
+
 ```bash
-yarn test                 # unit + Publicodes
+yarn db:test:reset          # reset + seed the test database
+yarn test                   # unit + Publicodes
 yarn test:watch
 yarn publicodes-count:test
-yarn dev:test             # app on port 3001 against the test DB
+yarn dev:test               # app on port 3001 against the test DB
 yarn cypress
 yarn cypress:gui
 ```

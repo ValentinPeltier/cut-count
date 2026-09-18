@@ -41,6 +41,8 @@ jobs:
           cache: 'yarn'
       - name: Copy .env
         run: cp .env.dist .env
+      - name: Copy .env.test
+        run: cp .env.test.dist .env.test
       - name: Install dependencies
         run: yarn install --immutable --immutable-cache --check-cache
       - name: Prebuild application
@@ -118,7 +120,7 @@ jobs:
       - name: Copy .env
         run: cp .env.dist .env
       - name: Copy .env.test
-        run: cp .env.dist .env.test
+        run: cp .env.test.dist .env.test
       - name: Install dependencies
         run: yarn install --immutable --immutable-cache --check-cache
       - name: Prebuild application
@@ -143,6 +145,7 @@ jobs:
       - name: Launch e2e tests
         env:
           NODE_OPTIONS: --max-old-space-size=4096
+          CYPRESS_URL: http://localhost:3000
         run: yarn cypress run --spec "src/tests/end-to-end/app/${{ matrix.group }}/**/*.cy.ts" --headless
       - name: Upload screenshots
         uses: actions/upload-artifact@v4
