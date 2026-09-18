@@ -5,11 +5,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getLocalesForEnv } from './services/permissions/environment'
 
 const COUNT_ROUTE = '/count'
-const TILT_ROUTE = '/tilt'
-const CLICKSON_ROUTE = '/clickson'
 const ENVIRONMENT_COOKIE = 'ENVIRONMENT'
 const LOCALE_COOKIE = 'NEXT_LOCALE'
-const ENV_ROUTES = [COUNT_ROUTE, TILT_ROUTE, CLICKSON_ROUTE]
+const ENV_ROUTES = [COUNT_ROUTE]
 const publicRoutes = ['/login', '/reset-password', '/activation', '/preview', ...ENV_ROUTES]
 const assetsRoutes = ['/_next', '/img']
 
@@ -35,14 +33,9 @@ const normalizeLocaleCookie = (req: NextRequest, response: NextResponse) => {
 
 export async function proxy(req: NextRequest) {
   const host = req.headers.get('host')?.toLowerCase()
-  const redirectHosts = [
-    'calculator.clickson.eu',
-    'www.calculator.clickson.eu',
-    'pebc.bilancarbone-app.com',
-    'www.bilancarbone-app.com',
-  ]
+  const redirectHosts = ['www.bilancarbone-app.com']
   if (host && redirectHosts.includes(host)) {
-    return normalizeLocaleCookie(req, NextResponse.redirect('https://bilancarbone-app.com/clickson', 308))
+    return normalizeLocaleCookie(req, NextResponse.redirect('https://bilancarbone-app.com', 308))
   }
 
   if (ENV_ROUTES.includes(req.nextUrl.pathname)) {
@@ -59,12 +52,6 @@ export async function proxy(req: NextRequest) {
       switch (env) {
         case Environment.CUT:
           baseUrl = `${COUNT_ROUTE}`
-          break
-        case Environment.TILT:
-          baseUrl = `${TILT_ROUTE}`
-          break
-        case Environment.CLICKSON:
-          baseUrl = `${CLICKSON_ROUTE}`
           break
         default:
           break

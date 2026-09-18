@@ -1,5 +1,4 @@
 import type { FullStudy } from '@/db/study'
-import { isTilt } from '@/services/permissions/environment'
 import { hasAccessToCarbonResponsibilityIntensitiesAdvanced } from '@/services/permissions/environmentAdvanced'
 import { useAppEnvironmentStore } from '@/store/AppEnvironment'
 import { CA_UNIT_VALUES } from '@/utils/number'
@@ -26,27 +25,19 @@ const CarbonIntensities = ({ study, studySite, withDep, withoutDep, caUnit }: Pr
 
   const noValidSite = (!site && studySite !== 'all') || (studySite === 'all' && !study.sites.length)
 
-  const [ca, etp, volunteer, beneficiary] = useMemo(() => {
+  const [ca, etp] = useMemo(() => {
     if (noValidSite) {
-      return [1, 1, 1, 1]
+      return [1, 1]
     }
     if (studySite === 'all') {
       return study.sites
-        .reduce(
-          (res, studySite) => [
-            res[0] + (studySite.ca || 0),
-            res[1] + (studySite.etp || 0),
-            res[2] + (studySite.volunteerNumber || 0),
-            res[3] + (studySite.beneficiaryNumber || 0),
-          ],
-          [0, 0, 0, 0],
-        )
+        .reduce((res, studySite) => [res[0] + (studySite.ca || 0), res[1] + (studySite.etp || 0)], [0, 0])
         .map((value, i) => (i === 0 ? value / CA_UNIT_VALUES[caUnit] || 1 : value || 1))
     }
     if (site) {
-      return [site.ca / CA_UNIT_VALUES[caUnit], site.etp, site.volunteerNumber || 1, site.beneficiaryNumber || 1]
+      return [site.ca / CA_UNIT_VALUES[caUnit], site.etp]
     }
-    return [1, 1, 1, 1]
+    return [1, 1]
   }, [studySite])
 
   if (noValidSite) {
@@ -90,33 +81,6 @@ const CarbonIntensities = ({ study, studySite, withDep, withoutDep, caUnit }: Pr
           testId="result-etp"
           simplified={study.simplified}
         />
-        {isTilt(study.organizationVersion.environment) && (
-          <>
-            {volunteer && (
-              <CarbonIntensity
-                withDep={withDep}
-                withoutDep={withoutDep}
-                divider={volunteer}
-                resultsUnit={study.resultsUnit}
-                label={t('intensities.volunteer')}
-                testId="result-budget"
-                simplified={study.simplified}
-              />
-            )}
-
-            {beneficiary && (
-              <CarbonIntensity
-                withDep={withDep}
-                withoutDep={withoutDep}
-                divider={beneficiary}
-                resultsUnit={study.resultsUnit}
-                label={t('intensities.beneficiary')}
-                testId="result-budget"
-                simplified={study.simplified}
-              />
-            )}
-          </>
-        )}
       </div>
     </Box>
   )

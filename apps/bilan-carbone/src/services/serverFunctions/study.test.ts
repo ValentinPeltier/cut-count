@@ -140,21 +140,16 @@ jest.mock('../../utils/number', () => ({
   }),
 }))
 jest.mock('../posts', () => ({
-  environmentPostMapping: { BC: 'bc-mapping', CUT: 'cut-mapping', TILT: 'tilt-mapping' },
+  environmentPostMapping: { BC: 'bc-mapping', CUT: 'cut-mapping' },
   subPostsByPostBC: {},
   Post: {
     DechetsDirects: 'DechetsDirects',
     IntrantsBiensEtMatieres: 'IntrantsBiensEtMatieres',
   },
-  TiltSimplifiedPost: {},
-  subPostsByPostTILTSimplified: {},
   subPostsByPostCUT: {},
-  subPostsByPostClickson: {},
   CutPost: {},
-  ClicksonPost: {},
 }))
 jest.mock('../publicodes/simplifiedPublicodesConfig', () => ({
-  TILT_SIMPLIFIED_POSTS_CONFIG_VERSION: 'tilt-simplified-posts-v1',
   getSimplifiedPublicodesConfig: jest.fn(),
 }))
 jest.mock('../../utils/post', () => ({

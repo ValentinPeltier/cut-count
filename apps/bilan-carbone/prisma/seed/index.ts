@@ -1,4 +1,3 @@
-import { DefaultStudyTags } from '@/constants/tag.constants'
 import { reCreateBegesRules, reCreateGHGPRules } from '@/db/exports'
 import { getSectenVersion, updateSectenVersion } from '@/scripts/secten/secten'
 import { getAllowedLevels } from '@/utils/study'
@@ -26,9 +25,9 @@ import { prismaClient } from '@/db/client.node'
 import { Command } from 'commander'
 import { ACTUALITIES } from '../legacy_data/actualities'
 import { SECTEN_SEED_DATA } from './sectenSeedData'
-import { createRealStudy } from './study'
 import { createCountGoldenStudy } from './countGoldenStudy'
-import { getClicksonRoleFromBase, getCutRoleFromBase, getRolesFromEnvironment } from './utils'
+import { createRealStudy } from './study'
+import { getCutRoleFromBase, getRolesFromEnvironment } from './utils'
 
 import type { BCEnvironment } from '@/types/environment'
 import { getValidSubPostsForEnvironment } from '@/utils/importEmissionSources.utils'
@@ -51,7 +50,7 @@ const prisma = new PrismaClient({
   adapter,
 }) as PrismaClient
 
-const { MIP: _, ...BCEnvironment } = Environment
+const BCEnvironment = Environment
 
 const users = async () => {
   await prisma.emissionFactorPartMetaData.deleteMany()
@@ -78,21 +77,14 @@ const users = async () => {
 
   await prisma.emissionFactorImportVersion.deleteMany()
 
-  await prisma.response.deleteMany()
   await prisma.site.deleteMany()
   await prisma.userCheckedStep.deleteMany()
   await prisma.userApplicationSettings.deleteMany()
   await prisma.account.deleteMany()
 
-  await prisma.accountOnCampaign.deleteMany()
-  await prisma.campaign.deleteMany()
-  await prisma.accountMip.deleteMany()
-
   await prisma.user.deleteMany()
 
   await prisma.organizationVersion.deleteMany()
-  await prisma.modelCampaign.deleteMany()
-  await prisma.organizationVersionMip.deleteMany()
   await prisma.organization.deleteMany()
 
   await prisma.cnc.deleteMany()
@@ -260,37 +252,12 @@ const users = async () => {
     })),
   })
 
-  const organizationVersionsTILT = await prisma.organizationVersion.createManyAndReturn({
-    data: organizations.map((organization, index) => ({
-      organizationId: organization.id,
-      isCR: index % 2 === 1,
-      onboarded: false,
-      environment: Environment.TILT,
-      activatedLicence: [],
-    })),
-  })
-
-  const organizationVersionsClickson = await prisma.organizationVersion.createManyAndReturn({
-    data: organizations.map((organization) => ({
-      organizationId: organization.id,
-      isCR: false,
-      onboarded: false,
-      environment: Environment.CLICKSON,
-      activatedLicence: [],
-    })),
-  })
-
   const crOrganizationVersions = organizationVersions.filter((organization) => organization.isCR)
   const regularOrganizationVersions = organizationVersions.filter((organization) => !organization.isCR)
-
-  const regularTiltOrganizationVersions = organizationVersionsTILT.filter((organization) => !organization.isCR)
-  const crTiltOrganizationVersions = organizationVersionsTILT.filter((organization) => organization.isCR)
 
   const environmentOrganizationVersions = {
     [Environment.BC]: regularOrganizationVersions,
     [Environment.CUT]: organizationVersionsCUT,
-    [Environment.TILT]: regularTiltOrganizationVersions,
-    [Environment.CLICKSON]: organizationVersionsClickson,
   }
 
   const childOrganizations = await prisma.organization.createManyAndReturn({
@@ -404,19 +371,6 @@ const users = async () => {
         }),
       ),
     )
-  }
-
-  const clicksonOrganizationIds = organizationVersionsClickson.map((orgVersion) => orgVersion.organizationId)
-  const clicksonSite = sites.find((site) => clicksonOrganizationIds.includes(site.organizationId))
-  if (clicksonSite) {
-    await prisma.site.update({
-      where: { id: clicksonSite.id },
-      data: {
-        establishmentId: '0922798S',
-        name: 'Ecole secondaire privée  international scolaire - Open Sky International',
-        establishmentYear: '2017',
-      },
-    })
   }
 
   const levels = Object.keys(Level)
@@ -574,20 +528,6 @@ const users = async () => {
             environment: Environment.CUT,
             status: UserStatus.ACTIVE,
           },
-          {
-            organizationVersionId: organizationVersionsTILT[index % organizationVersionsTILT.length].id,
-            role: role as Role,
-            userId: user.id,
-            environment: Environment.TILT,
-            status: UserStatus.ACTIVE,
-          },
-          {
-            organizationVersionId: organizationVersionsClickson[index % organizationVersionsClickson.length].id,
-            role: getClicksonRoleFromBase(role as Role),
-            userId: user.id,
-            environment: Environment.CLICKSON,
-            status: UserStatus.ACTIVE,
-          },
         ]
         const accounts = await prisma.account.createManyAndReturn({
           data: accountsData,
@@ -634,13 +574,6 @@ const users = async () => {
             role: getCutRoleFromBase(role as Role),
             userId: user.id,
             environment: Environment.CUT,
-            status: UserStatus.ACTIVE,
-          },
-          {
-            organizationVersionId: crTiltOrganizationVersions[index % crTiltOrganizationVersions.length].id,
-            role: role as Role,
-            userId: user.id,
-            environment: Environment.TILT,
             status: UserStatus.ACTIVE,
           },
         ]
@@ -707,29 +640,6 @@ const users = async () => {
       },
     }),
   ])
-
-  await Promise.all(
-    [Role.GESTIONNAIRE, Role.DEFAULT].map(async (role) => {
-      return prisma.account.create({
-        data: {
-          organizationVersionId: regularTiltOrganizationVersions[0].id,
-          role,
-          environment: Environment.TILT,
-          status: UserStatus.ACTIVE,
-          userId: (
-            await prisma.user.create({
-              data: {
-                email: `tilt-env-untrained-${role.toLowerCase()}-0@yopmail.com`,
-                firstName: faker.person.firstName(),
-                lastName: faker.person.lastName(),
-                password: await signPassword('password-0'),
-              },
-            })
-          ).id,
-        },
-      })
-    }),
-  )
 
   await prisma.user
     .create({
@@ -798,62 +708,6 @@ const users = async () => {
           allowedUsers: {
             create: { role: StudyRole.Validator, accountId: creator.accounts[0].account.id },
           },
-        },
-      })
-    }),
-  )
-
-  await Promise.all(
-    regularTiltOrganizationVersions.map(async (organizationVersion) => {
-      const organizationVersionSites = sites.filter(
-        (site) => site.organizationId === organizationVersion.organizationId,
-      )
-      const tiltAccount = usersWithAccounts.find((userWithAccount) =>
-        userWithAccount.accounts.some(
-          (account) =>
-            account.organizationVersion.organizationId === organizationVersion.organizationId &&
-            account.account.environment === Environment.TILT &&
-            account.account.status === UserStatus.ACTIVE,
-        ),
-      )
-      if (!tiltAccount) {
-        return
-      }
-      await prisma.study.create({
-        include: { sites: true },
-        data: {
-          createdById: tiltAccount.accounts[0].account.id,
-          startDate: new Date(),
-          endDate: faker.date.future(),
-          isPublic: true,
-          level: Level.Initial,
-          name: faker.lorem.words({ min: 2, max: 5 }),
-          organizationVersionId: organizationVersion.id,
-          simplified: true,
-          sites: {
-            createMany: {
-              data: organizationVersionSites.map((site) => ({
-                siteId: site.id,
-                etp: 10,
-                ca: 10,
-              })),
-            },
-          },
-          ...(DefaultStudyTags[Environment.TILT]?.length
-            ? {
-                tagFamilies: {
-                  create: (DefaultStudyTags[Environment.TILT] ?? []).map((familyTag) => ({
-                    name: familyTag.name,
-                    tags: {
-                      create: familyTag.tags.map((tag) => ({
-                        name: tag.name,
-                        color: tag.color,
-                      })),
-                    },
-                  })),
-                },
-              }
-            : {}),
         },
       })
     }),

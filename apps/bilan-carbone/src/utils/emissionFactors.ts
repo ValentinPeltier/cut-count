@@ -1,10 +1,8 @@
 import { wasteImpact } from '@/constants/emissions'
 import { wasteEmissionFactors } from '@/constants/wasteEmissionFactors'
 import { hasWasteImpact } from '@/services/permissions/environment'
-import { convertTiltSubPostToBCSubPost, subPostsByPostBC } from '@/services/posts'
 import type { EmissionFactor, Prisma } from '@abc-transitionbascarbone/db-common'
 import { Environment, Import, SubPost, Unit } from '@abc-transitionbascarbone/db-common/enums'
-import { Post } from '@abc-transitionbascarbone/utils/charts'
 import { unique } from './array'
 
 export const isWasteEmissionFactor = (
@@ -106,33 +104,8 @@ export const monetaryUnits: Unit[] = [
   Unit.FRANC_CFP,
 ]
 
-const tiltEmissionFactorSubPostsMapping: Partial<Record<SubPost, SubPost[]>> = {
-  [SubPost.UtilisationEnResponsabiliteConsommationDeBiens]: subPostsByPostBC[Post.IntrantsBiensEtMatieres],
-  [SubPost.UtilisationEnDependanceConsommationDeBiens]: subPostsByPostBC[Post.IntrantsBiensEtMatieres],
-  [SubPost.UtilisationEnResponsabiliteConsommationDEnergie]: subPostsByPostBC[Post.Energies],
-  [SubPost.UtilisationEnDependanceConsommationDEnergie]: subPostsByPostBC[Post.Energies],
-  [SubPost.UtilisationEnDependanceFuitesEtAutresConsommations]: [
-    ...(subPostsByPostBC[Post.AutresEmissionsNonEnergetiques] || []),
-    SubPost.FroidEtClim,
-    SubPost.EmissionsLieesALaProductionDeFroid,
-  ],
-  [SubPost.UtilisationEnResponsabiliteFuitesEtAutresConsommations]: [
-    ...(subPostsByPostBC[Post.AutresEmissionsNonEnergetiques] || []),
-    SubPost.FroidEtClim,
-    SubPost.EmissionsLieesALaProductionDeFroid,
-  ],
-  [SubPost.UtilisationEnResponsabiliteConsommationNumerique]: [SubPost.Informatique, SubPost.UsagesNumeriques],
-  [SubPost.UtilisationEnDependanceConsommationNumerique]: [SubPost.Informatique, SubPost.UsagesNumeriques],
-  [SubPost.FroidEtClim]: [SubPost.EmissionsLieesALaProductionDeFroid],
-}
-
-const getEmissionFactorSubPostMap = (subPost: SubPost, env: Environment): SubPost[] => {
-  switch (env) {
-    case Environment.TILT:
-      return [subPost, ...(tiltEmissionFactorSubPostsMapping[subPost] || [convertTiltSubPostToBCSubPost(subPost)])]
-    default:
-      return [subPost]
-  }
+const getEmissionFactorSubPostMap = (subPost: SubPost, _env: Environment): SubPost[] => {
+  return [subPost]
 }
 
 export const getEmissionFactorSubPostsMap = (subPosts: SubPost[], env: Environment) =>

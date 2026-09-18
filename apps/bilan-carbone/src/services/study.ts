@@ -37,13 +37,7 @@ import { getEmissionResults, getEmissionSourceEmission } from './emissionSource'
 import { download } from './file'
 import { hasAccessToBcExport, hasBCExportWithSimplifiedStudy } from './permissions/environment'
 import { isTiltSimplified } from './permissions/environmentAdvanced'
-import {
-  BaseResultsByPost,
-  convertSimplifiedEnvToBilanCarbone,
-  convertTiltSubPostToBCSubPost,
-  environmentPostMapping,
-  subPostBCToSubPostTiltMapping,
-} from './posts'
+import { BaseResultsByPost, convertSimplifiedEnvToBilanCarbone, environmentPostMapping } from './posts'
 import { rulesSpans as begesRulesSpans, computeBegesResult } from './results/beges'
 import { computeResultsByPostFromEmissionSources, computeResultsByTag } from './results/consolidated'
 import { PostInfos } from './results/exports'
@@ -330,7 +324,6 @@ export const downloadStudyEmissionSources = async (
 const getHeadersForEnv = (environment: Environment) => {
   switch (environment) {
     case Environment.CUT:
-    case Environment.CLICKSON:
       return resultsExportHeadersSimplified
     case Environment.BC:
     default:
@@ -1009,28 +1002,7 @@ export const getTransEnvironmentSubPost = (source: Environment, target: Environm
   if (source === target) {
     return subPost
   }
-  if (source === Environment.BC && target === Environment.TILT) {
-    switch (subPost) {
-      case SubPost.UtilisationEnResponsabilite:
-      case SubPost.UtilisationEnDependance:
-        return SubPost.UtilisationEnDependanceConsommationDeBiens
-      case SubPost.Equipements:
-        return SubPost.EquipementsDesSalaries
-      case SubPost.Informatique:
-        return SubPost.ParcInformatiqueDesSalaries
-      default: {
-        const subPosts = subPostBCToSubPostTiltMapping[subPost]
-        if (!subPosts) {
-          return undefined
-        }
-        return subPosts[0]
-      }
-    }
-  } else if (source === Environment.TILT && target === Environment.BC) {
-    return convertTiltSubPostToBCSubPost(subPost)
-  } else {
-    return undefined
-  }
+  return undefined
 }
 
 export const downloadEngagementActionsCSV = (

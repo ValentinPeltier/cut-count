@@ -70,51 +70,6 @@ export const getEnvironnementRessources = async (env: Environment, t: Translatio
         ...commonRessources,
         methodBC,
       ]
-    case Environment.CLICKSON:
-      return [
-        {
-          title: t('knowMoreDataCollect'),
-          links: [
-            {
-              title: t('guideDataCollect'),
-              link: 'https://clickson.eu/wp-content/uploads/2021/11/Aide-recolte-de-donnees-.pdf',
-            },
-          ],
-        },
-
-        {
-          title: t('toolsDataCollect'),
-          links: [
-            {
-              title: t('modelsDataCollect'),
-              link: 'https://clickson.eu/wp-content/uploads/2023/01/Exemple_collecte.zip',
-            },
-          ],
-        },
-        {
-          title: t('game'),
-          links: [
-            {
-              title: t('classEarth'),
-              link: 'https://www.materre-enclasse.org',
-            },
-          ],
-        },
-      ]
-    case Environment.TILT:
-      return [
-        {
-          title: t('methodeAssociative'),
-          links: [
-            {
-              title: t('sphereAssociative'),
-              link: 'https://www.plancarbonegeneral.com/approches-sectorielles/sphere-associative',
-            },
-          ],
-        },
-        methodBC,
-        ...commonRessources,
-      ]
     default:
       return [methodBC, ...commonRessources]
   }

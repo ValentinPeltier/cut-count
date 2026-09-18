@@ -9,11 +9,8 @@ import { displayFeedBackForm } from '@/services/serverFunctions/user'
 import Block from '@abc-transitionbascarbone/components/src/base/Block'
 import { Environment } from '@abc-transitionbascarbone/db-common/enums'
 import { environmentWithOnboarding } from '@abc-transitionbascarbone/utils/environments'
-import { UserSession } from 'next-auth'
 import dynamic from 'next/dynamic'
 
-const ClicksonUserView = dynamic(() => import('@/environments/clickson/home/UserView'))
-const FooterClickson = dynamic(() => import('@/environments/clickson/layout/Footer'))
 const FooterCut = dynamic(() => import('@/environments/cut/layout/Footer'))
 const SimplifiedUserView = dynamic(() => import('@/environments/simplified/home/UserView'))
 
@@ -30,20 +27,12 @@ const Home = async ({ user: account }: UserSessionProps) => {
     !userOrganizationVersion.onboarded &&
     environmentWithOnboarding.includes(userOrganizationVersion.environment)
 
-  const isTrainedOrWithoutOrga = (account: UserSession) => account.level || !account.organizationVersionId
-
   return (
     <>
       <Block>
         <DynamicComponent
           environmentComponents={{
-            [Environment.TILT]: isTrainedOrWithoutOrga(account) ? (
-              <UserView account={account} />
-            ) : (
-              <SimplifiedUserView account={account} />
-            ),
             [Environment.CUT]: <SimplifiedUserView account={account} />,
-            [Environment.CLICKSON]: <ClicksonUserView account={account} />,
           }}
           defaultComponent={<UserView account={account} />}
           forceEnvironment={account.environment}
@@ -56,7 +45,6 @@ const Home = async ({ user: account }: UserSessionProps) => {
       <DynamicComponent
         environmentComponents={{
           [Environment.CUT]: <FooterCut />,
-          [Environment.CLICKSON]: <FooterClickson />,
         }}
       />
     </>

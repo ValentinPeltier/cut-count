@@ -1,6 +1,6 @@
 import { StudyResultUnit, SubPost } from '@abc-transitionbascarbone/db-common'
 import { Translations } from '@abc-transitionbascarbone/lib'
-import { BCPost, ClicksonPost, CutPost, TiltAdvancedPost, TiltSimplifiedPost, TiltPost } from '@abc-transitionbascarbone/services/results/posts.enums'
+import { BCPost, CutPost, TiltAdvancedPost, TiltSimplifiedPost, TiltPost } from '@abc-transitionbascarbone/services/results/posts.enums'
 import { formatNumber } from '@abc-transitionbascarbone/utils/number'
 import { Theme } from '@mui/material'
 
@@ -9,9 +9,9 @@ export const STUDY_UNIT_VALUES: Record<StudyResultUnit, number> = {
   T: 1000,
 }
 
-export type Post = BCPost | TiltAdvancedPost | TiltSimplifiedPost | CutPost | ClicksonPost
+export type Post = BCPost | TiltAdvancedPost | TiltSimplifiedPost | CutPost
 
-export const Post = { ...BCPost, ...CutPost, ...TiltPost, ...ClicksonPost }
+export const Post = { ...BCPost, ...CutPost, ...TiltPost }
 
 export const isPost = (post: string): post is Post => {
   return post in Post

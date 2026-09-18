@@ -1,6 +1,5 @@
-import * as situationServerModule from '@/services/serverFunctions/situation'
 import { getMockedFullStudyEmissionSource } from '@/tests/utils/models/emissionSource'
-import { getMockedFullStudySite, mockedEmissionSourceEmissionFactor } from '@/tests/utils/models/study'
+import { mockedEmissionSourceEmissionFactor } from '@/tests/utils/models/study'
 import { getMockedAuthUser } from '@/tests/utils/models/user'
 import * as UserUtilsModule from '@/utils/user'
 import { EmissionFactorBase, Environment, Level, Role } from '@abc-transitionbascarbone/db-common/enums'
@@ -16,10 +15,8 @@ import {
 jest.mock('../services/file', () => ({ download: jest.fn() }))
 jest.mock('@/services/permissions/study.utils', () => ({ isAdminOnStudyOrga: jest.fn() }))
 jest.mock('@/utils/user', () => ({ isAdmin: jest.fn() }))
-jest.mock('@/services/serverFunctions/situation', () => ({ loadSituation: jest.fn() }))
 
 const mockIsAdmin = UserUtilsModule.isAdmin as unknown as jest.Mock
-const mockLoadSituation = jest.mocked(situationServerModule.loadSituation)
 
 const emissionSources = [
   getMockedFullStudyEmissionSource({
@@ -53,18 +50,10 @@ const userMock = getMockedAuthUser()
 
 describe('StudyUtils functions', () => {
   describe('getDuplicableEnvironments', () => {
-    test('Should return Tilt and BC for BC environment', () => {
+    test('Should only return BC for BC environment', () => {
       const res = getDuplicableEnvironments(Environment.BC)
-      expect(res.length).toBe(2)
-      expect(res[0]).toContain(Environment.BC)
-      expect(res[1]).toContain(Environment.TILT)
-    })
-
-    test('Should return BC and Tilt for Tilt environment', () => {
-      const res = getDuplicableEnvironments(Environment.TILT)
-      expect(res.length).toBe(2)
-      expect(res).toContain(Environment.TILT)
-      expect(res).toContain(Environment.BC)
+      expect(res.length).toBe(1)
+      expect(res[0]).toBe(Environment.BC)
     })
 
     test('Should only return Count for Count environment', () => {
@@ -165,44 +154,6 @@ describe('StudyUtils functions', () => {
 
     it('redirects CUT studies to framing', async () => {
       expect(await getStudyDefaultLandingPath(Environment.CUT, 'study-id', [], true)).toBe('/etudes/study-id/cadrage')
-    })
-
-    it('redirects simplified TILT to framing when general data is incomplete', async () => {
-      mockLoadSituation.mockResolvedValueOnce({
-        success: true,
-        data: {
-          id: 'situation-id',
-          situation: { 'général . code postal': '75001' },
-          listLayoutSituations: {},
-          studySiteId: 'mocked-study-site-id',
-          publicodesVersion: '1.0',
-          modelVersion: '1.0',
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-      })
-      expect(await getStudyDefaultLandingPath(Environment.TILT, 'study-id', [getMockedFullStudySite()], true)).toBe(
-        '/etudes/study-id/cadrage',
-      )
-    })
-
-    it('redirects simplified TILT to data entry when general data is complete', async () => {
-      mockLoadSituation.mockResolvedValueOnce({
-        success: true,
-        data: {
-          id: 'situation-id',
-          situation: { 'général . code postal': '75001', 'général . type': "'Club de loisirs'" },
-          listLayoutSituations: {},
-          studySiteId: 'mocked-study-site-id',
-          publicodesVersion: '1.0',
-          modelVersion: '1.0',
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-      })
-      expect(await getStudyDefaultLandingPath(Environment.TILT, 'study-id', [getMockedFullStudySite()], true)).toBe(
-        '/etudes/study-id/comptabilisation/saisie-des-donnees',
-      )
     })
   })
 })

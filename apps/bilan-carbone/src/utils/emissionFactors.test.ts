@@ -23,15 +23,6 @@ describe('emissionFactors utils function', () => {
       expect(result).toBe(41)
     })
 
-    test('should return waste impact if env is TILT, FE is from base empreinte and is in wasteEmissionFactors', () => {
-      const emissionFactor = { importedFrom: Import.BaseEmpreinte, importedId: '34662', totalCo2: 123 }
-      const env = Environment.TILT
-
-      const result = getEmissionFactorValue(emissionFactor, env)
-
-      expect(result).toBe(41)
-    })
-
     test('should return FE value if env is CUT, FE is from base empreinte and is in wasteEmissionFactors', () => {
       const emissionFactor = { importedFrom: Import.BaseEmpreinte, importedId: '34662', totalCo2: 123 }
       const env = Environment.CUT
@@ -108,7 +99,7 @@ describe('emissionFactors utils function', () => {
       expect(result).toBe(false)
     })
 
-    test('should return false if FE is from base empreinte and is in wasteEmissionFactors but env is not BC or TILT', () => {
+    test('should return false if FE is from base empreinte and is in wasteEmissionFactors but env is not BC', () => {
       const emissionFactor = { importedFrom: Import.BaseEmpreinte, importedId: '34662' }
       const env = Environment.CUT
 

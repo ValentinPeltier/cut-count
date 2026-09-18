@@ -1,5 +1,5 @@
 import { gazKeys } from '@/constants/emissions'
-import { environmentSubPostsMapping, subPostBCToSubPostTiltMapping } from '@/services/posts'
+import { environmentSubPostsMapping } from '@/services/posts'
 import { EmissionFactorWithMetaData } from '@/services/serverFunctions/emissionFactor'
 import { getQualitativeUncertaintyFromQuality, qualityKeys } from '@/services/uncertainty'
 import { BCUnit, useUnitLabel } from '@/services/unit'
@@ -41,8 +41,6 @@ const EmissionFactorDetails = ({ emissionFactor }: Props) => {
         }
 
         switch (environment) {
-          case Environment.TILT:
-            return subPostBCToSubPostTiltMapping[subPost] ?? []
           case Environment.BC:
           default:
             return [subPost]

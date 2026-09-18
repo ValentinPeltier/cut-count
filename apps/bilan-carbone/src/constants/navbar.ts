@@ -1,5 +1,5 @@
-import { isCut, isTilt } from '@/services/permissions/environment'
-import { hasAccessToEngagementActions, isTiltSimplified } from '@/services/permissions/environmentAdvanced'
+import { isCut } from '@/services/permissions/environment'
+import { hasAccessToEngagementActions } from '@/services/permissions/environmentAdvanced'
 import { Environment } from '@abc-transitionbascarbone/db-common/enums'
 import { Translations } from '@abc-transitionbascarbone/lib'
 
@@ -23,9 +23,6 @@ interface Menu {
   sections: MenuSection[]
 }
 
-export const CLICKS_ON_ACT_INFO =
-  "Construisez votre plan de transition avec Clicks On Act. En cliquant sur ce lien, un nouvel onglet va s'ouvrir."
-
 export const getStudyNavbarMenu = (
   environment: Environment,
   t: Translations,
@@ -35,7 +32,7 @@ export const getStudyNavbarMenu = (
   hasObjectives: boolean = false,
   studySimplified: boolean = false,
 ): Menu => {
-  if (isCut(environment) || isTiltSimplified(environment, studySimplified)) {
+  if (isCut(environment)) {
     return {
       title: {
         href: `/etudes/${studyId}`,
@@ -43,46 +40,12 @@ export const getStudyNavbarMenu = (
       },
       sections: [
         {
-          links: [
-            {
-              href: `/etudes/${studyId}/cadrage`,
-              label: isTilt(environment) ? t('generalData') : t('framing'),
-              testId: 'study-cadrage-link',
-            },
-            {
-              href: `/etudes/${studyId}/comptabilisation/saisie-des-donnees`,
-              label: t('dataEntry'),
-            },
-            {
-              href: `/etudes/${studyId}/comptabilisation/resultats`,
-              label: t('results'),
-            },
-          ],
-        },
-      ],
-    }
-  }
-
-  if (environment === Environment.CLICKSON) {
-    return {
-      title: {
-        href: `/etudes/${studyId}`,
-        label: studyName,
-      },
-      sections: [
-        {
-          header: t('informationDefinition'),
           links: [
             {
               href: `/etudes/${studyId}/cadrage`,
               label: t('framing'),
               testId: 'study-cadrage-link',
             },
-          ],
-        },
-        {
-          header: t('dataAccounting'),
-          links: [
             {
               href: `/etudes/${studyId}/comptabilisation/saisie-des-donnees`,
               label: t('dataEntry'),
@@ -90,17 +53,6 @@ export const getStudyNavbarMenu = (
             {
               href: `/etudes/${studyId}/comptabilisation/resultats`,
               label: t('results'),
-            },
-          ],
-        },
-        {
-          header: t('transitionPlan'),
-          links: [
-            {
-              href: 'https://transition.clickson.eu',
-              label: 'Clicks On Act',
-              external: true,
-              info: CLICKS_ON_ACT_INFO,
             },
           ],
         },

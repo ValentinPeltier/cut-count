@@ -2,7 +2,7 @@
 
 import TopLeftNavBar from '@/components/navbar/TopLeftNavBar'
 import DynamicComponent from '@/environments/core/utils/DynamicComponent'
-import { hasAccessToStudyComments, isClickson, isTilt } from '@/services/permissions/environment'
+import { hasAccessToStudyComments } from '@/services/permissions/environment'
 import { hasAccessToMethodology, hasAccessToSettings } from '@/services/permissions/environmentAdvanced'
 import { hasAccessToFormation } from '@/services/permissions/formations'
 import { getUserActiveAccounts } from '@/services/serverFunctions/user'
@@ -23,7 +23,6 @@ import classNames from 'classnames'
 import { UserSession } from 'next-auth'
 import { useLocale, useTranslations } from 'next-intl'
 import dynamic from 'next/dynamic'
-import Image from 'next/image'
 import { useEffect, useMemo, useState } from 'react'
 import { Logo } from '../base/Logo'
 import NavbarComments from './NavbarComments'
@@ -33,11 +32,9 @@ const CutTopLeftNavBar = dynamic(() => import('@/environments/cut/navbar/TopLeft
 interface Props {
   user: UserSession
   environment: Environment
-  isFootprintsEnabled: boolean
-  hasTrainedUsers: boolean
 }
 
-const Navbar = ({ user, environment, isFootprintsEnabled, hasTrainedUsers }: Props) => {
+const Navbar = ({ user, environment }: Props) => {
   const t = useTranslations('navigation')
   const [hasFormation, setHasFormation] = useState(false)
   const [hasMultipleAccounts, setHasMultipleAccounts] = useState(false)
@@ -60,16 +57,13 @@ const Navbar = ({ user, environment, isFootprintsEnabled, hasTrainedUsers }: Pro
     getFormationAccess()
   }, [user])
 
-  const methodologyLink = useMemo(() => {
-    switch (user.environment) {
-      case Environment.TILT:
-        return 'https://www.plancarbonegeneral.com/approches-sectorielles/sphere-associative'
-      default:
-        return locale === Locale.FR
-          ? 'https://www.bilancarbone-methode.com/'
-          : 'https://www.bilancarbone-methode.com/methode-bilan-carbone-r-en'
-    }
-  }, [user.environment])
+  const methodologyLink = useMemo(
+    () =>
+      locale === Locale.FR
+        ? 'https://www.bilancarbone-methode.com/'
+        : 'https://www.bilancarbone-methode.com/methode-bilan-carbone-r-en',
+    [locale],
+  )
 
   return (
     <AppBar position="sticky" elevation={0}>
@@ -83,14 +77,7 @@ const Navbar = ({ user, environment, isFootprintsEnabled, hasTrainedUsers }: Pro
               environmentComponents={{
                 [Environment.CUT]: <CutTopLeftNavBar user={user} />,
               }}
-              defaultComponent={
-                <TopLeftNavBar
-                  user={user}
-                  hasFormation={hasFormation}
-                  isFootprintsEnabled={isFootprintsEnabled}
-                  hasTrainedUsers={hasTrainedUsers}
-                />
-              }
+              defaultComponent={<TopLeftNavBar user={user} hasFormation={hasFormation} />}
             />
           </Box>
           <div className="flex gapped1">
@@ -134,18 +121,6 @@ const Navbar = ({ user, environment, isFootprintsEnabled, hasTrainedUsers }: Pro
                 </NavbarButton>
               </div>
             </Box>
-            {isTilt(user.environment) && (
-              <NavbarLink href="/" aria-label={t('home')} title={t('home')}>
-                <Logo />
-              </NavbarLink>
-            )}
-            {isClickson(user.environment) && (
-              <NavbarLink href="/" aria-label={t('home')} title={t('home')}>
-                <div className="h100 align-center gapped1">
-                  <Image src={'/logos/clickson/PEBC.png'} alt={'PEBC'} width={128} height={40} />
-                </div>
-              </NavbarLink>
-            )}
           </div>
         </Container>
       </Toolbar>

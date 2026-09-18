@@ -5,7 +5,6 @@ enum DeactivatableFeature {
   DownloadReport
   FormationStudy
   TransitionPlan
-  TiltSimplified
 
   @@schema("bilan_carbone")
 }

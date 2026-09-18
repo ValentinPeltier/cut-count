@@ -1,9 +1,6 @@
 enum Environment {
   BC
   CUT
-  TILT
-  CLICKSON
-  MIP
 
   @@schema("common")
 }
@@ -22,7 +19,6 @@ model Organization {
   emissions EmissionFactor[]
 
   organizationVersions OrganizationVersion[]
-  organizationVersionsMip OrganizationVersionMip[]
 
   @@map("organizations")
   @@schema("common")

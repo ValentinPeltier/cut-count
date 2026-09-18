@@ -28,7 +28,7 @@ import {
   getOrgSitesWithCNCByOrgVersionId,
   OrganizationVersionWithOrganization,
 } from '@/db/organization'
-import { getSituationByStudySite, updateSituationFields } from '@/db/situation'
+import { updateSituationFields } from '@/db/situation'
 import {
   addSourceToStudy,
   clearEmissionSourceEmissionFactor,
@@ -138,16 +138,11 @@ import { UserSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
 import { v4 as uuidv4 } from 'uuid'
 import { auth, dbActualizedAuth } from '../auth'
-import { customDataToSituationByEnvironment, TiltCustomDataFields } from '../customDataToSituation'
 import { getCaracterisationsBySubPost } from '../emissionSource'
 import { allowedFlowFileTypes, isAllowedFileType } from '../file'
 import { ALREADY_IN_STUDY, TOO_MANY_COMMENTS } from '../permissions/check'
-import {
-  EnvironmentWithSimplifiedStudies,
-  hasReaderRoleOnStudyAsContributor,
-  hasSimplifiedStudies,
-} from '../permissions/environment'
-import { hasAccessToEngagementActions, isTiltSimplified } from '../permissions/environmentAdvanced'
+import { hasReaderRoleOnStudyAsContributor, hasSimplifiedStudies } from '../permissions/environment'
+import { hasAccessToEngagementActions } from '../permissions/environmentAdvanced'
 import { isInOrgaOrParentFromId } from '../permissions/organization'
 import {
   canAccessFlowFromStudy,
@@ -169,7 +164,6 @@ import {
   getEnvironmentsForDuplication,
 } from '../permissions/study'
 import { isAdminOnStudyOrga } from '../permissions/study.utils'
-import { TILT_SIMPLIFIED_POSTS_CONFIG_VERSION } from '../publicodes/simplifiedPublicodesConfig'
 import { deleteFileFromBucket, getFileFromBucket, uploadFileToBucket } from '../serverFunctions/scaleway'
 import { getTransEnvironmentSubPost } from '../study'
 import { UpdateEmissionSourceCommand } from './emissionSource.command'
@@ -184,7 +178,6 @@ import {
   ChangeStudyPublicStatusCommand,
   ChangeStudyResultsUnitCommand,
   ChangeStudySitesCommand,
-  ChangeStudySiteTiltSimplifiedCommand,
   CreateStudyCommand,
   DeleteCommand,
   DuplicateSiteCommand,
@@ -346,9 +339,6 @@ export const createStudyCommand = async (
         },
       },
       tagFamilies,
-      subPostsConfigVersion: isTiltSimplified(session.user.environment, studyCommand.simplified ?? false)
-        ? TILT_SIMPLIFIED_POSTS_CONFIG_VERSION
-        : undefined,
     } satisfies Prisma.StudyCreateInput
 
     if (!(await canCreateSpecificStudy(session.user, study, organizationVersionId))) {
@@ -576,20 +566,6 @@ async function updateSituationWithStudySiteData(
     }
     const situationUpdates = studySiteToSituation(environment, siteDependentFields)
 
-    if (Object.keys(situationUpdates).length > 0) {
-      await updateSituationFields(studySiteId, situationUpdates)
-    }
-  }
-}
-
-async function updateSituationWithCustomData(
-  studySiteId: string,
-  data: TiltCustomDataFields,
-  environment: Environment,
-  simplified: boolean,
-) {
-  if (hasSimplifiedStudies(environment) || isTiltSimplified(environment, simplified)) {
-    const situationUpdates = customDataToSituationByEnvironment(environment as EnvironmentWithSimplifiedStudies, data)
     if (Object.keys(situationUpdates).length > 0) {
       await updateSituationFields(studySiteId, situationUpdates)
     }
@@ -2420,47 +2396,6 @@ export const changeStudyEstablishment = async (studySiteId: string, data: Change
     }
 
     await updateStudySiteData(studySiteId, data)
-    await updateSituationWithStudySiteData(studySiteId, data, informations.user.environment, study.simplified)
-  })
-
-export const changeStudySiteTiltSimplified = async (studyId: string, data?: ChangeStudySiteTiltSimplifiedCommand) =>
-  withServerResponse('changeStudySiteTiltSimplified', async () => {
-    // this function only updates situation for now not the study site because we don't have the fields
-    const studyInfo = await getStudy(studyId)
-    if (!studyInfo.success) {
-      throw new Error(NOT_AUTHORIZED)
-    }
-
-    const study = studyInfo.data
-
-    if (!study) {
-      throw new Error(NOT_AUTHORIZED)
-    }
-
-    const informations = await getStudyRightsInformations(study.id)
-    if (informations === null) {
-      throw new Error(NOT_AUTHORIZED)
-    }
-
-    for (const studySite of study.sites) {
-      const studySiteId = studySite.id
-      const situation = await getSituationByStudySite(studySiteId)
-      if (!situation) {
-        await saveSituationInDB(study.id, studySiteId, {}, {}, '')
-      }
-
-      if (data) {
-        await updateSituationWithCustomData(studySiteId, data, informations.user.environment, study.simplified)
-      }
-
-      const { volunteerNumber, beneficiaryNumber, etp } = studySite
-      await updateSituationWithStudySiteData(
-        studySiteId,
-        { volunteerNumber, beneficiaryNumber, etp },
-        informations.user.environment,
-        study.simplified,
-      )
-    }
   })
 
 export const addEngagementAction = async ({ studyId, sites, ...command }: AddEngagementActionCommand) =>

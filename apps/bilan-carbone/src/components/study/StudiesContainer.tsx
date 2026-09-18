@@ -7,11 +7,7 @@ import {
   getStudiesForCards,
   getStudiesValidatedEmissionsSources,
 } from '@/db/study'
-import {
-  canCreateStudyOnlyAsAdministrator,
-  isTilt,
-  isTiltSimplifiedFeatureActive,
-} from '@/services/permissions/environment'
+import { canCreateStudyOnlyAsAdministrator } from '@/services/permissions/environment'
 import { canCreateAStudy } from '@/services/permissions/study'
 import { hasActiveLicence } from '@/utils/organization'
 import Block from '@abc-transitionbascarbone/components/src/base/Block'
@@ -25,7 +21,6 @@ import classNames from 'classnames'
 import { UserSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
-import BetaBanner from '../base/BetaBanner/BetaBanner'
 import Studies from './Studies'
 import styles from './StudiesContainer.module.css'
 
@@ -87,16 +82,8 @@ const StudiesContainer = async ({ user, organizationVersionId, isCR, simplified 
 
   const activeLicence = !!(organizationVersion && hasActiveLicence(organizationVersion))
 
-  let displaySimplifiedStudies = false
-  let hasStudies = studies.length > 0
-  if (!isTilt(user.environment)) {
-    displaySimplifiedStudies = true
-  } else {
-    displaySimplifiedStudies = await isTiltSimplifiedFeatureActive(user.environment)
-    if (!displaySimplifiedStudies) {
-      hasStudies = advancedStudies.length > 0 || collaborationStudies.length > 0
-    }
-  }
+  const displaySimplifiedStudies = true
+  const hasStudies = studies.length > 0
 
   return hasStudies ? (
     <>
@@ -118,7 +105,6 @@ const StudiesContainer = async ({ user, organizationVersionId, isCR, simplified 
           user={user}
           collaborations={!organizationVersionId && isCR}
           simplified
-          showBetaBanner={isTilt(user.environment) && displaySimplifiedStudies}
         />
       )}
       {!!collaborationStudies.length && (
@@ -129,7 +115,6 @@ const StudiesContainer = async ({ user, organizationVersionId, isCR, simplified 
     !isCR && (
       <MUIBox component="section" className="mt1">
         <Block>
-          {isTilt(user.environment) && displaySimplifiedStudies && simplified && <BetaBanner />}
           <div className="justify-center">
             <Box className={classNames(styles.firstStudyCard, 'flex-col align-center')}>
               <Image src="/img/orga.png" alt="orga.png" width={177} height={119} />

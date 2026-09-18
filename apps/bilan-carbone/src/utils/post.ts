@@ -1,12 +1,8 @@
-import { customPostOrder } from '@/environments/clickson/utils/constant'
-import { hasCustomPostOrder } from '@/services/permissions/environment'
-import { BCPost, ClicksonPost, CutPost, subPostsByPost, TiltAdvancedPost } from '@/services/posts'
+import { BCPost, CutPost, subPostsByPost } from '@/services/posts'
 import type { ResultType } from '@/types/study.types'
-import { AdditionalResultTypes } from '@/types/study.types'
 import { Environment, SubPost } from '@abc-transitionbascarbone/db-common/enums'
 import { Translations } from '@abc-transitionbascarbone/lib'
 import { Post } from '@abc-transitionbascarbone/utils/charts'
-import { sortByCustomOrder } from './array'
 
 export const getPost = (subPost?: SubPost) =>
   subPost
@@ -71,27 +67,20 @@ const withInfobulleList: (Post | SubPost)[] = [
 
 export const withInfobulle = (post: Post | SubPost) => withInfobulleList.includes(post)
 
-export const getPostValues = (environment: Environment | undefined, type?: ResultType) => {
+export const getPostValues = (environment: Environment | undefined, _type?: ResultType) => {
   if (!environment) {
     return BCPost
   }
 
   switch (environment) {
-    case Environment.TILT:
-      return type === AdditionalResultTypes.ENV_SPECIFIC_EXPORT ? TiltAdvancedPost : BCPost
     case Environment.CUT:
       return CutPost
-    case Environment.CLICKSON:
-      return ClicksonPost
     case Environment.BC:
     default:
       return BCPost
   }
 }
 
-export const getSortedPosts = (posts: Post[], t: Translations, environment?: Environment) => {
-  if (environment && hasCustomPostOrder(environment)) {
-    return sortByCustomOrder(posts, customPostOrder, (item) => item)
-  }
+export const getSortedPosts = (posts: Post[], t: Translations, _environment?: Environment) => {
   return posts.sort((a, b) => t(a).localeCompare(t(b)))
 }

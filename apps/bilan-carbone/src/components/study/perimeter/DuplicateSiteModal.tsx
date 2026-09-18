@@ -33,7 +33,6 @@ const DuplicateSiteModal = ({ open, onClose, sourceSite, study, canEditOrganizat
   const tDuplicate = useTranslations('study.perimeter.duplicate')
   const tSites = useTranslations('organization.sites')
   const tCaUnit = useTranslations('settings.caUnit')
-  const environment = study.organizationVersion.environment
 
   const [selectedSiteIds, setSelectedSiteIds] = useState<string[]>([])
   const [selectAll, setSelectAll] = useState(false)
@@ -190,58 +189,6 @@ const DuplicateSiteModal = ({ open, onClose, sourceSite, study, canEditOrganizat
                 {tSites('ca', { unit: tCaUnit(caUnit) })} ({formatNumber(sourceSite.ca, 2)})
               </span>
             </label>
-            {environment === 'TILT' && (
-              <>
-                <label className={classNames('align-center', 'pointer', 'gapped075')}>
-                  <Controller
-                    control={control}
-                    name="fieldsToDuplicate"
-                    render={({ field }) => (
-                      <input
-                        type="checkbox"
-                        checked={field.value?.includes('volunteerNumber')}
-                        onChange={(e) => {
-                          const current = field.value || []
-                          if (e.target.checked) {
-                            field.onChange([...current, 'volunteerNumber'])
-                          } else {
-                            field.onChange(current.filter((f) => f !== 'volunteerNumber'))
-                          }
-                        }}
-                        data-testid="duplicate-volunteer-number"
-                      />
-                    )}
-                  />
-                  <span>
-                    {tSites('volunteerNumber')} ({sourceSite.volunteerNumber ?? 0})
-                  </span>
-                </label>
-                <label className={classNames('align-center', 'pointer', 'gapped075')}>
-                  <Controller
-                    control={control}
-                    name="fieldsToDuplicate"
-                    render={({ field }) => (
-                      <input
-                        type="checkbox"
-                        checked={field.value?.includes('beneficiaryNumber')}
-                        onChange={(e) => {
-                          const current = field.value || []
-                          if (e.target.checked) {
-                            field.onChange([...current, 'beneficiaryNumber'])
-                          } else {
-                            field.onChange(current.filter((f) => f !== 'beneficiaryNumber'))
-                          }
-                        }}
-                        data-testid="duplicate-beneficiary-number"
-                      />
-                    )}
-                  />
-                  <span>
-                    {tSites('beneficiaryNumber')} ({sourceSite.beneficiaryNumber ?? 0})
-                  </span>
-                </label>
-              </>
-            )}
           </div>
         </div>
 

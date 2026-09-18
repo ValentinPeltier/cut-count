@@ -1,7 +1,0 @@
-utilisation:
-  titre: Utilisation
-  formule:
-    somme:
-      - conso energie
-  unité: kgCO2e
-  par défaut: 0

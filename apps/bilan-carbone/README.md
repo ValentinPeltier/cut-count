@@ -173,8 +173,6 @@ yarn test:watch
 
 ```bash
 yarn publicodes-count:test
-yarn publicodes-clickson:test
-yarn publicodes-tilt:test
 ```
 
 ### Run Cypress tests

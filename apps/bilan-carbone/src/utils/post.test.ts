@@ -1,4 +1,4 @@
-import { BCPost, CutPost, subPostsByPost, TiltAdvancedPost } from '@/services/posts'
+import { BCPost, CutPost, subPostsByPost } from '@/services/posts'
 import { AdditionalResultTypes } from '@/types/study.types'
 import { Environment, SubPost } from '@abc-transitionbascarbone/db-common/enums'
 import { Post } from '@abc-transitionbascarbone/utils/charts'
@@ -33,15 +33,6 @@ describe('PostUtils functions', () => {
       expect(getPostValues(Environment.CUT, AdditionalResultTypes.ENV_SPECIFIC_EXPORT)).toBe(CutPost)
       expect(getPostValues(Environment.CUT, AdditionalResultTypes.CONSOLIDATED)).toBe(CutPost)
     })
-
-    test('should return TiltAdvancedPost for Environment.TILT with AdditionalResultTypes.ENV_SPECIFIC_EXPORT', () => {
-      expect(getPostValues(Environment.TILT, AdditionalResultTypes.ENV_SPECIFIC_EXPORT)).toBe(TiltAdvancedPost)
-    })
-
-    test('should return BCPost for Environment.TILT without AdditionalResultTypes.ENV_SPECIFIC_EXPORT', () => {
-      expect(getPostValues(Environment.TILT)).toBe(BCPost)
-      expect(getPostValues(Environment.TILT, AdditionalResultTypes.CONSOLIDATED)).toBe(BCPost)
-    })
   })
 
   describe('getPost', () => {
@@ -57,12 +48,70 @@ describe('PostUtils functions', () => {
       expect(getPost(SubPost.Energie)).toBe(CutPost.Fonctionnement)
     })
 
-    test('should return TransportDeMarchandises for TransportFabricationDesVehicules subpost', () => {
-      expect(getPost(SubPost.TransportFabricationDesVehicules)).toBe(TiltAdvancedPost.TransportDeMarchandises)
-    })
-
     test('should return a post that includes the subPost', () => {
+      const clicksonOnlySubPosts = new Set<SubPost>([
+        SubPost.Combustibles,
+        SubPost.AutresGaz,
+        SubPost.TypesDeRepasServis,
+        SubPost.DistributeursAutomatiques,
+        SubPost.TransportDesEleves,
+        SubPost.TransportDuPersonnel,
+        SubPost.VoyagesScolaires,
+        SubPost.Fournitures,
+        SubPost.ProduitsChimiques,
+        SubPost.EquipementsDeSport,
+        SubPost.DechetsRecyclables,
+        SubPost.OrduresMenageresResiduelles,
+        SubPost.Construction,
+        SubPost.Renovation,
+        SubPost.EquipementsInformatiqueAudiovisuel,
+        SubPost.EquipementsDivers,
+      ])
+      const tiltOnlySubPosts = new Set<SubPost>([
+        SubPost.FroidEtClim,
+        SubPost.ActivitesAgricoles,
+        SubPost.ActivitesIndustrielles,
+        SubPost.DeplacementsDomicileTravailSalaries,
+        SubPost.DeplacementsDomicileTravailBenevoles,
+        SubPost.DeplacementsDansLeCadreDUneMissionAssociativeSalaries,
+        SubPost.DeplacementsDansLeCadreDUneMissionAssociativeBenevoles,
+        SubPost.DeplacementsDesBeneficiaires,
+        SubPost.DeplacementsFabricationDesVehicules,
+        SubPost.Entrant,
+        SubPost.Interne,
+        SubPost.Sortant,
+        SubPost.TransportFabricationDesVehicules,
+        SubPost.RepasPrisParLesSalaries,
+        SubPost.RepasPrisParLesBenevoles,
+        SubPost.RepasPrisParLesBeneficiaires,
+        SubPost.EquipementsDesSalaries,
+        SubPost.ParcInformatiqueDesSalaries,
+        SubPost.EquipementsDesBenevoles,
+        SubPost.ParcInformatiqueDesBenevoles,
+        SubPost.UtilisationEnResponsabiliteConsommationDeBiens,
+        SubPost.UtilisationEnResponsabiliteConsommationNumerique,
+        SubPost.UtilisationEnResponsabiliteConsommationDEnergie,
+        SubPost.UtilisationEnResponsabiliteFuitesEtAutresConsommations,
+        SubPost.UtilisationEnDependanceConsommationDeBiens,
+        SubPost.UtilisationEnDependanceConsommationNumerique,
+        SubPost.UtilisationEnDependanceConsommationDEnergie,
+        SubPost.UtilisationEnDependanceFuitesEtAutresConsommations,
+        SubPost.TeletravailSalaries,
+        SubPost.TeletravailBenevoles,
+        SubPost.EnergieSimplified,
+        SubPost.DechetsEmisParLOrganisation,
+        SubPost.DeplacementsBenevoles,
+        SubPost.BienMatieres,
+        SubPost.ConsommationsEnergieUtilisationProduits,
+        SubPost.FinDeVieProduitsVendusFournisBeneficiaires,
+        SubPost.TeletravailSalariesBenevoles,
+        SubPost.Evenement,
+      ])
+
       Object.values(SubPost).forEach((subPost: SubPost) => {
+        if (clicksonOnlySubPosts.has(subPost) || tiltOnlySubPosts.has(subPost)) {
+          return
+        }
         const res = getPost(subPost)
         if (!res) {
           throw new Error(`getPost returned undefined for subPost: ${subPost}`)

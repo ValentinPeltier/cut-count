@@ -17,14 +17,14 @@ import {
 } from '@/db/organization'
 import { addSite } from '@/db/site'
 import { addUser, getUserByEmail, organizationVersionActiveAccountsCount, updateAccount, validateUser } from '@/db/user'
-import { NOT_ASSOCIATION_SIRET, REQUEST_SENT, UNKNOWN_SIRET_OR_CNC } from '@/services/permissions/check'
+import { REQUEST_SENT, UNKNOWN_SIRET_OR_CNC } from '@/services/permissions/check'
 import { mockedOrganizationVersionId } from '@/tests/utils/models/organization'
 import { mockedAccountId } from '@/tests/utils/models/user'
 import { sendActivationRequest } from '@abc-transitionbascarbone/services/email/email'
 import { EMAIL_SENT, NOT_AUTHORIZED } from '@abc-transitionbascarbone/services/permissions/check'
 import { mockedOrganizationId } from '@abc-transitionbascarbone/services/tests/models/organization'
 import { mockedUserId } from '@abc-transitionbascarbone/services/tests/models/user'
-import { getCompanyName, getValidAssociationNameBySiret } from '../associationApi'
+import { getCompanyName } from '../associationApi'
 import { getDeactivableFeatureRestrictions } from './deactivableFeatures'
 import { activateEmail, signUpWithSiretOrCNC } from './user'
 
@@ -80,7 +80,6 @@ const mockGetOrganizationVersionByOrganizationIdAndEnvironment =
 const mockCreateOrganizationWithVersion = createOrganizationWithVersion as jest.Mock
 const mockAddSite = addSite as jest.Mock
 const mockGetRawOrganizationBySiret = getRawOrganizationBySiret as jest.Mock
-const mockGetValidAssociationNameBySiret = getValidAssociationNameBySiret as jest.Mock
 const mockGetCompanyName = getCompanyName as jest.Mock
 const mockSendActivationRequest = sendActivationRequest as jest.Mock
 const mockGetOrganizationVersionForRightsCheck = getOrganizationVersionForRightsCheck as jest.Mock
@@ -102,10 +101,10 @@ describe('signUpWithSiretOrCNC', () => {
     it('returns NOT_AUTHORIZED when creation is deactivated for environment', async () => {
       mockGetDeactivableFeatureRestrictions.mockResolvedValue({
         active: true,
-        deactivatedEnvironments: [Environment.TILT],
+        deactivatedEnvironments: [Environment.CUT],
       })
 
-      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.TILT)
+      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.CUT)
 
       expect(result.success).toBe(false)
       if (!result.success) {
@@ -126,11 +125,11 @@ describe('signUpWithSiretOrCNC', () => {
         accounts: [{ id: mockedAccountId }],
       })
       mockGetRawOrganizationBySiret.mockResolvedValue(null)
-      mockGetValidAssociationNameBySiret.mockResolvedValue('Test Association')
+      mockGetCompanyName.mockResolvedValue('Test Company')
       mockCreateOrganizationWithVersion.mockResolvedValue({ id: mockedOrganizationVersionId })
       mockValidateUser.mockResolvedValue(undefined)
 
-      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.TILT)
+      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.CUT)
 
       expect(result.success).toBe(true)
     })
@@ -151,128 +150,26 @@ describe('signUpWithSiretOrCNC', () => {
         expect(result.errorMessage).toBe(NOT_AUTHORIZED)
       }
     })
-
-    it('sends activation request when TILT account exists but not active', async () => {
-      mockGetAccountByEmailAndEnvironment.mockResolvedValue({
-        id: mockedAccountId,
-        organizationVersionId: mockedOrganizationVersionId,
-        status: UserStatus.IMPORTED,
-      })
-      mockGetUserByEmail.mockResolvedValue({
-        id: mockedUserId,
-        email: testEmail,
-        firstName: 'Test',
-        lastName: 'User',
-        accounts: [{ id: mockedAccountId, environment: Environment.TILT, status: UserStatus.IMPORTED }],
-      })
-      mockGetAccountById.mockResolvedValue({
-        id: mockedAccountId,
-        organizationVersionId: mockedOrganizationVersionId,
-        status: UserStatus.IMPORTED,
-        user: {
-          id: mockedUserId,
-          email: testEmail,
-          firstName: 'Test',
-          lastName: 'User',
-        },
-      })
-      mockGetOrganizationVersionForRightsCheck.mockResolvedValue({
-        id: mockedOrganizationVersionId,
-        activatedLicence: false,
-      })
-      mockOrganizationVersionActiveAccountsCount.mockResolvedValue(true)
-      mockGetAccountFromUserOrganization.mockResolvedValue([
-        {
-          role: Role.ADMIN,
-          status: UserStatus.ACTIVE,
-          user: { email: 'admin@example.com' },
-        },
-      ])
-
-      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.TILT)
-
-      expect(result.success).toBe(true)
-      if (result.success) {
-        expect(result.data).toBe(REQUEST_SENT)
-      }
-      expect(mockSendActivationRequest).toHaveBeenCalledWith(
-        ['admin@example.com'],
-        testEmail.toLowerCase(),
-        'Test User',
-      )
-    })
-
-    it('returns NOT_AUTHORIZED when TILT account exists and is active', async () => {
-      mockGetAccountByEmailAndEnvironment.mockResolvedValue({
-        id: mockedAccountId,
-        organizationVersionId: mockedOrganizationVersionId,
-        status: UserStatus.ACTIVE,
-      })
-
-      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.TILT)
-
-      expect(result.success).toBe(false)
-      if (!result.success) {
-        expect(result.errorMessage).toBe(NOT_AUTHORIZED)
-      }
-    })
   })
 
   describe('User creation scenarios', () => {
-    it('creates new TILT user when user does not exist', async () => {
-      mockGetAccountByEmailAndEnvironment.mockResolvedValue(null)
-      mockGetUserByEmail.mockResolvedValue(null)
-      mockAddUser.mockResolvedValue({
-        id: mockedUserId,
-        email: testEmail,
-        accounts: [{ id: mockedAccountId }],
-      })
-      mockGetRawOrganizationBySiret.mockResolvedValue(null)
-      mockGetValidAssociationNameBySiret.mockResolvedValue('Test Association')
-      mockCreateOrganizationWithVersion.mockResolvedValue({ id: mockedOrganizationVersionId })
-      mockValidateUser.mockResolvedValue(undefined)
-
-      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.TILT)
-
-      expect(mockAddUser).toHaveBeenCalledWith({
-        email: testEmail,
-        firstName: '',
-        lastName: '',
-        accounts: {
-          create: {
-            status: UserStatus.PENDING_REQUEST,
-            role: Role.DEFAULT,
-            environment: Environment.TILT,
-          },
-        },
-      })
-      expect(mockGetValidAssociationNameBySiret).toHaveBeenCalledWith(testSiret)
-      expect(mockCreateOrganizationWithVersion).toHaveBeenCalledWith(
-        { wordpressId: testSiret, name: 'Test Association' },
-        { environment: Environment.TILT },
-      )
-      expect(result.success).toBe(true)
-      expect(mockActivateEmail).not.toHaveBeenCalled()
-    })
-
     it('creates new account when user exists without account for environment', async () => {
       mockGetAccountByEmailAndEnvironment.mockResolvedValue(null)
       mockGetUserByEmail.mockResolvedValue({ id: mockedUserId, email: testEmail })
       mockAddAccount.mockResolvedValue({ id: mockedAccountId })
       mockGetRawOrganizationBySiret.mockResolvedValue(null)
-      mockGetValidAssociationNameBySiret.mockResolvedValue('Test Association')
+      mockGetCompanyName.mockResolvedValue('Test Company')
       mockCreateOrganizationWithVersion.mockResolvedValue({ id: mockedOrganizationVersionId })
       mockValidateUser.mockResolvedValue(undefined)
 
-      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.TILT)
+      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.CUT)
 
       expect(mockAddAccount).toHaveBeenCalledWith({
         user: { connect: { id: mockedUserId } },
         role: Role.DEFAULT,
-        environment: Environment.TILT,
+        environment: Environment.CUT,
         status: UserStatus.PENDING_REQUEST,
       })
-      expect(mockGetValidAssociationNameBySiret).toHaveBeenCalledWith(testSiret)
       expect(result.success).toBe(true)
       expect(mockActivateEmail).not.toHaveBeenCalled()
     })
@@ -383,49 +280,6 @@ describe('signUpWithSiretOrCNC', () => {
         expect(result.errorMessage).toBe(UNKNOWN_SIRET_OR_CNC)
       }
     })
-
-    it('returns NOT_ASSOCIATION_SIRET when TILT SIRET is not valid association', async () => {
-      mockGetAccountByEmailAndEnvironment.mockResolvedValue(null)
-      mockGetUserByEmail.mockResolvedValue(null)
-      mockAddUser.mockResolvedValue({
-        id: mockedUserId,
-        email: testEmail,
-        accounts: [{ id: mockedAccountId }],
-      })
-      mockGetRawOrganizationBySiret.mockResolvedValue(null)
-      mockGetValidAssociationNameBySiret.mockResolvedValue(null)
-
-      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.TILT)
-
-      expect(result.success).toBe(false)
-      if (!result.success) {
-        expect(result.errorMessage).toBe(NOT_ASSOCIATION_SIRET)
-      }
-      expect(mockGetValidAssociationNameBySiret).toHaveBeenCalledWith(testSiret)
-    })
-
-    it('allows signup when TILT SIRET is valid association', async () => {
-      mockGetAccountByEmailAndEnvironment.mockResolvedValue(null)
-      mockGetUserByEmail.mockResolvedValue(null)
-      mockAddUser.mockResolvedValue({
-        id: mockedUserId,
-        email: testEmail,
-        accounts: [{ id: mockedAccountId }],
-      })
-      mockGetRawOrganizationBySiret.mockResolvedValue(null)
-      mockGetValidAssociationNameBySiret.mockResolvedValue('Test Association')
-      mockCreateOrganizationWithVersion.mockResolvedValue({ id: mockedOrganizationVersionId })
-      mockValidateUser.mockResolvedValue(undefined)
-
-      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.TILT)
-
-      expect(mockGetValidAssociationNameBySiret).toHaveBeenCalledWith(testSiret)
-      expect(mockCreateOrganizationWithVersion).toHaveBeenCalledWith(
-        { wordpressId: testSiret, name: 'Test Association' },
-        { environment: Environment.TILT },
-      )
-      expect(result.success).toBe(true)
-    })
   })
 
   describe('CUT environment company name lookup', () => {
@@ -463,14 +317,14 @@ describe('signUpWithSiretOrCNC', () => {
         accounts: [{ id: mockedAccountId }],
       })
       mockGetRawOrganizationBySiret.mockResolvedValue(null)
-      mockGetValidAssociationNameBySiret.mockResolvedValue('Test Association')
+      mockGetCompanyName.mockResolvedValue('Test Company')
       mockCreateOrganizationWithVersion.mockResolvedValue({ id: mockedOrganizationVersionId })
       mockValidateUser.mockResolvedValue(undefined)
 
-      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.TILT)
+      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.CUT)
 
       expect(mockUpdateAccount).toHaveBeenCalledWith(mockedAccountId, {
-        role: Role.GESTIONNAIRE,
+        role: Role.ADMIN,
         organizationVersion: { connect: { id: mockedOrganizationVersionId } },
       })
       expect(result.success).toBe(true)

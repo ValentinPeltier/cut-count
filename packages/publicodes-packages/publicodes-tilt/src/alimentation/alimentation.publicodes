@@ -1,9 +1,0 @@
-alimentation:
-  titre: Alimentation
-  formule:
-    somme:
-      - bénéficiaires
-      - mosaic bénévoles
-      - mosaic salariés
-  unité: kgCO2e
-  par défaut: 0

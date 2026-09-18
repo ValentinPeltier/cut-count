@@ -1,9 +1,7 @@
 'use client'
 
 import SitesBC from '@/environments/base/organization/Sites'
-import SitesClickson from '@/environments/clickson/organization/Sites'
 import SitesCut from '@/environments/cut/organization/Sites'
-import SitesTilt from '@/environments/tilt/organization/Sites'
 import { SitesCommand } from '@/services/serverFunctions/study.command'
 import { Environment, SiteCAUnit } from '@abc-transitionbascarbone/db-common/enums'
 import { UseFormReturn } from 'react-hook-form'
@@ -27,12 +25,6 @@ const DynamicSites = <T extends SitesCommand>({ sites, form, withSelection, caUn
           withSelection={withSelection}
           disabled={disabled}
         />
-      ),
-      [Environment.TILT]: (
-        <SitesTilt sites={sites} form={form} caUnit={caUnit} withSelection={withSelection} disabled={disabled} />
-      ),
-      [Environment.CLICKSON]: (
-        <SitesClickson sites={sites} form={form} withSelection={withSelection} disabled={disabled} />
       ),
     }}
     defaultComponent={

@@ -18,24 +18,9 @@ import {
 const { model } = getArgs()
 
 // Définition statique des locales prises en charge pour chaque modèle
-const LOCALES_CLICKSON = [
-  Locale.FR,
-  Locale.EN,
-  Locale.ES,
-  Locale.RO,
-  Locale.IT,
-  Locale.HU,
-  Locale.HR,
-  Locale.EL,
-] as const
-const LOCALES_TILT = [Locale.FR, Locale.EN]
 const LOCALES_CUT = [Locale.FR, Locale.EN, Locale.ES] as const
 const getLocales = () => {
   switch (model) {
-    case 'clickson':
-      return LOCALES_CLICKSON
-    case 'tilt':
-      return LOCALES_TILT
     case 'cut':
       return LOCALES_CUT
     default:

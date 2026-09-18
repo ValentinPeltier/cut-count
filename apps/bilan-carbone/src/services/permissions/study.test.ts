@@ -59,7 +59,7 @@ const mockHasSufficientLevel = studyUtils.hasSufficientLevel as jest.Mock
 const mockCanEditOrganizationVersion = organizationUtils.canEditOrganizationVersion as jest.Mock
 const mockHasActiveLicence = organizationUtils.hasActiveLicence as jest.Mock
 const mockIsInOrgaOrParentFromId = organizationModule.isInOrgaOrParentFromId as jest.Mock
-const mockHasAccessToDuplicateStudy = environmentAdvancedModule.hasAccessToDuplicateStudy as jest.Mock
+const mockHasAccessToDuplicateStudy = environmentAdvancedModule.hasAccessToDuplicateStudy as unknown as jest.Mock
 const mockGetAccountById = dbAccountModule.getAccountById as jest.Mock
 const mockGetOrganizationVersionsByOrganizationId =
   dbOrganizationModule.getOrganizationVersionsByOrganizationId as jest.Mock
@@ -506,7 +506,7 @@ describe('Study permissions service', () => {
         success: true,
         data: [
           { environment: Environment.BC, organizationVersionId: 'mocked-study-organization-id' },
-          { environment: Environment.TILT, organizationVersionId: 'mocked-study-organization-id' },
+          { environment: Environment.CUT, organizationVersionId: 'mocked-study-organization-id' },
         ],
       })
       mockGetOrganizationVersionsByOrganizationId.mockResolvedValue([{ id: 'mocked-organization-id-1' }])
@@ -534,14 +534,14 @@ describe('Study permissions service', () => {
         success: true,
         data: [
           { environment: Environment.BC, organizationVersionId: 'mocked-study-organization-id' },
-          { environment: Environment.TILT, organizationVersionId: 'mocked-organization-id' },
+          { environment: Environment.CUT, organizationVersionId: 'mocked-organization-id' },
         ],
       })
       mockGetOrganizationVersionsByOrganizationId.mockResolvedValue([
         { id: 'mocked-study-organization-id' },
         { id: 'mocked-study-organization-id-2' },
       ])
-      mockGetDuplicableEnvironments.mockReturnValue([Environment.TILT])
+      mockGetDuplicableEnvironments.mockReturnValue([Environment.CUT])
       mockHasSufficientLevel.mockReturnValue(true)
       const res = await getEnvironmentsForDuplication(mockedStudyId)
       expect(res).toHaveLength(0)
@@ -565,18 +565,18 @@ describe('Study permissions service', () => {
         success: true,
         data: [
           { environment: Environment.BC, organizationVersionId: 'mocked-study-organization-id' },
-          { environment: Environment.TILT, organizationVersionId: 'mocked-study-organization-id-2' },
+          { environment: Environment.CUT, organizationVersionId: 'mocked-study-organization-id-2' },
         ],
       })
       mockGetOrganizationVersionsByOrganizationId.mockResolvedValue([
         { id: 'mocked-study-organization-id' },
         { id: 'mocked-study-organization-id-2' },
       ])
-      mockGetDuplicableEnvironments.mockReturnValue([Environment.TILT])
+      mockGetDuplicableEnvironments.mockReturnValue([Environment.CUT])
       mockHasSufficientLevel.mockReturnValue(true)
       const res = await getEnvironmentsForDuplication(mockedStudyId)
       expect(res).toHaveLength(1)
-      expect(res[0]).toBe(Environment.TILT)
+      expect(res[0]).toBe(Environment.CUT)
       expect(mockGetStudyById).toHaveBeenCalledTimes(2)
       expect(mockGetUserActiveAccounts).toHaveBeenCalledTimes(1)
       expect(mockGetOrganizationVersionsByOrganizationId).toHaveBeenCalledTimes(1)

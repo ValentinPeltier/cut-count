@@ -95,7 +95,7 @@ const AllResults = ({ study, rules, emissionFactorsWithParts, validatedOnly, caU
 
   const displayConsolidatedInfo =
     (type === AdditionalResultTypes.CONSOLIDATED || type === AdditionalResultTypes.ENV_SPECIFIC_EXPORT) &&
-    (environment === Environment.BC || environment === Environment.TILT)
+    environment === Environment.BC
 
   useEffect(() => {
     if (environment && environment !== Environment.BC) {

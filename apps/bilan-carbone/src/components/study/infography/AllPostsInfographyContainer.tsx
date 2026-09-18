@@ -1,7 +1,7 @@
 import type { FullStudy } from '@/db/study'
 import DynamicComponent from '@/environments/core/utils/DynamicComponent'
 import { PublicodesSituationProvider } from '@/lib/publicodes/context'
-import { CutPost, TiltAdvancedPost } from '@/services/posts'
+import { CutPost } from '@/services/posts'
 import { computeResultsByPostFromEmissionSources } from '@/services/results/consolidated'
 import { getUserSettings } from '@/services/serverFunctions/user'
 import { Environment } from '@abc-transitionbascarbone/db-common/enums'
@@ -13,7 +13,6 @@ import AllPostsInfography from './AllPostsInfography'
 const AllPostsInfographySimplified = dynamic(
   () => import('@/environments/simplified/study/infography/AllPostsInfography'),
 )
-const AllPostsInfographyTilt = dynamic(() => import('@/environments/tilt/study/infography/AllPostsInfography'))
 
 interface Props {
   study: FullStudy
@@ -47,7 +46,7 @@ const AllPostsInfographyContainer = ({ study, studySiteId, siteId }: Props) => {
         siteId,
         true,
         validatedOnly,
-        environment === Environment.TILT ? TiltAdvancedPost : environment === Environment.CUT ? CutPost : undefined,
+        environment === Environment.CUT ? CutPost : undefined,
         environment,
       ),
     [study, tPost, siteId, validatedOnly, environment],
@@ -61,23 +60,6 @@ const AllPostsInfographyContainer = ({ study, studySiteId, siteId }: Props) => {
           <PublicodesSituationProvider environment={Environment.CUT} studyId={study.id} studySiteId={studySiteId}>
             <AllPostsInfographySimplified study={study} />
           </PublicodesSituationProvider>
-        ),
-        [Environment.CLICKSON]: (
-          <PublicodesSituationProvider environment={Environment.CLICKSON} studyId={study.id} studySiteId={studySiteId}>
-            <AllPostsInfographySimplified study={study} />
-          </PublicodesSituationProvider>
-        ),
-        [Environment.TILT]: study.simplified ? (
-          <PublicodesSituationProvider
-            environment={Environment.TILT}
-            studyId={study.id}
-            studySiteId={studySiteId}
-            subPostsConfigVersion={study.subPostsConfigVersion}
-          >
-            <AllPostsInfographySimplified study={study} />
-          </PublicodesSituationProvider>
-        ) : (
-          <AllPostsInfographyTilt study={study} data={data} />
         ),
       }}
     />

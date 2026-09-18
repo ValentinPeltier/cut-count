@@ -8,8 +8,5 @@
     "react": "*",
     "@mui/material": "*",
     "next-intl": "*"
-  },
-  "dependencies": {
-    "@abc-transitionbascarbone/typeguards": "*"
   }
 }

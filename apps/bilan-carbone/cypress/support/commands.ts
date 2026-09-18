@@ -7,15 +7,11 @@ Cypress.Commands.add(
 const ENV_LOGIN_DEFAULTS: Record<string, { email: string; password: string }> = {
   bc: { email: 'bc-collaborator-0@yopmail.com', password: 'password-0' },
   cut: { email: 'cut-env-admin-0@yopmail.com', password: 'password-0' },
-  tilt: { email: 'tilt-env-admin-0@yopmail.com', password: 'password-0' },
-  clickson: { email: 'clickson-env-admin-0@yopmail.com', password: 'password-0' },
 }
 
 const ENV_ENTRY_PATHS: Record<string, string> = {
   bc: '/login',
   cut: '/count',
-  tilt: '/tilt',
-  clickson: '/clickson',
 }
 
 Cypress.Commands.add('login', (email = 'bc-collaborator-0@yopmail.com', password = 'password-0') => {
@@ -29,7 +25,7 @@ Cypress.Commands.add('login', (email = 'bc-collaborator-0@yopmail.com', password
   cy.wait(`@login`)
 })
 
-Cypress.Commands.add('loginForEnv', (env: 'bc' | 'cut' | 'tilt' | 'clickson', email?: string, password?: string) => {
+Cypress.Commands.add('loginForEnv', (env: 'bc' | 'cut', email?: string, password?: string) => {
   const defaults = ENV_LOGIN_DEFAULTS[env]
   const loginEmail = email ?? defaults.email
   const loginPassword = password ?? defaults.password

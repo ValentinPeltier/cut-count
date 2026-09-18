@@ -34,7 +34,6 @@ import { DuplicateFormData } from './DuplicateSiteModal'
 import ReplicateSitesChangesModal from './ReplicateSitesChangesModal'
 
 const SitesCut = dynamic(() => import('@/environments/cut/organization/Sites'))
-const SitesTilt = dynamic(() => import('@/environments/tilt/organization/Sites'))
 
 const DuplicateSiteModal = dynamic(() => import('./DuplicateSiteModal'), { ssr: false })
 
@@ -212,18 +211,6 @@ const StudySites = ({ study, organizationVersion, userRoleOnStudy, caUnit, user,
               }
               form={siteForm as unknown as UseFormReturn<SitesCommand>}
               withSelection
-            />
-          ),
-          [Environment.TILT]: (
-            <SitesTilt
-              sites={
-                isEditing ? sites : study.sites.map((site) => ({ ...site, name: site.site.name, selected: false }))
-              }
-              form={isEditing ? (siteForm as unknown as UseFormReturn<SitesCommand>) : undefined}
-              caUnit={caUnit}
-              withSelection
-              onDuplicate={!isEditing && hasEditionRole && !study.simplified ? setDuplicatingSiteId : undefined}
-              organizationId={isFromStudyOrganizationOrParent ? study.organizationVersion.id : undefined}
             />
           ),
         }}

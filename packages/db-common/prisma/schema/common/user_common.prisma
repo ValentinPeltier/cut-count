@@ -23,7 +23,6 @@ model User {
   password    String?
   resetToken  String?      @map("reset_token")
   accounts    Account[]
-  accountsMip AccountMip[]
   source      UserSource   @default(CRON)
 
   formationFormStartTime DateTime? @map("formation_form_start_time")

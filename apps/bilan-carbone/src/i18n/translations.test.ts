@@ -21,13 +21,11 @@ const translationsToCheck: Record<string, Locale[]> = {
   common: [Locale.EN, Locale.FR, Locale.ES],
   bc: [Locale.EN, Locale.FR],
   cut: [Locale.EN, Locale.FR],
-  tilt: [Locale.EN, Locale.FR],
-  clickson: [Locale.EN, Locale.FR, Locale.ES],
 }
 
 const loadTranslations = (): TranslationObj[] => {
   const translationsDir = path.join(__dirname, 'translations')
-  const baseNames = ['common', 'bc', 'cut', 'tilt', 'clickson']
+  const baseNames = ['common', 'bc', 'cut']
 
   return baseNames.map((baseName) => {
     const translation: Partial<TranslationObj> = { name: baseName }

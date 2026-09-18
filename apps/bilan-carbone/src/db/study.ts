@@ -48,7 +48,19 @@ export const createStudy = async (
     select: {
       id: true,
       exports: { select: { types: true } },
-      sites: { select: { id: true, country: true, volunteerNumber: true, etp: true, beneficiaryNumber: true } },
+      sites: {
+        select: {
+          id: true,
+          country: true,
+          volunteerNumber: true,
+          etp: true,
+          beneficiaryNumber: true,
+          distanceToParis: true,
+          numberOfTickets: true,
+          numberOfSessions: true,
+          numberOfOpenDays: true,
+        },
+      },
       simplified: true,
     },
   })
@@ -61,14 +73,6 @@ export const createStudy = async (
         source: importVersion.source,
         importVersionId: importVersion.id,
       }))
-    } else if (environment === Environment.CLICKSON) {
-      studyEmissionFactorVersions = (await getSourceEnvironmentImportVersionIds(Environment.CLICKSON)).map(
-        (importVersion) => ({
-          studyId: dbStudy.id,
-          source: importVersion.source,
-          importVersionId: importVersion.id,
-        }),
-      )
     } else {
       const hasGHGP = dbStudy.exports?.types.includes(Export.GHGP)
       const sources = Object.values(Import).filter(

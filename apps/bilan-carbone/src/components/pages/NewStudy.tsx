@@ -22,9 +22,7 @@ import { useForm } from 'react-hook-form'
 import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
 import styles from './NewStudy.module.css'
 
-const NewStudyFormClickson = dynamic(() => import('@/environments/clickson/study/new/Form'))
 const NewStudyFormCut = dynamic(() => import('@/environments/cut/study/new/Form'))
-const NewStudyFormTilt = dynamic(() => import('@/environments/tilt/study/new/Form'))
 
 interface Props {
   user: UserSession
@@ -126,17 +124,6 @@ const NewStudyPage = ({
         <DynamicComponent
           environmentComponents={{
             [Environment.CUT]: <NewStudyFormCut form={form} />,
-            [Environment.CLICKSON]: <NewStudyFormClickson form={form} />,
-            [Environment.TILT]: (
-              <NewStudyFormTilt
-                user={user}
-                accounts={accounts}
-                form={form}
-                duplicateStudyId={duplicateStudyId}
-                sourceStudy={sourceStudy}
-                simplified={simplified}
-              />
-            ),
           }}
           defaultComponent={
             <NewStudyForm

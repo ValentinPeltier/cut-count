@@ -1,7 +1,5 @@
-import { TiltSimplifiedPost } from '@/services/posts'
 import { getMockedFullStudyEmissionSource } from '@/tests/utils/models/emissionSource'
-import { mockedOrganizationVersion } from '@/tests/utils/models/organization'
-import { COMMON_DATES, getMockeFullStudy, getMockedDetailedFullStudySite } from '@/tests/utils/models/study'
+import { getMockeFullStudy, getMockedDetailedFullStudySite } from '@/tests/utils/models/study'
 import { BCEnvironment } from '@/types/environment'
 import { BaseResultsBySite } from '@/types/study.types'
 import { hasSufficientLevel } from '@/utils/study'
@@ -32,7 +30,6 @@ describe('Study Service', () => {
       Object.values(SubPost).forEach((subPost) => {
         expect(getTransEnvironmentSubPost(Environment.BC, Environment.BC, subPost)).toBe(subPost)
         expect(getTransEnvironmentSubPost(Environment.CUT, Environment.CUT, subPost)).toBe(subPost)
-        expect(getTransEnvironmentSubPost(Environment.TILT, Environment.TILT, subPost)).toBe(subPost)
       })
     })
 
@@ -40,42 +37,7 @@ describe('Study Service', () => {
       Object.values(SubPost).forEach((subPost) => {
         expect(getTransEnvironmentSubPost(Environment.BC, Environment.CUT, subPost)).toBe(undefined)
         expect(getTransEnvironmentSubPost(Environment.CUT, Environment.BC, subPost)).toBe(undefined)
-        expect(getTransEnvironmentSubPost(Environment.TILT, Environment.CUT, subPost)).toBe(undefined)
-        expect(getTransEnvironmentSubPost(Environment.CUT, Environment.TILT, subPost)).toBe(undefined)
       })
-    })
-
-    it('BC to Tilt environment', () => {
-      const source = Environment.BC
-      const target = Environment.TILT
-      expect(getTransEnvironmentSubPost(source, target, SubPost.DeplacementsDomicileTravail)).toBe(
-        SubPost.DeplacementsDomicileTravailSalaries,
-      )
-      expect(getTransEnvironmentSubPost(source, target, SubPost.DeplacementsProfessionnels)).toBe(
-        SubPost.DeplacementsDansLeCadreDUneMissionAssociativeSalaries,
-      )
-      expect(getTransEnvironmentSubPost(source, target, SubPost.Electricite)).toBe(SubPost.Electricite)
-      expect(getTransEnvironmentSubPost(source, target, SubPost.Equipements)).toBe(SubPost.EquipementsDesSalaries)
-      expect(getTransEnvironmentSubPost(source, target, SubPost.Informatique)).toBe(SubPost.ParcInformatiqueDesSalaries)
-      expect(getTransEnvironmentSubPost(source, target, SubPost.NourritureRepasBoissons)).toBe(
-        SubPost.RepasPrisParLesSalaries,
-      )
-      expect(getTransEnvironmentSubPost(source, target, SubPost.UtilisationEnDependance)).toBe(
-        SubPost.UtilisationEnDependanceConsommationDeBiens,
-      )
-      expect(getTransEnvironmentSubPost(source, target, SubPost.UtilisationEnResponsabilite)).toBe(
-        SubPost.UtilisationEnDependanceConsommationDeBiens,
-      )
-    })
-
-    it('Tilt to BC environment', () => {
-      const source = Environment.TILT
-      const target = Environment.BC
-      expect(getTransEnvironmentSubPost(source, target, SubPost.DeplacementsDomicileTravailSalaries)).toBe(
-        SubPost.DeplacementsDomicileTravail,
-      )
-      expect(getTransEnvironmentSubPost(source, target, SubPost.TeletravailSalaries)).toBe(SubPost.Electricite)
-      expect(getTransEnvironmentSubPost(source, target, SubPost.Electricite)).toBe(SubPost.Electricite)
     })
   })
 
@@ -239,20 +201,6 @@ describe('Study Service', () => {
       return prepareExcelMock.mock.calls[0][0]
     }
 
-    it('adds "(tCO2e)" to clickson exported value header in column C (index 2)', () => {
-      const data = formatComputedResultsForExport(
-        getMockeFullStudy({ resultsUnit: StudyResultUnit.T }),
-        [{ name: 'Tous les sites', siteId: 'all', studySiteId: 'all' }],
-        computedResults,
-        tStudy,
-        tExport,
-        tUnits,
-        Environment.CLICKSON as BCEnvironment,
-      )
-
-      expect(data.data[1][2]).toBe('Valeur (tCO2e)')
-    })
-
     it('does not add unit to value header for non-clickson exports (CUT)', () => {
       const data = formatComputedResultsForExport(
         getMockeFullStudy({ resultsUnit: StudyResultUnit.K }),
@@ -265,12 +213,6 @@ describe('Study Service', () => {
       )
 
       expect(data.data[1][2]).toBe('Valeur' + ' (kgCO2e)')
-    })
-
-    it('does not include "Export au format Bilan Carbone®" sheet for CLICKSON', async () => {
-      const workbookSheets = await getWorkbookSheets(Environment.CLICKSON)
-      expect(workbookSheets).toHaveLength(1)
-      expect(workbookSheets.some((sheet: { name: string }) => sheet.name === 'bc.title')).toBe(false)
     })
 
     it('includes "Export au format Bilan Carbone®" sheet for CUT', async () => {
@@ -334,76 +276,6 @@ describe('Study Service', () => {
       expect(getTotalCo2Value('Site A')).toBe(10)
       expect(getTotalCo2Value('Site B')).toBe(20)
       expect(getTotalCo2Value('allSites')).toBe(30)
-    })
-
-    it('should export a single simplified sheet for Tilt simplified studies', async () => {
-      const study = getMockeFullStudy({
-        simplified: true,
-        ...COMMON_DATES,
-        organizationVersion: { ...mockedOrganizationVersion, environment: Environment.TILT },
-        sites: [getMockedDetailedFullStudySite('site-a', 'study-site-a', 'Site A')],
-      })
-
-      const t = ((key: string) => key) as unknown as Translations
-      const mockResults = [
-        {
-          post: TiltSimplifiedPost.EnergieSimplified,
-          label: 'Énergies',
-          value: 100_000,
-          children: [
-            {
-              post: SubPost.Electricite,
-              label: 'Électricité',
-              value: 100_000,
-              children: [],
-            },
-          ],
-        },
-        {
-          post: 'total' as const,
-          label: 'Total',
-          value: 100_000,
-          children: [],
-        },
-      ]
-
-      const prepareExcelMock = jest.mocked(prepareExcel)
-      prepareExcelMock.mockClear()
-
-      await downloadStudyResults(
-        study,
-        [],
-        [],
-        [],
-        t,
-        t,
-        t,
-        t,
-        t,
-        t,
-        t,
-        t,
-        t,
-        Environment.TILT,
-        { aggregated: mockResults, bySite: { 'study-site-a': mockResults } },
-        mockResults,
-        'site-a',
-      )
-
-      expect(prepareExcelMock).toHaveBeenCalledTimes(1)
-      const [exportedData] = prepareExcelMock.mock.calls[0]
-      expect(exportedData).toHaveLength(1)
-
-      const sheet = (exportedData as { name: string; data: (string | number)[][]; options: object }[])[0]
-      expect(sheet.name).toBe('exportFilename.xlsx')
-      expect(sheet.data[0][0]).toBe('simplified.disclaimerExcel1')
-      expect(sheet.data[4][0]).toBe('simplified.disclaimerExcel5')
-      expect(sheet.data[5]).toEqual([])
-      expect(sheet.data[6]).toEqual(['simplified.metadata.organization', 'Mocked Organization'])
-      expect(sheet.data[7]).toEqual(['simplified.metadata.site', 'Site A'])
-      expect(sheet.data[10]).toEqual([])
-      expect(sheet.data[11]).toEqual(['post', 'subPost', 'value'])
-      expect(sheet.data[12]).toEqual(['Énergies', '', 100_000])
     })
   })
 })

@@ -1,13 +1,11 @@
 /**
  * Shared trajectory calculation utilities for simple linear reduction trajectories.
- * Used by MIP (individual footprint) and potentially other apps.
  * For full SNBC trajectory logic (with sectenData), see apps/bilan-carbone/src/utils/snbc.ts.
  */
 
 /**
  * Yearly proportional reduction rates per segment.
  * Each rate is applied linearly to the value at the start of the segment.
- * Used by both MIP (simple trajectory) and bilan-carbone (full SNBC logic in snbc.ts).
  */
 export interface ReductionRates {
     /** Yearly proportional rate from current year to 2015, only for sector-specific SNBC trajectories */

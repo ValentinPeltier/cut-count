@@ -60,7 +60,7 @@ describe('saveSituation', () => {
       id: 'user-1',
       accountId: 'account-1',
       organizationVersionId: 'org-1',
-      environment: Environment.CLICKSON,
+      environment: Environment.CUT,
     },
   }
 

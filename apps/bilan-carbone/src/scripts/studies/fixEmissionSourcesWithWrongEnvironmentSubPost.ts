@@ -4,7 +4,7 @@ import { Environment } from '@abc-transitionbascarbone/db-common/enums'
 
 /**
  * Cleanup script for emission sources assigned to subposts that do not belong
- * to their study's environment (e.g. TILT subposts in a BC study).
+ * to their study's environment.
  * Related to: https://github.com/ABC-TransitionBasCarbone/bilan-carbone/issues/3095
  *
  * Run with --dry-run (default) to only report affected records.
@@ -19,7 +19,7 @@ const fixEmissionSourcesWithWrongEnvironmentSubPost = async (dryRun = true) => {
   try {
     console.log(`Starting emission sources subpost environment check (${dryRun ? 'DRY RUN' : 'FIX MODE'})...`)
 
-    for (const environment of [Environment.BC, Environment.TILT]) {
+    for (const environment of [Environment.BC]) {
       const envStudies = await prismaClient.study.findMany({
         where: {
           organizationVersion: { environment },

@@ -1,7 +1,5 @@
-import { studySiteToClicksonSituation } from '@/environments/clickson/publicodes/studySiteToSituation'
 import { studySiteToCutSituation } from '@/environments/cut/publicodes/studySiteToSituation'
-import { studySiteToTiltSituation } from '@/environments/tilt/publicodes/studySiteToSituation'
-import { Country, Environment } from '@abc-transitionbascarbone/db-common/enums'
+import { Environment } from '@abc-transitionbascarbone/db-common/enums'
 import { Situation } from 'publicodes'
 import { EnvironmentWithSimplifiedStudies } from './permissions/environment'
 
@@ -12,33 +10,12 @@ export interface CutStudySiteFields {
   numberOfOpenDays?: number | null
 }
 
-export interface ClicksonStudySiteFields {
-  etp?: number | undefined
-  studentNumber?: number | undefined
-  superficy?: number | null | undefined
-  country?: Country | null | undefined
-  // constructionYear?: number | null
-  // renovationYear?: number | null
-}
-
-export interface TiltStudySiteFields {
-  volunteerNumber?: number | null
-  beneficiaryNumber?: number | null
-  etp?: number
-}
-
-export interface StudySiteFields extends CutStudySiteFields, ClicksonStudySiteFields, TiltStudySiteFields {}
+export type StudySiteFields = CutStudySiteFields
 
 export type StudySiteToSituationFn = (studySite: StudySiteFields | undefined) => Situation<string>
 
-/**
- * Registry of studySiteToSituation functions by environment.
- * Each environment can define its own mapping from StudySite fields to Publicodes situation keys.
- */
 const studySiteToSituationByEnvironment: Record<EnvironmentWithSimplifiedStudies, StudySiteToSituationFn> = {
   [Environment.CUT]: studySiteToCutSituation,
-  [Environment.CLICKSON]: studySiteToClicksonSituation,
-  [Environment.TILT]: studySiteToTiltSituation,
 }
 
 export function getStudySiteToSituation(
@@ -49,7 +26,7 @@ export function getStudySiteToSituation(
 
 export function studySiteToSituation(
   environment: EnvironmentWithSimplifiedStudies,
-  studySite: ClicksonStudySiteFields | undefined,
+  studySite: StudySiteFields | undefined,
 ): Situation<string> {
   const fn = getStudySiteToSituation(environment)
   return fn ? fn(studySite) : {}

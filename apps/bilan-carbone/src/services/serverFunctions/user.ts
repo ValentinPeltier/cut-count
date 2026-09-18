@@ -81,11 +81,11 @@ import { DAY, HOUR, MIN, TIME_IN_MS, YEAR } from '@abc-transitionbascarbone/util
 import { environmentsWithChecklist } from '@abc-transitionbascarbone/utils/environments'
 import jwt from 'jsonwebtoken'
 import { UserSession } from 'next-auth'
-import { getCompanyName, getValidAssociationNameBySiret } from '../associationApi'
+import { getCompanyName } from '../associationApi'
 import { auth, dbActualizedAuth } from '../auth'
 import { getUserCheckList } from '../checklist'
-import { NOT_ASSOCIATION_SIRET, REQUEST_SENT, UNKNOWN_SCHOOL, UNKNOWN_SIRET_OR_CNC } from '../permissions/check'
-import { isBC, isTilt } from '../permissions/environment'
+import { REQUEST_SENT, UNKNOWN_SCHOOL, UNKNOWN_SIRET_OR_CNC } from '../permissions/check'
+import { isBC } from '../permissions/environment'
 import { canAddMember, canChangeRole, canDeleteMember, canEditSelfRole } from '../permissions/user'
 import { establishmentTypeMap, School } from '../schoolApi'
 import { getDeactivableFeatureRestrictions } from './deactivableFeatures'
@@ -546,13 +546,6 @@ export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string, en
 
     const accountAlreadyCreated = await getAccountByEmailAndEnvironment(trimmedEmail, environment)
     if (accountAlreadyCreated && accountAlreadyCreated.organizationVersionId) {
-      if (environment === Environment.TILT && accountAlreadyCreated.status !== UserStatus.ACTIVE) {
-        const activation = await activateEmail(trimmedEmail, environment)
-        if (!activation.success) {
-          throw new Error(activation.errorMessage)
-        }
-        return activation.data
-      }
       throw new Error(NOT_AUTHORIZED)
     }
 
@@ -630,14 +623,6 @@ export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string, en
     if (!organizationVersion) {
       let companyName = ''
 
-      if (environment === Environment.TILT) {
-        const associationName = await getValidAssociationNameBySiret(siretOrCNC)
-        if (!associationName) {
-          throw new Error(NOT_ASSOCIATION_SIRET)
-        }
-        companyName = associationName
-      }
-
       organization = await getRawOrganizationBySiret(siretOrCNC)
 
       if (environment === Environment.CUT && !organization?.id) {
@@ -661,8 +646,7 @@ export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string, en
       throw new Error(NOT_AUTHORIZED)
     }
 
-    const newOrganizationRole =
-      isTilt(environment) || (isBC(environment) && !user.level) ? Role.GESTIONNAIRE : Role.ADMIN
+    const newOrganizationRole = isBC(environment) && !user.level ? Role.GESTIONNAIRE : Role.ADMIN
     await updateAccount(account.id, {
       role: organization?.id ? Role.DEFAULT : newOrganizationRole,
       organizationVersion: { connect: { id: organizationVersion.id } },

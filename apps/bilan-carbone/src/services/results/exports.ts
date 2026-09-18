@@ -10,7 +10,6 @@ import {
   Environment,
   Import,
 } from '@abc-transitionbascarbone/db-common/enums'
-import { convertTiltSubPostToBCSubPost } from '../posts'
 import {
   getSquaredStandardDeviationForEmissionSource,
   getSquaredStandardDeviationForEmissionSourceArray,
@@ -141,7 +140,7 @@ export const computeResult = (
   getLineAndPostForExport: GetLineAndPostForExportFunctionType,
   base?: EmissionFactorBase,
   isGHGP?: boolean,
-  environment: Environment = Environment.BC,
+  _environment: Environment = Environment.BC,
 ): PostInfos[] => {
   const results: Record<string, Omit<PostInfos, 'rule' | 'PostInfos'>[]> = allRules.reduce(
     (acc, rule) => ({ ...acc, [rule]: [] }),
@@ -152,10 +151,7 @@ export const computeResult = (
   siteEmissionSources
     .map((emissionSource) => ({
       ...emissionSource,
-      subPost:
-        environment === Environment.TILT
-          ? convertTiltSubPostToBCSubPost(emissionSource.subPost)
-          : emissionSource.subPost,
+      subPost: emissionSource.subPost,
     }))
     .filter((emissionSource) => filterWithDependencies(emissionSource.subPost, withDependencies))
     .forEach((emissionSource) => {

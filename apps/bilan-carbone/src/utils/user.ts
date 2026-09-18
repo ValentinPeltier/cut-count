@@ -1,4 +1,4 @@
-import { ClicksonRoles, CutRoles } from '@/services/roles'
+import { CutRoles } from '@/services/roles'
 import type { Prisma } from '@abc-transitionbascarbone/db-common'
 import { findAccountSelect } from '@abc-transitionbascarbone/db-common/db/common.select'
 import { Environment, Role, UserStatus } from '@abc-transitionbascarbone/db-common/enums'
@@ -19,8 +19,6 @@ export const getEnvironmentRoles = (environment: Environment) => {
   switch (environment) {
     case Environment.CUT:
       return CutRoles
-    case Environment.CLICKSON:
-      return ClicksonRoles
     default:
       return Role
   }

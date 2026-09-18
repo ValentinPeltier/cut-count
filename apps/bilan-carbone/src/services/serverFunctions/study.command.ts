@@ -142,13 +142,6 @@ export const ChangeStudyDatesCommandValidation = z
 
 export type ChangeStudyDatesCommand = z.infer<typeof ChangeStudyDatesCommandValidation>
 
-export const ChangeTiltStudyDatesCommandValidation = z.object({
-  studyId: z.string(),
-  studyDate: z.string().regex(/^\d{4}$/),
-})
-
-export type ChangeTiltStudyDatesCommand = z.infer<typeof ChangeTiltStudyDatesCommandValidation>
-
 export const ChangeStudyNameValidation = z.object({
   studyId: z.string(),
   name: z.string().trim().min(1),
@@ -166,14 +159,6 @@ export const ChangeStudyCinemaValidation = z.object({
 })
 
 export type ChangeStudyCinemaCommand = z.infer<typeof ChangeStudyCinemaValidation>
-
-export const ChangeStudySiteTiltSimplifiedValidation = z.object({
-  postalCode: z.string().optional(),
-  structure: z.string().optional(),
-  structureOther: z.string().optional(),
-})
-
-export type ChangeStudySiteTiltSimplifiedCommand = z.infer<typeof ChangeStudySiteTiltSimplifiedValidation>
 
 export const ChangeStudyEstablishmentValidation = z.object({
   address: z.string().optional(),

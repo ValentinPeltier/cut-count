@@ -1,14 +1,10 @@
-import { Environment } from '@abc-transitionbascarbone/db-common/enums'
 import type { UserSession } from 'next-auth'
 import { hasEditAccessOnStudy } from './study'
 export const isSimplifiedContributor = (
   study: { contributors: Array<{ accountId: string }> },
   session: { user: UserSession },
 ) => {
-  return (
-    session.user.environment === Environment.CLICKSON &&
-    study.contributors.some((contributor) => contributor.accountId === session.user.accountId)
-  )
+  return false
 }
 
 export const canSaveSituationOnStudy = async (

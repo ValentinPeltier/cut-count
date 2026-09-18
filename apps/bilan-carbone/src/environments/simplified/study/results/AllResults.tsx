@@ -9,18 +9,13 @@ import SelectStudySite from '@/components/study/site/SelectStudySite'
 import TabPanel from '@/components/tabPanel/tabPanel'
 import { EmissionFactorWithParts } from '@/db/emissionFactors'
 import type { FullStudy } from '@/db/study'
-import EmissionsAnalysisClickson from '@/environments/clickson/study/results/consolidated/EmissionsAnalysisClickson'
 import CarbonIntensitiesCut from '@/environments/cut/study/results/CarbonIntensitiesCut'
-import SheetIcon from '@/environments/simplified/icons/SheetIcon'
 import {
   hasAccessToAdvancedEmissionAnalysis,
   hasAccessToFeedbackButton,
   hasAccessToPDFExport,
   hasAccessToResultsRatioTab,
-  hasAccessToSimplifiedEmissionAnalysis,
-  isClickson,
   isCut,
-  isTilt,
   showResultsInfoText,
 } from '@/services/permissions/environment'
 import type { BaseResultsByPost } from '@/services/posts'
@@ -142,7 +137,7 @@ const AllResults = ({
             variant="contained"
             color="primary"
             size="large"
-            endIcon={environment && isClickson(environment) ? <SheetIcon /> : <DownloadIcon />}
+            endIcon={<DownloadIcon />}
             onClick={() => {
               downloadStudyResults(
                 study,
@@ -210,23 +205,12 @@ const AllResults = ({
                   </Link>
                 ),
               }),
-              ...(isTilt(environment) && {
-                link: (children) => (
-                  <Link href={process.env.NEXT_PUBLIC_ABC_TILT_LINK ?? ''} target="_blank">
-                    <strong>{children}</strong>
-                  </Link>
-                ),
-              }),
             })}
           </Typography>
         </Box>
       )}
 
       {/* Emissions analysis for environments that have it */}
-      {environment && hasAccessToSimplifiedEmissionAnalysis(environment) ? (
-        <EmissionsAnalysisClickson study={study} studySite={studySite} totalValue={totalValue} />
-      ) : null}
-
       {environment && hasAccessToAdvancedEmissionAnalysis(environment) ? (
         <CarbonIntensities
           study={study}

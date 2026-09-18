@@ -1,14 +1,11 @@
 import type { FullStudy } from '@/db/study'
-import { customPostOrder } from '@/environments/clickson/utils/constant'
-import { sortByCustomOrder } from '@/utils/array'
 import { getEmissionSourcesTotalCo2 } from '@/utils/emissionSources'
 import { Environment } from '@abc-transitionbascarbone/db-common/enums'
 import { Translations } from '@abc-transitionbascarbone/lib'
 import { Post } from '@abc-transitionbascarbone/utils/charts'
 import { AdditionalResultTypes, ResultsByPost, ResultType } from '../../types/study.types'
 import { getEmissionResults, getEmissionSourcesTotalMonetaryCo2 } from '../emissionSource'
-import { hasCustomPostOrder } from '../permissions/environment'
-import { BCPost, convertTiltSubPostToBCSubPost, subPostsByPost } from '../posts'
+import { BCPost, subPostsByPost } from '../posts'
 import { getSquaredStandardDeviationForEmissionSourceArray } from '../uncertainty'
 import { filterWithDependencies, getSiteEmissionSourcesWithoutMarketBase } from './utils'
 
@@ -28,10 +25,7 @@ export const computeResultsByPostFromEmissionSources = (
     ? siteEmissionSources.map((emissionSource) => {
         return {
           ...emissionSource,
-          subPost:
-            environment === Environment.TILT
-              ? convertTiltSubPostToBCSubPost(emissionSource.subPost)
-              : emissionSource.subPost,
+          subPost: emissionSource.subPost,
         }
       })
     : siteEmissionSources
@@ -41,7 +35,7 @@ export const computeResultsByPostFromEmissionSources = (
     ...getEmissionResults(emissionSource, environment),
   }))
 
-  let postInfos = Object.values(convertToBc ? BCPost : postValues).map((post) => {
+  const postInfos = Object.values(convertToBc ? BCPost : postValues).map((post) => {
     const subPosts = subPostsByPost[post]
       .filter((subPost) => filterWithDependencies(subPost, withDependencies))
       .map((subPost) => {
@@ -92,11 +86,7 @@ export const computeResultsByPostFromEmissionSources = (
     } as ResultsByPost
   })
 
-  if (hasCustomPostOrder(environment)) {
-    postInfos = sortByCustomOrder(postInfos, customPostOrder, (item) => item.post)
-  } else {
-    postInfos.sort((a, b) => a.label.localeCompare(b.label))
-  }
+  postInfos.sort((a, b) => a.label.localeCompare(b.label))
 
   return [...postInfos, computeTotalForPosts(postInfos, tPost)]
 }

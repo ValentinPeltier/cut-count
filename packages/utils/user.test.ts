@@ -1,4 +1,4 @@
-import { Environment, Role, RoleMip } from '@abc-transitionbascarbone/db-common/enums'
+import { Environment, Role } from '@abc-transitionbascarbone/db-common/enums'
 import { expect } from '@jest/globals'
 import { canBeUntrainedRole } from './user'
 
@@ -7,12 +7,6 @@ describe('commonuserUtils functions', () => {
     test('should return true for all roles in CUT environment', () => {
       expect(canBeUntrainedRole(Role.ADMIN, Environment.CUT)).toBe(true)
       expect(canBeUntrainedRole(Role.DEFAULT, Environment.CUT)).toBe(true)
-    })
-
-    test('should return true for all roles in MIP environment', () => {
-      expect(canBeUntrainedRole(RoleMip.ADMIN, Environment.MIP)).toBe(true)
-      expect(canBeUntrainedRole(RoleMip.COLLABORATOR, Environment.MIP)).toBe(true)
-      expect(canBeUntrainedRole(RoleMip.SUPER_ADMIN, Environment.MIP)).toBe(true)
     })
 
     test('should return true for GESTIONNAIRE and DEFAULT roles in BASE environment', () => {

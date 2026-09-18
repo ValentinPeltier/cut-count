@@ -1,6 +1,5 @@
 import type { FullStudy } from '@/db/study'
 import { usePublicodesResults } from '@/hooks/usePublicodesResults'
-import { isClickson } from '@/services/permissions/environment'
 import { StudyResultUnit } from '@abc-transitionbascarbone/db-common'
 import { Translations } from '@abc-transitionbascarbone/lib'
 import { Post, STUDY_UNIT_VALUES } from '@abc-transitionbascarbone/utils/charts'
@@ -66,13 +65,7 @@ const RealTimeResults = ({ post, study, studySiteId }: Props) => {
   }, [refresh])
 
   return (
-    <div
-      className={classNames(
-        styles.panel,
-        updated && styles.updated,
-        isClickson(study.organizationVersion.environment) && styles.clicksonPanel,
-      )}
-    >
+    <div className={classNames(styles.panel, updated && styles.updated)}>
       {post && (
         <div className={styles.row}>
           <span className={styles.label}>{tPost(post)}</span>

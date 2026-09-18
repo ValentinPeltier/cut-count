@@ -156,8 +156,6 @@ describe('organisation utils', () => {
   describe('hasActiveLicence', () => {
     it('should return true if environment does not need licence', () => {
       expect(hasActiveLicence({ activatedLicence: [], parent: null, environment: Environment.CUT })).toBe(true)
-      expect(hasActiveLicence({ activatedLicence: [], parent: null, environment: Environment.CLICKSON })).toBe(true)
-      expect(hasActiveLicence({ activatedLicence: [], parent: null, environment: Environment.TILT })).toBe(true)
     })
 
     it('should return true if licence is active for orgaVersion', () => {

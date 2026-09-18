@@ -13,7 +13,7 @@ const BetaBanner = async () => {
         <Chip label={t('badge')} size="small" color="warning" className={styles.chip} />
         <strong>{t('title')}</strong>
       </div>
-      <p className="m0">{customRich(t, 'description', {}, Environment.TILT)}</p>
+      <p className="m0">{customRich(t, 'description', {}, Environment.BC)}</p>
     </div>
   )
 }

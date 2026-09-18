@@ -68,10 +68,7 @@ export const canCreateEmissionSource = async (account: AccountWithUser, emission
   switch (account.environment) {
     case 'BC':
       return canCreateEmissionSourceBC(account, emissionSource)
-    case 'TILT':
-      return canCreateEmissionSourceBC(account, emissionSource)
     case 'CUT':
-    case 'CLICKSON':
       return canCreateEmissionSourceSimplified(account, emissionSource)
     default:
       return false
@@ -127,24 +124,6 @@ const canUpdateEmissionSourceBC = async (
 const canUpdateEmissionSourceCUT = (account: AccountWithUser, emissionSource: StudyEmissionSource) =>
   canCreateEmissionSourceSimplified(account, emissionSource)
 
-const canUpdateEmissionSourceClickson = async (
-  account: AccountWithUser,
-  emissionSource: StudyEmissionSource,
-  study: FullStudy,
-) => {
-  const canCreateEmissionSource = await canCreateEmissionSourceSimplified(account, emissionSource)
-  if (!canCreateEmissionSource) {
-    const contributor = study.contributors.find(
-      (contributor) => contributor.accountId === account.id && contributor.subPost === emissionSource.subPost,
-    )
-
-    if (!contributor) {
-      return false
-    }
-  }
-  return true
-}
-
 export const canUpdateEmissionSource = async (
   account: AccountWithUser,
   emissionSource: StudyEmissionSource,
@@ -154,12 +133,8 @@ export const canUpdateEmissionSource = async (
   switch (account.environment) {
     case 'BC':
       return canUpdateEmissionSourceBC(account, emissionSource, change, study)
-    case 'TILT':
-      return canUpdateEmissionSourceBC(account, emissionSource, change, study)
     case 'CUT':
       return canUpdateEmissionSourceCUT(account, emissionSource)
-    case 'CLICKSON':
-      return canUpdateEmissionSourceClickson(account, emissionSource, study)
     default:
       return false
   }

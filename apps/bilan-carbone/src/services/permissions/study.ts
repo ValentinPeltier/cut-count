@@ -17,12 +17,7 @@ import { UserSession } from 'next-auth'
 import { dbActualizedAuth } from '../auth'
 import { isDeactivableFeatureActiveForEnvironment } from '../serverFunctions/deactivableFeatures'
 import { getUserActiveAccounts } from '../serverFunctions/user'
-import {
-  canCreateStudyOnlyAsAdministrator,
-  canCreateStudyWithoutSpecificRights,
-  isTilt,
-  isTiltSimplifiedFeatureActive,
-} from './environment'
+import { canCreateStudyOnlyAsAdministrator, canCreateStudyWithoutSpecificRights } from './environment'
 import { hasAccessToDuplicateStudy } from './environmentAdvanced'
 import { isInOrgaOrParentFromId } from './organization'
 import { isAdminOnStudyOrga } from './study.utils'
@@ -78,25 +73,14 @@ export const filterAllowedStudies = async (user: UserSession, studies: Study[]) 
   return allowedStudies.filter((study) => study !== null)
 }
 
-export const canCreateAStudy = async (user: UserSession, simplified: boolean = false) => {
-  if (simplified && !user.level && isTilt(user.environment)) {
-    const isTiltSimplifiedActive = await isTiltSimplifiedFeatureActive(user.environment)
-    if (!isTiltSimplifiedActive) {
-      return false
-    }
-  }
-
-  const studyIsSimplifiedAndCreationAuthorized = simplified && user.role !== Role.DEFAULT && isTilt(user.environment)
+export const canCreateAStudy = async (user: UserSession, _simplified: boolean = false) => {
   const canCreateAdvancedStudy =
     !!user.level &&
     user.role !== Role.DEFAULT &&
     (user.role === Role.ADMIN || !canCreateStudyOnlyAsAdministrator(user.environment))
 
   return (
-    !!user.organizationVersionId &&
-    (canCreateAdvancedStudy ||
-      canCreateStudyWithoutSpecificRights(user.environment) ||
-      studyIsSimplifiedAndCreationAuthorized)
+    !!user.organizationVersionId && (canCreateAdvancedStudy || canCreateStudyWithoutSpecificRights(user.environment))
   )
 }
 
@@ -141,28 +125,14 @@ const canCreateSpecificStudyBC = async (
   return true
 }
 
-const canCreateSpecificStudyTilt = async (
-  accountId: string,
-  study: Prisma.StudyCreateInput,
-  organizationVersionId: string,
-) => {
-  if (study.simplified) {
-    return canCreateSpecificStudySimplified(accountId, organizationVersionId)
-  }
-  return canCreateSpecificStudyBC(accountId, study, organizationVersionId)
-}
-
 export const canCreateSpecificStudy = async (
   user: UserSession,
   study: Prisma.StudyCreateInput,
   organizationVersionId: string,
 ) => {
   switch (user.environment) {
-    case Environment.CLICKSON:
     case Environment.CUT:
       return canCreateSpecificStudySimplified(user.accountId, organizationVersionId)
-    case Environment.TILT:
-      return canCreateSpecificStudyTilt(user.accountId, study, organizationVersionId)
     case Environment.BC:
       return canCreateSpecificStudyBC(user.accountId, study, organizationVersionId)
     default:

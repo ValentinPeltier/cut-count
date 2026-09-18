@@ -11,9 +11,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@abc-transitionbascarbone/css": ["../../packages/css/index.ts"],
-      "@abc-transitionbascarbone/publicodes-count": ["../../packages/publicodes-packages/publicodes-count"],
-      "@abc-transitionbascarbone/publicodes-clickson": ["../../packages/publicodes-packages/publicodes-clickson"],
-      "@abc-transitionbascarbone/publicodes-tilt": ["../../packages/publicodes-packages/publicodes-tilt"]
+      "@abc-transitionbascarbone/publicodes-count": ["../../packages/publicodes-packages/publicodes-count"]
     }
   },
   "ts-node": {

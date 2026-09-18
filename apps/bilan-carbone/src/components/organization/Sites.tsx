@@ -124,11 +124,6 @@ const Sites = <T extends SitesCommand>({
             <p className="mb-2">
               <b>{tGlossary('ca', { unit: headerCAUnit })} :</b> {tGlossary('caDescription', { unit: headerCAUnit })}
             </p>
-            {environment === Environment.TILT && (
-              <p className="mb-2">
-                <b>{tGlossary('volunteer')} :</b> {tGlossary('volunteerDescription')}
-              </p>
-            )}
           </>
         )}
       </GlossaryModal>

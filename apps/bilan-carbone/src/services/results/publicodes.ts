@@ -1,11 +1,8 @@
 import { TOTAL_RULE } from '@/constants/publicodes'
-import { customPostOrder } from '@/environments/clickson/utils/constant'
-import { sortByCustomOrder } from '@/utils/array'
 import { Environment, StudyResultUnit, SubPost } from '@abc-transitionbascarbone/db-common'
 import { safeEvaluate } from '@abc-transitionbascarbone/publicodes/utils'
 import { Post, STUDY_UNIT_VALUES } from '@abc-transitionbascarbone/utils/charts'
 import Engine from 'publicodes'
-import { hasCustomPostOrder } from '../permissions/environment'
 import type { BaseResultsByPost } from '../posts'
 
 export const computeBaseResultsByPostFromEngine = <P extends Post>(
@@ -17,7 +14,7 @@ export const computeBaseResultsByPostFromEngine = <P extends Post>(
   getSubPostRuleName: (subPost: SubPost) => string | undefined,
   environment?: Environment,
 ) => {
-  let postResults = posts
+  const postResults = posts
     .map((post) => {
       const postRuleName = getPostRuleName(post)
       const postValue = safeEvaluate(engine, postRuleName)
@@ -42,12 +39,6 @@ export const computeBaseResultsByPostFromEngine = <P extends Post>(
       }
     })
     .sort((a, b) => a.label.localeCompare(b.label))
-
-  if (environment && hasCustomPostOrder(environment)) {
-    postResults = sortByCustomOrder(postResults, customPostOrder, (item) => item.post)
-  } else {
-    postResults.sort((a, b) => a.label.localeCompare(b.label))
-  }
 
   return [...postResults, computeTotalForBaseResults(engine, postResults, tPost)]
 }

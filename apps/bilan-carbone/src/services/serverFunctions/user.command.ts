@@ -1,4 +1,4 @@
-import { Country, Role, SiteCAUnit } from '@abc-transitionbascarbone/db-common/enums'
+import { Role, SiteCAUnit } from '@abc-transitionbascarbone/db-common/enums'
 import z from 'zod'
 
 export const EditProfileCommandValidation = z.object({
@@ -46,25 +46,3 @@ export const SignUpCutCommandValidation = z.object({
 })
 
 export type SignUpCutCommand = z.infer<typeof SignUpCutCommandValidation>
-
-export const SignUpTiltCommandValidation = z.object({
-  email: z
-    .email()
-    .trim()
-    .transform((email) => email.toLowerCase()),
-  siret: z.string().min(14).max(14).trim(),
-})
-
-export type SignUpTiltCommand = z.infer<typeof SignUpTiltCommandValidation>
-
-export const SignUpClicksonCommandValidation = z.object({
-  email: z
-    .email()
-    .trim()
-    .transform((email) => email.toLowerCase()),
-  schoolName: z.string().min(1),
-  city: z.string().optional(),
-  country: z.enum(Country).optional().nullable(),
-})
-
-export type SignUpClicksonCommand = z.infer<typeof SignUpClicksonCommandValidation>

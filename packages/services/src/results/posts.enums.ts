@@ -61,12 +61,4 @@ export enum TiltSimplifiedPost {
   EvenementSimplified = 'EvenementSimplified',
 }
 
-export enum ClicksonPost {
-  EnergiesClickson = 'EnergiesClickson',
-  Restauration = 'Restauration',
-  DeplacementsClickson = 'DeplacementsClickson',
-  Achats = 'Achats',
-  ImmobilisationsClickson = 'ImmobilisationsClickson',
-}
-
 export const TiltPost = { ...TiltAdvancedPost, ...TiltSimplifiedPost }

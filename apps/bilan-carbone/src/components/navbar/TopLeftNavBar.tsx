@@ -1,5 +1,5 @@
 import NavbarOrganizationMenu from '@/components/navbar/NavbarOrganizationMenu'
-import { hasAlwaysAccessToOrganizationVersion, hasHomeButtonHeader, isTilt } from '@/services/permissions/environment'
+import { hasAlwaysAccessToOrganizationVersion, hasHomeButtonHeader } from '@/services/permissions/environment'
 import { hasAccessToEmissionFactors } from '@/services/permissions/environmentAdvanced'
 import { isAdmin } from '@/utils/user'
 import { Role } from '@abc-transitionbascarbone/db-common/enums'
@@ -14,11 +14,9 @@ import styles from './Navbar.module.css'
 interface Props {
   user: UserSession
   hasFormation: boolean
-  isFootprintsEnabled: boolean
-  hasTrainedUsers: boolean
 }
 
-const TopLeftNavBar = ({ user, hasFormation, isFootprintsEnabled, hasTrainedUsers }: Props) => {
+const TopLeftNavBar = ({ user, hasFormation }: Props) => {
   const t = useTranslations('navigation')
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
@@ -62,20 +60,11 @@ const TopLeftNavBar = ({ user, hasFormation, isFootprintsEnabled, hasTrainedUser
                 {t('team')}
               </NavbarLink>
             </MenuItem>
-            {(!isTilt(user.environment) || hasTrainedUsers) && (
-              <MenuItem onClick={handleClose}>
-                <NavbarLink data-testid="link-organization" href="/organisations" onClick={handleClose}>
-                  {t('organizations')}
-                </NavbarLink>
-              </MenuItem>
-            )}
-            {isTilt(user.environment) && isFootprintsEnabled && (
-              <MenuItem onClick={handleClose}>
-                <NavbarLink data-testid="link-organization" href="/mes-empreintes" onClick={handleClose}>
-                  {t('footprints')}
-                </NavbarLink>
-              </MenuItem>
-            )}
+            <MenuItem onClick={handleClose}>
+              <NavbarLink data-testid="link-organization" href="/organisations" onClick={handleClose}>
+                {t('organizations')}
+              </NavbarLink>
+            </MenuItem>
           </NavbarOrganizationMenu>
         </Box>
       )}

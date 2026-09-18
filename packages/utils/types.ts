@@ -1,6 +1,3 @@
-import {
-  Role,
-  RoleMip,
-} from '@abc-transitionbascarbone/db-common/enums'
+import { Role } from '@abc-transitionbascarbone/db-common/enums'
 
-export type RoleBcOrMip = Role | RoleMip
+export type RoleBcOrMip = Role

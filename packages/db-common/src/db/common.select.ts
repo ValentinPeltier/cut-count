@@ -13,14 +13,9 @@ const baseUserInfoSelect = {
   status: true,
   role: true,
   updatedAt: true,
-} satisfies Prisma.AccountSelect & Prisma.AccountMipSelect
+} satisfies Prisma.AccountSelect
 
 export const findAccountSelect = (extra?: Prisma.AccountSelect): Prisma.AccountSelect => ({
-  ...baseUserInfoSelect,
-  ...(extra || {}),
-})
-
-export const findAccountMipSelect = (extra?: Prisma.AccountMipSelect): Prisma.AccountMipSelect => ({
   ...baseUserInfoSelect,
   ...(extra || {}),
 })

@@ -1,22 +1,16 @@
-import { isFeatureActiveForEnvironment } from '@/db/deactivableFeatures'
-import { DeactivatableFeature, Environment } from '@abc-transitionbascarbone/db-common/enums'
+import { Environment } from '@abc-transitionbascarbone/db-common/enums'
 import { Locale } from '@abc-transitionbascarbone/i18n/config'
 import { isAdvanced, isSimplified } from '@abc-transitionbascarbone/utils/environments'
 
-const { BC, CUT, TILT, CLICKSON } = Environment
+const { BC, CUT } = Environment
 
 export const isBC = (environment: Environment) => environment === BC
-export const isTilt = (environment: Environment) => environment === TILT
 export const isCut = (environment: Environment) => environment === CUT
-export const isClickson = (environment: Environment) => environment === CLICKSON
 
 export const getLocalesForEnv = (environment: Environment) => {
   switch (environment) {
-    case Environment.TILT:
     case Environment.CUT:
       return [Locale.FR]
-    case Environment.CLICKSON:
-      return Object.values(Locale)
     default:
       return [Locale.EN, Locale.FR]
   }
@@ -34,13 +28,11 @@ export const hasAccessToStudyFlowExample = isAdvanced
 
 export const hasWasteImpact = isAdvanced
 
-export const hasAccessToBcExport = isTilt
+export const hasAccessToBcExport = (_environment: Environment) => false
 
-export const hasAccessToDependencyMatrix = isTilt
+export const hasAccessToDependencyMatrix = (_environment: Environment) => false
 
-// environnement is not used but kept for consistency
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const hasAccessToDependencyMatrixExample = (environment: Environment) => false
+export const hasAccessToDependencyMatrixExample = (_environment: Environment) => false
 
 export const needsLicenceToUseApp = isBC
 
@@ -52,88 +44,71 @@ export const hasRoleOnStudy = isAdvanced
 
 export const hasAccessToCarbonResponsibilityIntensities = isAdvanced
 
-export const hasAccessToMonetaryRatio = (environment: Environment) =>
-  ([BC, TILT, CUT] as Environment[]).includes(environment)
+export const hasAccessToMonetaryRatio = (_environment: Environment) => true
 
 export const hasAccessToCreateStudyWithEmissionFactorVersions = isSimplified
 
-export const showResultsInfoText = (env: Environment) => isCut(env) || isTilt(env)
+export const showResultsInfoText = isCut
 
-export const displayingStudyRightModalForAddingContributors = (environment: Environment) => !isClickson(environment)
+export const displayingStudyRightModalForAddingContributors = (_environment: Environment) => true
 
 export const hasHomeAlert = isSimplified
 
-export const hasAccessToAllLocales = isClickson
+export const hasAccessToAllLocales = (_environment: Environment) => false
 
-export const hasAccessToSimplifiedEmissionAnalysis = isClickson
+export const hasAccessToSimplifiedEmissionAnalysis = (_environment: Environment) => false
 
 export const canCreateStudyWithoutSpecificRights = isCut
 
-export const canCreateStudyOnlyAsAdministrator = isClickson
+export const canCreateStudyOnlyAsAdministrator = (_environment: Environment) => false
 
-export const hasAccessToStudySiteAddAndSelection = (environment: Environment) =>
-  ([BC, TILT, CUT] as Environment[]).includes(environment)
+export const hasAccessToStudySiteAddAndSelection = (_environment: Environment) => true
 
 export const hasAccessToStudyHomePage = isAdvanced
 
-export const hasAccessToSimplifiedStudies = (env: Environment) => {
-  return isSimplified(env) || isTilt(env)
-}
+export const hasAccessToSimplifiedStudies = isSimplified
 
-export const hasReaderRoleOnStudyAsContributor = isClickson
+export const hasReaderRoleOnStudyAsContributor = (_environment: Environment) => false
 
-export const hasAccessToStudyComments = isClickson
+export const hasAccessToStudyComments = (_environment: Environment) => false
 
-export const hasAccessToManualImport = (environment: Environment) =>
-  ([BC, TILT, CUT] as Environment[]).includes(environment)
+export const hasAccessToManualImport = (_environment: Environment) => true
 
-export const hasCustomGlossaryTextForEstablishment = isClickson
+export const hasCustomGlossaryTextForEstablishment = (_environment: Environment) => false
 
 export const hasAccessToStudyResults = isAdvanced
 
-export const hasCustomPostOrder = isClickson
+export const hasCustomPostOrder = (_environment: Environment) => false
 
 export const hasAccessToResultsRatioTab = isCut
 
-export const hasAccessToAdvancedEmissionAnalysis = isTilt
+export const hasAccessToAdvancedEmissionAnalysis = (_environment: Environment) => false
 
-export const hasAlwaysAccessToOrganizationVersion = (environment: Environment) =>
-  ([TILT, CLICKSON] as Environment[]).includes(environment)
+export const hasAlwaysAccessToOrganizationVersion = (_environment: Environment) => false
 
-export const hasStartLinkOnFootprints = isTilt
+export const hasStartLinkOnFootprints = (_environment: Environment) => false
 
-export const hasAccessToPostTypeform = isTilt
+export const hasAccessToPostTypeform = (_environment: Environment) => false
 
-export const hasAccessToReductionObjectivesGlossary = isTilt
+export const hasAccessToReductionObjectivesGlossary = (_environment: Environment) => false
 
-export const isTiltSimplifiedFeatureActive = async (environment: Environment) => {
-  if (!isTilt(environment)) {
-    return true
-  }
+export const hasAccessToHomeSubtitle = (_environment: Environment) => false
 
-  return isFeatureActiveForEnvironment(DeactivatableFeature.TiltSimplified, environment)
-}
+export const hasAccessToNamingInAddContributor = (_environment: Environment) => false
 
-export const hasAccessToHomeSubtitle = isClickson
+export const hasHomeButtonHeader = (_environment: Environment) => false
 
-export const hasAccessToNamingInAddContributor = isClickson
+export const hasAccessToPDFExport = isCut
 
-export const hasHomeButtonHeader = isClickson
+export const hasAccessToFeedbackButton = (_environment: Environment) => false
 
-export const hasAccessToPDFExport = (environment: Environment) =>
-  ([CUT, CLICKSON] as Environment[]).includes(environment)
+export const hasBCExportWithSimplifiedStudy = isCut
 
-export const hasAccessToFeedbackButton = isTilt
-
-export const hasBCExportWithSimplifiedStudy = (environment: Environment) => {
-  return environment === CUT
-}
-
-const environmentWithSimplifiedStudies = [CUT, CLICKSON, TILT] as const
+const environmentWithSimplifiedStudies = [CUT] as const
 export type EnvironmentWithSimplifiedStudies = (typeof environmentWithSimplifiedStudies)[number]
 
 export const hasSimplifiedStudies = (env: Environment): env is EnvironmentWithSimplifiedStudies => {
   return environmentWithSimplifiedStudies.includes(env as EnvironmentWithSimplifiedStudies)
 }
 
-export const isRedirectedToCadrage = (environment: Environment) => isCut(environment) || isClickson(environment)
+export const isRedirectedToCadrage = isCut

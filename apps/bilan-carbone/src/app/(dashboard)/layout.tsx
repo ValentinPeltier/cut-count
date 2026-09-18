@@ -7,7 +7,6 @@ import { getAllowedStudyIdByAccount } from '@/db/study'
 import EnvironmentInitializer from '@/environments/core/EnvironmentInitializer'
 import DynamicTheme from '@/environments/core/providers/DynamicTheme'
 import { getEnvironment } from '@/i18n/environment'
-import { isTiltSimplifiedFeatureActive } from '@/services/permissions/environment'
 import { shouldRenewLicenceText } from '@/utils/organization'
 import { Environment } from '@abc-transitionbascarbone/db-common/enums'
 import { environmentsWithChecklist } from '@abc-transitionbascarbone/utils/environments'
@@ -25,10 +24,9 @@ const NavLayout = async ({ children, user: account }: Props & UserSessionProps) 
     return <main className={styles.content}>{children}</main>
   }
 
-  const [organizationVersions, studyId, isTiltSimplifiedActive] = await Promise.all([
+  const [organizationVersions, studyId] = await Promise.all([
     getAccountOrganizationVersions(account.accountId),
     getAllowedStudyIdByAccount(account),
-    isTiltSimplifiedFeatureActive(account.environment),
   ])
 
   const accountOrganizationVersion = organizationVersions.find(
@@ -44,17 +42,10 @@ const NavLayout = async ({ children, user: account }: Props & UserSessionProps) 
 
   const withOrganizationCard = shouldDisplayOrgaData || !!shouldRenewLicenseText
 
-  const hasTrainedUsers = !!accountOrganizationVersion?.userAccounts.some((account) => account.user.level !== null)
-
   return (
     <DynamicTheme environment={environment}>
       <Box className={classNames('flex-col h100', { [styles.withOrganizationCard]: withOrganizationCard })}>
-        <Navbar
-          user={account}
-          environment={environment}
-          isFootprintsEnabled={isTiltSimplifiedActive}
-          hasTrainedUsers={hasTrainedUsers}
-        />
+        <Navbar user={account} environment={environment} />
         {withOrganizationCard && (
           <OrganizationCard
             account={account}

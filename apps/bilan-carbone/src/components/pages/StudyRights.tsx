@@ -1,4 +1,3 @@
-import { getOrganizationVersionWithSitesById } from '@/db/organization'
 import type { FullStudy } from '@/db/study'
 import { getUserApplicationSettings } from '@/db/user'
 import DynamicStudyRights from '@/environments/core/study/DynamicStudyRights'
@@ -23,8 +22,6 @@ const StudyRightsPage = async ({ study, user }: Props) => {
   const editionDisabled = !hasEditionRights(userRoleOnStudy)
 
   const caUnit = (await getUserApplicationSettings(user.accountId))?.caUnit || defaultCAUnit
-
-  const organizationVersion = await getOrganizationVersionWithSitesById(study.organizationVersionId)
 
   const emissionFactorImportVersionRes = await getEmissionFactorImportVersions(true)
   if (!emissionFactorImportVersionRes.success) {
@@ -59,7 +56,6 @@ const StudyRightsPage = async ({ study, user }: Props) => {
         userRoleOnStudy={userRoleOnStudy}
         emissionFactorSources={emissionFactorImportVersionRes.data}
         caUnit={caUnit}
-        organizationVersion={organizationVersion}
       />
     </>
   )

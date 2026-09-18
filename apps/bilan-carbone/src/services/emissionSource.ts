@@ -10,7 +10,6 @@ import {
   Import,
   SubPost,
 } from '@abc-transitionbascarbone/db-common/enums'
-import { convertTiltSubPostToBCSubPost } from './posts'
 import { getConfidenceInterval, getSquaredStandardDeviationForEmissionSource } from './uncertainty'
 
 type CaracterisationsBySubPost = Partial<Record<SubPost, EmissionSourceCaracterisation[]>>
@@ -393,15 +392,11 @@ export const getAllCaracterisationsBySubPost = (controlMode: ControlMode): Carac
 
 export const getCaracterisationsBySubPost = (
   subPost: SubPost,
-  environment: Environment | undefined,
+  _environment: Environment | undefined,
   exportTypes: Export[],
   controlMode: ControlMode,
 ) => {
-  let subPostToUse = subPost
-  if (environment === Environment.TILT) {
-    const bcSubpost = convertTiltSubPostToBCSubPost(subPost)
-    subPostToUse = bcSubpost
-  }
+  const subPostToUse = subPost
 
   if (!exportTypes) {
     return []

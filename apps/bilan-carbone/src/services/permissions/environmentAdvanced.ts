@@ -1,30 +1,26 @@
 import { Environment, Level } from '@abc-transitionbascarbone/db-common/enums'
-import { hasAccessToCarbonResponsibilityIntensities, isTilt } from './environment'
+import { hasAccessToCarbonResponsibilityIntensities } from './environment'
 
-const { BC, CUT, TILT, CLICKSON } = Environment
+const { BC, CUT } = Environment
 
-export const isTiltSimplified = (environment: Environment, simplified?: boolean | null) =>
-  isTilt(environment) && simplified
+export const isTiltSimplified = (_environment: Environment, _simplified?: boolean | null) => false
 
-export const isAdvancedAndNotTiltSimplified = (environment: Environment, simplified?: boolean | null) =>
-  ([BC, TILT] as Environment[]).includes(environment) && !isTiltSimplified(environment, simplified)
+export const isAdvancedAndNotTiltSimplified = (environment: Environment, _simplified?: boolean | null) =>
+  environment === BC
 
-export const hasAccessToEmissionFactors = (environment: Environment, userLevel: Level | null) =>
-  ([BC, CLICKSON] as Environment[]).includes(environment) || (environment === TILT && !!userLevel)
+export const hasAccessToEmissionFactors = (environment: Environment, _userLevel: Level | null) => environment === BC
 
-export const hasAccessToStudies = (environment: Environment, userLevel: Level | null) =>
-  ([BC, CUT, CLICKSON] as Environment[]).includes(environment) || (environment === TILT && !!userLevel)
+export const hasAccessToStudies = (environment: Environment, _userLevel: Level | null) =>
+  environment === BC || environment === CUT
 
-export const hasAccessToSettings = (environment: Environment, userLevel: Level | null) =>
-  ([BC] as Environment[]).includes(environment) || (environment === TILT && !!userLevel)
+export const hasAccessToSettings = (environment: Environment, _userLevel: Level | null) => environment === BC
 
-export const hasAccessToMethodology = (environment: Environment, userLevel: Level | null) =>
-  ([BC] as Environment[]).includes(environment) || (environment === TILT && !!userLevel)
+export const hasAccessToMethodology = (environment: Environment, _userLevel: Level | null) => environment === BC
 
 export const hasAccessToCarbonResponsibilityIntensitiesAdvanced = (
   environment: Environment,
-  simplified?: boolean | null,
-) => !isTiltSimplified(environment, simplified) && hasAccessToCarbonResponsibilityIntensities(environment)
+  _simplified?: boolean | null,
+) => hasAccessToCarbonResponsibilityIntensities(environment)
 
 export const hasAccessToEngagementActions = isAdvancedAndNotTiltSimplified
 

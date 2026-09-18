@@ -84,10 +84,6 @@ function matchCaracterisationLabelFromTranslations(
 }
 
 export function getValidSubPostsForEnvironment(environment: Environment): Set<SubPost> {
-  if (environment === Environment.MIP) {
-    return new Set([])
-  }
-
   const mapping = environmentSubPostsMapping[environment]
 
   if (!mapping) {

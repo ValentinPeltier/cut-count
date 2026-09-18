@@ -1,11 +1,5 @@
 import DynamicComponent from '@/environments/core/utils/DynamicComponent'
-import {
-  hasAccessToHomeSubtitle,
-  hasHomeAlert,
-  hasStartLinkOnFootprints,
-  isTilt,
-  isTiltSimplifiedFeatureActive,
-} from '@/services/permissions/environment'
+import { hasAccessToHomeSubtitle, hasHomeAlert, hasStartLinkOnFootprints } from '@/services/permissions/environment'
 import { hasAccessToStudies } from '@/services/permissions/environmentAdvanced'
 import { customRich } from '@abc-transitionbascarbone/utils/customRich'
 import Groups2OutlinedIcon from '@mui/icons-material/Groups2Outlined'
@@ -34,12 +28,7 @@ const UserView = async ({ account }: Props) => {
 
   const hasAlert = hasHomeAlert(account.environment)
 
-  let isFootprintsEnabled = false
-  if (!isTilt(account.environment)) {
-    isFootprintsEnabled = true
-  } else {
-    isFootprintsEnabled = await isTiltSimplifiedFeatureActive(account.environment)
-  }
+  const isFootprintsEnabled = true
 
   return (
     <div className={styles.block}>

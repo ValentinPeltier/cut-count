@@ -2,7 +2,6 @@ import { BCEnvironment } from '@/types/environment'
 import { Environment, SubPost } from '@abc-transitionbascarbone/db-common/enums'
 import {
   BCPost,
-  ClicksonPost,
   CutPost,
   TiltAdvancedPost,
   TiltSimplifiedPost,
@@ -10,9 +9,9 @@ import {
 import { Post } from '@abc-transitionbascarbone/utils/charts'
 
 // Re-export enums for backward compatibility
-export { BCPost, ClicksonPost, CutPost, TiltAdvancedPost, TiltSimplifiedPost }
+export { BCPost, CutPost, TiltAdvancedPost, TiltSimplifiedPost }
 
-export type SimplifiedPost = CutPost | ClicksonPost | TiltSimplifiedPost
+export type SimplifiedPost = CutPost | TiltSimplifiedPost
 
 export type BaseResultsByPost = {
   post: Post | SubPost | 'total'
@@ -185,39 +184,9 @@ export const subPostsByPostTILTSimplified: Record<TiltSimplifiedPost, SubPost[]>
   [TiltSimplifiedPost.EvenementSimplified]: [SubPost.Evenement],
 }
 
-export const subPostsByPostClickson: Record<ClicksonPost, SubPost[]> = {
-  [ClicksonPost.EnergiesClickson]: [SubPost.Electricite, SubPost.Combustibles, SubPost.AutresGaz],
-  [ClicksonPost.Restauration]: [
-    SubPost.TypesDeRepasServis,
-    SubPost.DistributeursAutomatiques,
-    SubPost.Fret,
-    SubPost.DechetsOrganiques,
-  ],
-  [ClicksonPost.DeplacementsClickson]: [
-    SubPost.TransportDesEleves,
-    SubPost.TransportDuPersonnel,
-    SubPost.VoyagesScolaires,
-  ],
-  [ClicksonPost.Achats]: [
-    SubPost.Fournitures,
-    SubPost.ProduitsChimiques,
-    SubPost.EquipementsDeSport,
-    SubPost.DechetsRecyclables,
-    SubPost.OrduresMenageresResiduelles,
-  ],
-  [ClicksonPost.ImmobilisationsClickson]: [
-    SubPost.Construction,
-    SubPost.Renovation,
-    SubPost.EquipementsInformatiqueAudiovisuel,
-    SubPost.EquipementsDivers,
-  ],
-}
-
 export const environmentPostMapping = {
   [Environment.BC]: BCPost,
   [Environment.CUT]: CutPost,
-  [Environment.TILT]: TiltAdvancedPost,
-  [Environment.CLICKSON]: ClicksonPost,
 }
 
 export const subPostsByPost: Record<Post, SubPost[]> = {
@@ -225,14 +194,11 @@ export const subPostsByPost: Record<Post, SubPost[]> = {
   ...subPostsByPostCUT,
   ...subPostsByPostTILT,
   ...subPostsByPostTILTSimplified,
-  ...subPostsByPostClickson,
 }
 
 export const environmentSubPostsMapping = {
   [Environment.BC]: subPostsByPostBC,
   [Environment.CUT]: subPostsByPostCUT,
-  [Environment.TILT]: subPostsByPostTILT,
-  [Environment.CLICKSON]: subPostsByPostClickson,
 }
 
 export const subPostTiltToBcSubPostMapping: Partial<Record<SubPost, SubPost>> = {
@@ -339,26 +305,6 @@ export const subPostToBCPostMapping: Partial<Record<SubPost, BCPost>> = {
   [SubPost.MaterielCinema]: BCPost.IntrantsBiensEtMatieres,
   [SubPost.CommunicationDigitale]: BCPost.Immobilisations,
   [SubPost.CaissesEtBornes]: BCPost.Immobilisations,
-
-  // Clickson sub-posts
-  [SubPost.Electricite]: BCPost.Energies,
-  [SubPost.Combustibles]: BCPost.Energies,
-  [SubPost.AutresGaz]: BCPost.Energies,
-  [SubPost.TypesDeRepasServis]: BCPost.IntrantsBiensEtMatieres,
-  [SubPost.DistributeursAutomatiques]: BCPost.IntrantsBiensEtMatieres,
-  [SubPost.DechetsOrganiques]: BCPost.DechetsDirects,
-  [SubPost.TransportDesEleves]: BCPost.Deplacements,
-  [SubPost.TransportDuPersonnel]: BCPost.Deplacements,
-  [SubPost.VoyagesScolaires]: BCPost.Deplacements,
-  [SubPost.Fournitures]: BCPost.IntrantsBiensEtMatieres,
-  [SubPost.ProduitsChimiques]: BCPost.IntrantsBiensEtMatieres,
-  [SubPost.EquipementsDeSport]: BCPost.IntrantsBiensEtMatieres,
-  [SubPost.DechetsRecyclables]: BCPost.DechetsDirects,
-  [SubPost.OrduresMenageresResiduelles]: BCPost.DechetsDirects,
-  [SubPost.Construction]: BCPost.Immobilisations,
-  [SubPost.Renovation]: BCPost.Immobilisations,
-  [SubPost.EquipementsInformatiqueAudiovisuel]: BCPost.Immobilisations,
-  [SubPost.EquipementsDivers]: BCPost.Immobilisations,
 
   // Common sub-posts
   [SubPost.Fret]: BCPost.Fret,

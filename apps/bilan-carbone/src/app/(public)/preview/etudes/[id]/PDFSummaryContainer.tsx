@@ -8,7 +8,6 @@ import { NextIntlClientProvider } from 'next-intl'
 import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
 
-const PDFSummaryClickson = dynamic(() => import('@/environments/clickson/study/PDF/PDFSummary'))
 const PDFSummaryCut = dynamic(() => import('@/environments/cut/study/PDF/PDFSummary'))
 
 interface Props {
@@ -36,7 +35,7 @@ const PDFSummaryContainer = ({ study, environment, locale }: Props) => {
     <NextIntlClientProvider locale={messages.locale} messages={messages.messages}>
       <DynamicComponent
         forceEnvironment={environment}
-        environmentComponents={{ [Environment.CLICKSON]: <PDFSummaryClickson study={study} /> }}
+        environmentComponents={{}}
         defaultComponent={<PDFSummaryCut study={study} />}
       />
     </NextIntlClientProvider>

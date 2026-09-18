@@ -1,11 +1,8 @@
 'use client'
 
-import { OrganizationWithSites } from '@/db/account'
 import type { FullStudy } from '@/db/study'
 import StudyRights from '@/environments/base/study/StudyRights'
-import StudyRightsClickson from '@/environments/clickson/study/StudyRightsClickson'
 import StudyRightsCut from '@/environments/cut/study/StudyRightsCut'
-import StudyRightsTiltSimplified from '@/environments/tilt/study/StudyRightsTiltSimplified'
 import type { EmissionFactorImportVersion } from '@abc-transitionbascarbone/db-common'
 import { Environment, SiteCAUnit, StudyRole } from '@abc-transitionbascarbone/db-common/enums'
 import { UserSession } from 'next-auth'
@@ -18,49 +15,22 @@ interface Props {
   userRoleOnStudy: StudyRole
   emissionFactorSources: EmissionFactorImportVersion[]
   caUnit: SiteCAUnit
-  organizationVersion: OrganizationWithSites | null
 }
 
-const DynamicStudyRights = ({
-  user,
-  study,
-  editionDisabled,
-  userRoleOnStudy,
-  emissionFactorSources,
-  caUnit,
-  organizationVersion,
-}: Props) => {
+const DynamicStudyRights = ({ user, study, editionDisabled, userRoleOnStudy, emissionFactorSources }: Props) => {
   return (
     <DynamicComponent
       defaultComponent={
-        study.simplified ? (
-          <StudyRightsTiltSimplified
-            study={study}
-            caUnit={caUnit}
-            user={user}
-            organizationVersion={organizationVersion}
-            userRoleOnStudy={userRoleOnStudy}
-          />
-        ) : (
-          <StudyRights
-            user={user}
-            study={study}
-            editionDisabled={editionDisabled}
-            userRoleOnStudy={userRoleOnStudy}
-            emissionFactorSources={emissionFactorSources}
-          />
-        )
+        <StudyRights
+          user={user}
+          study={study}
+          editionDisabled={editionDisabled}
+          userRoleOnStudy={userRoleOnStudy}
+          emissionFactorSources={emissionFactorSources}
+        />
       }
       environmentComponents={{
         [Environment.CUT]: <StudyRightsCut study={study} />,
-        [Environment.CLICKSON]: (
-          <StudyRightsClickson
-            study={study}
-            editionDisabled={editionDisabled}
-            emissionFactorSources={emissionFactorSources}
-            user={user}
-          />
-        ),
       }}
     />
   )
