@@ -41,8 +41,8 @@ const cutResourcesFixture = [
   {
     title: 'countMethods',
     links: [
-      { title: 'countMethodLink', downloadKey: 'SCW_CUT_METHOD_KEY' },
-      { title: 'resilioMethodLink', downloadKey: 'SCW_RESILIO_METHOD_KEY' },
+      { title: 'countMethodLink', downloadKey: 'count' },
+      { title: 'resilioMethodLink', downloadKey: 'resilio' },
     ],
   },
   {

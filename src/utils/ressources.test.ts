@@ -40,8 +40,8 @@ describe('getEnvironnementRessources', () => {
 
     expect(methodsSection).toBeDefined()
     expect(methodsSection?.links).toEqual([
-      { title: 'countMethodLink', downloadKey: 'SCW_CUT_METHOD_KEY' },
-      { title: 'resilioMethodLink', downloadKey: 'SCW_RESILIO_METHOD_KEY' },
+      { title: 'countMethodLink', downloadKey: 'count' },
+      { title: 'resilioMethodLink', downloadKey: 'resilio' },
     ])
     expect(resources.some((section) => section.title === 'questionMethodo')).toBe(true)
     expect(resources.some((section) => section.title === 'enSavoirPlusBilan')).toBe(true)

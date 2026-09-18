@@ -8,10 +8,6 @@ const LOCALE_COOKIE = 'NEXT_LOCALE'
 const publicRoutes = ['/login', '/register', '/reset-password', '/activation', '/preview', '/count']
 const assetsRoutes = ['/_next', '/img']
 
-const bucketName = process.env.SCW_BUCKET_NAME as string
-const region = process.env.SCW_REGION
-
-const scaleway = `https://${bucketName}.s3.${region}.scw.cloud`
 const logos = ['https://base-empreinte.ademe.fr', 'https://www.legifrance.gouv.fr', ''].join(' ')
 
 const nonce = Buffer.from(crypto.randomUUID()).toString('base64')
@@ -53,8 +49,8 @@ export async function proxy(req: NextRequest) {
     base-uri 'self';
     form-action 'self';
     frame-ancestors 'none';
-    frame-src 'self' ${scaleway} https://www.youtube.com https://form.typeform.com;
-    connect-src 'self' ${scaleway} https://api.typeform.com;
+    frame-src 'self' https://www.youtube.com https://form.typeform.com;
+    connect-src 'self' https://api.typeform.com;
   `
   const contentSecurityPolicyHeader = cspHeader.replace(/\s{2,}/g, ' ').trim()
 
@@ -74,7 +70,8 @@ export async function proxy(req: NextRequest) {
 export const config = {
   matcher: [
     {
-      source: '/((?!_next/static|_next/image|favicon.ico|images|logos|api/auth|api/schools/*|api/cron/*).*)',
+      source:
+        '/((?!_next/static|_next/image|favicon.ico|images|logos|api/auth|api/ressources/*|api/schools/*|api/cron/*).*)',
       missing: [
         { type: 'header', key: 'next-router-prefetch' },
         { type: 'header', key: 'purpose', value: 'prefetch' },

@@ -39,6 +39,7 @@ const extraCopies = [
   ['src/i18n/translations', 'src/i18n/translations'],
   ['src/lib/i18n/translations', 'src/lib/i18n/translations'],
   ['src/lib/services/email/views', 'src/lib/services/email/views'],
+  ['private/ressources', 'private/ressources'],
 ]
 
 async function main() {

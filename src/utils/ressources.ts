@@ -56,11 +56,11 @@ export const getEnvironnementRessources = async (env: Environment, t: Translatio
           links: [
             {
               title: t('countMethodLink'),
-              downloadKey: 'SCW_CUT_METHOD_KEY',
+              downloadKey: 'count',
             },
             {
               title: t('resilioMethodLink'),
-              downloadKey: 'SCW_RESILIO_METHOD_KEY',
+              downloadKey: 'resilio',
             },
           ],
         },
