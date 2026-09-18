@@ -29,7 +29,7 @@ const NavLayout = async ({ children, params, user }: Props & UserSessionProps) =
   }
 
   const userRole = await getAccountRoleOnStudy(user, study)
-  const showRoleInChip = user && hasRoleOnStudy(user.environment)
+  const showRoleInChip = user && hasRoleOnStudy()
 
   return (
     <>

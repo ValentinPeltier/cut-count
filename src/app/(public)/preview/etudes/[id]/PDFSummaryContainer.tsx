@@ -1,5 +1,5 @@
 'use client'
-import { Environment } from '@/db-common/enums'
+
 import type { FullStudy } from '@/db/study'
 import PDFSummaryCut from '@/environments/cut/study/PDF/PDFSummary'
 import { getMessages } from '@/i18n/utils'
@@ -9,20 +9,19 @@ import { useEffect, useState } from 'react'
 
 interface Props {
   study: FullStudy
-  environment: Environment
   locale: LocaleType
 }
 
-const PDFSummaryContainer = ({ study, environment, locale }: Props) => {
+const PDFSummaryContainer = ({ study, locale }: Props) => {
   const [messages, setMessages] = useState<{ locale: LocaleType; messages: object } | null>(null)
 
   useEffect(() => {
-    const setMessagesLocaleEnvironment = async () => {
-      const messages = await getMessages(locale, environment)
+    const setMessagesLocale = async () => {
+      const messages = await getMessages(locale)
       setMessages(messages)
     }
-    setMessagesLocaleEnvironment()
-  }, [environment, locale])
+    setMessagesLocale()
+  }, [locale])
 
   if (!messages) {
     return null

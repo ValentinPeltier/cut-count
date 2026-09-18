@@ -1,5 +1,5 @@
 import type { Level, Prisma } from '@/db-common'
-import { Environment, Import, StudyRole } from '@/db-common/enums'
+import { Import, StudyRole } from '@/db-common/enums'
 import { getEnvVar } from '@/lib/environment'
 import { isSourceForEnv } from '@/services/importEmissionFactor/import'
 import { hasAccessToCreateStudyWithEmissionFactorVersions } from '@/services/permissions/environment'
@@ -16,7 +16,6 @@ import { prismaClient } from './client.server'
 
 export const createStudy = async (
   data: Prisma.StudyCreateInput,
-  environment: Environment,
   shouldCreateFEVersions = true,
   tx?: Prisma.TransactionClient,
 ) => {
@@ -39,7 +38,7 @@ export const createStudy = async (
     },
   })
 
-  if (hasAccessToCreateStudyWithEmissionFactorVersions(environment) || shouldCreateFEVersions) {
+  if (hasAccessToCreateStudyWithEmissionFactorVersions() || shouldCreateFEVersions) {
     const studyEmissionFactorVersions = (await getSourceCutImportVersionIds()).map((importVersion) => ({
       studyId: dbStudy.id,
       source: importVersion.source,
@@ -132,7 +131,6 @@ const fullStudyInclude = {
       parent: {
         select: { id: true },
       },
-      environment: true,
       organization: {
         select: {
           id: true,
@@ -276,7 +274,6 @@ export const getAllowedStudiesByUserAndOrganization = async (
     where: { id: organizationVersionId },
     select: {
       id: true,
-      environment: true,
       parentId: true,
     },
   })
@@ -356,7 +353,6 @@ export const getStudyForNavbar = async (id: string): Promise<StudyForNavbar | nu
         select: {
           id: true,
           parentId: true,
-          environment: true,
         },
       },
       allowedUsers: {
@@ -396,7 +392,6 @@ export const getStudiesForCards = async (ids: string[]) => {
         select: {
           id: true,
           parentId: true,
-          environment: true,
         },
       },
     },
@@ -641,8 +636,8 @@ export const getStudiesSitesFromIds = async (siteIds: string[]) =>
   })
 
 export const getSourceCutImportVersionIds = async () => {
-  const cutFeLegifrance = (await getEnvVar('FE_LEGIFRANCE_VERSION', Environment.CUT)) || ''
-  const cutFeBaseEmpreinte = (await getEnvVar('FE_BASE_EMPREINTE_VERSION', Environment.CUT)) || ''
+  const cutFeLegifrance = (await getEnvVar('FE_LEGIFRANCE_VERSION')) || ''
+  const cutFeBaseEmpreinte = (await getEnvVar('FE_BASE_EMPREINTE_VERSION')) || ''
   return prismaClient.emissionFactorImportVersion.findMany({
     select: { id: true, source: true },
     where: {
@@ -657,10 +652,8 @@ export const getSourceCutImportVersionIds = async () => {
   })
 }
 
-export const getSourceEnvironmentImportVersionIds = async (
-  environment: Environment,
-): Promise<{ id: string; source: Import }[]> => {
-  const sources = await isSourceForEnv(environment)
+export const getSourceEnvironmentImportVersionIds = async (): Promise<{ id: string; source: Import }[]> => {
+  const sources = await isSourceForEnv()
   return prismaClient.emissionFactorImportVersion.findMany({
     select: { id: true, source: true },
     where: {
@@ -754,14 +747,14 @@ export const addSourceToStudy = async (source: Import, studyId: string) => {
       select: {
         id: true,
         organizationVersion: {
-          select: { environment: true },
+          select: { id: true },
         },
       },
     }),
     getSourceLatestImportVersionId(source),
   ])
 
-  if (study && !!importVersion && (await isSourceForEnv(study.organizationVersion.environment)).includes(source)) {
+  if (study && !!importVersion && (await isSourceForEnv()).includes(source)) {
     await prismaClient.studyEmissionFactorVersion.createMany({
       data: { studyId: study.id, source, importVersionId: importVersion.id },
       skipDuplicates: true,

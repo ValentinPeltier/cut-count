@@ -1,4 +1,4 @@
-import { Environment, SubPost } from '@/db-common/enums'
+import { SubPost } from '@/db-common/enums'
 import { CutPost } from '@/lib/services/results/posts.enums'
 import { Post } from '@/lib/utils/charts'
 
@@ -34,21 +34,17 @@ export const subPostsByPostCUT: Record<CutPost, SubPost[]> = {
   ],
 }
 
-export const environmentPostMapping = {
-  [Environment.CUT]: CutPost,
-}
+export const environmentPostMapping = CutPost
 
 export const subPostsByPost: Record<Post, SubPost[]> = {
   ...subPostsByPostCUT,
 }
 
-export const environmentSubPostsMapping = {
-  [Environment.CUT]: subPostsByPostCUT,
-}
+export const environmentSubPostsMapping = subPostsByPostCUT
 
-export const getEnvPosts = (_environment?: Environment | null): Post[] => Object.values(CutPost)
+export const getEnvPosts = (): Post[] => Object.values(CutPost)
 
-export const getEnvSubPosts = (_environment?: Environment | null): SubPost[] => Object.values(subPostsByPostCUT).flat()
+export const getEnvSubPosts = (): SubPost[] => Object.values(subPostsByPostCUT).flat()
 
 export const convertSimplifiedEnvToBilanCarbone = (results: BaseResultsByPost[]): Record<string, number> =>
   Object.fromEntries(results.filter((result) => result.post !== 'total').map((result) => [result.label, result.value]))

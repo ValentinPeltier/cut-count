@@ -1,6 +1,6 @@
 import { studySiteToSituation } from '@/services/studySiteToSituation'
 import * as situationDbModule from '@/db/situation'
-import { Environment } from '@/db-common/enums'
+
 
 jest.mock('@/db/situation', () => ({
   updateSituationFields: jest.fn(),
@@ -14,15 +14,13 @@ describe('studySiteToSituation for CUT', () => {
   })
 
   it('produces Publicodes keys used when syncing perimeter fields', async () => {
-    const updates = studySiteToSituation(Environment.CUT, {
-      distanceToParis: 100,
+    const updates = studySiteToSituation({
       numberOfTickets: 2000,
       numberOfSessions: 100,
       numberOfOpenDays: 250,
     })
 
     expect(updates).toEqual({
-      'général . distance depuis paris': 100,
       'général . nombre entrées': 2000,
       'général . nombre séances': 100,
       'général . nombre de jours ouverture': 250,

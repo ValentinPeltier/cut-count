@@ -1,4 +1,4 @@
-import { Environment } from '@/db-common/enums'
+
 import type { FullStudy } from '@/db/study'
 import { Post } from '@/lib/utils/charts'
 import { withInfobulle } from '@/utils/post'
@@ -16,8 +16,7 @@ interface Props {
   studySite: string
   setSite: (site: string) => void
   setGlossary: (glossary: string) => void
-  environment: Environment
-  simplified?: boolean
+    simplified?: boolean
 }
 
 const StudyPostsCard = ({ study, post, studySite, setSite, setGlossary }: Props) => {

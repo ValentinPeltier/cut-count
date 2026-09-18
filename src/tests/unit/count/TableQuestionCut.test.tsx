@@ -19,16 +19,18 @@ describe('TableQuestion with CUT-like layout', () => {
   it('renders table headers and cell inputs', () => {
     render(
       <TableQuestion
-        tableLayout={{
-          title: 'cut-table',
-          headers: ['col-a', 'col-b'],
-          evaluatedRows: [
-            [
-              { id: 'row.rule.a', label: 'A', element: 'input', type: 'number' },
-              { id: 'row.rule.b', label: 'B', element: 'input', type: 'number' },
+        tableLayout={
+          {
+            title: 'cut-table',
+            headers: ['col-a', 'col-b'],
+            evaluatedRows: [
+              [
+                { id: 'row.rule.a', label: 'A', element: 'input', type: 'number' },
+                { id: 'row.rule.b', label: 'B', element: 'input', type: 'number' },
+              ],
             ],
-          ],
-        }}
+          } as any
+        }
         onChange={jest.fn()}
       />,
     )

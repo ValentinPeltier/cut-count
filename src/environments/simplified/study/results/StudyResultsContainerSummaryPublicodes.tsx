@@ -14,7 +14,7 @@ interface Props {
 
 const StudyResultsContainerSummaryPublicodes = ({ study }: Props) => {
   const t = useTranslations('study')
-  const { aggregated, isLoading, error } = usePublicodesResults(study, 'all', study.organizationVersion.environment)
+  const { aggregated, isLoading, error } = usePublicodesResults(study, 'all')
 
   return (
     <>

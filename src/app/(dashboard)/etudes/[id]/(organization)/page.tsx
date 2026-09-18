@@ -13,11 +13,11 @@ interface Props {
 const StudyView = async ({ study, user, searchParams }: StudyProps & UserSessionProps & Props) => {
   const { showHome } = await searchParams
 
-  if (showHome === 'true' && hasAccessToStudyHomePage(user.environment) && !study.simplified) {
+  if (showHome === 'true' && hasAccessToStudyHomePage() && !study.simplified) {
     return <StudyPage study={study} user={user} />
   }
 
-  redirect(await getStudyDefaultLandingPath(user.environment, study.id))
+  redirect(await getStudyDefaultLandingPath(study.id))
 }
 
 export default withAuth(withStudyDetails(StudyView))

@@ -14,13 +14,16 @@ describe('getDocumentUrl', () => {
 
   it('returns local API path for known methodology keys when authenticated', async () => {
     jest.mocked(authModule.dbActualizedAuth).mockResolvedValue({
-      user: { id: 'user-1', environment: 'CUT' },
+      user: { id: 'user-1' },
+      expires: '2099-01-01',
     } as Awaited<ReturnType<typeof authModule.dbActualizedAuth>>)
 
     const result = await getDocumentUrl('count')
 
     expect(result.success).toBe(true)
-    expect(result.data).toBe('/api/ressources/methodologie?documentKey=count')
+    if (result.success) {
+      expect(result.data).toBe('/api/ressources/methodologie?documentKey=count')
+    }
   })
 
   it('fails when not authenticated', async () => {
@@ -33,7 +36,8 @@ describe('getDocumentUrl', () => {
 
   it('fails for unknown document keys', async () => {
     jest.mocked(authModule.dbActualizedAuth).mockResolvedValue({
-      user: { id: 'user-1', environment: 'CUT' },
+      user: { id: 'user-1' },
+      expires: '2099-01-01',
     } as Awaited<ReturnType<typeof authModule.dbActualizedAuth>>)
 
     const result = await getDocumentUrl('UNKNOWN_KEY')

@@ -2,14 +2,12 @@
 
 import Block from '@/lib/components/base/Block'
 import { customRich } from '@/lib/utils/customRich'
-import { getEnvVarClient } from '@/lib/utils/environmentClient'
-import { useAppEnvironmentStore } from '@/store/AppEnvironment'
+import { getClientEnvVar } from '@/lib/clientEnv'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 
 const Error = () => {
-  const { environment } = useAppEnvironmentStore()
-  const support = getEnvVarClient('SUPPORT_EMAIL', environment)
+  const support = getClientEnvVar('SUPPORT_EMAIL')
 
   const t = useTranslations('error')
   return (
@@ -18,7 +16,7 @@ const Error = () => {
         p: (children) => <p>{children}</p>,
         link: (children) => <Link href="/">{children}</Link>,
         m: () => <Link href={`mailto:${support}`}>{support}</Link>,
-        logout: (children) => <Link href={`/logout?env=${environment}`}>{children}</Link>,
+        logout: (children) => <Link href="/logout">{children}</Link>,
       })}
     </Block>
   )

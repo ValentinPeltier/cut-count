@@ -1,14 +1,14 @@
 'use client'
 
 import type { Cnc } from '@/db-common'
-import { Environment } from '@/db-common/enums'
+
 import Form from '@/lib/components/base/Form'
 import LoadingButton from '@/lib/components/base/LoadingButton'
 import { FormTextField } from '@/lib/components/form/TextField'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
 import { getEnvRoute } from '@/lib/services/email/utils'
 import { customRich } from '@/lib/utils/customRich'
-import { getEnvVarClient } from '@/lib/utils/environmentClient'
+import { getClientEnvVar } from '@/lib/clientEnv'
 import { getAllCNCs } from '@/services/serverFunctions/cnc'
 import { signUpWithSiretOrCNC } from '@/services/serverFunctions/user'
 import { SignUpCutCommand, SignUpCutCommandValidation } from '@/services/serverFunctions/user.command'
@@ -24,8 +24,8 @@ import { FormAutocomplete } from '../form/Autocomplete'
 import authStyles from './Auth.module.css'
 
 const SignUpFormCut = () => {
-  const contactMail = getEnvVarClient('SUPPORT_EMAIL', Environment.CUT)
-  const faq = getEnvVarClient('FAQ_LINK', Environment.CUT)
+  const contactMail = getClientEnvVar('SUPPORT_EMAIL')
+  const faq = getClientEnvVar('FAQ_LINK')
 
   const t = useTranslations('signup')
   const tForm = useTranslations('login.form')
@@ -74,7 +74,7 @@ const SignUpFormCut = () => {
     setMessage('')
     setSubmitting(true)
 
-    const activation = await signUpWithSiretOrCNC(getValues().email, siretOrCNC, Environment.CUT)
+    const activation = await signUpWithSiretOrCNC(getValues().email, siretOrCNC)
     setSubmitting(false)
 
     if (activation.success) {
@@ -101,10 +101,12 @@ const SignUpFormCut = () => {
           data-testid="activation-siretOrCNC"
           control={control}
           translation={t}
-          options={cncs.map((cnc) => ({
-            label: `${cnc.nom} (Dep : ${cnc.dep} | Numéro CNC : ${cnc.cncCode})`,
-            value: cnc.cncCode ?? '',
-          }))}
+          options={cncs
+            .filter((cnc) => cnc.cncCode)
+            .map((cnc) => ({
+              label: `${cnc.nom} (Dep : ${cnc.dep} | Numéro CNC : ${cnc.cncCode})`,
+              value: cnc.cncCode!,
+            }))}
           name="siretOrCNC"
           label={t('siretOrCNC')}
           helperText={t('siretOrCNCPlaceholder')}
@@ -132,7 +134,7 @@ const SignUpFormCut = () => {
         )}
         <div className={authStyles.bottomLink}>
           {tForm('alreadyRegistered')}
-          <Link className="ml-2" href={getEnvRoute('login', Environment.CUT)} prefetch={false}>
+          <Link className="ml-2" href={getEnvRoute('login')} prefetch={false}>
             {tForm('login')}
           </Link>
         </div>

@@ -1,4 +1,4 @@
-import { Environment, Level, Role, StudyResultUnit, StudyRole } from '@/db-common/enums'
+import { Level, Role, StudyResultUnit, StudyRole } from '@/db-common/enums'
 import type { FullStudy } from '@/db/study'
 import { Post, STUDY_UNIT_VALUES } from '@/lib/utils/charts'
 import { formatNumber } from '@/lib/utils/number'
@@ -7,15 +7,12 @@ import { isAdmin } from '@/utils/user'
 import { UserSession } from 'next-auth'
 import { isInOrgaOrParent } from './organization'
 
-export const getUserRoleOnPublicStudy = (
-  user: Pick<UserSession, 'role' | 'level' | 'environment'>,
-  studyLevel: Level,
-) => {
+export const getUserRoleOnPublicStudy = (user: Pick<UserSession, 'role' | 'level'>, studyLevel: Level) => {
   if (isAdmin(user.role)) {
     return hasSufficientLevel(user.level, studyLevel) ? StudyRole.Validator : StudyRole.Reader
   }
 
-  if (user.environment === Environment.CUT) {
+  if (true) {
     return StudyRole.Editor
   }
 
@@ -32,7 +29,6 @@ export type StudyWithRoleFields = {
   organizationVersion: {
     id: string
     parentId: string | null
-    environment: Environment
   }
   allowedUsers: { role: StudyRole; account: { id: string; user: { email: string } } }[]
 }
@@ -101,10 +97,6 @@ export const getEmissionValueString = (
   return `${formatNumber(safeValue / STUDY_UNIT_VALUES[resultsUnit], decimals)} ${unitLabel}`
 }
 
-export const getDuplicableEnvironments = (environment: Environment): Environment[] => {
-  return [environment]
-}
-
 export const formatEmissionValueForExport = (value: number, unit: StudyResultUnit): number => {
   return Math.round(value / STUDY_UNIT_VALUES[unit])
 }
@@ -125,7 +117,7 @@ export const getAllowedLevels = (level: Level | null) => {
 export const hasSufficientLevel = (userLevel: Level | null, targetLevel: Level) =>
   userLevel ? getAllowedLevels(userLevel).includes(targetLevel) : false
 
-export const getStudyDefaultLandingPath = async (_environment: Environment, studyId: string) => {
+export const getStudyDefaultLandingPath = async (studyId: string) => {
   return `/etudes/${studyId}/cadrage`
 }
 

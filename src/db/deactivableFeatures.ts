@@ -1,38 +1,30 @@
 'use server'
 import type { DeactivatableFeature, Prisma } from '@/db-common'
-import { Environment, UserSource } from '@/db-common/enums'
+import { UserSource } from '@/db-common/enums'
 import { prismaClient } from './client.server'
 
-export type RestrictionsTypes = UserSource | Environment
+export type RestrictionsTypes = UserSource
 
 export const isFeatureActive = async (feature: DeactivatableFeature) => {
   const featureStatus = await prismaClient.deactivatableFeatureStatus.findUnique({ where: { feature } })
   return !!featureStatus?.active
 }
 
-export const isFeatureActiveForEnvironment = async (feature: DeactivatableFeature, environment: Environment) => {
-  const featureStatus = await prismaClient.deactivatableFeatureStatus.findUnique({ where: { feature } })
-  if (!featureStatus?.active) {
-    return false
-  }
-  return !featureStatus.deactivatedEnvironments.includes(environment)
-}
-
 export const getFeaturesRestictions = async () =>
   prismaClient.deactivatableFeatureStatus.findMany({
-    select: { feature: true, active: true, deactivatedSources: true, deactivatedEnvironments: true },
+    select: { feature: true, active: true, deactivatedSources: true },
     orderBy: { feature: 'asc' },
   })
 
 export const getFeatureRestictions = async (feature: DeactivatableFeature) =>
   prismaClient.deactivatableFeatureStatus.findUnique({
     where: { feature },
-    select: { active: true, deactivatedSources: true, deactivatedEnvironments: true },
+    select: { active: true, deactivatedSources: true },
   })
 
 export const updateFeatureRestictions = async (
   feature: DeactivatableFeature,
-  target: 'deactivatedSources' | 'deactivatedEnvironments',
+  target: 'deactivatedSources',
   value: RestrictionsTypes[],
 ) => prismaClient.deactivatableFeatureStatus.update({ where: { feature }, data: { [target]: value } })
 

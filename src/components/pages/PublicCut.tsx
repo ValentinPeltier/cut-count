@@ -1,6 +1,5 @@
 'use client'
-import { Environment } from '@/db-common/enums'
-import { switchEnvironment } from '@/i18n/environment'
+
 import { getLocale, switchLocale } from '@/i18n/locale'
 import PublicContainer from '@/lib/components/base/PublicContainer'
 import Image from '@/lib/components/document/Image'
@@ -39,7 +38,6 @@ const PublicCutPage = ({ children, question }: Props) => {
 
   useEffect(() => {
     getLocale().then(setLocale)
-    switchEnvironment(Environment.CUT)
   }, [])
 
   const languages = [{ name: tLocale('fr'), code: 'FR', target: Locale.FR }]
@@ -62,7 +60,7 @@ const PublicCutPage = ({ children, question }: Props) => {
               <Divider sx={{ borderColor: 'primary.contrastText' }} className={styles.divider} />
             </div>
             <Typography className={classNames(styles.explanation, styles.richLinksCut)}>
-              {customRich(t, 'explanation', {}, Environment.CUT)}
+              {customRich(t, 'explanation', {})}
             </Typography>
           </Box>
         </Box>

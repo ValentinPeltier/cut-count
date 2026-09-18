@@ -1,6 +1,6 @@
 'use client'
 
-import { Environment, StudyRole } from '@/db-common/enums'
+import { StudyRole } from '@/db-common/enums'
 import type { FullStudy } from '@/db/study'
 import Block from '@/lib/components/base/Block'
 import { UserSession } from 'next-auth'
@@ -17,7 +17,6 @@ interface Props {
   user: UserSession
   canDeleteStudy?: boolean
   canDuplicateStudy?: boolean
-  duplicableEnvironments?: Environment[]
   organizationVersionId: string | null
 }
 
@@ -26,7 +25,6 @@ const StudyDataEntryInfographyPage = ({
   userRole,
   canDeleteStudy,
   canDuplicateStudy,
-  duplicableEnvironments,
   organizationVersionId,
 }: Props) => {
   const tNav = useTranslations('nav')
@@ -54,7 +52,6 @@ const StudyDataEntryInfographyPage = ({
         organizationVersionId={organizationVersionId}
         canDeleteStudy={canDeleteStudy}
         canDuplicateStudy={canDuplicateStudy}
-        duplicableEnvironments={duplicableEnvironments}
         userRole={userRole}
         siteId={siteId}
       >

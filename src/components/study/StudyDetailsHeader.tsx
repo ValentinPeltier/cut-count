@@ -1,6 +1,6 @@
 'use client'
 
-import { Environment } from '@/db-common/enums'
+
 import type { FullStudy } from '@/db/study'
 import Block from '@/lib/components/base/Block'
 import { getAccountRoleOnStudy } from '@/utils/study'
@@ -17,7 +17,6 @@ interface Props {
   organizationVersionId: string | null
   canDeleteStudy?: boolean
   canDuplicateStudy?: boolean
-  duplicableEnvironments: Environment[]
   studySite: string
   user: UserSession
   setSite: (site: string) => void
@@ -28,7 +27,6 @@ const StudyDetailsHeader = ({
   organizationVersionId,
   canDeleteStudy,
   canDuplicateStudy,
-  duplicableEnvironments,
   studySite,
   user,
   setSite,
@@ -46,7 +44,6 @@ const StudyDetailsHeader = ({
       organizationVersionId={organizationVersionId}
       canDeleteStudy={canDeleteStudy}
       canDuplicateStudy={canDuplicateStudy}
-      duplicableEnvironments={duplicableEnvironments}
       userRole={userRole}
       siteId={studySite}
     >

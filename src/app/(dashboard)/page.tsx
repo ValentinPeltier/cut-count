@@ -18,7 +18,7 @@ const Home = async ({ user: account }: UserSessionProps) => {
       <Block>
         <SimplifiedUserView account={account} />
         <CUTLogosHome user={account} />
-        {displayFeedback.success && displayFeedback.data && <UserFeedback environment={account.environment} />}
+        {displayFeedback.success && displayFeedback.data && <UserFeedback />}
       </Block>
       <FooterCut />
     </>

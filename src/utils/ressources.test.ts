@@ -1,5 +1,5 @@
-import { getEnvironnementRessources } from '@/utils/ressources'
-import { Environment } from '@/db-common/enums'
+import { getRessources } from '@/utils/ressources'
+
 import { Locale } from '@/lib/i18n/config'
 import { Translations } from '@/lib'
 import { getEnvVar } from '@/lib/environment'
@@ -15,7 +15,7 @@ jest.mock('@/lib/environment', () => ({
 
 const t = ((key: string) => key) as Translations
 
-describe('getEnvironnementRessources', () => {
+describe('getRessources', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -35,7 +35,7 @@ describe('getEnvironnementRessources', () => {
       return ''
     })
 
-    const resources = await getEnvironnementRessources(Environment.CUT, t)
+    const resources = await getRessources(t)
     const methodsSection = resources.find((section) => section.title === 'countMethods')
 
     expect(methodsSection).toBeDefined()

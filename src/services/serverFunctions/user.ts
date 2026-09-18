@@ -1,21 +1,21 @@
 'use server'
 
 import { Organization, User } from '@/db-common'
-import { DeactivatableFeature, Environment, Role, UserStatus } from '@/db-common/enums'
+import { DeactivatableFeature, Role, UserStatus } from '@/db-common/enums'
 import {
   addAccount,
   changeAccountRole,
-  getAccountByEmailAndEnvironment,
+  getAccountByEmail,
   getAccountByEmailAndOrganizationVersionId,
   getAccountById,
   getAccountFromUserOrganization,
   getAccountsFromUser,
 } from '@/db/account'
 import { findCncByCncCode } from '@/db/cnc'
-import { isFeatureActiveForEnvironment } from '@/db/deactivableFeatures'
+import { isFeatureActive } from '@/db/deactivableFeatures'
 import {
   createOrganizationWithVersion,
-  getOrganizationVersionByOrganizationIdAndEnvironment,
+  getOrganizationVersionByOrganizationId,
   getOrganizationVersionForRightsCheck,
   getOrgNameByOrgVersionId,
   getRawOrganizationBySiret,
@@ -71,31 +71,18 @@ import { canAddMember, canChangeRole, canDeleteMember, canEditSelfRole } from '.
 import { getDeactivableFeatureRestrictions } from './deactivableFeatures'
 import { EditProfileCommand, EditSettingsCommand } from './user.command'
 
-export const sendEmailToAddedUser = async (
-  email: string,
-  user: User,
-  newUserName: string,
-  env: Environment,
-  orgaVersionId: string,
-) =>
+export const sendEmailToAddedUser = async (email: string, user: User, newUserName: string, orgaVersionId: string) =>
   withServerResponse('sendEmailToAddedUser', async () => {
     const addedMember = await getUserByEmail(email)
     const activeAccounts = addedMember?.accounts.filter((account) => account.status === UserStatus.ACTIVE)
     const name = await getOrgNameByOrgVersionId(orgaVersionId)
 
     if (activeAccounts?.length && activeAccounts.length > 0) {
-      return sendAddedActiveUserEmail(
-        email,
-        `${user.firstName} ${user.lastName}`,
-        newUserName,
-        env,
-        activeAccounts.map((account) => account.environment),
-        name || '',
-      )
+      return sendAddedActiveUserEmail(email, `${user.firstName} ${user.lastName}`, newUserName, name || '')
     }
 
     const token = await updateUserResetToken(email, 1 * DAY)
-    return sendNewUserEmail(email, token, `${user.firstName} ${user.lastName}`, newUserName, env)
+    return sendNewUserEmail(email, token, `${user.firstName} ${user.lastName}`, newUserName)
   })
 
 export const sendInvitation = async (
@@ -104,7 +91,6 @@ export const sendInvitation = async (
   organization: Organization,
   creator: UserSession,
   roleOnStudy: string,
-  env: Environment,
   existingAccount?: AccountWithUser,
 ) =>
   withServerResponse('sendInvitation', async () => {
@@ -118,7 +104,6 @@ export const sendInvitation = async (
             `${creator.firstName} ${creator.lastName}`,
             existingAccount.user.firstName,
             roleOnStudy,
-            env,
           )
         : sendContributorInvitationEmail(
             email,
@@ -127,7 +112,6 @@ export const sendInvitation = async (
             organization.name,
             `${creator.firstName} ${creator.lastName}`,
             existingAccount.user.firstName,
-            env,
           )
     }
 
@@ -142,7 +126,6 @@ export const sendInvitation = async (
           organization.name,
           `${creator.firstName} ${creator.lastName}`,
           roleOnStudy,
-          env,
         )
       : sendNewContributorInvitationEmail(
           email,
@@ -151,13 +134,12 @@ export const sendInvitation = async (
           study.id,
           organization.name,
           `${creator.firstName} ${creator.lastName}`,
-          env,
         )
   })
 
-const sendActivation = async (email: string, fromReset: boolean, env: Environment) => {
+const sendActivation = async (email: string, fromReset: boolean) => {
   const token = await updateUserResetToken(email, 1 * HOUR)
-  return sendActivationEmail(email, token, fromReset, env)
+  return sendActivationEmail(email, token, fromReset)
 }
 
 export const addMember = async (member: AddMemberCommand) =>
@@ -197,7 +179,6 @@ export const validateMember = async (email: string, role: Role) =>
       member.user.email.toLowerCase(),
       userSessionToDbUser(session.user),
       member.user.firstName,
-      session.user.environment,
       session.user.organizationVersionId,
     )
   })
@@ -218,7 +199,6 @@ export const resendInvitation = async (email: string) =>
       member.user.email,
       userSessionToDbUser(session.user),
       member.user.firstName,
-      session.user.environment,
       session.user.organizationVersionId,
     )
   })
@@ -283,13 +263,12 @@ export const updateUserProfile = async (command: EditProfileCommand) =>
     await updateUser(session.user.userId, command)
   })
 
-export const resetPassword = async (email: string, userEnv: Environment | undefined) =>
+export const resetPassword = async (email: string) =>
   withServerResponse('resetPassword', async () => {
-    const env = userEnv || Environment.CUT
     const user = await getUserByEmail(email)
 
     if (!user || user.accounts.every((a) => a.status !== UserStatus.ACTIVE)) {
-      const activation = await activateEmail(email, env, true)
+      const activation = await activateEmail(email, true)
       if (activation.success) {
         return activation.data
       } else {
@@ -306,19 +285,15 @@ export const resetPassword = async (email: string, userEnv: Environment | undefi
 
         const token = jwt.sign(payload, process.env.NEXTAUTH_SECRET as string)
         await updateUserResetTokenForEmail(email, resetToken)
-        await sendResetPassword(email, token, env)
+        await sendResetPassword(email, token)
       }
     }
   })
 
-export const activateEmail = async (email: string, userEnv: Environment, fromReset: boolean = false) =>
+export const activateEmail = async (email: string, fromReset: boolean = false) =>
   withServerResponse('activateEmail', async () => {
-    const env = userEnv
-
     const user = await getUserByEmail(email.toLowerCase())
-    const account = (await getAccountById(
-      user?.accounts.find((a) => a.environment === env)?.id || '',
-    )) as AccountWithUser
+    const account = (await getAccountById(user?.accounts[0]?.id || '')) as AccountWithUser
 
     if (!user || !account || !account.organizationVersionId || account.status === UserStatus.ACTIVE) {
       throw new Error(NOT_AUTHORIZED)
@@ -347,7 +322,7 @@ export const activateEmail = async (email: string, userEnv: Environment, fromRes
       return REQUEST_SENT
     } else {
       await validateUser(account.id)
-      await sendActivation(email, fromReset, env)
+      await sendActivation(email, fromReset)
 
       return EMAIL_SENT
     }
@@ -386,9 +361,9 @@ export const getUserCheckedItems = async () => withServerResponse('getUserChecke
 export const addUserChecklistItem = async (_step: string) =>
   withServerResponse('addUserChecklistItem', async () => undefined)
 
-export const sendAddedUsersAndProccess = async (results: Record<string, string>[], env: Environment) =>
+export const sendAddedUsersAndProccess = async (results: Record<string, string>[]) =>
   withServerResponse('sendAddedUsersAndProccess', async () => {
-    sendAddedUsersByFile(results, env)
+    sendAddedUsersByFile(results)
   })
 
 export const verifyPasswordAndProcessUsers = async (uuid: string) =>
@@ -401,7 +376,7 @@ export const changeUserRoleOnOnboarding = async () =>
       return
     }
 
-    const newRole = session.user.level ? Role.ADMIN : getRoleToSetForUntrained(Role.ADMIN, session.user.environment)
+    const newRole = session.user.level ? Role.ADMIN : getRoleToSetForUntrained(Role.ADMIN)
     await changeAccountRole(session.user.accountId, newRole)
   })
 
@@ -442,7 +417,7 @@ export const displayFeedBackForm = async () =>
 
     const [userFeedbackDate, activeFeature] = await Promise.all([
       getUserFeedbackDate(session.user.accountId),
-      isFeatureActiveForEnvironment(DeactivatableFeature.Creation, session.user.environment),
+      isFeatureActive(DeactivatableFeature.Creation),
     ])
 
     if (!userFeedbackDate || !activeFeature) {
@@ -476,18 +451,15 @@ export const answerFeeback = async () =>
     updateUserFeedbackDate(session.user.accountId, feedbackDate)
   })
 
-export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string, environment: Environment) =>
+export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string) =>
   withServerResponse('signUpWithSiretOrCNC', async () => {
     const trimmedEmail = email.trim().toLowerCase()
     const deactivatedFeaturesRestrictions = await getDeactivableFeatureRestrictions(DeactivatableFeature.Creation)
-    if (
-      deactivatedFeaturesRestrictions?.active &&
-      deactivatedFeaturesRestrictions.deactivatedEnvironments?.includes(environment)
-    ) {
+    if (deactivatedFeaturesRestrictions?.active) {
       throw new Error(NOT_AUTHORIZED)
     }
 
-    const accountAlreadyCreated = await getAccountByEmailAndEnvironment(trimmedEmail, environment)
+    const accountAlreadyCreated = await getAccountByEmail(trimmedEmail)
     if (accountAlreadyCreated && accountAlreadyCreated.organizationVersionId) {
       throw new Error(NOT_AUTHORIZED)
     }
@@ -505,7 +477,6 @@ export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string, en
           create: {
             status: UserStatus.PENDING_REQUEST,
             role: Role.DEFAULT,
-            environment,
           },
         },
       })) as UserWithAccounts
@@ -516,7 +487,6 @@ export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string, en
         ((await addAccount({
           user: { connect: { id: user.id } },
           role: Role.DEFAULT,
-          environment,
           status: UserStatus.PENDING_REQUEST,
         })) as AccountWithUser)
     }
@@ -526,40 +496,32 @@ export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string, en
 
     let organizationVersion = null
 
-    if (environment === Environment.CUT) {
-      const CNC = await findCncByCncCode(siretOrCNC)
-      if (CNC) {
-        organization = await getRawOrganizationBySiteCNC(siretOrCNC)
-        organizationVersion = organization?.id
-          ? await getOrganizationVersionByOrganizationIdAndEnvironment(organization.id, environment)
-          : null
+    const CNC = await findCncByCncCode(siretOrCNC)
+    if (CNC) {
+      organization = await getRawOrganizationBySiteCNC(siretOrCNC)
+      organizationVersion = organization?.id ? await getOrganizationVersionByOrganizationId(organization.id) : null
 
-        if (!organizationVersion) {
-          organizationVersion = await createOrganizationWithVersion(
-            { name: CNC.nom || '' },
-            { environment: environment },
-          )
+      if (!organizationVersion) {
+        organizationVersion = await createOrganizationWithVersion({ name: CNC.nom || '' }, {})
 
-          await addSite({
-            name: CNC.nom || '',
-            postalCode: CNC.codeInsee || '',
-            city: CNC.commune || '',
-            cnc: {
-              connectOrCreate: {
-                create: {},
-                where: {
-                  id: CNC.id,
-                },
+        await addSite({
+          name: CNC.nom || '',
+          postalCode: CNC.codeInsee || '',
+          city: CNC.commune || '',
+          cnc: {
+            connectOrCreate: {
+              create: {},
+              where: {
+                id: CNC.id,
               },
             },
-            organization: { connect: { id: organizationVersion.organizationId } },
-          })
-        }
+          },
+          organization: { connect: { id: organizationVersion.organizationId } },
+        })
       }
     }
 
     if (!organizationVersion && siretOrCNC.length < 9) {
-      // Too small to be a SIRET or even SIREN and not a CNC in our DB
       throw new Error(UNKNOWN_SIRET_OR_CNC)
     }
 
@@ -568,7 +530,7 @@ export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string, en
 
       organization = await getRawOrganizationBySiret(siretOrCNC)
 
-      if (environment === Environment.CUT && !organization?.id) {
+      if (!organization?.id) {
         companyName = (await getCompanyName(siretOrCNC)) || ''
 
         if (companyName === '') {
@@ -578,11 +540,8 @@ export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string, en
       }
 
       organizationVersion = organization?.id
-        ? await getOrganizationVersionByOrganizationIdAndEnvironment(organization.id, environment)
-        : await createOrganizationWithVersion(
-            { wordpressId: siretOrCNC, name: companyName },
-            { environment: environment },
-          )
+        ? await getOrganizationVersionByOrganizationId(organization.id)
+        : await createOrganizationWithVersion({ wordpressId: siretOrCNC, name: companyName }, {})
     }
 
     if (!organizationVersion) {
@@ -603,18 +562,17 @@ export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string, en
         accounts.filter((a) => a.role === Role.GESTIONNAIRE || a.role === Role.ADMIN).map((a) => a.user.email),
         trimmedEmail,
         `${user.firstName} ${user.lastName}`,
-        environment,
       )
 
       return REQUEST_SENT
     } else {
       await validateUser(account.id)
-      await sendActivation(trimmedEmail, false, environment)
+      await sendActivation(trimmedEmail, false)
     }
     return EMAIL_SENT
   })
 
-export const signUpWithSchool = async (_email: string, _country: string, _school: unknown, _environment: Environment) =>
+export const signUpWithSchool = async (_email: string, _country: string, _school: unknown) =>
   withServerResponse('signUpWithSchool', async () => {
     throw new Error(NOT_AUTHORIZED)
   })

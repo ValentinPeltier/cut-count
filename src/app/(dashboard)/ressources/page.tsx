@@ -10,7 +10,7 @@ const Ressources = async () => {
   if (!session) {
     return <NotFound />
   }
-  return <RessourcesPage environment={session.user.environment} />
+  return <RessourcesPage />
 }
 
 export default withAuth(Ressources)

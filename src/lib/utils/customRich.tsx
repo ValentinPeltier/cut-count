@@ -1,6 +1,5 @@
-import { Environment } from '@/db-common/enums'
 import { Translations } from '@/lib'
-import { getEnvVarClient } from '@/lib/utils/environmentClient'
+import { getClientEnvVar } from '@/lib/clientEnv'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 
@@ -8,15 +7,10 @@ type CustomRichParams = {
   [key: string]: ((children: ReactNode) => ReactNode) | ReactNode | string | number | undefined
 }
 
-export const customRich = (
-  t: Translations,
-  key: string,
-  params: CustomRichParams = {},
-  env: Environment = Environment.CUT,
-) => {
-  const faq = getEnvVarClient('FAQ_LINK', env)
-  const support = getEnvVarClient('SUPPORT_EMAIL', Environment.CUT)
-  const abc = getEnvVarClient('ABC_SITE', Environment.CUT)
+export const customRich = (t: Translations, key: string, params: CustomRichParams = {}) => {
+  const faq = getClientEnvVar('FAQ_LINK')
+  const support = getClientEnvVar('SUPPORT_EMAIL')
+  const abc = getClientEnvVar('ABC_SITE')
 
   return t.rich(key, {
     error: (children) => <span className="error">{children}</span>,

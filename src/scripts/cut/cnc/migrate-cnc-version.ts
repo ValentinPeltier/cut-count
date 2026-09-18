@@ -9,7 +9,7 @@
  * Run with: npx tsx src/scripts/migrations/link-existing-cncs-to-version.ts
  */
 
-import { Environment } from '@/db-common/enums'
+
 import { prismaClient } from '@/db/client.server'
 import { getOrCreateCncVersion } from '@/db/cnc'
 
@@ -55,8 +55,7 @@ const linkExistingCncsToVersion = async () => {
         },
         study: {
           organizationVersion: {
-            environment: Environment.CUT,
-          },
+                      },
         },
       },
       include: {
@@ -69,7 +68,7 @@ const linkExistingCncsToVersion = async () => {
           select: {
             organizationVersion: {
               select: {
-                environment: true,
+                id: true,
               },
             },
           },

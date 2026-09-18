@@ -6,7 +6,7 @@ import LoadingButton from '@/lib/components/base/LoadingButton'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
 import SelectRoleCommon from '@/lib/components/team/SelectRoleCommon'
 import { deleteMember, validateMember } from '@/services/serverFunctions/user'
-import { getEnvironmentRoles } from '@/utils/user'
+import { getTeamRoles } from '@/utils/user'
 import CheckIcon from '@mui/icons-material/Check'
 import DeleteIcon from '@mui/icons-material/Delete'
 import classNames from 'classnames'
@@ -36,8 +36,7 @@ const InvitationsToValidateActions = ({ user, member }: Props) => {
         currentRole={role}
         email={member.user.email}
         level={member.user.level}
-        environmentRoles={Object.values(getEnvironmentRoles(user.environment))}
-        environment={user.environment}
+        teamRoles={Object.values(getTeamRoles())}
         setLocalRole={setRole}
       />
       <LoadingButton

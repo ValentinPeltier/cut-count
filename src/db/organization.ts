@@ -1,6 +1,6 @@
 import type { Organization, OrganizationVersion, Site } from '@/db-common'
 import { Prisma } from '@/db-common'
-import { Environment, UserStatus } from '@/db-common/enums'
+import { UserStatus } from '@/db-common/enums'
 import { UpdateOrganizationCommand } from '@/services/serverFunctions/organization.command'
 import { SitesCommand } from '@/services/serverFunctions/study.command'
 import { OnboardingCommand } from '@/services/serverFunctions/user.command'
@@ -58,7 +58,6 @@ export const getOrganizationVersionForRightsCheck = (id: string | null) =>
         where: { id },
         select: {
           id: true,
-          environment: true,
           parentId: true,
         },
       })
@@ -126,17 +125,13 @@ export const getOrganizationVersionWithSitesById = (id: string) =>
     select: OrganizationVersionWithOrganizationSelect,
   })
 
-export const getOrganizationVersionByOrganizationIdAndEnvironment = (
-  organizationId: string,
-  _environment: Environment,
-) =>
+export const getOrganizationVersionByOrganizationId = (organizationId: string) =>
   prismaClient.organizationVersion.findUnique({
     where: {
       organizationId,
     },
     select: {
       id: true,
-      environment: true,
       isCR: true,
       parent: { select: { id: true } },
     },
@@ -145,7 +140,7 @@ export const getOrganizationVersionByOrganizationIdAndEnvironment = (
 export const getOrganizationVersionsByOrganizationId = (organizationId: string) =>
   prismaClient.organizationVersion.findMany({
     where: { organizationId },
-    select: { id: true, environment: true, parentId: true },
+    select: { id: true, parentId: true },
   })
 
 export const getOrganizationWithSitesById = (id: string) =>
@@ -347,7 +342,6 @@ export const createOrUpdateOrganization = async (
   isCR?: boolean,
   _activatedLicence?: number[],
   importedFileDate?: Date,
-  environment: Environment = Environment.CUT,
 ) => {
   const updatedOrganization = await prismaClient.organization.upsert({
     where: { id: organization.id ?? '' },
@@ -360,10 +354,7 @@ export const createOrUpdateOrganization = async (
     },
   })
 
-  const organizationVersion = await getOrganizationVersionByOrganizationIdAndEnvironment(
-    updatedOrganization.id,
-    environment,
-  )
+  const organizationVersion = await getOrganizationVersionByOrganizationId(updatedOrganization.id)
 
   await prismaClient.organizationVersion.upsert({
     where: {
@@ -377,7 +368,6 @@ export const createOrUpdateOrganization = async (
       organizationId: updatedOrganization.id,
       isCR: isCR || false,
       onboarded: false,
-      environment,
     },
   })
 

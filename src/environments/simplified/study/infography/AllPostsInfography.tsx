@@ -1,5 +1,5 @@
 import type { FullStudy } from '@/db/study'
-import EnvironmentLoader from '@/environments/simplified/utils/EnvironmentLoader'
+import CenteredLoader from '@/components/base/CenteredLoader'
 import { usePublicodesSituation } from '@/lib/publicodes/context'
 import type { BaseResultsByPost } from '@/services/posts'
 import { getQuestionProgressBySubPost, StatsResult } from '@/services/publicodes/questionProgress'
@@ -92,7 +92,7 @@ const AllPostsInfography = ({ study }: Props) => {
   }, [questionProgress, tUnits, study.resultsUnit, study.id, publicodesResults, config])
 
   if (!config || isLoading) {
-    return <EnvironmentLoader />
+    return <CenteredLoader />
   }
 
   return <StyledGrid>{renderedInfographies}</StyledGrid>

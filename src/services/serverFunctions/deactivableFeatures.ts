@@ -1,13 +1,12 @@
 'use server'
 
-import { DeactivatableFeature, Environment, Role, UserSource } from '@/db-common/enums'
+import { DeactivatableFeature, Role, UserSource } from '@/db-common/enums'
 import {
   createDeactivableFeatures,
   createOrUpdateDeactivableFeature,
   getFeatureRestictions,
   getFeaturesRestictions,
   isFeatureActive,
-  isFeatureActiveForEnvironment,
   RestrictionsTypes,
   updateFeatureRestictions,
 } from '@/db/deactivableFeatures'
@@ -58,39 +57,21 @@ export const changeDeactivableFeatureRestriction = async (
       throw new Error(NOT_AUTHORIZED)
     }
 
-    let targetRestriction: 'deactivatedSources' | 'deactivatedEnvironments'
-    if (new Set(Object.values(UserSource)).has(restriction as UserSource)) {
-      targetRestriction = 'deactivatedSources'
-    } else if (new Set(Object.values(Environment)).has(restriction as Environment)) {
-      targetRestriction = 'deactivatedEnvironments'
-    } else {
+    if (!new Set(Object.values(UserSource)).has(restriction as UserSource)) {
       throw new Error('invalid value')
     }
 
     const restrictions = await getFeatureRestictions(feature)
 
-    const targetRestrictions = restrictions ? restrictions[targetRestriction] || [] : []
+    const targetRestrictions = restrictions ? restrictions.deactivatedSources || [] : []
 
     const newRestrictions = status
       ? [...targetRestrictions, restriction]
       : targetRestrictions.filter((existingRestriction) => existingRestriction !== restriction)
 
-    return updateFeatureRestictions(feature, targetRestriction, newRestrictions)
+    return updateFeatureRestictions(feature, 'deactivatedSources', newRestrictions)
   })
 
 export const isDeactivableFeatureActive = async (feature: DeactivatableFeature) => isFeatureActive(feature)
-
-export const isDeactivableFeatureActiveForEnvironment = async (
-  feature: DeactivatableFeature,
-  environment: Environment,
-) =>
-  withServerResponse('isDeactivableFeatureActiveForEnvironment', async () => {
-    const session = await dbActualizedAuth()
-    if (!session || !session.user) {
-      throw new Error(NOT_AUTHORIZED)
-    }
-
-    return isFeatureActiveForEnvironment(feature, environment)
-  })
 
 export const getDeactivableFeatureRestrictions = async (feature: DeactivatableFeature) => getFeatureRestictions(feature)

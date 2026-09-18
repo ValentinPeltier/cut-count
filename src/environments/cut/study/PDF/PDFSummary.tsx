@@ -59,7 +59,6 @@ const PDFSummary = ({ study }: Props) => {
   const results = usePublicodesResults(
     study,
     'all',
-    study.organizationVersion.environment,
     // NOTE: we skip auth check here because authentification is already
     // handled by withPdfAuth.
     true,

@@ -3,11 +3,11 @@
 import { TeamMember } from '@/db/account'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
 import TeamTableCommon from '@/lib/components/team/TeamTableCommon'
-import { isCut } from '@/lib/utils/environments'
 import { canEditSelfRole } from '@/services/permissions/user'
 import { deleteOrganizationMember } from '@/services/serverFunctions/organization'
 import { changeRole } from '@/services/serverFunctions/user'
-import { canEditMemberRole, getEnvironmentRoles } from '@/utils/user'
+import { canEditMemberRole, getTeamRoles } from '@/utils/user'
+import { isCut } from '@/services/permissions/environment'
 import { UserSession } from 'next-auth'
 import { useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
@@ -61,9 +61,9 @@ const TeamTable = ({ user, team, crOrga }: Props) => {
         email={user.email}
         team={team}
         canUpdateTeam={canUpdateTeam}
-        environmentRoles={Object.values(getEnvironmentRoles(user.environment))}
+        teamRoles={Object.values(getTeamRoles())}
         deleteMember={deleteMember}
-        isCut={isCut(user.environment)}
+        isCut={isCut()}
         deletionError={deletionError}
         deletionErrorData={deletionErrorData}
         setDeletionErrorData={setDeletionErrorData}
@@ -72,8 +72,7 @@ const TeamTable = ({ user, team, crOrga }: Props) => {
         changeRole={changeRole}
         setDeletingMember={setDeletingMember}
         deletingMember={deletingMember}
-        environment={user.environment}
-      />
+        />
     </>
   )
 }

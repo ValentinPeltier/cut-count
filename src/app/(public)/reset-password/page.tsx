@@ -1,5 +1,5 @@
 import NewPasswordForm from '@/components/auth/NewPasswordForm'
-import { Environment } from '@/db-common/enums'
+
 import { auth } from '@/services/auth'
 import { redirect } from 'next/navigation'
 
@@ -9,7 +9,7 @@ const NewPasswordPage = async () => {
     redirect('/')
   }
 
-  return <NewPasswordForm environment={Environment.CUT} />
+  return <NewPasswordForm />
 }
 
 export default NewPasswordPage

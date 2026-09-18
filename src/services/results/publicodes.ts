@@ -1,5 +1,5 @@
 import { TOTAL_RULE } from '@/constants/publicodes'
-import { Environment, StudyResultUnit, SubPost } from '@/db-common'
+import { StudyResultUnit, SubPost } from '@/db-common'
 import { Post, STUDY_UNIT_VALUES } from '@/lib/utils/charts'
 import { safeEvaluate } from '@/publicodes/utils'
 import Engine from 'publicodes'
@@ -12,7 +12,7 @@ export const computeBaseResultsByPostFromEngine = <P extends Post>(
   tPost: (key: string) => string,
   getPostRuleName: (post: P) => string,
   getSubPostRuleName: (subPost: SubPost) => string | undefined,
-  environment?: Environment,
+  environment?: string,
 ) => {
   const postResults = posts
     .map((post) => {

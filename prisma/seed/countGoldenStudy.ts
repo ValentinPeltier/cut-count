@@ -7,8 +7,8 @@ import {
 } from '@/tests/fixtures/count/constants'
 import { loadCountSituation } from '@/tests/fixtures/count/loadFixtures'
 import { PrismaClient } from '@/db-common'
-import { Environment, Level, StudyRole, StudyResultUnit, UserStatus } from '@/db-common/enums'
-import type { Account } from '@/db-common/types'
+import { Level, StudyRole, StudyResultUnit, UserStatus } from '@/db-common/enums'
+import type { Prisma } from '@/db-common'
 
 const richSituation = loadCountSituation('rich')
 
@@ -17,7 +17,7 @@ export const createCountGoldenStudy = async (prisma: PrismaClient) => {
     where: { email: 'cut-env-admin-0@yopmail.com' },
     include: {
       accounts: {
-        where: { environment: Environment.CUT, status: UserStatus.ACTIVE },
+        where: { status: UserStatus.ACTIVE },
         include: { organizationVersion: true },
       },
     },
@@ -86,17 +86,16 @@ export const createCountGoldenStudy = async (prisma: PrismaClient) => {
     where: { studySiteId: COUNT_GOLDEN_STUDY_SITE_ID },
     create: {
       studySiteId: COUNT_GOLDEN_STUDY_SITE_ID,
-      situation: richSituation,
+      situation: richSituation as Prisma.InputJsonValue,
       listLayoutSituations: {},
       publicodesVersion: PUBLICODES_ENGINE_VERSION,
       modelVersion: PUBLICODES_COUNT_VERSION,
     },
     update: {
-      situation: richSituation,
+      situation: richSituation as Prisma.InputJsonValue,
       listLayoutSituations: {},
       modelVersion: PUBLICODES_COUNT_VERSION,
     },
   })
 }
 
-export type CountGoldenSeedAccount = Account

@@ -1,9 +1,9 @@
 'use server'
-import { Environment } from '@/db-common/enums'
+
 import { Locale, LocaleType } from '@/lib/i18n/config'
 import { mergeObjects } from '@/lib/utils/object'
 
-export const getMessages = async (locale: LocaleType = Locale.FR, _environment?: Environment) => {
+export const getMessages = async (locale: LocaleType = Locale.FR, _environment?: string) => {
   const commonMessages = (await import(`../lib/i18n/translations/${Locale.FR}/common.json`)).default
   const cutMessages = (await import(`./translations/${Locale.FR}/cut.json`)).default
 

@@ -11,7 +11,7 @@ const SuperAdmin = async () => {
   if (session?.user?.role !== Role.SUPER_ADMIN) {
     return <NotFound />
   }
-  return <SuperAdminPage environment={session.user.environment} />
+  return <SuperAdminPage />
 }
 
 export default withAuth(SuperAdmin)

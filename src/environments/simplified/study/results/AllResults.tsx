@@ -25,8 +25,6 @@ import {
 import type { BaseResultsByPost } from '@/services/posts'
 import { generateStudySummaryPDF } from '@/services/serverFunctions/pdf'
 import { downloadStudyResults } from '@/services/study'
-import { useAppEnvironmentStore } from '@/store/AppEnvironment'
-import { BCEnvironment } from '@/types/environment'
 import type { BaseResultsBySite } from '@/types/study.types'
 import DownloadIcon from '@mui/icons-material/Download'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
@@ -73,7 +71,6 @@ const AllResults = ({
   const [tabValue, setTabValue] = useState(0)
   const [pdfLoading, setPdfLoading] = useState(false)
   const [openFeedback, setOpenFeedback] = useState(false)
-  const { environment } = useAppEnvironmentStore()
 
   const handleChange = (_event: SyntheticEvent, newValue: number) => {
     setTabValue(newValue)
@@ -114,8 +111,8 @@ const AllResults = ({
   }
 
   const filteredTabsLabels = useMemo(() => {
-    return tabsLabels.filter((tab) => tab !== 'ratio' || (environment && hasAccessToResultsRatioTab(environment)))
-  }, [environment])
+    return tabsLabels.filter((tab) => tab !== 'ratio' || hasAccessToResultsRatioTab())
+  }, [])
 
   const orderedTabs = [...filteredTabsLabels].sort((a, b) => chartOrder[a as ChartType] - chartOrder[b as ChartType])
 
@@ -128,7 +125,7 @@ const AllResults = ({
       descriptionColor="primary"
       rightComponent={
         <div className="flex gapped align-center">
-          {environment && hasAccessToFeedbackButton(environment) && (
+          {hasAccessToFeedbackButton() && (
             <Button variant="outlined" color="primary" size="large" onClick={() => setOpenFeedback(true)}>
               {tResults('feedback.button')}
             </Button>
@@ -153,7 +150,6 @@ const AllResults = ({
                 tGHGP,
                 tUnits,
                 tBase,
-                study.organizationVersion.environment as BCEnvironment,
                 computedResultsBySite,
                 computedResults,
                 studySite,
@@ -162,7 +158,7 @@ const AllResults = ({
           >
             {tExportButton('export')}
           </Button>
-          {environment && hasAccessToPDFExport(environment) && (
+          {hasAccessToPDFExport() && (
             <LoadingButton
               variant="outlined"
               color="primary"
@@ -179,11 +175,11 @@ const AllResults = ({
       }
     >
       {/* Default info text for environments that show it */}
-      {environment && showResultsInfoText(environment) && (
+      {showResultsInfoText() && (
         <Box component="section" className="mb2">
           <Typography>
             {customRich(tResults, 'simplifiedFeedback', {
-              ...(isCut(environment) && {
+              ...(isCut() && {
                 questionnaire: (children) => (
                   <Link href={process.env.NEXT_PUBLIC_CUT_FEEDBACK_TYPEFORM_LINK ?? ''} target="_blank">
                     <strong>{children}</strong>
@@ -211,7 +207,7 @@ const AllResults = ({
       )}
 
       {/* Emissions analysis for environments that have it */}
-      {environment && hasAccessToAdvancedEmissionAnalysis(environment) ? (
+      {hasAccessToAdvancedEmissionAnalysis() ? (
         <CarbonIntensities
           study={study}
           studySite={studySite}
@@ -261,12 +257,12 @@ const AllResults = ({
               type="post"
             />
           </TabPanel>
-          {environment && hasAccessToResultsRatioTab(environment) ? (
+          {hasAccessToResultsRatioTab() ? (
             <TabPanel value={tabValue} index={chartOrder.ratio}>
               <CarbonIntensitiesCut study={study} studySite={studySite} withDepValue={totalValue} />
             </TabPanel>
           ) : null}
-          {environment && hasAccessToFeedbackButton(environment) && user && openFeedback && (
+          {hasAccessToFeedbackButton() && user && openFeedback && (
             <FeedbackModal open={openFeedback} setOpen={setOpenFeedback} />
           )}
         </Box>

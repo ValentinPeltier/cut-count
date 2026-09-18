@@ -1,4 +1,4 @@
-import { Environment } from '@/db-common/enums'
+
 import { customRich } from '@/lib/utils/customRich'
 import Chip from '@mui/material/Chip'
 import { getTranslations } from 'next-intl/server'
@@ -13,7 +13,7 @@ const BetaBanner = async () => {
         <Chip label={t('badge')} size="small" color="warning" className={styles.chip} />
         <strong>{t('title')}</strong>
       </div>
-      <p className="m0">{customRich(t, 'description', {}, Environment.CUT)}</p>
+      <p className="m0">{customRich(t, 'description', {})}</p>
     </div>
   )
 }

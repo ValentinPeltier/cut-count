@@ -1,6 +1,6 @@
 'use client'
 import SiteDeselectionWarningModal from '@/components/modals/SiteDeselectionWarningModal'
-import { Environment, SiteCAUnit } from '@/db-common/enums'
+import { SiteCAUnit } from '@/db-common/enums'
 import { OrganizationWithSites } from '@/db/account'
 import DynamicSites from '@/environments/cut/organization/Sites'
 import Block from '@/lib/components/base/Block'
@@ -76,7 +76,7 @@ const SelectOrganization = ({
 
   const sites = form.watch('sites')
   const organizationVersionId = form.watch('organizationVersionId')
-  const isCut = useMemo(() => user.environment === Environment.CUT, [user.environment])
+  const isCut = useMemo(() => true, [])
 
   const organizationVersion = useMemo(
     () => organizationVersions.find((organizationVersion) => organizationVersion.id === organizationVersionId),
@@ -89,7 +89,7 @@ const SelectOrganization = ({
       form.setValue('sites', [])
       setOriginalSelectedSites([])
     } else {
-      if (!hasAccessToStudySiteAddAndSelection(user.environment)) {
+      if (!hasAccessToStudySiteAddAndSelection()) {
         if (sites.length > 0) {
           form.setValue(
             'sites',
@@ -169,7 +169,7 @@ const SelectOrganization = ({
     }
 
     if (
-      user.environment === Environment.CUT &&
+      true &&
       currentSites
         .filter((site) => site.selected)
         .some(

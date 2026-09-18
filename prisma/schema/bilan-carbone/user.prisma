@@ -31,7 +31,6 @@ model Account {
   allowedStudies          UserOnStudy[]
   userApplicationSettings UserApplicationSettings?
 
-  environment Environment @default(CUT)
   status      UserStatus
 
   @@map("accounts")

@@ -1,4 +1,3 @@
-import { Environment } from '@/db-common/enums'
 import { signIn, signOut, SignOutParams } from 'next-auth/react'
 
 export async function accountHandler(accountId: string) {
@@ -9,11 +8,10 @@ export async function accountHandler(accountId: string) {
 }
 
 export const signOutEnv = async <P extends boolean = true>(
-  env: Environment = Environment.CUT,
   options?: SignOutParams<P>,
 ): Promise<P extends true ? void : { url: string }> => {
   const result = (await signOut({
-    callbackUrl: `/signed-out?env=${env}`,
+    callbackUrl: '/login',
     ...options,
   })) as P extends true ? void : { url: string }
 

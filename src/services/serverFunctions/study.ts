@@ -1,10 +1,10 @@
 'use server'
 
 import type { Prisma } from '@/db-common'
-import { Environment, Role, StudyResultUnit, StudyRole, UserStatus } from '@/db-common/enums'
+import { Role, StudyResultUnit, StudyRole, UserStatus } from '@/db-common/enums'
 import {
   addAccount,
-  getAccountByEmailAndEnvironment,
+  getAccountByEmail,
   getAccountByEmailAndOrganizationVersionId,
   getAccountsFromOrganization,
 } from '@/db/account'
@@ -228,13 +228,13 @@ export const createStudyCommand = async (
     }
 
     try {
-      const createdStudy = await createStudy(study, session.user.environment, true, tx)
+      const createdStudy = await createStudy(study, true, tx)
 
       if (createdStudy.simplified) {
         await Promise.all(
           createdStudy.sites.map(async (site) => {
             await saveSituationInDB(createdStudy.id, site.id, {}, {}, '')
-            await updateSituationWithStudySiteData(site.id, site, session.user.environment, createdStudy.simplified)
+            await updateSituationWithStudySiteData(site.id, site, createdStudy.simplified)
           }),
         )
       }
@@ -380,25 +380,19 @@ export const changeStudyCinema = async (studySiteId: string, cncId: string, data
     await updateNumberOfProgrammedFilms({ cncId, numberOfProgrammedFilms })
     await updateStudyOpeningHours(studySiteId, openingHours, openingHoursHoliday)
     await updateStudySiteData(studySiteId, finalUpdateData)
-    await updateSituationWithStudySiteData(
-      studySiteId,
-      finalUpdateData,
-      informations.user.environment,
-      study.simplified,
-    )
+    await updateSituationWithStudySiteData(studySiteId, finalUpdateData, true)
   })
 
 async function updateSituationWithStudySiteData(
   studySiteId: string,
   siteDependentFields: StudySiteFields,
-  environment: Environment,
   studyIsSimplified: boolean,
 ) {
   if (studyIsSimplified) {
-    if (!environment || !hasSimplifiedStudies(environment)) {
+    if (!hasSimplifiedStudies()) {
       return
     }
-    const situationUpdates = studySiteToSituation(environment, siteDependentFields)
+    const situationUpdates = studySiteToSituation(siteDependentFields)
 
     if (Object.keys(situationUpdates).length > 0) {
       await updateSituationFields(studySiteId, situationUpdates)
@@ -498,7 +492,6 @@ const getOrCreateUserAndSendStudyInvite = async (
         create: {
           status: UserStatus.VALIDATED,
           role: Role.DEFAULT,
-          environment: study.organizationVersion.environment,
         },
       },
     })
@@ -510,24 +503,22 @@ const getOrCreateUserAndSendStudyInvite = async (
         organizationVersion.organization,
         creator,
         newRoleOnStudy ? t(newRoleOnStudy).toLowerCase() : '',
-        study.organizationVersion.environment,
       )
     }
 
-    const newAccountId = newUser.accounts.find((account) => account.environment === organizationVersion.environment)?.id
+    const newAccountId = newUser.accounts[0]?.id
     if (!newAccountId) {
       throw new Error()
     }
 
     accountId = newAccountId
   } else {
-    let account = (await getAccountByEmailAndEnvironment(email, organizationVersion.environment)) as AccountWithUser
+    let account = (await getAccountByEmail(email)) as AccountWithUser
 
     if (!account) {
       account = (await addAccount({
         user: { connect: { id: existingUser.id } },
         role: Role.COLLABORATOR,
-        environment: organizationVersion.environment,
         status: UserStatus.VALIDATED,
       })) as AccountWithUser
     } else if (account.status === UserStatus.IMPORTED) {
@@ -536,7 +527,7 @@ const getOrCreateUserAndSendStudyInvite = async (
         status: UserStatus.VALIDATED,
         role: Role.COLLABORATOR,
       })
-      account = (await getAccountByEmailAndEnvironment(email, organizationVersion.environment)) as AccountWithUser
+      account = (await getAccountByEmail(email)) as AccountWithUser
     }
 
     if (!skipInviteEmail) {
@@ -546,7 +537,6 @@ const getOrCreateUserAndSendStudyInvite = async (
         organizationVersion.organization,
         creator,
         newRoleOnStudy ? t(newRoleOnStudy).toLowerCase() : '',
-        organizationVersion.environment,
         account,
       )
     }
@@ -610,7 +600,7 @@ export const newStudyRight = async (right: NewStudyRightCommand) =>
       (await isInOrgaOrParentFromId(existingAccount.organizationVersionId, studyWithRights.organizationVersionId))
     ) {
       const defaultRole = getUserRoleOnPublicStudy(
-        { role: existingAccount.role, level: existingUser?.level, environment: existingAccount.environment },
+        { role: existingAccount.role, level: existingUser?.level },
         studyWithRights.level,
       )
       if (!getAllowedRolesFromDefaultRole(defaultRole).includes(right.role)) {
@@ -681,7 +671,7 @@ export const changeStudyRole = async (studyId: string, email: string, studyRole:
       (await isInOrgaOrParentFromId(existingAccount.organizationVersionId, studyWithRights.organizationVersionId))
     ) {
       const defaultRole = getUserRoleOnPublicStudy(
-        { role: existingAccount.role, level: existingUser?.level, environment: existingAccount.environment },
+        { role: existingAccount.role, level: existingUser?.level },
         studyWithRights.level,
       )
       if (!getAllowedRolesFromDefaultRole(defaultRole).includes(studyRole)) {
@@ -727,8 +717,7 @@ export const findStudiesWithSites = async (siteIds: string[]) =>
             organizationVersion: {
               id: studySite.study.organizationVersion.id,
               parentId: studySite.study.organizationVersion.parentId,
-              environment: Environment.CUT,
-            },
+                          },
             allowedUsers: studySite.study.allowedUsers.map((allowedUser) => ({
               role: StudyRole.Reader,
               account: { id: allowedUser.accountId, user: { email: '' } },

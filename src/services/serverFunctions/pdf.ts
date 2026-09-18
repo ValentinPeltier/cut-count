@@ -32,7 +32,6 @@ export const generateStudySummaryPDF = async (studyId: string, studyName: string
           userId: session.user.id,
           studyId: studyId,
           organizationVersionId: session.user.organizationVersionId,
-          environment: session.user.environment,
           exp: Math.floor(Date.now() / 1000) + 1 * 60, // 1 minute
           locale,
         },

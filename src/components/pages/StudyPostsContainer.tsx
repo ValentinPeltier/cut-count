@@ -1,5 +1,5 @@
 'use client'
-import { Environment, StudyRole, SubPost } from '@/db-common/enums'
+import { StudyRole, SubPost } from '@/db-common/enums'
 import type { FullStudy } from '@/db/study'
 import SimplifiedStudyPostsPage from '@/environments/simplified/study/SimplifiedStudyPostsPage'
 import Block from '@/lib/components/base/Block'
@@ -73,13 +73,11 @@ const StudyPostsPageContainer = ({ post, currentSubPost, study }: Props) => {
           post={post}
           studySite={siteId}
           setSite={setSite}
-          environment={Environment.CUT}
           setGlossary={setGlossary}
           simplified
         />
       </Block>
       <SimplifiedStudyPostsPage
-        environment={Environment.CUT}
         currentSubPost={currentSubPost}
         post={post}
         study={study}

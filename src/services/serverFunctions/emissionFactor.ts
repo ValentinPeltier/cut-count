@@ -1,6 +1,6 @@
 'use server'
 
-import { EmissionFactorStatus, Environment, Import, Unit } from '@/db-common/enums'
+import { EmissionFactorStatus, Import, Unit } from '@/db-common/enums'
 import { getAccountById } from '@/db/account'
 import { prismaClient } from '@/db/client.server'
 import {
@@ -19,7 +19,7 @@ import {
   updateEmissionFactor,
   type EmissionFactorList,
 } from '@/db/emissionFactors'
-import { getOrganizationVersionByOrganizationIdAndEnvironment, getOrgVersionWithOrgId } from '@/db/organization'
+import { getOrganizationVersionByOrganizationId, getOrgVersionWithOrgId } from '@/db/organization'
 import { getLocale } from '@/i18n/locale'
 import { NOT_AUTHORIZED } from '@/lib/services/permissions/check'
 import type { IsSuccess } from '@/lib/utils/serverResponse'
@@ -50,7 +50,7 @@ export const getFELocations = async () => {
         subPosts: { isEmpty: false },
         OR: [
           { organizationId: session.user.organizationId },
-          { AND: [{ versions: { some: { importVersion: { source: { not: Import.CUT } } } } }] },
+          { AND: [{ versions: { some: { importVersion: { source: { not: Import.Manual } } } } }] },
         ],
       },
     },
@@ -62,7 +62,7 @@ export const getEmissionFactors = async (
   skip: number,
   take: number | 'ALL',
   filters: FeFilters,
-  environment: Environment,
+  
   studyId?: string,
 ) =>
   withServerResponse('getEmissionFactors', async () => {
@@ -85,10 +85,10 @@ export const getEmissionFactors = async (
         return { emissionFactors: [], count: 0 }
       }
       const emissionFactorOrganizationId = organizationVersion.organizationId
-      return getAllEmissionFactors(emissionFactorOrganizationId, skip, take, locale, filters, environment)
+      return getAllEmissionFactors(emissionFactorOrganizationId, skip, take, locale, filters)
     } else {
       const organizationVersion = await getOrgVersionWithOrgId(session.user.organizationVersionId)
-      return getAllEmissionFactors(organizationVersion?.organizationId, skip, take, locale, filters, environment)
+      return getAllEmissionFactors(organizationVersion?.organizationId, skip, take, locale, filters)
     }
   })
 
@@ -168,10 +168,7 @@ export const isEmissionFactorFromActiveOrganization = async (id: string) =>
     if (!emissionFactor || !emissionFactor.organizationId || !session || !session.user) {
       return false
     }
-    const organizationVersion = await getOrganizationVersionByOrganizationIdAndEnvironment(
-      emissionFactor.organizationId,
-      session.user.environment,
-    )
+    const organizationVersion = await getOrganizationVersionByOrganizationId(emissionFactor.organizationId)
     if (!organizationVersion || !hasActiveLicence(organizationVersion)) {
       return false
     }
@@ -276,11 +273,5 @@ export const getEmissionFactorImportVersions = async (withArchived: boolean = fa
       throw new Error(NOT_AUTHORIZED)
     }
 
-    switch (session.user.environment) {
-      case Environment.CUT:
-        return getEmissionFactorImportVersionsCUT()
-      case Environment.CUT:
-      default:
-        return getEmissionFactorImportVersionsBC(withArchived)
-    }
+    return getEmissionFactorImportVersionsCUT()
   })

@@ -1,5 +1,5 @@
 import LoginForm from '@/components/auth/LoginForm'
-import { Environment } from '@/db-common/enums'
+
 import { auth } from '@/services/auth'
 import { redirect } from 'next/navigation'
 
@@ -9,7 +9,7 @@ const LoginPage = async () => {
     redirect('/')
   }
 
-  return <LoginForm environment={Environment.CUT} />
+  return <LoginForm />
 }
 
 export default LoginPage

@@ -20,7 +20,7 @@ const formatValue = (value: number, unit: StudyResultUnit, t: Translations) => {
 }
 
 const RealTimeResults = ({ post, study, studySiteId }: Props) => {
-  const { bySite, refresh } = usePublicodesResults(study, 'all', study.organizationVersion.environment)
+  const { bySite, refresh } = usePublicodesResults(study, 'all')
   const [updated, setUpdated] = useState(false)
   const [diff, setDiff] = useState<number>()
   const isFirstLoad = useRef(true)

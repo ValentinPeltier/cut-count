@@ -1,6 +1,4 @@
-import { Environment } from '@/db-common/enums'
 import { getEnvVar } from '@/lib/environment'
-import { EnvironmentNames } from '@/lib/utils/environments'
 import { getTranslations } from 'next-intl/server'
 import { sendEmail } from './send'
 import { getEnvResetLink } from './utils'
@@ -13,23 +11,17 @@ const tSubject = async (keys: string, object?: Record<string, string | number | 
 const tBody = async (keys: string, object?: Record<string, string | number | Date>) =>
   (await getTranslations('email.body'))(keys, object)
 
-export const sendResetPassword = async (toEmail: string, token: string, env: Environment = Environment.CUT) => {
-  return sendEmail(env, [toEmail], await tSubject('resetPassword'), 'reset-password', {
-    link: getEnvResetLink('reset-password', token, env),
+export const sendResetPassword = async (toEmail: string, token: string) => {
+  return sendEmail([toEmail], await tSubject('resetPassword'), 'reset-password', {
+    link: getEnvResetLink('reset-password', token),
     t_resetContent: await tBody('resetPassword.content'),
     t_resetNotYou: await tBody('resetPassword.notYou'),
   })
 }
 
-export const sendNewUserEmail = async (
-  toEmail: string,
-  token: string,
-  creatorName: string,
-  userName: string,
-  env: Environment,
-) => {
-  return sendEmail(env, [toEmail], await tSubject('newUser'), 'new-user', {
-    link: getEnvResetLink('reset-password', token, env),
+export const sendNewUserEmail = async (toEmail: string, token: string, creatorName: string, userName: string) => {
+  return sendEmail([toEmail], await tSubject('newUser'), 'new-user', {
+    link: getEnvResetLink('reset-password', token),
     userName,
     creatorName,
     t_helloName: await tBody('helloName', { name: userName }),
@@ -38,58 +30,43 @@ export const sendNewUserEmail = async (
   })
 }
 
-const getEnvInfo = async (_env: Environment) => tBody('addedActiveUser.envInfoCUT')
-
 export const sendAddedActiveUserEmail = async (
   toEmail: string,
   creatorName: string,
   userName: string,
-  newEnv: Environment,
-  oldEnvs: Environment[],
   orga: string,
 ) => {
-  const envInfo = await getEnvInfo(newEnv)
-  const oldEnvsText =
-    oldEnvs.length > 1
-      ? await tBody('addedActiveUser.oldEnvsMultiple', {
-          envNames: oldEnvs.map((env) => EnvironmentNames[env]).join(', '),
-        })
-      : await tBody('addedActiveUser.oldEnvsSingle', { envName: EnvironmentNames[oldEnvs[0]] })
-  return sendEmail(newEnv, [toEmail], await tSubject('addedActiveUser'), 'added-active-user', {
+  const envInfo = await tBody('addedActiveUser.envInfoCUT')
+  const newEnv = 'Count'
+  return sendEmail([toEmail], await tSubject('addedActiveUser'), 'added-active-user', {
     link: `${BASE_URL}/login`,
     userName,
     creatorName,
-    newEnv: EnvironmentNames[newEnv],
-    oldEnvs: oldEnvsText,
+    newEnv,
+    oldEnvs: '',
     envInfo,
     orga,
     t_helloName: await tBody('helloName', { name: userName }),
-    t_added: await tBody('addedActiveUser.added', { creatorName, orga, newEnv: EnvironmentNames[newEnv], envInfo }),
-    t_alreadyHadAccess: await tBody('addedActiveUser.alreadyHadAccess', { oldEnvs: oldEnvsText }),
+    t_added: await tBody('addedActiveUser.added', { creatorName, orga, newEnv, envInfo }),
+    t_alreadyHadAccess: await tBody('addedActiveUser.alreadyHadAccess', { oldEnvs: '' }),
     t_loginInfo: await tBody('addedActiveUser.loginInfo'),
   })
 }
 
-export const sendActivationEmail = async (toEmail: string, token: string, fromReset: boolean, env: Environment) => {
+export const sendActivationEmail = async (toEmail: string, token: string, fromReset: boolean) => {
   return sendEmail(
-    env,
     [toEmail],
     await tSubject('activation'),
     fromReset ? 'activate-account-from-reset' : 'activate-account',
     {
-      link: getEnvResetLink('reset-password', token, env),
+      link: getEnvResetLink('reset-password', token),
       t_activateContent: await tBody(fromReset ? 'activateAccountFromReset.content' : 'activateAccount.content'),
     },
   )
 }
 
-export const sendActivationRequest = async (
-  toEmailList: string[],
-  emailToActivate: string,
-  userToActivate: string,
-  env: Environment = Environment.CUT,
-) => {
-  return sendEmail(env, toEmailList, await tSubject('activationRequest'), 'activation-request', {
+export const sendActivationRequest = async (toEmailList: string[], emailToActivate: string, userToActivate: string) => {
+  return sendEmail(toEmailList, await tSubject('activationRequest'), 'activation-request', {
     emailToActivate,
     userToActivate,
     t_content: await tBody('activationRequest.content', { userToActivate, emailToActivate }),
@@ -104,9 +81,8 @@ export const sendUserOnStudyInvitationEmail = async (
   creatorName: string,
   userName: string,
   roleOnStudy: string,
-  env: Environment,
 ) => {
-  return sendEmail(env, [toEmail], await tSubject('userOnStudyInvitation', { studyName }), 'user-on-study-invitation', {
+  return sendEmail([toEmail], await tSubject('userOnStudyInvitation', { studyName }), 'user-on-study-invitation', {
     link: BASE_URL,
     userName,
     studyName,
@@ -134,15 +110,13 @@ export const sendNewUserOnStudyInvitationEmail = async (
   organizationName: string,
   creatorName: string,
   roleOnStudy: string,
-  env: Environment,
 ) => {
   return sendEmail(
-    env,
     [toEmail],
     await tSubject('userOnStudyInvitation', { studyName }),
     'new-user-on-study-invitation',
     {
-      link: getEnvResetLink('reset-password', token, env),
+      link: getEnvResetLink('reset-password', token),
       studyName,
       studyId,
       studyLink: `${BASE_URL}/etudes/${studyId}`,
@@ -168,9 +142,8 @@ export const sendContributorInvitationEmail = async (
   organizationName: string,
   creatorName: string,
   userName: string,
-  env: Environment,
 ) => {
-  return sendEmail(env, [toEmail], await tSubject('contributorInvitation', { studyName }), 'contributor-invitation', {
+  return sendEmail([toEmail], await tSubject('contributorInvitation', { studyName }), 'contributor-invitation', {
     link: BASE_URL,
     userName,
     studyName,
@@ -192,15 +165,13 @@ export const sendNewContributorInvitationEmail = async (
   studyId: string,
   organizationName: string,
   creatorName: string,
-  env: Environment,
 ) => {
   return sendEmail(
-    env,
     [toEmail],
     await tSubject('contributorInvitation', { studyName }),
     'new-contributor-invitation',
     {
-      link: getEnvResetLink('reset-password', token, env),
+      link: getEnvResetLink('reset-password', token),
       studyName,
       studyId,
       studyLink: `${BASE_URL}/etudes/${studyId}`,
@@ -214,9 +185,9 @@ export const sendNewContributorInvitationEmail = async (
   )
 }
 
-export const sendAddedUsersByFile = async (results: Record<string, string>[], env: Environment) => {
-  const support = await getEnvVar('SUPPORT_EMAIL', env)
-  return sendEmail(env, [support], await tSubject('addedUsersByFile'), 'authorization-import-users', {
+export const sendAddedUsersByFile = async (results: Record<string, string>[]) => {
+  const support = await getEnvVar('SUPPORT_EMAIL')
+  return sendEmail([support], await tSubject('addedUsersByFile'), 'authorization-import-users', {
     results,
   })
 }

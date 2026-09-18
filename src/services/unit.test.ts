@@ -1,18 +1,17 @@
 import { Unit } from '@/db-common/enums'
-import { BCUnit, CUTUnit, OldUnit } from './unit'
+import { CUTUnit, OldUnit } from './unit'
 
 jest.mock('next-intl', () => ({
   useTranslations: () => (key: string) => key,
 }))
 
 describe('Unit service', () => {
-  describe('all units are present in one env', () => {
-    const allUnits = { ...BCUnit, ...CUTUnit, ...OldUnit }
-    const allUnitValues = Object.values(allUnits)
+  describe('CUT units are defined in the Unit enum', () => {
+    const cutUnits = { ...CUTUnit, ...OldUnit }
 
-    for (const unit of Object.values(Unit)) {
-      it(`should have unit ${unit} in one env or old`, () => {
-        expect(allUnitValues).toContain(unit)
+    for (const unit of Object.values(cutUnits)) {
+      it(`should have unit ${unit} in Unit enum`, () => {
+        expect(Object.values(Unit)).toContain(unit)
       })
     }
   })

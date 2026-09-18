@@ -27,8 +27,6 @@ model OrganizationVersion {
   parent   OrganizationVersion?  @relation("childOrganizationVersions", fields: [parentId], references: [id])
   childs   OrganizationVersion[] @relation("childOrganizationVersions")
 
-  environment Environment @default(CUT)
-
   @@map("organization_versions")
   @@schema("bilan_carbone")
 }

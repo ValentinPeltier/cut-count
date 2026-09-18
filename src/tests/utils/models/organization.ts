@@ -1,4 +1,4 @@
-import { Environment } from '@/db-common/enums'
+
 import { mockedOrganization, mockedOrganizationId } from '@/lib/services/tests/models/organization'
 
 export const mockedOrganizationVersionId = 'mocked-organization-version-id'
@@ -27,5 +27,4 @@ export const mockedOrganizationVersion = {
   parentId: null,
   parent: null,
   organization: mockedOrganization,
-  environment: Environment.CUT,
-}
+  }

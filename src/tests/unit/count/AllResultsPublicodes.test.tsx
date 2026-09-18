@@ -1,4 +1,4 @@
-import { Environment, StudyResultUnit } from '@/db-common/enums'
+import { StudyResultUnit } from '@/db-common/enums'
 import { ThemeProvider } from '@mui/material/styles'
 import { render, screen } from '@testing-library/react'
 import theme from '@/environments/cut/theme/theme'
@@ -23,8 +23,8 @@ jest.mock('@/components/study/site/useStudySite', () => ({
   }),
 }))
 
-jest.mock('@/store/AppEnvironment', () => ({
-  useAppEnvironmentStore: () => ({ environment: Environment.CUT }),
+jest.mock('@/store/AppLoading', () => ({
+  useAppLoadingStore: () => ({ isLoading: false }),
 }))
 
 jest.mock('@/services/permissions/environment', () => ({
@@ -53,7 +53,7 @@ const cutStudy = {
   id: 'study-1',
   name: 'Count study',
   resultsUnit: StudyResultUnit.T,
-  organizationVersion: { environment: Environment.CUT },
+  organizationVersion: {},
   sites: [{ id: 'site-1', siteId: 'physical-site' }],
 } as unknown as FullStudy
 

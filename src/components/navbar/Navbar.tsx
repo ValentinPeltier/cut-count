@@ -42,7 +42,7 @@ const Navbar = ({ user }: Props) => {
                 <NavbarButton aria-label={t('profile')} href="/profil">
                   <AccountCircleIcon />
                 </NavbarButton>
-                <NavbarButton title={t('logout')} aria-label={t('logout')} onClick={() => signOutEnv(user.environment)}>
+                <NavbarButton title={t('logout')} aria-label={t('logout')} onClick={() => signOutEnv()}>
                   <PowerSettingsNewIcon />
                 </NavbarButton>
               </div>

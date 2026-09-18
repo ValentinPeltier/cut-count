@@ -1,5 +1,5 @@
 'use client'
-import { Environment } from '@/db-common/enums'
+
 import ResetFormCommon from '@/lib/components/auth/ResetFormCommon'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
 import ResetLinkAlreadyUsed from '@/lib/components/pages/ResetLinkAlreadyUsed'
@@ -14,10 +14,9 @@ import { useEffect, useState } from 'react'
 interface Props {
   user?: UserSession
   token: string
-  environment?: Environment
 }
 
-const ResetForm = ({ user, token, environment = Environment.CUT }: Props) => {
+const ResetForm = ({ user, token }: Props) => {
   useEffect(() => {
     checkToken(token).then((invalidtoken) => {
       setInvalidResetLink(invalidtoken)
@@ -26,7 +25,7 @@ const ResetForm = ({ user, token, environment = Environment.CUT }: Props) => {
 
   useEffect(() => {
     if (user) {
-      signOutEnv(environment, { redirect: false })
+      signOutEnv({ redirect: false })
     }
   }, [user])
 
@@ -40,10 +39,10 @@ const ResetForm = ({ user, token, environment = Environment.CUT }: Props) => {
     return <ResetLinkAlreadyUsed />
   }
 
-  const loginLink = getEnvRoute('login', environment)
+  const loginLink = getEnvRoute('login')
 
   const resetPassword = async (password: string, token: string) => {
-    await callServerFunction(() => reset(password, token, environment), {
+    await callServerFunction(() => reset(password, token), {
       getSuccessMessage: () => t('validated'),
       getErrorMessage: () => t('resetError'),
       onSuccess: () => {

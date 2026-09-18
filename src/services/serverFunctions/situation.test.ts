@@ -2,7 +2,7 @@ import * as situationDbModule from '@/db/situation'
 import * as studyDbModule from '@/db/study'
 import * as authModule from '@/services/auth'
 import * as situationPermissionsModule from '@/services/permissions/situation'
-import { Environment } from '@/db-common/enums'
+
 import { saveSituation } from './situation'
 
 jest.mock('../auth', () => ({
@@ -44,8 +44,7 @@ describe('saveSituation', () => {
       id: 'user-cut',
       accountId: 'account-cut',
       organizationVersionId: 'org-cut',
-      environment: Environment.CUT,
-    },
+          },
   }
 
   const mockCutStudy = {
@@ -60,8 +59,7 @@ describe('saveSituation', () => {
       id: 'user-1',
       accountId: 'account-1',
       organizationVersionId: 'org-1',
-      environment: Environment.CUT,
-    },
+          },
   }
 
   const mockStudy = {

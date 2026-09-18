@@ -131,7 +131,7 @@ const StudiesContainer = async ({ user, organizationVersionId, isCR, simplified 
         </Block>
       </MUIBox>
     )
-  ) : !canCreateStudyOnlyAsAdministrator(user.environment) && !simplified ? (
+  ) : !canCreateStudyOnlyAsAdministrator() && !simplified ? (
     <Block>
       <Alert className="p0" severity="info">
         <p>

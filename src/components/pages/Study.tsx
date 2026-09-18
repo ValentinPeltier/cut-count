@@ -3,7 +3,7 @@
 import { isOrganizationVersionCR } from '@/db/organization'
 import type { FullStudy } from '@/db/study'
 import { getUserApplicationSettings } from '@/db/user'
-import { canDeleteStudy, canDuplicateStudy, getEnvironmentsForDuplication } from '@/services/permissions/study'
+import { canDeleteStudy, canDuplicateStudy } from '@/services/permissions/study'
 import { UserSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
 import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
@@ -16,10 +16,9 @@ interface Props {
 
 const StudyPage = async ({ study, user }: Props) => {
   const tNav = await getTranslations('nav')
-  const [canDelete, canDuplicate, duplicableEnvironments, settings, userOrgIsCR] = await Promise.all([
+  const [canDelete, canDuplicate, settings, userOrgIsCR] = await Promise.all([
     canDeleteStudy(study.id),
     canDuplicateStudy(study.id),
-    getEnvironmentsForDuplication(study.id),
     getUserApplicationSettings(user.accountId),
     isOrganizationVersionCR(user.organizationVersionId),
   ])
@@ -43,7 +42,6 @@ const StudyPage = async ({ study, user }: Props) => {
         study={study}
         canDeleteStudy={canDelete}
         canDuplicateStudy={canDuplicate}
-        duplicableEnvironments={duplicableEnvironments}
         validatedOnly={settings.validatedEmissionSourcesOnly}
         organizationVersionId={userOrgIsCR ? study.organizationVersionId : null}
       />

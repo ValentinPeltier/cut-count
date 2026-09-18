@@ -2,7 +2,6 @@ import { SubPost } from '@/db-common/enums'
 import type { FullStudy } from '@/db/study'
 import { Post } from '@/lib/utils/charts'
 import { environmentSubPostsMapping, subPostsByPost } from '@/services/posts'
-import { BCEnvironment } from '@/types/environment'
 import type { ResultType } from '@/types/study.types'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { PostSubPostFilter } from '../../form/PostSubPostFilter'
@@ -21,7 +20,7 @@ const ResultFilters = ({ study, selectedPostIds, onPostFilterChange, exportType 
   const hasInitializedRef = useRef(false)
 
   const { envPosts, envSubPosts } = useMemo(() => {
-    const envSubPostsByPost = environmentSubPostsMapping[study.organizationVersion.environment as BCEnvironment]
+    const envSubPostsByPost = environmentSubPostsMapping
     const posts = Object.keys(envSubPostsByPost) as Post[]
     const subPosts = posts.reduce((acc, post) => acc.concat(subPostsByPost[post] || []), [] as SubPost[])
 
@@ -29,7 +28,7 @@ const ResultFilters = ({ study, selectedPostIds, onPostFilterChange, exportType 
       envPosts: posts,
       envSubPosts: Array.from(new Set(subPosts)),
     }
-  }, [study.organizationVersion.environment])
+  }, [])
 
   useEffect(() => {
     if (envSubPosts.length > 0) {

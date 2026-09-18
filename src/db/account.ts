@@ -1,5 +1,5 @@
 import type { Prisma } from '@/db-common'
-import { DeactivatableFeature, Environment, Role } from '@/db-common/enums'
+import { DeactivatableFeature, Role } from '@/db-common/enums'
 import { NOT_AUTHORIZED } from '@/lib/services/permissions/check'
 import { getDeactivableFeatureRestrictions } from '@/services/serverFunctions/deactivableFeatures'
 import { findUserInfo } from '@/utils/user'
@@ -55,9 +55,9 @@ export const getAccountOrganizationVersions = async (accountId: string) => {
   return account.organizationVersion ? [account.organizationVersion] : []
 }
 
-export const getAccountByEmailAndEnvironment = (email: string, environment: Environment) => {
+export const getAccountByEmail = (email: string) => {
   return prismaClient.account.findFirst({
-    where: { user: { email }, environment },
+    where: { user: { email } },
     select: AccountWithUserSelect,
   })
 }
@@ -77,13 +77,6 @@ export const getAccountsFromOrganization = (organizationVersionId: string) =>
 
 export const addAccount = async (account: Prisma.AccountCreateInput & { role: Exclude<Role, 'SUPER_ADMIN'> }) => {
   const deactivatedFeaturesRestrictions = await getDeactivableFeatureRestrictions(DeactivatableFeature.Creation)
-  if (
-    deactivatedFeaturesRestrictions?.active &&
-    account.environment !== undefined &&
-    deactivatedFeaturesRestrictions.deactivatedEnvironments.includes(account.environment)
-  ) {
-    throw new Error(NOT_AUTHORIZED)
-  }
 
   return prismaClient.account.create({
     data: account,
@@ -99,9 +92,9 @@ export const getAccountsUserLevel = (ids: string[]) =>
 export const getAccountsFromUser = (user: UserSession) =>
   prismaClient.account.findMany({ where: { userId: user.userId } })
 
-export const getAccountsByUserIdsAndEnvironment = (userIds: string[], environment: Environment) =>
+export const getAccountsByUserIds = (userIds: string[]) =>
   prismaClient.account.findMany({
-    where: { userId: { in: userIds }, environment },
+    where: { userId: { in: userIds } },
     select: {
       id: true,
       user: { select: { id: true } },

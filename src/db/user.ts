@@ -1,5 +1,5 @@
-import { Prisma } from '@/db-common'
-import { DeactivatableFeature, Environment, Role, UserStatus } from '@/db-common/enums'
+import type { Prisma } from '@/db-common'
+import { DeactivatableFeature, Role, UserStatus } from '@/db-common/enums'
 import { NOT_AUTHORIZED } from '@/lib/services/permissions/check'
 import { AddMemberCommand } from '@/lib/services/serverFunctions/user.command'
 import { signPassword } from '@/lib/utils/auth'
@@ -9,7 +9,7 @@ import { AuthorizedInOrgaUserStatus } from '@/services/users'
 import { getRoleToSetForUntrained } from '@/utils/user'
 import { userSessionToDbUser } from '@/utils/userAccounts'
 import { UserSession } from 'next-auth'
-import { addAccount, getAccountByEmailAndEnvironment, getAccountByEmailAndOrganizationVersionId } from './account'
+import { addAccount, getAccountByEmail, getAccountByEmailAndOrganizationVersionId } from './account'
 import { prismaClient } from './client.server'
 
 export const getUserByEmailWithSensibleInformations = (email: string) =>
@@ -44,12 +44,10 @@ export const getUserWithAccountsAndOrganizationsById = async (id: string) => {
       accounts: {
         select: {
           id: true,
-          environment: true,
           status: true,
           organizationVersion: {
             select: {
               id: true,
-              environment: true,
               organization: { select: { id: true, name: true } },
             },
           },
@@ -72,7 +70,7 @@ export const getAccountByIdWithAllowedStudies = (id: string) =>
 
 export type UserWithAllowedStudies = AsyncReturnType<typeof getAccountByIdWithAllowedStudies>
 
-export const updateUserPasswordForEmail = async (email: string, password: string, env: Environment) => {
+export const updateUserPasswordForEmail = async (email: string, password: string) => {
   const signedPassword = await signPassword(password)
   const user = await prismaClient.user.update({
     where: { email },
@@ -86,13 +84,12 @@ export const updateUserPasswordForEmail = async (email: string, password: string
   const account = await prismaClient.account.findFirst({
     where: {
       userId: user.id,
-      environment: env,
       status: { in: AuthorizedInOrgaUserStatus },
     },
   })
 
   if (!account) {
-    throw new Error(`Account with email ${email} for environment ${env} not found or has a wrong status`)
+    throw new Error(`Account with email ${email} not found or has a wrong status`)
   }
 
   const accounts = await prismaClient.account.findMany({
@@ -170,6 +167,12 @@ export const updateUser = (userId: string, data: Partial<Prisma.UserCreateInput>
     data,
   })
 
+const isCreationBlockedForSource = (
+  restrictions: Awaited<ReturnType<typeof getDeactivableFeatureRestrictions>>,
+  source?: Prisma.UserCreateManyInput['source'],
+) =>
+  !!restrictions?.active && !!source && restrictions.deactivatedSources.includes(source)
+
 export const createUsersWithAccount = async (
   users: (Prisma.UserCreateManyInput & { account: Prisma.AccountCreateInput })[],
 ) => {
@@ -177,17 +180,16 @@ export const createUsersWithAccount = async (
   let filteredUsers = users
 
   if (deactivatedFeaturesRestrictions?.active) {
-    const notAllowedEnvironments = users.some(({ account }) =>
-      deactivatedFeaturesRestrictions.deactivatedEnvironments.includes(account.environment ?? Environment.CUT),
+    const notAllowedSources = users.some(({ source }) =>
+      isCreationBlockedForSource(deactivatedFeaturesRestrictions, source),
     )
     filteredUsers = users.filter(
-      ({ account }) =>
-        !deactivatedFeaturesRestrictions.deactivatedEnvironments.includes(account.environment ?? Environment.CUT),
+      ({ source }) => !isCreationBlockedForSource(deactivatedFeaturesRestrictions, source),
     )
-    if (notAllowedEnvironments) {
+    if (notAllowedSources) {
       console.log(
-        'Creation of users from these environments is not allowed: ',
-        deactivatedFeaturesRestrictions.deactivatedEnvironments,
+        'Creation of users from these sources is not allowed: ',
+        deactivatedFeaturesRestrictions.deactivatedSources,
       )
     }
   }
@@ -212,10 +214,7 @@ export const createUsersWithAccount = async (
     }
 
     for (const originalUser of originalUsers) {
-      const accoutAlreadyExists = await getAccountByEmailAndEnvironment(
-        user.email,
-        originalUser.account.environment ?? Environment.CUT,
-      )
+      const accoutAlreadyExists = await getAccountByEmail(user.email)
       if (accoutAlreadyExists) {
         continue
       }
@@ -262,16 +261,8 @@ export const addUser = async (
   },
 ) => {
   const deactivatedFeaturesRestrictions = await getDeactivableFeatureRestrictions(DeactivatableFeature.Creation)
-  if (deactivatedFeaturesRestrictions?.active) {
-    const createAccount = newMember.accounts.create
-
-    const notAllowedEnvironments =
-      createAccount.environment === undefined ||
-      deactivatedFeaturesRestrictions.deactivatedEnvironments.includes(createAccount.environment)
-
-    if (notAllowedEnvironments) {
-      throw new Error(NOT_AUTHORIZED)
-    }
+  if (isCreationBlockedForSource(deactivatedFeaturesRestrictions, newMember.source)) {
+    throw new Error(NOT_AUTHORIZED)
   }
   return prismaClient.user.create({
     data: newMember,
@@ -280,7 +271,6 @@ export const addUser = async (
       accounts: {
         select: {
           id: true,
-          environment: true,
         },
       },
     },
@@ -288,18 +278,20 @@ export const addUser = async (
 }
 
 export const handleAddingUser = async (creator: UserSession, newUser: AddMemberCommand) => {
-  const environment = creator.environment
+  const organizationVersionId = creator.organizationVersionId
   const memberExists = await getUserByEmail(newUser.email.toLowerCase())
 
   const isMemberActiveInSomeEnv = memberExists?.accounts.some((a) => a.status === UserStatus.ACTIVE)
-  const memberAccountForEnv = memberExists?.accounts.find((a) => a.environment === environment)
+  const memberAccountForOrganization = memberExists?.accounts.find(
+    (a) => a.organizationVersionId === organizationVersionId,
+  )
 
-  if (memberAccountForEnv?.role === Role.SUPER_ADMIN || newUser.role === Role.SUPER_ADMIN) {
+  if (memberAccountForOrganization?.role === Role.SUPER_ADMIN || newUser.role === Role.SUPER_ADMIN) {
     throw new Error(NOT_AUTHORIZED)
   }
 
   const userFromDb = await getUserByEmail(creator.email)
-  if (!userFromDb || !creator.organizationVersionId) {
+  if (!userFromDb || !organizationVersionId) {
     throw new Error(NOT_AUTHORIZED)
   }
 
@@ -312,25 +304,23 @@ export const handleAddingUser = async (creator: UserSession, newUser: AddMemberC
       source: userFromDb.source,
       accounts: {
         create: {
-          role: getRoleToSetForUntrained(newUser.role, environment),
+          role: getRoleToSetForUntrained(newUser.role),
           status: UserStatus.VALIDATED,
-          organizationVersionId: creator.organizationVersionId,
-          environment: environment,
+          organizationVersionId,
         },
       },
     }
 
     await addUser(newMember)
-  } else if (!memberAccountForEnv) {
+  } else if (!memberAccountForOrganization) {
     await addAccount({
       status: isMemberActiveInSomeEnv ? UserStatus.ACTIVE : UserStatus.VALIDATED,
-      role: memberExists.level ? newUser.role : getRoleToSetForUntrained(newUser.role, environment),
-      environment,
+      role: memberExists.level ? newUser.role : getRoleToSetForUntrained(newUser.role),
       user: { connect: { id: memberExists.id } },
-      organizationVersion: { connect: { id: creator.organizationVersionId } },
+      organizationVersion: { connect: { id: organizationVersionId } },
     })
   } else {
-    if (memberAccountForEnv.status === UserStatus.ACTIVE && memberAccountForEnv.organizationVersionId) {
+    if (memberAccountForOrganization.status === UserStatus.ACTIVE && memberAccountForOrganization.organizationVersionId) {
       throw new Error(NOT_AUTHORIZED)
     }
 
@@ -342,19 +332,18 @@ export const handleAddingUser = async (creator: UserSession, newUser: AddMemberC
     const updateMemberAccount = {
       status: isMemberActiveInSomeEnv ? UserStatus.ACTIVE : UserStatus.VALIDATED,
       role: memberExists.level
-        ? memberAccountForEnv.role
-        : getRoleToSetForUntrained(memberAccountForEnv.role, creator.environment),
-      organizationVersion: { connect: { id: creator.organizationVersionId } },
+        ? memberAccountForOrganization.role
+        : getRoleToSetForUntrained(memberAccountForOrganization.role),
+      organizationVersion: { connect: { id: organizationVersionId } },
     }
-    await updateAccount(memberAccountForEnv.id, updateMemberAccount, updateMember)
+    await updateAccount(memberAccountForOrganization.id, updateMemberAccount, updateMember)
   }
 
   await sendEmailToAddedUser(
     newUser.email.toLowerCase(),
     userSessionToDbUser(creator),
     newUser.firstName,
-    creator.environment,
-    creator.organizationVersionId,
+    organizationVersionId,
   )
 }
 

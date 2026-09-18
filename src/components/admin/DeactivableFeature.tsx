@@ -1,6 +1,6 @@
 'use client'
 
-import { Environment, UserSource } from '@/db-common/enums'
+import { UserSource } from '@/db-common/enums'
 import { getFeaturesRestictions, RestrictionsTypes } from '@/db/deactivableFeatures'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
 import {
@@ -25,7 +25,6 @@ type DeactivationCriteria<TValue> = {
 const DeactivableFeature = ({ restrictions }: Props) => {
   const t = useTranslations('deactivableFeatures')
   const tSource = useTranslations('source')
-  const tEnvironment = useTranslations('environment')
   const { callServerFunction } = useServerFunction()
   const router = useRouter()
 
@@ -47,7 +46,7 @@ const DeactivableFeature = ({ restrictions }: Props) => {
 
   const showSourcesRow = false
 
-  const featureDeactivationCriterias: Array<DeactivationCriteria<UserSource> | DeactivationCriteria<Environment>> = [
+  const featureDeactivationCriterias: Array<DeactivationCriteria<UserSource>> = [
     ...(showSourcesRow
       ? [
           {
@@ -58,12 +57,6 @@ const DeactivableFeature = ({ restrictions }: Props) => {
           },
         ]
       : []),
-    {
-      title: 'environment',
-      criterias: restrictions.deactivatedEnvironments,
-      t: tEnvironment,
-      values: Object.values(Environment),
-    },
   ]
 
   const isCriteriaActive = (criterias: RestrictionsTypes[], value: RestrictionsTypes) =>

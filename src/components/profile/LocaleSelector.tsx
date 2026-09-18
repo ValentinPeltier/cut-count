@@ -3,7 +3,6 @@
 import { getLocale, switchLocale } from '@/i18n/locale'
 import { LocaleType, defaultLocale } from '@/lib/i18n/config'
 import { getLocalesForEnv } from '@/services/permissions/environment'
-import { useAppEnvironmentStore } from '@/store/AppEnvironment'
 import { InputLabel, MenuItem, Select } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import { useEffect, useMemo, useState } from 'react'
@@ -12,14 +11,7 @@ const LocaleSelector = () => {
   const t = useTranslations('locale')
   const [locale, setLocale] = useState<LocaleType>(defaultLocale)
 
-  const { environment } = useAppEnvironmentStore()
-
-  const availableLocales = useMemo(() => {
-    if (!environment) {
-      return []
-    }
-    return getLocalesForEnv(environment)
-  }, [environment])
+  const availableLocales = useMemo(() => getLocalesForEnv(), [])
 
   useEffect(() => {
     getLocale().then((value) => {

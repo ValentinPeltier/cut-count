@@ -5,9 +5,9 @@ import {
   getTotalValueFromBaseResults,
 } from '@/services/results/publicodes'
 import { computeResultsForAllSitesFromSituations } from '@/services/results/computeSimplifiedResults'
-import type { BaseResultsByPost } from '@/services/posts'
+import { CutPost, subPostsByPostCUT, type BaseResultsByPost } from '@/services/posts'
 import { loadCountSituation } from '@/tests/fixtures/count/loadFixtures'
-import { Environment, StudyResultUnit } from '@/db-common/enums'
+import { StudyResultUnit } from '@/db-common/enums'
 import Engine, { Situation } from 'publicodes'
 
 describe('computeSimplifiedResults edge cases', () => {
@@ -25,8 +25,8 @@ describe('computeSimplifiedResults edge cases', () => {
     const engine = getCutEngine()
     engine.setSituation(loadCountSituation('minimal') as Situation<string>)
     const postResults: BaseResultsByPost[] = [
-      { post: 'Fonctionnement', label: 'a', value: 10, children: [] },
-      { post: 'Dechets', label: 'b', value: 5, children: [] },
+      { post: CutPost.Fonctionnement, label: 'a', value: 10, children: [] },
+      { post: CutPost.Dechets, label: 'b', value: 5, children: [] },
     ]
 
     const total = computeTotalForBaseResults(engine, postResults, tPost)
@@ -39,7 +39,7 @@ describe('computeResultsForAllSitesFromSituations', () => {
   it('returns empty aggregation when no situations are provided', () => {
     const config = {
       posts: [],
-      subPostsByPost: {},
+      subPostsByPost: subPostsByPostCUT,
       getFormLayout: () => [],
       getPostRuleName: () => 'x',
       getSubPostRuleName: () => undefined,
@@ -47,7 +47,7 @@ describe('computeResultsForAllSitesFromSituations', () => {
       modelVersion: 'test',
     }
 
-    const result = computeResultsForAllSitesFromSituations({}, config, (k) => k, Environment.CUT)
+    const result = computeResultsForAllSitesFromSituations({}, config, (k) => k)
     expect(result.aggregated).toEqual([])
     expect(result.bySite).toEqual({})
   })

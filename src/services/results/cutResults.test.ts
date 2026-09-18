@@ -19,7 +19,7 @@ import {
   loadCountSituation,
 } from '@/tests/fixtures/count/loadFixtures'
 import { studySiteToSituation } from '@/services/studySiteToSituation'
-import { Environment, StudyResultUnit, SubPost } from '@/db-common/enums'
+import { StudyResultUnit, SubPost } from '@/db-common/enums'
 import { roundTo } from '@/lib/utils/number'
 import { Situation } from 'publicodes'
 
@@ -89,7 +89,6 @@ describe('Count! results pipeline', () => {
         { site1: situation },
         cutConfig,
         tPostIdentity,
-        Environment.CUT,
       )
 
       for (const post of Object.values(CutPost)) {
@@ -117,7 +116,6 @@ describe('Count! results pipeline', () => {
         { site1: situation },
         cutConfig,
         tPostIdentity,
-        Environment.CUT,
       )
       const totalRow = aggregated.find((r) => r.post === 'total')
       expect(roundTo(totalRow!.value, 3)).toBe(roundTo(expected.bilan, 3))
@@ -130,7 +128,6 @@ describe('Count! results pipeline', () => {
         { site1: situation },
         cutConfig,
         tPostIdentity,
-        Environment.CUT,
       )
 
       for (const post of Object.values(CutPost)) {
@@ -162,13 +159,11 @@ describe('Count! results pipeline', () => {
         { site1: merged },
         cutConfig,
         tPostIdentity,
-        Environment.CUT,
       )
       const fromFormOnly = computeResultsForAllSitesFromSituations(
         { site1: formAnswers },
         cutConfig,
         tPostIdentity,
-        Environment.CUT,
       )
 
       expect(fromMerged.aggregated.find((r) => r.post === 'total')?.value).toBe(
@@ -184,7 +179,6 @@ describe('Count! results pipeline', () => {
         { siteA: situation, siteB: situation },
         cutConfig,
         tPostIdentity,
-        Environment.CUT,
       )
 
       const totalRow = aggregated.find((r) => r.post === 'total')
@@ -199,7 +193,6 @@ describe('Count! results pipeline', () => {
         { site1: situation },
         cutConfig,
         tPostIdentity,
-        Environment.CUT,
       )
       const totalKg = aggregated.find((r) => r.post === 'total')!.value
       expect(getTotalValueFromBaseResults(aggregated, StudyResultUnit.T)).toBe(totalKg / 1000)

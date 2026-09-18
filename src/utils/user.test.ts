@@ -1,8 +1,8 @@
-import { Environment, Role, UserStatus } from '@/db-common/enums'
+import { Role, UserStatus } from '@/db-common/enums'
 import { CutRoles } from '@/services/roles'
 import { getMockedAuthUser } from '@/tests/utils/models/user'
 import { expect } from '@jest/globals'
-import { findUserInfo, getEnvironmentRoles, getRoleToSetForUntrained, isAdmin } from './user'
+import { findUserInfo, getRoleToSetForUntrained, getTeamRoles, isAdmin } from './user'
 
 describe('userUtils functions', () => {
   describe('isAdmin', () => {
@@ -67,18 +67,18 @@ describe('userUtils functions', () => {
     })
   })
 
-  describe('getEnvironmentRoles', () => {
+  describe('getTeamRoles', () => {
     test('should return CutRoles', () => {
-      expect(getEnvironmentRoles(Environment.CUT)).toEqual(CutRoles)
+      expect(getTeamRoles()).toEqual(CutRoles)
     })
   })
 
   describe('getRoleToSetForUntrained', () => {
     test('should return the same role for Count', () => {
-      expect(getRoleToSetForUntrained(Role.ADMIN, Environment.CUT)).toBe(Role.ADMIN)
-      expect(getRoleToSetForUntrained(Role.DEFAULT, Environment.CUT)).toBe(Role.DEFAULT)
-      expect(getRoleToSetForUntrained(Role.GESTIONNAIRE, Environment.CUT)).toBe(Role.GESTIONNAIRE)
-      expect(getRoleToSetForUntrained(Role.COLLABORATOR, Environment.CUT)).toBe(Role.COLLABORATOR)
+      expect(getRoleToSetForUntrained(Role.ADMIN)).toBe(Role.ADMIN)
+      expect(getRoleToSetForUntrained(Role.DEFAULT)).toBe(Role.DEFAULT)
+      expect(getRoleToSetForUntrained(Role.GESTIONNAIRE)).toBe(Role.GESTIONNAIRE)
+      expect(getRoleToSetForUntrained(Role.COLLABORATOR)).toBe(Role.COLLABORATOR)
     })
   })
 })

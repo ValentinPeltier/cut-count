@@ -8,7 +8,6 @@ export const OrganizationVersionWithOrganizationSelect = {
   isCR: true,
   onboarded: true,
   onboarderId: true,
-  environment: true,
   parentId: true,
   parent: {
     select: {

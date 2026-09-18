@@ -1,33 +1,27 @@
 import { wasteImpact } from '@/constants/emissions'
 import { wasteEmissionFactors } from '@/constants/wasteEmissionFactors'
 import type { EmissionFactor, Prisma } from '@/db-common'
-import { Environment, Import, SubPost, Unit } from '@/db-common/enums'
+import { Import, SubPost, Unit } from '@/db-common/enums'
 import { hasWasteImpact } from '@/services/permissions/environment'
 import { unique } from './array'
 
-export const isWasteEmissionFactor = (
-  emissionFactor: Pick<EmissionFactor, 'importedFrom' | 'importedId'>,
-  environment?: Environment,
-) =>
-  (!environment || hasWasteImpact(environment)) &&
+export const isWasteEmissionFactor = (emissionFactor: Pick<EmissionFactor, 'importedFrom' | 'importedId'>) =>
+  hasWasteImpact() &&
   emissionFactor.importedFrom === Import.BaseEmpreinte &&
   !!emissionFactor.importedId &&
   !!wasteEmissionFactors[emissionFactor.importedId]
 
-export const getEmissionFactorValue = (
-  emissionFactor: {
-    totalCo2: EmissionFactor['totalCo2']
-    importedFrom?: EmissionFactor['importedFrom']
-    importedId?: EmissionFactor['importedId']
-  },
-  environment?: Environment,
-) => {
+export const getEmissionFactorValue = (emissionFactor: {
+  totalCo2: EmissionFactor['totalCo2']
+  importedFrom?: EmissionFactor['importedFrom']
+  importedId?: EmissionFactor['importedId']
+}) => {
   if (emissionFactor.importedFrom && emissionFactor.importedId) {
     if (
-      isWasteEmissionFactor(
-        { ...emissionFactor, importedFrom: emissionFactor.importedFrom, importedId: emissionFactor.importedId },
-        environment,
-      )
+      isWasteEmissionFactor({
+        importedFrom: emissionFactor.importedFrom,
+        importedId: emissionFactor.importedId,
+      })
     ) {
       return wasteImpact
     }
@@ -104,9 +98,9 @@ export const monetaryUnits: Unit[] = [
   Unit.FRANC_CFP,
 ]
 
-const getEmissionFactorSubPostMap = (subPost: SubPost, _env: Environment): SubPost[] => {
+const getEmissionFactorSubPostMap = (subPost: SubPost): SubPost[] => {
   return [subPost]
 }
 
-export const getEmissionFactorSubPostsMap = (subPosts: SubPost[], env: Environment) =>
-  unique(subPosts.reduce((res, subPost) => res.concat(getEmissionFactorSubPostMap(subPost, env)), [] as SubPost[]))
+export const getEmissionFactorSubPostsMap = (subPosts: SubPost[]) =>
+  unique(subPosts.reduce((res, subPost) => res.concat(getEmissionFactorSubPostMap(subPost)), [] as SubPost[]))

@@ -1,4 +1,6 @@
-import { Environment, Role } from '@/db-common/enums'
+import { Role } from '@/db-common/enums'
+
+export const getRolesFromEnvironment = (_role: Role) => getCutRoleFromBase(_role)
 
 export const getCutRoleFromBase = (role: Role): Role => {
   switch (role) {
@@ -8,14 +10,5 @@ export const getCutRoleFromBase = (role: Role): Role => {
       return Role.ADMIN
     default:
       return Role.DEFAULT
-  }
-}
-
-export const getRolesFromEnvironment = (environment: Environment, role: Role) => {
-  switch (environment) {
-    case Environment.CUT:
-      return getCutRoleFromBase(role)
-    default:
-      return role
   }
 }

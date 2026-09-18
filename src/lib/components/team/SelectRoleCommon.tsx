@@ -1,6 +1,6 @@
 'use client'
 
-import { Environment, Level, Role } from '@/db-common/enums'
+import { Level, Role } from '@/db-common/enums'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
 import { ApiResponse } from '@/lib/utils/serverResponse'
 import { RoleBcOrMip } from '@/lib/utils/types'
@@ -17,9 +17,8 @@ interface Props {
   currentRole: RoleBcOrMip
   email: string
   level: Level | null
-  environmentRoles: RoleBcOrMip[]
-  environment: Environment
-  changeRole?: (email: string, newRole: RoleBcOrMip) => Promise<ApiResponse>
+  teamRoles: RoleBcOrMip[]
+    changeRole?: (email: string, newRole: RoleBcOrMip) => Promise<ApiResponse>
   setLocalRole?: (newRole: RoleBcOrMip) => void
   canEditSelfRole?: boolean
 }
@@ -31,9 +30,8 @@ const SelectRoleCommon = ({
   level,
   changeRole,
   setLocalRole,
-  environmentRoles,
-  environment,
-  canEditSelfRole,
+  teamRoles,
+    canEditSelfRole,
 }: Props) => {
   const t = useTranslations('role')
   const [role, setRole] = useState(currentRole)
@@ -75,9 +73,9 @@ const SelectRoleCommon = ({
       <MenuItem value={Role.SUPER_ADMIN} className={styles.hidden} aria-hidden="true">
         {t(Role.SUPER_ADMIN)}
       </MenuItem>
-      {environmentRoles
+      {teamRoles
         .filter((role) => role !== Role.SUPER_ADMIN)
-        .filter((role) => level || canBeUntrainedRole(role, environment))
+        .filter((role) => level || canBeUntrainedRole(role))
         .map((role) => (
           <MenuItem key={role} value={role}>
             {t(role)}

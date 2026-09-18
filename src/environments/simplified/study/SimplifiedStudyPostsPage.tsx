@@ -9,7 +9,6 @@ import Block from '@/lib/components/base/Block'
 import { PublicodesFormProvider } from '@/lib/publicodes/context'
 import { Button } from '@/lib/ui'
 import { Post } from '@/lib/utils/charts'
-import { EnvironmentWithSimplifiedStudies } from '@/services/permissions/environment'
 import { subPostsByPost } from '@/services/posts'
 import CheckIcon from '@mui/icons-material/Check'
 import { ArrowLeftIcon, ArrowRightIcon } from '@mui/x-date-pickers'
@@ -21,14 +20,13 @@ import SaveStatusIndicator from '../study/SaveStatusIndicator'
 import RealTimeResults from './RealTimeResults'
 
 interface Props {
-  environment: EnvironmentWithSimplifiedStudies
-  post: Post
+    post: Post
   currentSubPost: SubPost | undefined
   study: FullStudy
   studySiteId: string
 }
 
-const SimplifiedStudyPostsPage = ({ environment, post, currentSubPost, study, studySiteId }: Props) => {
+const SimplifiedStudyPostsPage = ({ post, currentSubPost, study, studySiteId }: Props) => {
   const tPost = useTranslations('emissionFactors.post')
   const tStudyQuestions = useTranslations('study.questions')
   const tInfography = useTranslations('study.infography')
@@ -80,7 +78,6 @@ const SimplifiedStudyPostsPage = ({ environment, post, currentSubPost, study, st
 
   return (
     <PublicodesFormProvider
-      environment={environment}
       studyId={study.id}
       studySiteId={studySiteId}
       subPostsConfigVersion={study.subPostsConfigVersion}

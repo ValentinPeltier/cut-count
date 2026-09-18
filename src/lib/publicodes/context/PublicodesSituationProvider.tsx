@@ -1,4 +1,3 @@
-import { EnvironmentWithSimplifiedStudies } from '@/services/permissions/environment'
 import {
   getSimplifiedPublicodesConfig,
   SimplifiedPublicodesConfig,
@@ -22,21 +21,19 @@ export interface PublicodesSituationContextValue<RuleName extends string = strin
 const PublicodesSituationContext = createContext<PublicodesSituationContextValue | null>(null)
 
 interface PublicodesSituationProviderProps {
-  environment: EnvironmentWithSimplifiedStudies
-  studyId: string
+    studyId: string
   studySiteId: string
   subPostsConfigVersion?: string | null
   children: ReactNode
 }
 
 export function PublicodesSituationProvider<RuleName extends string = string>({
-  environment,
-  studyId,
+    studyId,
   studySiteId,
   subPostsConfigVersion,
   children,
 }: PublicodesSituationProviderProps) {
-  const config = getSimplifiedPublicodesConfig(environment, subPostsConfigVersion)
+  const config = getSimplifiedPublicodesConfig(subPostsConfigVersion)
   const [situation, setSituationState] = useState<Situation<RuleName>>({})
   const [listLayoutSituations, setListLayoutSituationsState] = useState<ListLayoutSituations<RuleName>>({})
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { Environment, SiteCAUnit } from '@/db-common/enums'
+import { SiteCAUnit } from '@/db-common/enums'
 import { Table as BaseTable, HelpIcon as Help } from '@/lib/components'
 import GlossaryModal from '@/lib/components/modals/GlossaryModal'
 import { Button } from '@/lib/ui'
@@ -25,8 +25,7 @@ interface Props<T extends SitesCommand> {
   withSelection?: boolean
   columns: ColumnDef<TypeDef>[]
   caUnit?: SiteCAUnit
-  environment: Environment
-  disabled?: boolean
+    disabled?: boolean
 }
 
 const Sites = <T extends SitesCommand>({
@@ -35,8 +34,7 @@ const Sites = <T extends SitesCommand>({
   withSelection,
   columns,
   caUnit,
-  environment,
-  disabled,
+    disabled,
 }: Props<T>) => {
   'use memo'
   const t = useTranslations('organization.sites')
@@ -46,7 +44,7 @@ const Sites = <T extends SitesCommand>({
   const [showGlossary, setShowGlossary] = useState(false)
 
   const setValue = form?.setValue as UseFormSetValue<SitesCommand>
-  const canAddSite = !disabled && form && !withSelection && hasAccessToStudySiteAddAndSelection(environment)
+  const canAddSite = !disabled && form && !withSelection && hasAccessToStudySiteAddAndSelection()
   const canSelectAll = !disabled && form && withSelection && sites.length > 0
   const allSitesSelected = canSelectAll && sites.every((site) => site.selected)
   const someSitesSelected = canSelectAll && sites.some((site) => site.selected)
@@ -68,7 +66,7 @@ const Sites = <T extends SitesCommand>({
       <div>
         <div className="justify-between align-center">
           <p className="title-h3">
-            {environment !== Environment.CUT && (
+            {false && (
               <span className="inputLabel bold align-center">
                 {t('title')}
                 <Help
@@ -114,7 +112,7 @@ const Sites = <T extends SitesCommand>({
         t={tGlossary}
       >
         {' '}
-        {hasCustomGlossaryTextForEstablishment(environment) ? (
+        {hasCustomGlossaryTextForEstablishment() ? (
           <p>{tGlossary('informations')}</p>
         ) : (
           <>

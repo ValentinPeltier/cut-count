@@ -3,12 +3,11 @@ import {
   simplifiedDisclaimerColSpan,
   simplifiedDisclaimerExportKeys,
 } from '@/constants/exports'
-import { Environment, StudyResultUnit } from '@/db-common/enums'
+import { StudyResultUnit } from '@/db-common/enums'
 import type { EmissionFactorWithParts } from '@/db/emissionFactors'
 import type { FullStudy } from '@/db/study'
 import { Translations } from '@/lib'
 import { formatDateFr } from '@/lib/utils/time'
-import { BCEnvironment } from '@/types/environment'
 import { formatEmissionValueForExport, getSiteLabelFromId, sanitizeStudyName } from '@/utils/study'
 import { AdditionalResultTypes, BaseResultsBySite } from '../types/study.types'
 import { download } from './file'
@@ -111,7 +110,7 @@ export const formatComputedResultsForExport = (
   tStudy: Translations,
   tExport: Translations,
   tUnits: Translations,
-  _environment: Environment,
+  _environment: string,
 ) => {
   const dataForExport: (string | number)[][] = []
   const formattedHeaders = getFormattedSimplifiedHeaders(tStudy, tUnits, study.resultsUnit)
@@ -148,7 +147,6 @@ export const downloadStudyResults = async (
   _tGHGP: Translations,
   tUnits: Translations,
   _tBase: Translations,
-  _environment: BCEnvironment = Environment.CUT,
   _resultsBySite?: BaseResultsBySite,
   resultsByPost?: BaseResultsByPost[],
   selectedSiteId?: string,

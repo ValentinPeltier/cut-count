@@ -1,4 +1,3 @@
-import { Environment } from '@/db-common/enums'
 import { getEnvVar } from '@/lib/environment'
 import ejs from 'ejs'
 import fs from 'fs'
@@ -6,35 +5,17 @@ import { getTranslations } from 'next-intl/server'
 import path from 'path'
 import { getTransporter } from './transposter'
 
-/**
- * Renders EJS email template to an HTML string,
- * This method load template by environment folder (BC/, CUT/, …), if not find env folder search in common/
- *
- * @param params.file - Template filename without extension `.ejs`.
- * @param params.env - Environment name used to locate template folder.
- * @param params.data - Optional data object to inject EJS template.
- * @returns Prosmise that resolves rendered HTML string.
- */
-const getHtml = async ({ file, env, data }: { file: string; env: Environment; data?: ejs.Data }) => {
+const TEMPLATE_ENV = 'CUT'
+
+const getHtml = async ({ file, data }: { file: string; data?: ejs.Data }) => {
   const basePath = path.join(process.cwd(), 'src', 'lib', 'services', 'email', 'views')
-  const customPath = path.join(basePath, env, `${file}.ejs`)
+  const customPath = path.join(basePath, TEMPLATE_ENV, `${file}.ejs`)
   const fallbackPath = path.join(basePath, 'common', `${file}.ejs`)
   const templatePath = fs.existsSync(customPath) ? customPath : fallbackPath
   return ejs.renderFile(templatePath, data)
 }
 
-/**
- * Sends email using environment configuration.
- *
- * @param env - To determine email configuration.
- * @param to - List of recipient addresses.
- * @param subject - Subject line of the email.
- * @param template - Name of email template to render (without extension).
- * @param templateData - Data to inject in EJS template.
- * @returns Promise that resolves when the email is sent.
- */
 export const sendEmail = async (
-  env: Environment,
   to: string[],
   subject: string,
   template: string,
@@ -44,9 +25,9 @@ export const sendEmail = async (
     throw new Error('No recipient')
   }
 
-  const faq = await getEnvVar('FAQ_LINK', env)
-  const support = await getEnvVar('SUPPORT_EMAIL', env)
-  const from = await getEnvVar('MAIL_USER', env)
+  const faq = await getEnvVar('FAQ_LINK')
+  const support = await getEnvVar('SUPPORT_EMAIL')
+  const from = await getEnvVar('MAIL_USER')
 
   const t = await getTranslations('email.body')
 
@@ -64,8 +45,8 @@ export const sendEmail = async (
     t_faqOrEmail: t('faqOrEmail'),
   }
 
-  const transporter = await getTransporter(env)
-  const html = await getHtml({ file: template, data, env })
+  const transporter = await getTransporter()
+  const html = await getHtml({ file: template, data })
   return transporter.sendMail({
     to: to.join(','),
     from,

@@ -24,7 +24,7 @@ const UserView = async ({ account }: Props) => {
 
   const title = t('title')
   const navigation = await getTranslations('home.navigation')
-  const hasAlert = hasHomeAlert(account.environment)
+  const hasAlert = hasHomeAlert()
 
   return (
     <div className={styles.block}>
@@ -34,7 +34,7 @@ const UserView = async ({ account }: Props) => {
             <Typography data-testid="title" variant="h4" className={styles.titleInBox}>
               {title}
             </Typography>
-            {hasAccessToHomeSubtitle(account.environment) && (
+            {hasAccessToHomeSubtitle() && (
               <Typography variant="h5" className={styles.titleInBox}>
                 {t('subtitle')}
               </Typography>
@@ -69,7 +69,7 @@ const UserView = async ({ account }: Props) => {
             title={customRich(navigation, 'collaborators.title')}
             message={customRich(navigation, 'collaborators.message')}
           />
-          {hasAccessToStudies(account.environment, account.level) && (
+          {hasAccessToStudies() && (
             <LinkCard
               href="/organisations"
               icon={<DiagramOutlinedIcon className={styles.icon} />}

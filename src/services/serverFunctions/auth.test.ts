@@ -1,4 +1,4 @@
-import { Environment } from '@/db-common/enums'
+
 import { getUserByEmailWithSensibleInformations, updateUserPasswordForEmail } from '@/db/user'
 import { expect } from '@jest/globals'
 import jwt from 'jsonwebtoken'
@@ -53,17 +53,17 @@ describe('password reset server functions', () => {
   })
 
   it('updates the password for the user identified by the reset token without requiring an email input', async () => {
-    const result = await reset(password, getToken(), Environment.CUT)
+    const result = await reset(password, getToken())
 
     expect(result).toEqual({ success: true, data: true })
     expect(mockGetUserByEmailWithSensibleInformations).toHaveBeenCalledWith(email)
-    expect(mockUpdateUserPasswordForEmail).toHaveBeenCalledWith(email, password, Environment.CUT)
+    expect(mockUpdateUserPasswordForEmail).toHaveBeenCalledWith(email, password)
   })
 
   it('does not update the password when the stored reset token does not match the link token', async () => {
     mockGetUserByEmailWithSensibleInformations.mockResolvedValue({ email, resetToken: 'new-token' })
 
-    const result = await reset(password, getToken(), Environment.CUT)
+    const result = await reset(password, getToken())
 
     expect(result).toEqual({ success: false, errorMessage: 'Email or token is invalid' })
     expect(mockUpdateUserPasswordForEmail).not.toHaveBeenCalled()

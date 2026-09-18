@@ -25,8 +25,8 @@ describe('CUT subPostMapping', () => {
     }
   })
 
-  it('does not map BC-only sub-posts', () => {
-    expect(hasPublicodesMapping(SubPost.CombustiblesFossiles)).toBe(false)
-    expect(getSubPostRuleNameCut(SubPost.CombustiblesFossiles)).toBeUndefined()
+  it('does not map unknown sub-posts', () => {
+    expect(hasPublicodesMapping('UnknownSubPost' as SubPost)).toBe(false)
+    expect(getSubPostRuleNameCut('UnknownSubPost' as SubPost)).toBeUndefined()
   })
 })

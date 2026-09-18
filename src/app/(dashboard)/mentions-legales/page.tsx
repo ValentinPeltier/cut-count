@@ -1,4 +1,4 @@
-import { Environment } from '@/db-common/enums'
+
 import Block from '@/lib/components/base/Block'
 import { getEnvVar } from '@/lib/environment'
 import { getTranslations } from 'next-intl/server'
@@ -6,7 +6,7 @@ import Link from 'next/link'
 import styles from './styles.module.css'
 
 const LegalNotices = async () => {
-  const contactMail = await getEnvVar('CONTACT_EMAIL', Environment.CUT)
+  const contactMail = await getEnvVar('CONTACT_EMAIL')
   const t = await getTranslations('legalNotices')
   return (
     <Block>

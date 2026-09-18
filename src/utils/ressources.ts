@@ -1,17 +1,16 @@
-import { Environment } from '@/db-common/enums'
 import { Translations } from '@/lib'
 import { getEnvVar } from '@/lib/environment'
 import { Locale } from '@/lib/i18n/config'
 import { getLocale } from 'next-intl/server'
 
-export const getEnvironnementRessources = async (env: Environment, t: Translations) => {
+export const getRessources = async (t: Translations) => {
   const locale = await getLocale()
 
-  const contactForm = await getEnvVar('CONTACT_FORM_URL', env)
+  const contactForm = await getEnvVar('CONTACT_FORM_URL')
 
-  const faq = await getEnvVar('FAQ_LINK', env)
+  const faq = await getEnvVar('FAQ_LINK')
 
-  const supportEmail = await getEnvVar('SUPPORT_EMAIL', env)
+  const supportEmail = await getEnvVar('SUPPORT_EMAIL')
 
   const methodUrl =
     locale === Locale.FR
@@ -48,26 +47,21 @@ export const getEnvironnementRessources = async (env: Environment, t: Translatio
     links: [{ title: t('methodeBilanCarbone'), link: methodUrl }],
   }
 
-  switch (env) {
-    case Environment.CUT:
-      return [
+  return [
+    {
+      title: t('countMethods'),
+      links: [
         {
-          title: t('countMethods'),
-          links: [
-            {
-              title: t('countMethodLink'),
-              downloadKey: 'count',
-            },
-            {
-              title: t('resilioMethodLink'),
-              downloadKey: 'resilio',
-            },
-          ],
+          title: t('countMethodLink'),
+          downloadKey: 'count',
         },
-        ...commonRessources,
-        methodBC,
-      ]
-    default:
-      return [methodBC, ...commonRessources]
-  }
+        {
+          title: t('resilioMethodLink'),
+          downloadKey: 'resilio',
+        },
+      ],
+    },
+    ...commonRessources,
+    methodBC,
+  ]
 }

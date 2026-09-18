@@ -1,7 +1,6 @@
 'use client'
-import { Environment } from '@/db-common/enums'
+
 import type { FullStudy } from '@/db/study'
-import { EnvironmentWithSimplifiedStudies } from '@/services/permissions/environment'
 import { getSimplifiedPublicodesConfig } from '@/services/publicodes/simplifiedPublicodesConfig'
 import { computeResultsForAllSitesFromSituations } from '@/services/results/computeSimplifiedResults'
 import { loadSituations } from '@/services/serverFunctions/situation'
@@ -19,7 +18,6 @@ interface UsePublicodesResultsReturn extends BaseResultsBySite {
 export function usePublicodesResults(
   study: FullStudy,
   studySite: string | 'all',
-  environment: Environment,
   skipAuthCheck = false,
 ): UsePublicodesResultsReturn {
   const tPost = useTranslations('emissionFactors.post')
@@ -28,8 +26,8 @@ export function usePublicodesResults(
   const [error, setError] = useState<string | null>(null)
 
   const config = useMemo(
-    () => getSimplifiedPublicodesConfig(environment as EnvironmentWithSimplifiedStudies, study.subPostsConfigVersion),
-    [environment, study.subPostsConfigVersion],
+    () => getSimplifiedPublicodesConfig(undefined),
+    [study.subPostsConfigVersion],
   )
 
   const studySiteIds = useMemo(() => {
@@ -78,14 +76,14 @@ export function usePublicodesResults(
       }
     }
     load()
-  }, [study.id, studySiteIdsKey, config, refreshTrigger])
+  }, [study.id, studySiteIdsKey, config, refreshTrigger, skipAuthCheck, studySiteIds.length])
 
   const results = useMemo(() => {
     if (!config || Object.keys(situationBySiteId).length === 0) {
       return { aggregated: [], bySite: {} }
     }
-    return computeResultsForAllSitesFromSituations(situationBySiteId, config, tPost, environment)
-  }, [config, situationBySiteId, tPost, environment])
+    return computeResultsForAllSitesFromSituations(situationBySiteId, config, tPost)
+  }, [config, situationBySiteId, tPost])
 
   return { ...results, isLoading, error, refresh }
 }

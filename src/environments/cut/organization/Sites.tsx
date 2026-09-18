@@ -3,8 +3,8 @@
 import { FormCheckbox } from '@/components/form/Checkbox'
 import GlobalSites from '@/components/organization/Sites'
 import type { Cnc } from '@/db-common'
-import { Environment, SiteCAUnit } from '@/db-common/enums'
-import EnvironmentLoader from '@/environments/simplified/utils/EnvironmentLoader'
+import { SiteCAUnit } from '@/db-common/enums'
+import CenteredLoader from '@/components/base/CenteredLoader'
 import { TableActionButton } from '@/lib/components/base/TableActionButton'
 import { FormTextField } from '@/lib/components/form/TextField'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
@@ -280,7 +280,7 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
   }, [t, form, withSelection, disabled, cncs, setCncData])
 
   if (cncs === null) {
-    return <EnvironmentLoader />
+    return <CenteredLoader />
   }
 
   return (
@@ -289,7 +289,6 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
       columns={columns}
       form={form}
       withSelection={withSelection}
-      environment={Environment.CUT}
     />
   )
 }

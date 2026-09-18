@@ -1,9 +1,8 @@
 'use client'
 import { UserSessionProps } from '@/components/hoc/withAuth'
-import { Environment } from '@/db-common/enums'
+
 import Image from '@/lib/components/document/Image'
 import { Box } from '@mui/material'
-import { useMemo } from 'react'
 import styles from './LogosHome.module.css'
 
 const logos = [
@@ -11,8 +10,8 @@ const logos = [
   { src: '/logos/cut/Banques_des_territoires.svg', alt: 'Logo du groupe la caisse des dépots' },
 ]
 
-const LogosHome = ({ user }: UserSessionProps) => {
-  const isCut = useMemo(() => user.environment === Environment.CUT, [user?.environment])
+const LogosHome = (_props: UserSessionProps) => {
+  const isCut = true
   return (
     isCut && (
       <Box data-testid={'home-cut-logo'} className={styles.container}>

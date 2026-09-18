@@ -25,11 +25,7 @@ interface Props {
 const AllResultsPublicodes = ({ study, chartOrder = defaultChartOrder, caUnit, showSubLevel = false, user }: Props) => {
   const tStudyNav = useTranslations('study.navigation')
   const { siteId, studySiteId, setSite } = useStudySite(study, true)
-  const { aggregated, bySite, isLoading, error } = usePublicodesResults(
-    study,
-    'all',
-    study.organizationVersion.environment,
-  )
+  const { aggregated, bySite, isLoading, error } = usePublicodesResults(study, 'all')
 
   // NOTE: results for all sites are computed one time, so we just need to
   // select the right one here based on the selected study site. However,

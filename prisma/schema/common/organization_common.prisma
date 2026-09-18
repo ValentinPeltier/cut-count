@@ -1,9 +1,3 @@
-enum Environment {
-  CUT
-
-  @@schema("common")
-}
-
 model Organization {
   id               String    @id @default(uuid())
   oldBCId          String?   @map("old_bc_id")

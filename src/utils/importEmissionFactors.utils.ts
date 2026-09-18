@@ -2,10 +2,9 @@ import { KG_CO2E_PREFIX_REGEX } from '@/constants/import'
 import { EmissionFactorBase, SubPost, Unit } from '@/db-common/enums'
 import { LocaleType } from '@/lib/i18n/config'
 import { environmentPostMapping, environmentSubPostsMapping } from '@/services/posts'
-import { EmissionFactorCommandValidation } from '@/services/serverFunctions/emissionFactor.command'
-import { BCEnvironment } from '@/types/environment'
 import { ImportWarning } from '@/types/import.types'
 import { COLUMNS, ImportError, ParsedRow, ParseResult } from '@/types/importEmissionFactors.types'
+import { EmissionFactorCommandValidation } from '@/services/serverFunctions/emissionFactor.command'
 import { ManualEmissionFactorUnitList } from './emissionFactors'
 import { parseExcelSheet } from './excel.utils'
 import {
@@ -39,9 +38,8 @@ function matchBaseLabelFromTranslations(
 function matchPostLabelFromTranslations(
   label: string | undefined | null,
   locale: LocaleType,
-  environment: BCEnvironment,
 ): string | null {
-  const envPosts = environmentPostMapping[environment]
+  const envPosts = environmentPostMapping
   return matchLabelFromTranslations(label, locale, (bc) =>
     buildLabelMap(
       bc.emissionFactors.post,
@@ -54,9 +52,8 @@ function matchPostLabelFromTranslations(
 function matchSubPostLabelFromTranslations(
   label: string | undefined | null,
   locale: LocaleType,
-  environment: BCEnvironment,
 ): SubPost | null {
-  const envSubPosts = Object.values(environmentSubPostsMapping[environment]).flat()
+  const envSubPosts = Object.values(environmentSubPostsMapping).flat()
   return matchLabelFromTranslations(label, locale, (bc) =>
     buildLabelMap(
       bc.emissionFactors.post,
@@ -79,15 +76,15 @@ export function getUnitLabel(unit: Unit, locale: LocaleType): string {
  * "Post1 : SubPost1 | SubPost2 || Post2 : SubPost3"
  * Returns the locale-specific all-posts label when all env subposts are covered.
  */
-export function buildPostsAndSubPostsCell(subPosts: SubPost[], locale: LocaleType, environment: BCEnvironment): string {
-  const subPostsByPost = environmentSubPostsMapping[environment] as Record<string, SubPost[]>
+export function buildPostsAndSubPostsCell(subPosts: SubPost[], locale: LocaleType): string {
+  const subPostsByPost = environmentSubPostsMapping as Record<string, SubPost[]>
   const allEnvSubPosts = Object.values(subPostsByPost).flat()
   if (allEnvSubPosts.every((sp) => subPosts.includes(sp))) {
     return getAllPostsLabel(locale)
   }
 
   const postTranslations = getBcTranslations(locale).emissionFactors.post as unknown as Record<string, string>
-  const envPosts = environmentPostMapping[environment]
+  const envPosts = environmentPostMapping
 
   const groups: string[] = []
   for (const post of Object.values(envPosts)) {
@@ -127,14 +124,10 @@ export type ParsePostsResult =
 
 // Format: "Post1 : SubPost1 | SubPost2 || Post2 : SubPost3"
 // || separates post groups, | separates subposts within a group, : binds post to its first subpost
-export function parsePostsAndSubPostsCell(
-  cell: string | undefined | null,
-  locale: LocaleType,
-  environment: BCEnvironment,
-): ParsePostsResult {
+export function parsePostsAndSubPostsCell(cell: string | undefined | null, locale: LocaleType): ParsePostsResult {
   const trimmed = cell?.trim() ?? ''
   if (!trimmed || trimmed.toLowerCase() === getAllPostsLabel(locale).toLowerCase()) {
-    const subPostsByPost = environmentSubPostsMapping[environment] as Record<string, SubPost[]>
+    const subPostsByPost = environmentSubPostsMapping as Record<string, SubPost[]>
     return { success: true, subPosts: subPostsByPost as Record<string, SubPost[]> }
   }
 
@@ -146,7 +139,7 @@ export function parsePostsAndSubPostsCell(
     .filter(Boolean)
   for (const group of groups) {
     const [postPart, ...subPostParts] = group.split(':').map((s) => s.trim())
-    const post = matchPostLabelFromTranslations(postPart, locale, environment)
+    const post = matchPostLabelFromTranslations(postPart, locale)
     if (!post) {
       errors.push({ key: 'invalidPost', value: postPart })
       continue
@@ -157,7 +150,7 @@ export function parsePostsAndSubPostsCell(
       .map((s) => s.trim())
       .filter(Boolean)
     for (const token of subPostTokens) {
-      const subPost = matchSubPostLabelFromTranslations(token, locale, environment)
+      const subPost = matchSubPostLabelFromTranslations(token, locale)
       if (!subPost) {
         errors.push({ key: 'invalidSubPost', value: token })
       } else {
@@ -174,7 +167,7 @@ export function parsePostsAndSubPostsCell(
   return { success: true, subPosts: result }
 }
 
-export function parseImportFile(buffer: Buffer, locale: LocaleType, environment: BCEnvironment): ParseResult {
+export function parseImportFile(buffer: Buffer, locale: LocaleType): ParseResult {
   const sheetResult = parseExcelSheet(buffer, {
     ignoredColumns: [COLUMNS.base],
     rowFilter: (_row, i, value) =>
@@ -266,7 +259,7 @@ export function parseImportFile(buffer: Buffer, locale: LocaleType, environment:
 
     const rawPostsAndSubPosts = String(row[COLUMNS.postsAndSubPosts] ?? '').trim()
     const normalizedPostsAndSubPosts = rawPostsAndSubPosts || getAllPostsLabel(locale)
-    const parsedPosts = parsePostsAndSubPostsCell(rawPostsAndSubPosts, locale, environment)
+    const parsedPosts = parsePostsAndSubPostsCell(rawPostsAndSubPosts, locale)
 
     if (!parsedPosts.success) {
       rowErrors.push(...parsedPosts.errors)
@@ -275,7 +268,7 @@ export function parseImportFile(buffer: Buffer, locale: LocaleType, environment:
     const subPostsRecord = parsedPosts.success ? parsedPosts.subPosts : {}
     const flatSubPosts = Object.values(subPostsRecord).flat()
 
-    const subPostsByPost = environmentSubPostsMapping[environment] as Record<string, SubPost[]>
+    const subPostsByPost = environmentSubPostsMapping as Record<string, SubPost[]>
     for (const [post, subPostList] of Object.entries(subPostsRecord)) {
       const allowedSubPosts = subPostsByPost[post]
       const invalidSubPosts = subPostList.filter((sp) => allowedSubPosts && !allowedSubPosts.includes(sp))

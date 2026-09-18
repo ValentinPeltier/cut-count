@@ -19,7 +19,7 @@ const StudyCard = async ({ study, user, simplified }: Props) => {
   const t = await getTranslations('study')
   const { id, name } = study
 
-  const showRoleInChip = hasRoleOnStudy(user.environment)
+  const showRoleInChip = hasRoleOnStudy()
   const accountRoleOnStudy = getDisplayedRoleOnStudy(user, study)
 
   if (!accountRoleOnStudy) {

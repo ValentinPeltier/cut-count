@@ -1,4 +1,4 @@
-import { Environment } from '@/db-common/enums'
+
 import { canSaveSituationOnStudy, isCutContributor } from './situation'
 import * as studyPermissionsModule from './study'
 
@@ -17,8 +17,7 @@ describe('isCutContributor', () => {
     const session = {
       user: {
         accountId: 'account-1',
-        environment: Environment.CUT,
-      } as Parameters<typeof isCutContributor>[1]['user'],
+              } as Parameters<typeof isCutContributor>[1]['user'],
     }
 
     expect(isCutContributor(mockStudy, session)).toBe(false)
@@ -33,8 +32,7 @@ describe('canSaveSituationOnStudy', () => {
   const session: Parameters<typeof canSaveSituationOnStudy>[2] = {
     user: {
       accountId: 'account-1',
-      environment: Environment.CUT,
-    } as Parameters<typeof canSaveSituationOnStudy>[2]['user'],
+          } as Parameters<typeof canSaveSituationOnStudy>[2]['user'],
   }
 
   beforeEach(() => {

@@ -1,13 +1,12 @@
 import type { Prisma, Study, User } from '@/db-common'
 import { Level, Role, StudyRole } from '@/db-common/enums'
 import { getAccountById } from '@/db/account'
-import { getOrganizationVersionForRightsCheck, getOrganizationVersionsByOrganizationId } from '@/db/organization'
+import { getOrganizationVersionForRightsCheck } from '@/db/organization'
 import { FullStudy, getStudyById } from '@/db/study'
 import { getAccountByIdWithAllowedStudies, UserWithAllowedStudies } from '@/db/user'
 import { canEditOrganizationVersion, hasActiveLicence, isInOrgaOrParent } from '@/utils/organization'
 import {
   getAccountRoleOnStudy,
-  getDuplicableEnvironments,
   hasEditionRights,
   hasSufficientLevel,
   StudyWithRoleFields,
@@ -69,10 +68,10 @@ export const canCreateAStudy = async (user: UserSession, _simplified: boolean = 
   const canCreateAdvancedStudy =
     !!user.level &&
     user.role !== Role.DEFAULT &&
-    (user.role === Role.ADMIN || !canCreateStudyOnlyAsAdministrator(user.environment))
+    (user.role === Role.ADMIN || !canCreateStudyOnlyAsAdministrator())
 
   return (
-    !!user.organizationVersionId && (canCreateAdvancedStudy || canCreateStudyWithoutSpecificRights(user.environment))
+    !!user.organizationVersionId && (canCreateAdvancedStudy || canCreateStudyWithoutSpecificRights())
   )
 }
 
@@ -268,7 +267,7 @@ export const canDuplicateStudy = async (studyId: string) => {
     return false
   }
 
-  if (!hasAccessToDuplicateStudy(session.user.environment, study.simplified)) {
+  if (!hasAccessToDuplicateStudy()) {
     return false
   }
 
@@ -283,50 +282,6 @@ export const canDuplicateStudy = async (studyId: string) => {
   }
 
   return true
-}
-
-export const getEnvironmentsForDuplication = async (studyId: string) => {
-  const [canDuplicate, session] = await Promise.all([canDuplicateStudy(studyId), dbActualizedAuth()])
-  if (!canDuplicate || !session) {
-    return []
-  }
-
-  const [study, userAccounts] = await Promise.all([
-    getStudyById(studyId, session.user.organizationVersionId),
-    getUserActiveAccounts(),
-  ])
-  if (
-    !study ||
-    (study.organizationVersionId !== session.user.organizationVersionId &&
-      study.organizationVersion.parentId !== session.user.organizationVersionId) ||
-    !userAccounts.success ||
-    !userAccounts.data.length
-  ) {
-    return []
-  }
-
-  const eligibleOrganizationVersions = await getOrganizationVersionsByOrganizationId(
-    study.organizationVersion.organization.id,
-  )
-
-  const versionIds = eligibleOrganizationVersions.map((organizationVersion) => organizationVersion.id)
-  const parentsIds = eligibleOrganizationVersions.map((organizationVersion) => organizationVersion.parentId)
-
-  const eligibleEnvironments = getDuplicableEnvironments(session.user.environment)
-  return userAccounts.data
-    .filter(
-      (userAccount) =>
-        // environments match
-        eligibleEnvironments.includes(userAccount.environment) &&
-        // user is within an organization
-        userAccount.organizationVersionId &&
-        // Account's organizationVersion is amongst the eligible organisation version for the study
-        (versionIds.includes(userAccount.organizationVersionId) ||
-          // OR account's organizationVersion is the study parent's organization AND is from the same environment (no cross-environment duplication for cr clients #1897)
-          (parentsIds.includes(userAccount.organizationVersionId) &&
-            userAccount.environment === study.organizationVersion.environment)),
-    )
-    .map((eligibleEnvironment) => eligibleEnvironment.environment)
 }
 
 export const filterStudyEmissionSources = (_user: UserSession, study: FullStudy) => study

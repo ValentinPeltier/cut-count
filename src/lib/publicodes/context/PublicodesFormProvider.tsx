@@ -3,7 +3,6 @@ import { useLatestRef } from '@/hooks/utils'
 import { useToast } from '@/lib/ui'
 import { getUpdatedSituationWithInputValue, situationsAreEqual } from '@/publicodes/form'
 import { aggregateSituationValues } from '@/publicodes/utils'
-import { EnvironmentWithSimplifiedStudies } from '@/services/permissions/environment'
 import { loadSituation } from '@/services/serverFunctions/situation'
 import { useTranslations } from 'next-intl'
 import { Situation } from 'publicodes'
@@ -19,8 +18,7 @@ interface PublicodesFormContextValue<RuleName extends string = string>
   extends PublicodesSituationContextValue<RuleName>, PublicodesAutoSaveContextValue<RuleName> {}
 
 interface PublicodesFormProviderProps {
-  environment: EnvironmentWithSimplifiedStudies
-  studyId: string
+    studyId: string
   studySiteId: string
   subPostsConfigVersion?: string | null
   syncIntervalMs?: number
@@ -28,8 +26,7 @@ interface PublicodesFormProviderProps {
 }
 
 export function PublicodesFormProvider({
-  environment,
-  studyId,
+    studyId,
   studySiteId,
   subPostsConfigVersion,
   syncIntervalMs,
@@ -37,12 +34,11 @@ export function PublicodesFormProvider({
 }: PublicodesFormProviderProps) {
   return (
     <PublicodesSituationProvider
-      environment={environment}
       studyId={studyId}
       studySiteId={studySiteId}
       subPostsConfigVersion={subPostsConfigVersion}
     >
-      <PublicodesAutoSaveProvider environment={environment} studyId={studyId} syncIntervalMs={syncIntervalMs}>
+      <PublicodesAutoSaveProvider studyId={studyId} syncIntervalMs={syncIntervalMs}>
         {children}
       </PublicodesAutoSaveProvider>
     </PublicodesSituationProvider>

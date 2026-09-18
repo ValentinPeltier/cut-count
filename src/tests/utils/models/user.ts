@@ -1,5 +1,5 @@
 import type { Account, Prisma, User } from '@/db-common'
-import { Environment, Level, Role, UserStatus } from '@/db-common/enums'
+import { Level, Role, UserStatus } from '@/db-common/enums'
 import { mockedOrganizationId } from '@/lib/services/tests/models/organization'
 import { mockedDbUser, mockedUser, mockedUserId } from '@/lib/services/tests/models/user'
 import { Session, UserSession } from 'next-auth'
@@ -14,8 +14,7 @@ const mockedAccount = {
     id: mockedOrganizationVersionId,
     organizationId: mockedOrganizationId,
   },
-  environment: Environment.CUT,
-  role: Role.ADMIN,
+    role: Role.ADMIN,
   status: UserStatus.ACTIVE,
   feedbackDate: null,
 }
@@ -39,8 +38,7 @@ export const mockedSession = {
   email: mockedUser.email,
   accountId: mockedAccountId,
   organizationId: mockedOrganizationId,
-  environment: Environment.CUT,
-  role: mockedAccount.role,
+    role: mockedAccount.role,
   userId: mockedUserId,
   organizationVersionId: mockedOrganizationVersionId,
   id: mockedAccountId,
@@ -51,8 +49,7 @@ export const mockedSession = {
     email: mockedUser.email,
     accountId: mockedAccountId,
     organizationId: mockedOrganizationId,
-    environment: Environment.CUT,
-    needsAccountSelection: false,
+        needsAccountSelection: false,
   },
 }
 
@@ -68,8 +65,7 @@ export const getMockedAuthUser = (props?: Partial<UserSession>): UserSession => 
   organizationVersionId: mockedDbAccount.organizationVersionId,
   organizationId: mockedDbAccount.organizationVersion.organizationId,
   role: mockedDbAccount.role,
-  environment: Environment.CUT,
-  ...mockedDbAccount.user,
+    ...mockedDbAccount.user,
   ...props,
 })
 

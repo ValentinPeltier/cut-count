@@ -3,18 +3,13 @@
 import Modal from '@/lib/components/modals/Modal'
 import { DAY, TIME_IN_MS } from '@/lib/utils/time'
 import { answerFeeback, delayFeeback } from '@/services/serverFunctions/user'
-import { BCEnvironment } from '@/types/environment'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import FeedbackForm from './FeedbackForm'
 
-interface Props {
-  environment: BCEnvironment
-}
-
 const delayDuration = process.env.NEXT_PUBLIC_FEEDBACK_TYPEFORM_DELAY
 
-const UserFeedback = ({ environment }: Props) => {
+const UserFeedback = () => {
   const tCommon = useTranslations('common')
   const t = useTranslations('feedback')
   const [open, setOpen] = useState(true)
@@ -56,7 +51,7 @@ const UserFeedback = ({ environment }: Props) => {
               ]
         }
       >
-        {displayForm ? <FeedbackForm environment={environment} /> : <>{t('body')}</>}
+        {displayForm ? <FeedbackForm /> : <>{t('body')}</>}
       </Modal>
     </>
   )

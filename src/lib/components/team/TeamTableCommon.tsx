@@ -1,6 +1,6 @@
 'use client'
 
-import { Environment, Level, Role } from '@/db-common/enums'
+import { Level, Role } from '@/db-common/enums'
 import { Table as BaseTable, HelpIcon } from '@/lib/components'
 import Block from '@/lib/components/base/Block'
 import { TableActionButton } from '@/lib/components/base/TableActionButton'
@@ -29,7 +29,7 @@ interface Props {
   email: string
   team: TeamMemberCommon[]
   canUpdateTeam: boolean
-  environmentRoles: RoleBcOrMip[]
+  teamRoles: RoleBcOrMip[]
   deleteMember: () => Promise<void>
   isCut?: boolean
   deletionError: string
@@ -41,8 +41,7 @@ interface Props {
   canEditSelfRole?: boolean
   setDeletingMember: (value: string) => void
   deletingMember: string
-  environment: Environment
-}
+  }
 
 type DeletionErrorData = {
   id: string
@@ -54,7 +53,7 @@ const TeamTableCommon = ({
   email,
   team,
   canUpdateTeam,
-  environmentRoles,
+  teamRoles,
   deleteMember,
   isCut,
   deletionError,
@@ -65,8 +64,7 @@ const TeamTableCommon = ({
   changeRole,
   setDeletingMember,
   deletingMember,
-  environment,
-}: Props) => {
+  }: Props) => {
   const t = useTranslations('team.table')
   const tAction = useTranslations('common.action')
   const tLevel = useTranslations('level')
@@ -102,10 +100,9 @@ const TeamTableCommon = ({
             currentRole={role}
             email={row.original.user.email}
             level={row.original.user.level}
-            environmentRoles={environmentRoles}
+            teamRoles={teamRoles}
             canEditSelfRole={canEditSelfRole}
             changeRole={changeRole}
-            environment={environment}
           />
         ) : (
           <>{tRole(role)}</>
@@ -179,7 +176,7 @@ const TeamTableCommon = ({
           },
         ]}
       >
-        {environmentRoles
+        {teamRoles
           .filter((role) => role !== Role.SUPER_ADMIN)
           .map((role) => (
             <p key={role} className="mb-2">

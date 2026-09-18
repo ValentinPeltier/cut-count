@@ -1,9 +1,7 @@
-import { Environment } from '@/db-common/enums'
 import { Locale } from '@/lib/i18n/config'
 import { getToken } from 'next-auth/jwt'
 import { NextRequest, NextResponse } from 'next/server'
 
-const ENVIRONMENT_COOKIE = 'ENVIRONMENT'
 const LOCALE_COOKIE = 'NEXT_LOCALE'
 const publicRoutes = ['/login', '/register', '/reset-password', '/activation', '/preview', '/count']
 const assetsRoutes = ['/_next', '/img']
@@ -13,7 +11,6 @@ const logos = ['https://base-empreinte.ademe.fr', 'https://www.legifrance.gouv.f
 const nonce = Buffer.from(crypto.randomUUID()).toString('base64')
 
 const normalizeCookies = (response: NextResponse) => {
-  response.cookies.set(ENVIRONMENT_COOKIE, Environment.CUT)
   response.cookies.set(LOCALE_COOKIE, Locale.FR)
   return response
 }

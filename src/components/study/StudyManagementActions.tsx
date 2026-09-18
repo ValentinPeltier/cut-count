@@ -19,7 +19,6 @@ interface Props {
   organizationVersionId?: string | null
   canDeleteStudy?: boolean
   canDuplicateStudy?: boolean
-  duplicableEnvironments?: unknown
   userRole?: StudyRole
   siteId?: string
   children: (actions: BlockProps['actions']) => ReactNode

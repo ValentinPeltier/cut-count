@@ -1,6 +1,5 @@
 'use server'
 
-import { Environment } from '@/db-common/enums'
 import { getUserByEmailWithSensibleInformations, updateUserPasswordForEmail } from '@/db/user'
 import { computePasswordValidation } from '@/lib/utils/auth'
 import { withServerResponse } from '@/utils/serverResponse'
@@ -25,10 +24,8 @@ export const checkToken = async (token: string) => {
   }
 }
 
-export const reset = async (password: string, token: string, userEnv: Environment | undefined) =>
+export const reset = async (password: string, token: string) =>
   withServerResponse('reset', async () => {
-    const env = userEnv || Environment.CUT
-
     const tokenValues = jwt.verify(token, process.env.NEXTAUTH_SECRET as string) as {
       email: string
       resetToken: string
@@ -39,7 +36,7 @@ export const reset = async (password: string, token: string, userEnv: Environmen
       if (user && user.resetToken && user.resetToken === tokenValues.resetToken) {
         const passwordValidation = computePasswordValidation(password)
         if (Object.values(passwordValidation).every((value) => value)) {
-          await updateUserPasswordForEmail(user.email, password, env)
+          await updateUserPasswordForEmail(user.email, password)
           return true
         }
       }

@@ -7,7 +7,6 @@ import {
   getSubPostRuleNameCut,
 } from '@/environments/cut/publicodes/subPostMapping'
 import { FormLayout } from '@/publicodes/form/layouts'
-import { EnvironmentWithSimplifiedStudies } from '@/services/permissions/environment'
 import Engine from 'publicodes'
 import { CutPost, SimplifiedPost, subPostsByPostCUT } from '../posts'
 
@@ -32,7 +31,6 @@ const CUT_CONFIG: SimplifiedPublicodesConfig<CutPost> = {
 }
 
 export const getSimplifiedPublicodesConfig = (
-  _env: EnvironmentWithSimplifiedStudies,
   _subPostsConfigVersion: string | null | undefined,
 ): SimplifiedPublicodesConfig => {
   return CUT_CONFIG as SimplifiedPublicodesConfig

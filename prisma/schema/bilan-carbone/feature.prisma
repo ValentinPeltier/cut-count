@@ -9,8 +9,7 @@ model DeactivatableFeatureStatus {
   id                      String               @id @default(uuid())
   feature                 DeactivatableFeature @unique
   active                  Boolean              @default(false)
-  deactivatedSources      UserSource[]         @default([]) @map("deactivated_sources")
-  deactivatedEnvironments Environment[]        @default([]) @map("deactivated_environments")
+  deactivatedSources UserSource[] @default([]) @map("deactivated_sources")
 
   updatedById String?  @map("updated_by_account")
   updator     Account? @relation("deactivable_feature_updator", fields: [updatedById], references: [id])

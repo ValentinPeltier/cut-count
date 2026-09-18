@@ -15,10 +15,10 @@ import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 
 interface Props {
-  environmentRoles: typeof Role
+  teamRoles: typeof Role
   addMember: (command: AddMemberCommand) => Promise<ApiResponse<void>>
 }
-const NewMemberFormCommon = ({ environmentRoles, addMember }: Props) => {
+const NewMemberFormCommon = ({ teamRoles, addMember }: Props) => {
   const router = useRouter()
   const t = useTranslations('newMember')
   const tRole = useTranslations('role')
@@ -69,7 +69,7 @@ const NewMemberFormCommon = ({ environmentRoles, addMember }: Props) => {
         trim
       />
       <FormSelect control={form.control} translation={t} name="role" label={t('role')} data-testid="new-member-role">
-        {Object.keys(environmentRoles)
+        {Object.keys(teamRoles)
           .filter((role) => role !== Role.SUPER_ADMIN)
           .map((key) => (
             <MenuItem key={key} value={key}>

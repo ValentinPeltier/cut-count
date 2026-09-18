@@ -1,7 +1,7 @@
 'use server'
 
 import { Prisma } from '@/db-common'
-import { Environment } from '@/db-common/enums'
+
 import { prismaClient } from '@/db/client.server'
 import { getSourceCutImportVersionIds } from '@/db/study'
 
@@ -16,8 +16,7 @@ const fillMissingStudyEmissionFactorVersionsForCUT = async () => {
     const cutStudies = await prismaClient.study.findMany({
       where: {
         organizationVersion: {
-          environment: Environment.CUT,
-        },
+                  },
       },
       select: {
         id: true,

@@ -1,16 +1,16 @@
-import { DeactivatableFeature, Environment, Role, UserStatus } from '@/db-common/enums'
+import { DeactivatableFeature, Role, UserStatus } from '@/db-common/enums'
 import { expect } from '@jest/globals'
 
 import {
   addAccount,
-  getAccountByEmailAndEnvironment,
+  getAccountByEmail,
   getAccountById,
   getAccountFromUserOrganization,
 } from '@/db/account'
 import { findCncByCncCode } from '@/db/cnc'
 import {
   createOrganizationWithVersion,
-  getOrganizationVersionByOrganizationIdAndEnvironment,
+  getOrganizationVersionByOrganizationId,
   getOrganizationVersionForRightsCheck,
   getRawOrganizationBySiret,
   getRawOrganizationBySiteCNC,
@@ -64,7 +64,7 @@ jest.mock('./user', () => {
 })
 
 const mockGetDeactivableFeatureRestrictions = getDeactivableFeatureRestrictions as jest.Mock
-const mockGetAccountByEmailAndEnvironment = getAccountByEmailAndEnvironment as jest.Mock
+const mockGetAccountByEmail = getAccountByEmail as jest.Mock
 const mockGetUserByEmail = getUserByEmail as jest.Mock
 const mockAddUser = addUser as jest.Mock
 const mockAddAccount = addAccount as jest.Mock
@@ -74,8 +74,8 @@ const mockGetAccountFromUserOrganization = getAccountFromUserOrganization as jes
 const mockValidateUser = validateUser as jest.Mock
 const mockFindCncByCncCode = findCncByCncCode as jest.Mock
 const mockGetRawOrganizationBySiteCNC = getRawOrganizationBySiteCNC as jest.Mock
-const mockGetOrganizationVersionByOrganizationIdAndEnvironment =
-  getOrganizationVersionByOrganizationIdAndEnvironment as jest.Mock
+const mockGetOrganizationVersionByOrganizationId =
+  getOrganizationVersionByOrganizationId as jest.Mock
 const mockCreateOrganizationWithVersion = createOrganizationWithVersion as jest.Mock
 const mockAddSite = addSite as jest.Mock
 const mockGetRawOrganizationBySiret = getRawOrganizationBySiret as jest.Mock
@@ -100,10 +100,9 @@ describe('signUpWithSiretOrCNC', () => {
     it('returns NOT_AUTHORIZED when creation is deactivated for environment', async () => {
       mockGetDeactivableFeatureRestrictions.mockResolvedValue({
         active: true,
-        deactivatedEnvironments: [Environment.CUT],
-      })
+              })
 
-      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.CUT)
+      const result = await signUpWithSiretOrCNC(testEmail, testSiret)
 
       expect(result.success).toBe(false)
       if (!result.success) {
@@ -116,7 +115,7 @@ describe('signUpWithSiretOrCNC', () => {
       mockGetDeactivableFeatureRestrictions.mockResolvedValue({
         active: false,
       })
-      mockGetAccountByEmailAndEnvironment.mockResolvedValue(null)
+      mockGetAccountByEmail.mockResolvedValue(null)
       mockGetUserByEmail.mockResolvedValue(null)
       mockAddUser.mockResolvedValue({
         id: mockedUserId,
@@ -128,7 +127,7 @@ describe('signUpWithSiretOrCNC', () => {
       mockCreateOrganizationWithVersion.mockResolvedValue({ id: mockedOrganizationVersionId })
       mockValidateUser.mockResolvedValue(undefined)
 
-      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.CUT)
+      const result = await signUpWithSiretOrCNC(testEmail, testSiret)
 
       expect(result.success).toBe(true)
     })
@@ -136,13 +135,13 @@ describe('signUpWithSiretOrCNC', () => {
 
   describe('Account already exists scenarios', () => {
     it('returns NOT_AUTHORIZED when account exists for CUT environment', async () => {
-      mockGetAccountByEmailAndEnvironment.mockResolvedValue({
+      mockGetAccountByEmail.mockResolvedValue({
         id: mockedAccountId,
         organizationVersionId: mockedOrganizationVersionId,
         status: UserStatus.ACTIVE,
       })
 
-      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.CUT)
+      const result = await signUpWithSiretOrCNC(testEmail, testSiret)
 
       expect(result.success).toBe(false)
       if (!result.success) {
@@ -153,7 +152,7 @@ describe('signUpWithSiretOrCNC', () => {
 
   describe('User creation scenarios', () => {
     it('creates new account when user exists without account for environment', async () => {
-      mockGetAccountByEmailAndEnvironment.mockResolvedValue(null)
+      mockGetAccountByEmail.mockResolvedValue(null)
       mockGetUserByEmail.mockResolvedValue({ id: mockedUserId, email: testEmail })
       mockAddAccount.mockResolvedValue({ id: mockedAccountId })
       mockGetRawOrganizationBySiret.mockResolvedValue(null)
@@ -161,12 +160,11 @@ describe('signUpWithSiretOrCNC', () => {
       mockCreateOrganizationWithVersion.mockResolvedValue({ id: mockedOrganizationVersionId })
       mockValidateUser.mockResolvedValue(undefined)
 
-      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.CUT)
+      const result = await signUpWithSiretOrCNC(testEmail, testSiret)
 
       expect(mockAddAccount).toHaveBeenCalledWith({
         user: { connect: { id: mockedUserId } },
         role: Role.DEFAULT,
-        environment: Environment.CUT,
         status: UserStatus.PENDING_REQUEST,
       })
       expect(result.success).toBe(true)
@@ -176,7 +174,7 @@ describe('signUpWithSiretOrCNC', () => {
 
   describe('CUT environment with CNC code', () => {
     it('creates organization and site when CNC exists but organization does not', async () => {
-      mockGetAccountByEmailAndEnvironment.mockResolvedValue(null)
+      mockGetAccountByEmail.mockResolvedValue(null)
       mockGetUserByEmail.mockResolvedValue(null)
       mockAddUser.mockResolvedValue({
         id: mockedUserId,
@@ -190,20 +188,17 @@ describe('signUpWithSiretOrCNC', () => {
         commune: 'Paris',
       })
       mockGetRawOrganizationBySiteCNC.mockResolvedValue(null)
-      mockGetOrganizationVersionByOrganizationIdAndEnvironment.mockResolvedValue(null)
+      mockGetOrganizationVersionByOrganizationId.mockResolvedValue(null)
       mockCreateOrganizationWithVersion.mockResolvedValue({
         id: mockedOrganizationVersionId,
         organizationId: mockedOrganizationId,
       })
       mockValidateUser.mockResolvedValue(undefined)
 
-      const result = await signUpWithSiretOrCNC(testEmail, testCNC, Environment.CUT)
+      const result = await signUpWithSiretOrCNC(testEmail, testCNC)
 
       expect(mockFindCncByCncCode).toHaveBeenCalledWith(testCNC)
-      expect(mockCreateOrganizationWithVersion).toHaveBeenCalledWith(
-        { name: 'Test CNC' },
-        { environment: Environment.CUT },
-      )
+      expect(mockCreateOrganizationWithVersion).toHaveBeenCalledWith({ name: 'Test CNC' }, {})
       expect(mockAddSite).toHaveBeenCalledWith({
         name: 'Test CNC',
         postalCode: '75001',
@@ -220,7 +215,7 @@ describe('signUpWithSiretOrCNC', () => {
     })
 
     it('uses existing organization when CNC and organization exist', async () => {
-      mockGetAccountByEmailAndEnvironment.mockResolvedValue(null)
+      mockGetAccountByEmail.mockResolvedValue(null)
       mockGetUserByEmail.mockResolvedValue(null)
       mockAddUser.mockResolvedValue({
         id: mockedUserId,
@@ -236,7 +231,7 @@ describe('signUpWithSiretOrCNC', () => {
         commune: 'Paris',
       })
       mockGetRawOrganizationBySiteCNC.mockResolvedValue({ id: mockedOrganizationId })
-      mockGetOrganizationVersionByOrganizationIdAndEnvironment.mockResolvedValue({
+      mockGetOrganizationVersionByOrganizationId.mockResolvedValue({
         id: mockedOrganizationVersionId,
       })
       mockGetAccountById.mockResolvedValue({
@@ -250,7 +245,7 @@ describe('signUpWithSiretOrCNC', () => {
         },
       ])
 
-      const result = await signUpWithSiretOrCNC(testEmail, testCNC, Environment.CUT)
+      const result = await signUpWithSiretOrCNC(testEmail, testCNC)
 
       expect(mockCreateOrganizationWithVersion).not.toHaveBeenCalled()
       expect(mockAddSite).not.toHaveBeenCalled()
@@ -263,7 +258,7 @@ describe('signUpWithSiretOrCNC', () => {
 
   describe('SIRET validation', () => {
     it('returns UNKNOWN_SIRET_OR_CNC when identifier is too short and not CNC', async () => {
-      mockGetAccountByEmailAndEnvironment.mockResolvedValue(null)
+      mockGetAccountByEmail.mockResolvedValue(null)
       mockGetUserByEmail.mockResolvedValue(null)
       mockAddUser.mockResolvedValue({
         id: mockedUserId,
@@ -272,7 +267,7 @@ describe('signUpWithSiretOrCNC', () => {
       })
       mockFindCncByCncCode.mockResolvedValue(null)
 
-      const result = await signUpWithSiretOrCNC(testEmail, '12345', Environment.CUT)
+      const result = await signUpWithSiretOrCNC(testEmail, '12345')
 
       expect(result.success).toBe(false)
       if (!result.success) {
@@ -283,7 +278,7 @@ describe('signUpWithSiretOrCNC', () => {
 
   describe('CUT environment company name lookup', () => {
     it('fetches company name for CUT environment when organization does not exist', async () => {
-      mockGetAccountByEmailAndEnvironment.mockResolvedValue(null)
+      mockGetAccountByEmail.mockResolvedValue(null)
       mockGetUserByEmail.mockResolvedValue(null)
       mockAddUser.mockResolvedValue({
         id: mockedUserId,
@@ -295,12 +290,12 @@ describe('signUpWithSiretOrCNC', () => {
       mockCreateOrganizationWithVersion.mockResolvedValue({ id: mockedOrganizationVersionId })
       mockValidateUser.mockResolvedValue(undefined)
 
-      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.CUT)
+      const result = await signUpWithSiretOrCNC(testEmail, testSiret)
 
       expect(mockGetCompanyName).toHaveBeenCalledWith(testSiret)
       expect(mockCreateOrganizationWithVersion).toHaveBeenCalledWith(
         { wordpressId: testSiret, name: 'Test Company' },
-        { environment: Environment.CUT },
+        {},
       )
       expect(result.success).toBe(true)
     })
@@ -308,7 +303,7 @@ describe('signUpWithSiretOrCNC', () => {
 
   describe('Role assignment logic', () => {
     it('assigns ADMIN role when creating new organization', async () => {
-      mockGetAccountByEmailAndEnvironment.mockResolvedValue(null)
+      mockGetAccountByEmail.mockResolvedValue(null)
       mockGetUserByEmail.mockResolvedValue(null)
       mockAddUser.mockResolvedValue({
         id: mockedUserId,
@@ -320,7 +315,7 @@ describe('signUpWithSiretOrCNC', () => {
       mockCreateOrganizationWithVersion.mockResolvedValue({ id: mockedOrganizationVersionId })
       mockValidateUser.mockResolvedValue(undefined)
 
-      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.CUT)
+      const result = await signUpWithSiretOrCNC(testEmail, testSiret)
 
       expect(mockUpdateAccount).toHaveBeenCalledWith(mockedAccountId, {
         role: Role.ADMIN,
@@ -333,7 +328,7 @@ describe('signUpWithSiretOrCNC', () => {
     })
 
     it('assigns DEFAULT role when joining existing organization', async () => {
-      mockGetAccountByEmailAndEnvironment.mockResolvedValue(null)
+      mockGetAccountByEmail.mockResolvedValue(null)
       mockGetUserByEmail.mockResolvedValue(null)
       mockAddUser.mockResolvedValue({
         id: mockedUserId,
@@ -341,7 +336,7 @@ describe('signUpWithSiretOrCNC', () => {
         accounts: [{ id: mockedAccountId }],
       })
       mockGetRawOrganizationBySiret.mockResolvedValue({ id: mockedOrganizationId })
-      mockGetOrganizationVersionByOrganizationIdAndEnvironment.mockResolvedValue({
+      mockGetOrganizationVersionByOrganizationId.mockResolvedValue({
         id: mockedOrganizationVersionId,
       })
       mockGetAccountById.mockResolvedValue({
@@ -355,7 +350,7 @@ describe('signUpWithSiretOrCNC', () => {
         },
       ])
 
-      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.CUT)
+      const result = await signUpWithSiretOrCNC(testEmail, testSiret)
 
       expect(mockUpdateAccount).toHaveBeenCalledWith(mockedAccountId, {
         role: Role.DEFAULT,
@@ -370,7 +365,7 @@ describe('signUpWithSiretOrCNC', () => {
 
   describe('Email flow scenarios', () => {
     it('sends activation request to admins when joining existing organization', async () => {
-      mockGetAccountByEmailAndEnvironment.mockResolvedValue(null)
+      mockGetAccountByEmail.mockResolvedValue(null)
       mockGetUserByEmail.mockResolvedValue(null)
       mockAddUser.mockResolvedValue({
         id: mockedUserId,
@@ -380,7 +375,7 @@ describe('signUpWithSiretOrCNC', () => {
         accounts: [{ id: mockedAccountId }],
       })
       mockGetRawOrganizationBySiret.mockResolvedValue({ id: mockedOrganizationId })
-      mockGetOrganizationVersionByOrganizationIdAndEnvironment.mockResolvedValue({
+      mockGetOrganizationVersionByOrganizationId.mockResolvedValue({
         id: mockedOrganizationVersionId,
       })
       mockGetAccountById.mockResolvedValue({
@@ -402,13 +397,12 @@ describe('signUpWithSiretOrCNC', () => {
         },
       ])
 
-      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.CUT)
+      const result = await signUpWithSiretOrCNC(testEmail, testSiret)
 
       expect(mockSendActivationRequest).toHaveBeenCalledWith(
         ['admin@example.com', 'gestionnaire@example.com'],
-        testEmail.toLowerCase(),
+        testEmail,
         'Test User',
-        Environment.CUT,
       )
       expect(result.success).toBe(true)
       if (result.success) {
@@ -417,7 +411,7 @@ describe('signUpWithSiretOrCNC', () => {
     })
 
     it('validates user and sends activation when creating new organization', async () => {
-      mockGetAccountByEmailAndEnvironment.mockResolvedValue(null)
+      mockGetAccountByEmail.mockResolvedValue(null)
       mockGetUserByEmail.mockResolvedValue(null)
       mockAddUser.mockResolvedValue({
         id: mockedUserId,
@@ -429,7 +423,7 @@ describe('signUpWithSiretOrCNC', () => {
       mockCreateOrganizationWithVersion.mockResolvedValue({ id: mockedOrganizationVersionId })
       mockValidateUser.mockResolvedValue(undefined)
 
-      const result = await signUpWithSiretOrCNC(testEmail, testSiret, Environment.CUT)
+      const result = await signUpWithSiretOrCNC(testEmail, testSiret)
 
       expect(mockValidateUser).toHaveBeenCalledWith(mockedAccountId)
       expect(result.success).toBe(true)

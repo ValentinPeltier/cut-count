@@ -1,6 +1,6 @@
-import { type Account, type User, Environment } from '@/db-common'
+import { type Account, type User } from '@/db-common'
 
 export type AccountWithUser = Account & {
   user: User
-  organizationVersion: { organizationId: string; environment: Environment }
+  organizationVersion: { organizationId: string }
 }

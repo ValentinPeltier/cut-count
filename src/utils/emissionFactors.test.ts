@@ -1,4 +1,4 @@
-import { Environment, Import, Unit } from '@/db-common/enums'
+import { Import, Unit } from '@/db-common/enums'
 import { expect } from '@jest/globals'
 import { getEmissionFactorValue, isMonetaryEmissionFactor, isWasteEmissionFactor } from './emissionFactors'
 
@@ -17,13 +17,13 @@ describe('emissionFactors utils function', () => {
     test('should return FE value even for waste emission factors', () => {
       const emissionFactor = { importedFrom: Import.BaseEmpreinte, importedId: '34662', totalCo2: 123 }
 
-      expect(getEmissionFactorValue(emissionFactor, Environment.CUT)).toBe(123)
+      expect(getEmissionFactorValue(emissionFactor)).toBe(123)
     })
 
     test('should return FE value if FE is from base empreinte but is not in wasteEmissionFactors', () => {
       const emissionFactor = { importedFrom: Import.BaseEmpreinte, importedId: '456789789787', totalCo2: 123 }
 
-      expect(getEmissionFactorValue(emissionFactor, Environment.CUT)).toBe(123)
+      expect(getEmissionFactorValue(emissionFactor)).toBe(123)
     })
   })
 
@@ -51,13 +51,13 @@ describe('emissionFactors utils function', () => {
     test('should return false for Count even when the factor is in wasteEmissionFactors', () => {
       const emissionFactor = { importedFrom: Import.BaseEmpreinte, importedId: '34662' }
 
-      expect(isWasteEmissionFactor(emissionFactor, Environment.CUT)).toBe(false)
+      expect(isWasteEmissionFactor(emissionFactor)).toBe(false)
     })
 
     test('should return false if FE is from base empreinte but is not in wasteEmissionFactors', () => {
       const emissionFactor = { importedFrom: Import.BaseEmpreinte, importedId: '456789789787' }
 
-      expect(isWasteEmissionFactor(emissionFactor, Environment.CUT)).toBe(false)
+      expect(isWasteEmissionFactor(emissionFactor)).toBe(false)
     })
   })
 })

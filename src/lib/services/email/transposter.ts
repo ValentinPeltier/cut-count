@@ -1,21 +1,20 @@
-import { Environment } from '@/db-common/enums'
 import { getEnvVar } from '@/lib/environment'
 import nodemailer from 'nodemailer'
 import SMTPTransport from 'nodemailer/lib/smtp-transport'
 
-const transposters = new Map<Environment, nodemailer.Transporter>()
+let transporter: nodemailer.Transporter | undefined
 
-export const getTransporter = async (env: Environment) => {
-  if (transposters.has(env)) {
-    return transposters.get(env)!
+export const getTransporter = async () => {
+  if (transporter) {
+    return transporter
   }
 
-  const host = await getEnvVar('MAIL_HOST', env)
-  const port = await getEnvVar('MAIL_PORT', env)
-  const user = await getEnvVar('MAIL_USER', env)
-  const pass = await getEnvVar('MAIL_PASSWORD', env)
+  const host = await getEnvVar('MAIL_HOST')
+  const port = await getEnvVar('MAIL_PORT')
+  const user = await getEnvVar('MAIL_USER')
+  const pass = await getEnvVar('MAIL_PASSWORD')
 
-  const transporter = nodemailer.createTransport({
+  transporter = nodemailer.createTransport({
     host,
     port: parseInt(port, 10),
     auth: {
@@ -24,6 +23,5 @@ export const getTransporter = async (env: Environment) => {
     },
   } as SMTPTransport.Options)
 
-  transposters.set(env, transporter)
   return transporter
 }

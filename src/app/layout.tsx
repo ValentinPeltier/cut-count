@@ -1,7 +1,7 @@
 import { ZodConfigClientProvider } from '@/components/providers/zod.provider'
 import RouteChangeListener from '@/components/RouteChangeListener'
 import '@/css/index.css'
-import { Environment } from '@/db-common/enums'
+
 import { Providers, configureZod } from '@/lib'
 import { Locale, LocaleType } from '@/lib/i18n/config'
 import { CssBaseline } from '@mui/material'
@@ -29,7 +29,7 @@ const RootLayout = async ({ children }: Readonly<Props>) => {
 
   const providerOptions = { key: 'mui', nonce: (await headers()).get('x-nonce') || undefined, prepend: true }
   return (
-    <html lang={locale} className={Environment.CUT}>
+    <html lang={locale} className={'CUT'}>
       <body>
         <AppRouterCacheProvider options={providerOptions}>
           <NextIntlClientProvider messages={messages}>

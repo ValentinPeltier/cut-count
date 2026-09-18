@@ -1,4 +1,4 @@
-import { Environment } from '@/db-common/enums'
+
 import { Command } from 'commander'
 import { prismaClient } from '../../db/client.server'
 
@@ -9,8 +9,7 @@ program.name('fix-cnc').description('Script pour réparer le problème des CNCs'
 const fixCNCs = async () => {
   const orgaVersions = await prismaClient.organizationVersion.findMany({
     where: {
-      environment: Environment.CUT,
-    },
+          },
   })
 
   const sites = await prismaClient.site.findMany({

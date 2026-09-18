@@ -1,14 +1,14 @@
 import CarbonIntensitiesCut from '@/environments/cut/study/results/CarbonIntensitiesCut'
 import type { FullStudy } from '@/db/study'
-import { Environment, StudyResultUnit } from '@/db-common/enums'
+import { StudyResultUnit } from '@/db-common/enums'
 import { render, screen } from '@testing-library/react'
 
 jest.mock('next-intl', () => ({
   useTranslations: () => (key: string) => key,
 }))
 
-jest.mock('@/store/AppEnvironment', () => ({
-  useAppEnvironmentStore: () => ({ environment: Environment.CUT }),
+jest.mock('@/store/AppLoading', () => ({
+  useAppLoadingStore: () => ({ isLoading: false }),
 }))
 
 jest.mock('@/services/permissions/environmentAdvanced', () => ({

@@ -61,7 +61,7 @@ export const getStudyOrganizationVersion = async (studyId: string) =>
 export const createOrganizationCommand = async (command: CreateOrganizationCommand) =>
   withServerResponse('createOrganizationCommand', async () => {
     const session = await dbActualizedAuth()
-    if (!session || !session.user.organizationVersionId || !hasAccessToCreateOrganization(session.user.environment)) {
+    if (!session || !session.user.organizationVersionId || !hasAccessToCreateOrganization()) {
       throw new Error(NOT_AUTHORIZED)
     }
 
@@ -70,7 +70,6 @@ export const createOrganizationCommand = async (command: CreateOrganizationComma
     } satisfies Prisma.OrganizationCreateInput
 
     const organizationVersion = {
-      environment: session.user.environment,
       parent: { connect: { id: session.user.organizationVersionId } },
     } satisfies Omit<Prisma.OrganizationVersionCreateInput, 'organization'>
 

@@ -1,5 +1,5 @@
 import { Prisma } from '@/db-common'
-import { EmissionFactorBase, EmissionFactorStatus, Environment, Import, SubPost, Unit } from '@/db-common/enums'
+import { EmissionFactorBase, EmissionFactorStatus, Import, SubPost, Unit } from '@/db-common/enums'
 import { LocaleType } from '@/lib/i18n/config'
 import { EmissionFactorCommand, UpdateEmissionFactorCommand } from '@/services/serverFunctions/emissionFactor.command'
 import { FeFilters } from '@/types/filters'
@@ -157,11 +157,11 @@ export type EmissionFactorList = {
 const getDefaultEmissionFactorsCount = async (
   filters: FeFilters,
   locale: LocaleType,
-  environment: Environment,
+  
   organizationId?: string,
 ): Promise<{ count: number }> => {
   const count = await prismaClient.emissionFactorMetaData.count(
-    getBaseFilterForEmissionFactors(locale, filters, environment, organizationId),
+    getBaseFilterForEmissionFactors(locale, filters, organizationId),
   )
 
   return { count }
@@ -170,7 +170,7 @@ const getDefaultEmissionFactorsCount = async (
 const getBaseFilterForEmissionFactors = (
   locale: LocaleType,
   filters: FeFilters,
-  environment: Environment,
+  
   organizationId?: string,
 ) => {
   let importedFromConditionWithoutManual: object = { id: 'no-fe' }
@@ -192,7 +192,7 @@ const getBaseFilterForEmissionFactors = (
   const commonEmissionFactorFilters = {
     subPosts: filters.subPosts.some((sp) => sp === 'all')
       ? { isEmpty: false }
-      : { hasSome: getEmissionFactorSubPostsMap(filters.subPosts as SubPost[], environment) },
+      : { hasSome: getEmissionFactorSubPostsMap(filters.subPosts as SubPost[]) },
     ...(filters.archived ? {} : { status: { not: EmissionFactorStatus.Archived } }),
     ...(filters.units.length > 0
       ? {
@@ -236,11 +236,11 @@ const getDefaultEmissionFactors = async (
   take: number | 'ALL',
   locale: LocaleType,
   filters: FeFilters,
-  environment: Environment,
+  
   organizationId?: string,
 ): Promise<EmissionFactorList[]> => {
   const emissionFactorsMetadata = await prismaClient.emissionFactorMetaData.findMany({
-    ...getBaseFilterForEmissionFactors(locale, filters, environment, organizationId),
+    ...getBaseFilterForEmissionFactors(locale, filters, organizationId),
     skip,
     take: take === 'ALL' ? undefined : take,
     select: {
@@ -287,11 +287,11 @@ export const getAllEmissionFactors = async (
   take: number | 'ALL',
   locale: LocaleType,
   filters: FeFilters,
-  environment: Environment,
+  
 ) => {
   const [defaultEmissionFactors, emissionFactorsCountInfos] = await Promise.all([
-    getDefaultEmissionFactors(skip, take, locale, filters, environment, organizationId),
-    getDefaultEmissionFactorsCount(filters, locale, environment, organizationId),
+    getDefaultEmissionFactors(skip, take, locale, filters, organizationId),
+    getDefaultEmissionFactorsCount(filters, locale, organizationId),
   ])
 
   return {

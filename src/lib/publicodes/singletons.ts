@@ -1,9 +1,8 @@
-import { Environment } from '@/db-common/enums'
 import Engine from 'publicodes'
 
-const engineInstances = new Map<Environment, Engine>()
+const engineInstances = new Map<string, Engine<string>>()
 
-function getOrCreateInstance<T>(cache: Map<Environment, unknown>, key: Environment, factory: () => T): T {
+function getOrCreateInstance<T>(cache: Map<string, T>, key: string, factory: () => T): T {
   if (!cache.has(key)) {
     cache.set(key, factory())
   }
@@ -12,8 +11,8 @@ function getOrCreateInstance<T>(cache: Map<Environment, unknown>, key: Environme
 }
 
 export function getOrCreateEngine<RuleName extends string>(
-  key: Environment,
+  key: string,
   createEngine: () => Engine<RuleName>,
 ): Engine<RuleName> {
-  return getOrCreateInstance(engineInstances, key, createEngine)
+  return getOrCreateInstance(engineInstances, key, createEngine) as Engine<RuleName>
 }

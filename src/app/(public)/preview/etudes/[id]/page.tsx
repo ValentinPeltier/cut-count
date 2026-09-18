@@ -3,10 +3,10 @@ import cutTheme from '@/environments/cut/theme/theme'
 import { ThemeProvider } from '@mui/material/styles'
 import PDFSummaryContainer from './PDFSummaryContainer'
 
-const PDFPreviewPage = async ({ study, environment, locale }: PdfAuthProps) => {
+const PDFPreviewPage = async ({ study, locale }: PdfAuthProps) => {
   return (
     <ThemeProvider theme={cutTheme}>
-      <PDFSummaryContainer study={study} environment={environment} locale={locale} />
+      <PDFSummaryContainer study={study} locale={locale} />
     </ThemeProvider>
   )
 }

@@ -2,7 +2,6 @@
 
 import type { FullStudy } from '@/db/study'
 import { hasAccessToStudySiteAddAndSelection } from '@/services/permissions/environment'
-import { useAppEnvironmentStore } from '@/store/AppEnvironment'
 import { FormControl, InputLabel, MenuItem, Select, Tooltip } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import styles from './SelectStudySite.module.css'
@@ -30,7 +29,6 @@ const SelectStudySite = ({
   'use memo'
 
   const t = useTranslations('study.organization')
-  const { environment } = useAppEnvironmentStore()
 
   let tooltipMessage: string | null = null
   if (siteSelectionDisabled) {
@@ -40,7 +38,7 @@ const SelectStudySite = ({
   const value = getSelectStudySiteValue(sites, defaultValue, showAllOption)
   const orderedSites = [...(sites ?? [])].sort((a, b) => a.site.name.localeCompare(b.site.name))
 
-  if (environment && !hasAccessToStudySiteAddAndSelection(environment)) {
+  if (!hasAccessToStudySiteAddAndSelection()) {
     return null
   }
 

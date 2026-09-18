@@ -1,4 +1,4 @@
-import { Environment } from '@/db-common/enums'
+
 import { FullStudy, getStudyById } from '@/db/study'
 import { getUserById } from '@/db/user'
 import NotFound from '@/lib/components/pages/NotFound'
@@ -9,7 +9,6 @@ import React from 'react'
 
 export type PdfAuthProps = {
   study: FullStudy
-  environment: Environment
   locale: LocaleType
 }
 
@@ -32,10 +31,8 @@ const withPdfAuth = (WrappedComponent: React.ComponentType<any & PdfAuthProps>) 
     }
 
     let study: FullStudy | null = null
-    let environment: Environment | null = null
     let locale: LocaleType | null = null
 
-    // Only use PDF JWT authentication
     const headersList = await headers()
     const url = headersList.get('x-url')
 
@@ -55,18 +52,13 @@ const withPdfAuth = (WrappedComponent: React.ComponentType<any & PdfAuthProps>) 
           userId: string
           studyId: string
           organizationVersionId: string
-          environment: string
           locale: string
         }
 
-        // Verify token was issued for THIS specific study
         if (payload.studyId === studyId) {
-          // Get user and verify they still have access
           const pdfUser = await getUserById(payload.userId)
           if (pdfUser) {
-            // Use the organizationVersionId from the token for proper context
             study = await getStudyById(studyId, payload.organizationVersionId)
-            environment = payload.environment as Environment
             locale = payload.locale as LocaleType
           }
         }
@@ -79,7 +71,7 @@ const withPdfAuth = (WrappedComponent: React.ComponentType<any & PdfAuthProps>) 
       return <NotFound />
     }
 
-    return <WrappedComponent {...props} study={study} environment={environment} locale={locale} />
+    return <WrappedComponent {...props} study={study} locale={locale} />
   }
 
   Component.displayName = 'WithPdfAuth'

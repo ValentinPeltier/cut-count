@@ -1,5 +1,5 @@
 import ResetForm from '@/components/auth/ResetForm'
-import { Environment } from '@/db-common/enums'
+
 import { auth } from '@/services/auth'
 
 interface Props {
@@ -11,7 +11,7 @@ const ResetPasswordPage = async (props: Props) => {
   const { token } = params
   const session = await auth()
 
-  return <ResetForm user={session?.user} token={token} environment={Environment.CUT} />
+  return <ResetForm user={session?.user} token={token} />
 }
 
 export default ResetPasswordPage

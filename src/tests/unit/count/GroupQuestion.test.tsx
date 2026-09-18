@@ -14,12 +14,14 @@ describe('GroupQuestion', () => {
   it('renders checkbox inputs from group layout', () => {
     render(
       <GroupQuestion
-        groupLayout={{
-          evaluatedElements: [
-            { id: 'fonctionnement . énergie . est équipé climatisation', label: 'Clim', element: 'input', type: 'checkbox' },
-            { id: 'ignored.text', label: 'Text', element: 'text' },
-          ],
-        }}
+        groupLayout={
+          {
+            evaluatedElements: [
+              { id: 'fonctionnement . énergie . est équipé climatisation', label: 'Clim', element: 'input', type: 'checkbox' },
+              { id: 'ignored.text', label: 'Text', element: 'text' },
+            ],
+          } as any
+        }
         onChange={jest.fn()}
       />,
     )

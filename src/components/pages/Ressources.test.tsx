@@ -1,6 +1,6 @@
 import RessourcesPage from '@/components/pages/Ressources'
-import { getEnvironnementRessources } from '@/utils/ressources'
-import { Environment } from '@/db-common/enums'
+import { getRessources } from '@/utils/ressources'
+
 import { render, screen } from '@testing-library/react'
 
 jest.mock('@/lib/components/base/Block', () => ({
@@ -22,7 +22,7 @@ jest.mock('@/lib/utils/customRich', () => ({
 }))
 
 jest.mock('@/utils/ressources', () => ({
-  getEnvironnementRessources: jest.fn(),
+  getRessources: jest.fn(),
 }))
 
 jest.mock('@/lib/components/hooks/useServerFunction', () => ({
@@ -35,7 +35,7 @@ jest.mock('@/services/serverFunctions/documents', () => ({
   getDocumentUrl: jest.fn(),
 }))
 
-const mockGetEnvironnementRessources = jest.mocked(getEnvironnementRessources)
+const mockGetRessources = jest.mocked(getRessources)
 
 const cutResourcesFixture = [
   {
@@ -57,9 +57,9 @@ describe('RessourcesPage', () => {
   })
 
   it('renders CUT resource sections including download cards', async () => {
-    mockGetEnvironnementRessources.mockResolvedValue(cutResourcesFixture)
+    mockGetRessources.mockResolvedValue(cutResourcesFixture)
 
-    const ui = await RessourcesPage({ environment: Environment.CUT })
+    const ui = await RessourcesPage()
     render(ui)
 
     expect(screen.getByTestId('ressources-sections')).toBeInTheDocument()
@@ -70,26 +70,11 @@ describe('RessourcesPage', () => {
     expect(screen.getByTestId('ressource-external-link')).toHaveAttribute('href', 'https://opencarbon.example')
   })
 
-  it('does not render CUT-only alerts for BC environment', async () => {
-    mockGetEnvironnementRessources.mockResolvedValue([
-      {
-        title: 'enSavoirPlusBilan',
-        links: [{ title: 'methodeBilanCarbone', link: 'https://www.bilancarbone-methode.com/' }],
-      },
-    ])
+  it('calls getRessources with translations', async () => {
+    mockGetRessources.mockResolvedValue([])
 
-    const ui = await RessourcesPage({ environment: Environment.BC })
-    render(ui)
+    await RessourcesPage()
 
-    expect(screen.queryByTestId('ressources-cut-description')).not.toBeInTheDocument()
-    expect(screen.queryByTestId('ressources-cut-france2030')).not.toBeInTheDocument()
-  })
-
-  it('passes environment to getEnvironnementRessources', async () => {
-    mockGetEnvironnementRessources.mockResolvedValue([])
-
-    await RessourcesPage({ environment: Environment.CUT })
-
-    expect(mockGetEnvironnementRessources).toHaveBeenCalledWith(Environment.CUT, expect.any(Function))
+    expect(mockGetRessources).toHaveBeenCalledWith(expect.any(Function))
   })
 })

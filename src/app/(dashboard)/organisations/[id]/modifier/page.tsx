@@ -20,7 +20,7 @@ const OrganizationView = async (props: Props & UserSessionProps) => {
 
   const organizationVersion = (await getOrganizationVersionWithSitesById(id)) as OrganizationVersionWithOrganization
   const canEditOrganization = canEditOrganizationVersion(props.user, organizationVersion)
-  if (!organizationVersion || (!canEditOrganization && !hasAlwaysAccessToOrganizationVersion(props.user.environment))) {
+  if (!organizationVersion || (!canEditOrganization && !hasAlwaysAccessToOrganizationVersion())) {
     return <NotFound />
   }
 

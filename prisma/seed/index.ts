@@ -1,17 +1,6 @@
 import type { Account, User } from '@/db-common'
 import { PrismaClient } from '@/db-common'
-import {
-  EmissionFactorBase,
-  EmissionFactorStatus,
-  Environment,
-  Import,
-  Level,
-  Role,
-  StudyRole,
-  SubPost,
-  Unit,
-  UserStatus,
-} from '@/db-common/enums'
+import { EmissionFactorBase, EmissionFactorStatus, Import, Level, Role, StudyRole, SubPost, Unit, UserStatus } from '@/db-common/enums'
 import { signPassword } from '@/lib/utils/auth'
 import { getAllowedLevels } from '@/utils/study'
 import { faker } from '@faker-js/faker'
@@ -22,7 +11,6 @@ import { createCountGoldenStudy } from './countGoldenStudy'
 import { createRealStudy } from './study'
 import { getCutRoleFromBase, getRolesFromEnvironment } from './utils'
 
-import type { BCEnvironment } from '@/types/environment'
 
 const program = new Command()
 
@@ -42,7 +30,6 @@ const prisma = new PrismaClient({
   adapter,
 }) as PrismaClient
 
-const BCEnvironment = Environment
 
 const users = async () => {
   await prisma.emissionFactorPartMetaData.deleteMany()
@@ -95,7 +82,6 @@ const users = async () => {
       isCR: false,
       onboarded: false,
       organizationId: unOnboardedOrganization.id,
-      environment: Environment.CUT,
     },
   })
 
@@ -115,7 +101,6 @@ const users = async () => {
       organizationVersionId: unOnboardedOrganizationVersion.id,
       role: Role.COLLABORATOR,
       userId: onboarding.id,
-      environment: Environment.CUT,
       status: UserStatus.IMPORTED,
     },
   })
@@ -133,7 +118,6 @@ const users = async () => {
       organizationVersionId: unOnboardedOrganizationVersion.id,
       role: Role.COLLABORATOR,
       userId: onboardingNotTrained.id,
-      environment: Environment.CUT,
       status: UserStatus.IMPORTED,
     },
   })
@@ -150,7 +134,6 @@ const users = async () => {
       isCR: true,
       onboarded: true,
       organizationId: clientLessOrganization.id,
-      environment: Environment.CUT,
     },
   })
 
@@ -169,14 +152,12 @@ const users = async () => {
       organizationVersionId: clientLessOrganizationVersion.id,
       role: Role.COLLABORATOR,
       userId: clientLessUser.id,
-      environment: Environment.CUT,
       status: UserStatus.ACTIVE,
     },
   })
 
   const organizationVersionCutSignup = await prisma.organizationVersion.create({
     data: {
-      environment: Environment.CUT,
       organizationId: (
         await prisma.organization.create({
           data: {
@@ -192,7 +173,6 @@ const users = async () => {
     data: {
       organizationVersionId: organizationVersionCutSignup.id,
       role: Role.ADMIN,
-      environment: Environment.CUT,
       status: UserStatus.ACTIVE,
       userId: (
         await prisma.user.create({
@@ -219,16 +199,13 @@ const users = async () => {
       organizationId: organization.id,
       isCR: index % 2 === 1,
       onboarded: true,
-      environment: Environment.CUT,
     })),
   })
 
   const crOrganizationVersions = organizationVersions.filter((organization) => organization.isCR)
   const regularOrganizationVersions = organizationVersions.filter((organization) => !organization.isCR)
 
-  const environmentOrganizationVersions = {
-    [Environment.CUT]: regularOrganizationVersions,
-  }
+  const cutOrganizationVersions = regularOrganizationVersions
 
   const childOrganizations = await prisma.organization.createManyAndReturn({
     data: Array.from({ length: 50 }).map(() => ({
@@ -311,7 +288,6 @@ const users = async () => {
       organizationId: childOrganization.id,
       isCR: false,
       onboarded: true,
-      environment: Environment.CUT,
     })),
   })
 
@@ -361,7 +337,6 @@ const users = async () => {
             organizationVersionId: regularOrganizationVersions[index % regularOrganizationVersions.length].id,
             role: role as Role,
             userId: user.id,
-            environment: Environment.CUT,
             status: UserStatus.ACTIVE,
           },
         })
@@ -392,7 +367,6 @@ const users = async () => {
             organizationVersionId: crOrganizationVersions[index % crOrganizationVersions.length].id,
             role: role as Role,
             userId: user.id,
-            environment: Environment.CUT,
             status: UserStatus.ACTIVE,
           },
         })
@@ -423,7 +397,6 @@ const users = async () => {
           organizationVersionId: regularOrganizationVersions[index % regularOrganizationVersions.length].id,
           role: Role.COLLABORATOR,
           userId: user.id,
-          environment: Environment.CUT,
           status: UserStatus.IMPORTED,
         },
       })
@@ -439,11 +412,10 @@ const users = async () => {
       return { user, accounts: [{ account, organizationVersion }] }
     }),
     ...Object.keys(Role).flatMap((role) => [
-      ...Object.keys(BCEnvironment).flatMap((environment) => [
         ...Array.from({ length: 2 }).map(async (_, index) => {
           const user = await prisma.user.create({
             data: {
-              email: `${environment.toLocaleLowerCase()}-env-${role.toLocaleLowerCase()}-${index}@yopmail.com`,
+              email: `cut-env-${role.toLocaleLowerCase()}-${index}@yopmail.com`,
               firstName: faker.person.firstName(),
               lastName: faker.person.lastName(),
               password: await signPassword(`password-${index}`),
@@ -451,13 +423,11 @@ const users = async () => {
             },
           })
 
-          const organizationVersionArray = environmentOrganizationVersions[environment as BCEnvironment]
           const account = await prisma.account.create({
             data: {
-              organizationVersionId: organizationVersionArray[index % organizationVersionArray.length].id,
-              role: getRolesFromEnvironment(environment as Environment, role as Role),
+              organizationVersionId: cutOrganizationVersions[index % cutOrganizationVersions.length].id,
+              role: getRolesFromEnvironment(role as Role),
               userId: user.id,
-              environment: environment as Environment,
               status: UserStatus.ACTIVE,
             },
           })
@@ -472,7 +442,6 @@ const users = async () => {
           }
           return { user, accounts: [{ account, organizationVersion }] }
         }),
-      ]),
       ...Array.from({ length: 2 }).map(async (_, index) => {
         const user = await prisma.user.create({
           data: {
@@ -488,7 +457,6 @@ const users = async () => {
             organizationVersionId: regularOrganizationVersions[index % regularOrganizationVersions.length].id,
             role: getCutRoleFromBase(role as Role),
             userId: user.id,
-            environment: Environment.CUT,
             status: UserStatus.ACTIVE,
           },
         ]
@@ -529,7 +497,6 @@ const users = async () => {
             organizationVersionId: crOrganizationVersions[index % crOrganizationVersions.length].id,
             role: getCutRoleFromBase(role as Role),
             userId: user.id,
-            environment: Environment.CUT,
             status: UserStatus.ACTIVE,
           },
         ]
@@ -562,7 +529,6 @@ const users = async () => {
       data: {
         organizationVersionId: organizationVersions[0].id,
         role: Role.COLLABORATOR,
-        environment: Environment.CUT,
         status: UserStatus.ACTIVE,
         userId: (
           await prisma.user.create({
@@ -581,7 +547,6 @@ const users = async () => {
       data: {
         organizationVersionId: regularOrganizationVersions[1].id,
         role: Role.DEFAULT,
-        environment: Environment.CUT,
         status: UserStatus.ACTIVE,
         userId: (
           await prisma.user.create({
@@ -609,7 +574,6 @@ const users = async () => {
     .then(async (user) => {
       await prisma.account.create({
         data: {
-          environment: Environment.CUT,
           organizationVersionId: regularOrganizationVersions[0].id,
           role: Role.COLLABORATOR,
           userId: user.id,

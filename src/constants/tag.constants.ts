@@ -1,4 +1,4 @@
-import { Environment, SubPost } from '@/db-common/enums'
+import { SubPost } from '@/db-common/enums'
 
 export const OTHER_TAG_ID = 'other'
 
@@ -13,9 +13,6 @@ type StudyTags = {
   name: string
   color: string
 }[]
-type DefaultStudyTags = {
-  [key in Environment]?: { name: string; tags: StudyTags }[]
-}
 
 export enum StudyTagColors {
   DEFAULT = '#ffffff',
@@ -25,11 +22,8 @@ export enum StudyTagColors {
   BLUE = '#606af5',
 }
 
-export const DefaultStudyTags: DefaultStudyTags = {}
-type DefaultStudyTagMap = {
-  [key in Environment]?: {
-    [key in DefaultStudyTagNames]?: SubPost[]
-  }
-}
+export const DefaultStudyTags: { name: string; tags: StudyTags }[] = []
 
-export const DefaultStudyTagMap: DefaultStudyTagMap = {}
+export const DefaultStudyTagMap: {
+  [key in DefaultStudyTagNames]?: SubPost[]
+} = {}

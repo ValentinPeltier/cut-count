@@ -1,5 +1,5 @@
 import PublicCutPage from '@/components/pages/PublicCut'
-import { Environment } from '@/db-common/enums'
+
 import cutTheme from '@/environments/cut/theme/theme'
 import { customRich } from '@/lib/utils/customRich'
 import { ThemeProvider } from '@mui/material/styles'
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 const PublicLayout = async ({ children }: Props) => {
   const t = await getTranslations('login')
-  const question = customRich(t, 'question', {}, Environment.CUT)
+  const question = customRich(t, 'question', {})
   return (
     <ThemeProvider theme={cutTheme}>
       <main className="h100">

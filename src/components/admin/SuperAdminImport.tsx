@@ -1,15 +1,10 @@
 'use client'
 
-import { Environment } from '@/db-common/enums'
 import { sendAddedUsersAndProccess, verifyPasswordAndProcessUsers } from '@/services/serverFunctions/user'
 import { useTranslations } from 'next-intl'
 import InputFileUpload from '../base/InputFileUpload'
 
-interface Props {
-  environment: Environment
-}
-
-const SuperAdminImport = ({ environment }: Props) => {
+const SuperAdminImport = () => {
   const t = useTranslations('admin')
 
   const onChange = (files: FileList) => {
@@ -30,7 +25,7 @@ const SuperAdminImport = ({ environment }: Props) => {
             }
 
             const results = JSON.parse(event.target.result) as Record<string, string>[]
-            await sendAddedUsersAndProccess(results, environment)
+            await sendAddedUsersAndProccess(results)
           } catch (error) {
             console.error("Erreur lors de l'analyse du JSON :", error)
           }

@@ -1,4 +1,4 @@
-import { Environment } from '@/db-common/enums'
+
 import { auth } from '@/services/auth'
 import {
   getMethodologyDocumentFileName,
@@ -12,10 +12,6 @@ export const GET = async (req: NextRequest) => {
   const session = await auth()
   if (!session?.user) {
     return new NextResponse('Unauthorized', { status: 401 })
-  }
-
-  if (session.user.environment !== Environment.CUT) {
-    return new NextResponse('Forbidden', { status: 403 })
   }
 
   const documentKey = req.nextUrl.searchParams.get('documentKey')

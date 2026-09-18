@@ -2,7 +2,6 @@ import withAuth, { UserSessionProps } from '@/components/hoc/withAuth'
 import Navbar from '@/components/navbar/Navbar'
 import { getAccountOrganizationVersions } from '@/db/account'
 import cutTheme from '@/environments/cut/theme/theme'
-import { getEnvironment } from '@/i18n/environment'
 import { Box } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
 import styles from './layout.module.css'
@@ -12,7 +11,6 @@ interface Props {
 }
 
 const NavLayout = async ({ children, user: account }: Props & UserSessionProps) => {
-  await getEnvironment()
   if (account.needsAccountSelection) {
     return <main className={styles.content}>{children}</main>
   }

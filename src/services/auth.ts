@@ -1,4 +1,4 @@
-import { Environment, Level, Role, UserStatus } from '@/db-common/enums'
+import { Level, Role, UserStatus } from '@/db-common/enums'
 import { getAccountById } from '@/db/account'
 import { getUserByEmailWithSensibleInformations } from '@/db/user'
 import { DAY } from '@/lib/utils/time'
@@ -43,7 +43,6 @@ export const authOptions: NextAuthOptions = {
             organizationId: account?.organizationVersion?.organizationId,
             role: account.role,
             level: account.user.level,
-            environment: account.environment,
             needsAccountSelection: false,
           }
         }
@@ -64,7 +63,6 @@ export const authOptions: NextAuthOptions = {
               organizationVersionId: dbAccount?.organizationVersionId,
               organizationId: '',
               level: dbAccount.user.level,
-              environment: dbAccount?.organizationVersion?.environment,
               needsAccountSelection: false,
             }
           : token
@@ -87,7 +85,6 @@ export const authOptions: NextAuthOptions = {
           firstName: token.firstName as string,
           lastName: token.lastName as string,
           organizationVersionId: token.organizationVersionId as string,
-          environment: token.environment as Environment,
           organizationId: token.organizationId as string,
           role: token.role as Role,
           level: token.level as Level,
@@ -126,7 +123,6 @@ export const authOptions: NextAuthOptions = {
             organizationVersionId: account.organizationVersionId,
             organizationId: account.organizationVersion?.organizationId,
             level: account.user.level,
-            environment: account.environment,
             needsAccountSelection: false,
           }
         }

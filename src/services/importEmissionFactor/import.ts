@@ -1,14 +1,6 @@
 import { KG_CO2E_PREFIX } from '@/constants/import'
 import type { Prisma } from '@/db-common'
-import {
-  EmissionFactorBase,
-  EmissionFactorPartType,
-  EmissionFactorStatus,
-  Environment,
-  Import,
-  SubPost,
-  Unit,
-} from '@/db-common/enums'
+import { EmissionFactorBase, EmissionFactorPartType, EmissionFactorStatus, Import, SubPost, Unit } from '@/db-common/enums'
 import { getSourceLatestImportVersionId } from '@/db/study'
 import { getEnvVar } from '@/lib/environment'
 import { serializeSimpleCsvRecord } from '@/lib/utils/csv'
@@ -438,7 +430,7 @@ export const getSubPosts = (
       return [SubPost.CommunicationDigitale]
     case Import.AIB:
       return [SubPost.Energie]
-    case Import.CUT:
+    case Import.CLICKSON:
       return [SubPost.CommunicationDigitale]
     case Import.GIEC:
     case Import.BaseEmpreinte:
@@ -458,7 +450,7 @@ export const getBaseFunc = (subPosts: SubPost[], importedFrom: Import) => {
       return subPosts.includes(SubPost.Energie) ? EmissionFactorBase.LocationBased : null
     case Import.Legifrance:
     case Import.NegaOctet:
-    case Import.CUT:
+    case Import.CLICKSON:
     default:
       return null
   }
@@ -724,7 +716,7 @@ export const addSourceToStudies = async (source: Import, transaction: Prisma.Tra
       select: {
         id: true,
         createdBy: {
-          select: { environment: true },
+          select: { id: true },
         },
       },
     }),
@@ -733,8 +725,7 @@ export const addSourceToStudies = async (source: Import, transaction: Prisma.Tra
 
   if (studies.length && !!importVersion) {
     const filteredStudiesPromises = studies.map(async (study) => {
-      const environment = study.createdBy.environment
-      const sourcesForEnv = await isSourceForEnv(environment)
+      const sourcesForEnv = await isSourceForEnv()
       return sourcesForEnv.includes(source) ? study : null
     })
     const filteredStudiesResults = await Promise.all(filteredStudiesPromises)
@@ -749,8 +740,8 @@ export const addSourceToStudies = async (source: Import, transaction: Prisma.Tra
   }
 }
 
-export const isSourceForEnv = async (env: Environment): Promise<Import[]> => {
-  const envVar = await getEnvVar('FE_SOURCES_IMPORT', env)
+export const isSourceForEnv = async (): Promise<Import[]> => {
+  const envVar = await getEnvVar('FE_SOURCES_IMPORT')
 
   if (!envVar) {
     return []

@@ -17,7 +17,7 @@ const NewMemberPage = ({ user }: UserSessionProps) => {
         ]}
       />
       <Block title={t('title')} as="h1">
-        <NewMemberForm environment={user.environment} />
+        <NewMemberForm />
       </Block>
     </>
   )
