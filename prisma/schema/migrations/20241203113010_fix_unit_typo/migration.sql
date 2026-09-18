@@ -1,2 +1,0 @@
--- AlterEnum
-ALTER TYPE "Unit" ADD VALUE 'KG_FLUID_PER_STORAGE_M3';

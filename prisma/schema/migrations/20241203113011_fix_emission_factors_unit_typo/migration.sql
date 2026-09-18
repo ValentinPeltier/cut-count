@@ -1,1 +1,0 @@
-UPDATE emission_factors SET unit = 'KG_FLUID_PER_STORAGE_M3' WHERE unit = 'KG_FUILD_PER_STORAGE_M3';

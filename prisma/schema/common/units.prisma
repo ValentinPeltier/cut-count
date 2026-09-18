@@ -191,5 +191,4 @@ enum Unit {
   PERSON
   TEAM
 
-  @@schema("common")
 }

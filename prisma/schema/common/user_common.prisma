@@ -2,7 +2,6 @@ enum UserSource {
   CRON
   TUNISIE
 
-  @@schema("common")
 }
 
 enum UserStatus {
@@ -11,7 +10,6 @@ enum UserStatus {
   VALIDATED
   ACTIVE
 
-  @@schema("common")
 }
 
 model User {
@@ -29,5 +27,4 @@ model User {
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("users")
-  @@schema("common")
 }

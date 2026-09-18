@@ -139,46 +139,58 @@ ALTER TABLE "bilan_carbone"."accounts" ALTER COLUMN "environment" SET DEFAULT 'C
 ALTER TABLE "bilan_carbone"."organization_versions" ALTER COLUMN "environment" SET DEFAULT 'CUT';
 ALTER TABLE "bilan_carbone"."studies" ALTER COLUMN "simplified" SET DEFAULT true;
 
--- 5. Shrink Environment to CUT.
-CREATE TYPE "common"."Environment_new" AS ENUM ('CUT');
+-- 5. Shrink Environment to CUT (enum lives in public until removed in a later migration).
+CREATE TYPE "public"."Environment_new" AS ENUM ('CUT');
+
+CREATE OR REPLACE FUNCTION "public"."shrink_deactivated_environments"(
+  "old_values" "common"."Environment"[]
+)
+RETURNS "public"."Environment_new"[] AS $$
+  SELECT CASE
+    WHEN 'CUT'::"common"."Environment" = ANY("old_values")
+    THEN ARRAY['CUT']::"public"."Environment_new"[]
+    ELSE ARRAY[]::"public"."Environment_new"[]
+  END;
+$$ LANGUAGE sql IMMUTABLE;
 
 ALTER TABLE "bilan_carbone"."accounts" ALTER COLUMN "environment" DROP DEFAULT;
 ALTER TABLE "bilan_carbone"."accounts"
-  ALTER COLUMN "environment" TYPE "common"."Environment_new"
-  USING ("environment"::text::"common"."Environment_new");
+  ALTER COLUMN "environment" TYPE "public"."Environment_new"
+  USING ("environment"::text::"public"."Environment_new");
 ALTER TABLE "bilan_carbone"."accounts" ALTER COLUMN "environment" SET DEFAULT 'CUT';
 
 ALTER TABLE "bilan_carbone"."organization_versions" ALTER COLUMN "environment" DROP DEFAULT;
 ALTER TABLE "bilan_carbone"."organization_versions"
-  ALTER COLUMN "environment" TYPE "common"."Environment_new"
-  USING ("environment"::text::"common"."Environment_new");
+  ALTER COLUMN "environment" TYPE "public"."Environment_new"
+  USING ("environment"::text::"public"."Environment_new");
 ALTER TABLE "bilan_carbone"."organization_versions" ALTER COLUMN "environment" SET DEFAULT 'CUT';
 
 ALTER TABLE "bilan_carbone"."deactivable_features_statuses"
-  ALTER COLUMN "deactivated_environments" TYPE "common"."Environment_new"[]
-  USING (
-    ARRAY(
-      SELECT unnest("deactivated_environments")::text
-      INTERSECT
-      SELECT unnest(ARRAY['CUT']::text[])
-    )::"common"."Environment_new"[]
-  );
+  ALTER COLUMN "deactivated_environments" DROP DEFAULT;
 
-ALTER TYPE "common"."Environment" RENAME TO "Environment_old";
-ALTER TYPE "common"."Environment_new" RENAME TO "Environment";
-DROP TYPE "common"."Environment_old";
+ALTER TABLE "bilan_carbone"."deactivable_features_statuses"
+  ALTER COLUMN "deactivated_environments" TYPE "public"."Environment_new"[]
+  USING ("public"."shrink_deactivated_environments"("deactivated_environments"));
+
+ALTER TABLE "bilan_carbone"."deactivable_features_statuses"
+  ALTER COLUMN "deactivated_environments" SET DEFAULT ARRAY[]::"public"."Environment_new"[];
+
+DROP FUNCTION "public"."shrink_deactivated_environments"("common"."Environment"[]);
+
+DROP TYPE "common"."Environment";
+ALTER TYPE "public"."Environment_new" RENAME TO "Environment";
 
 -- 6. Shrink DeactivatableFeature to Creation + DownloadReport.
-CREATE TYPE "bilan_carbone"."DeactivatableFeature_new" AS ENUM ('Creation', 'DownloadReport');
+CREATE TYPE "public"."DeactivatableFeature_new" AS ENUM ('Creation', 'DownloadReport');
 ALTER TABLE "bilan_carbone"."deactivable_features_statuses"
-  ALTER COLUMN "feature" TYPE "bilan_carbone"."DeactivatableFeature_new"
-  USING ("feature"::text::"bilan_carbone"."DeactivatableFeature_new");
+  ALTER COLUMN "feature" TYPE "public"."DeactivatableFeature_new"
+  USING ("feature"::text::"public"."DeactivatableFeature_new");
 ALTER TYPE "bilan_carbone"."DeactivatableFeature" RENAME TO "DeactivatableFeature_old";
-ALTER TYPE "bilan_carbone"."DeactivatableFeature_new" RENAME TO "DeactivatableFeature";
 DROP TYPE "bilan_carbone"."DeactivatableFeature_old";
+ALTER TYPE "public"."DeactivatableFeature_new" RENAME TO "DeactivatableFeature";
 
 -- 7. Shrink SubPost to Count values (including DeplacementsProfessionnels).
-CREATE TYPE "bilan_carbone"."SubPost_new" AS ENUM (
+CREATE TYPE "public"."SubPost_new" AS ENUM (
   'DeplacementsProfessionnels',
   'Batiment',
   'Equipe',
@@ -199,38 +211,46 @@ CREATE TYPE "bilan_carbone"."SubPost_new" AS ENUM (
   'CaissesEtBornes'
 );
 
-ALTER TABLE "bilan_carbone"."emission_factors"
-  ALTER COLUMN "sub_posts" TYPE "bilan_carbone"."SubPost_new"[]
-  USING (
-    ARRAY(
-      SELECT unnest("sub_posts")::text
-      INTERSECT
-      SELECT unnest(ARRAY[
-        'DeplacementsProfessionnels',
-        'Batiment',
-        'Equipe',
-        'Energie',
-        'ActivitesDeBureau',
-        'MobiliteSpectateurs',
-        'EquipesRecues',
-        'MaterielTechnique',
-        'AutreMateriel',
-        'Achats',
-        'Fret',
-        'Electromenager',
-        'DechetsOrdinaires',
-        'DechetsExceptionnels',
-        'MaterielDistributeurs',
-        'MaterielCinema',
-        'CommunicationDigitale',
-        'CaissesEtBornes'
-      ]::text[])
-    )::"bilan_carbone"."SubPost_new"[]
+CREATE OR REPLACE FUNCTION "public"."filter_count_sub_posts"("old_values" text[])
+RETURNS "public"."SubPost_new"[] AS $$
+  SELECT COALESCE(
+    array_agg("value"::"public"."SubPost_new"),
+    ARRAY[]::"public"."SubPost_new"[]
+  )
+  FROM unnest("old_values") AS "value"
+  WHERE "value"::text = ANY(
+    ARRAY[
+      'DeplacementsProfessionnels',
+      'Batiment',
+      'Equipe',
+      'Energie',
+      'ActivitesDeBureau',
+      'MobiliteSpectateurs',
+      'EquipesRecues',
+      'MaterielTechnique',
+      'AutreMateriel',
+      'Achats',
+      'Fret',
+      'Electromenager',
+      'DechetsOrdinaires',
+      'DechetsExceptionnels',
+      'MaterielDistributeurs',
+      'MaterielCinema',
+      'CommunicationDigitale',
+      'CaissesEtBornes'
+    ]::text[]
   );
+$$ LANGUAGE sql IMMUTABLE;
+
+ALTER TABLE "bilan_carbone"."emission_factors"
+  ALTER COLUMN "sub_posts" TYPE "public"."SubPost_new"[]
+  USING ("public"."filter_count_sub_posts"("sub_posts"::text[]));
+
+DROP FUNCTION "public"."filter_count_sub_posts"(text[]);
 
 ALTER TYPE "bilan_carbone"."SubPost" RENAME TO "SubPost_old";
-ALTER TYPE "bilan_carbone"."SubPost_new" RENAME TO "SubPost";
 DROP TYPE "bilan_carbone"."SubPost_old";
+ALTER TYPE "public"."SubPost_new" RENAME TO "SubPost";
 
 -- 8. Drop unused enums that nothing references after the table drops.
 DROP TYPE IF EXISTS "bilan_carbone"."Export" CASCADE;

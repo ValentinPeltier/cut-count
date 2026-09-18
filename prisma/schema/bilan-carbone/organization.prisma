@@ -3,7 +3,6 @@ enum SiteCAUnit {
   K // Kilo (1000)
   M // Million (1000000)
 
-  @@schema("bilan_carbone")
 }
 
 model OrganizationVersion {
@@ -28,7 +27,6 @@ model OrganizationVersion {
   childs   OrganizationVersion[] @relation("childOrganizationVersions")
 
   @@map("organization_versions")
-  @@schema("bilan_carbone")
 }
 
 model Site {
@@ -54,7 +52,6 @@ model Site {
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("sites")
-  @@schema("bilan_carbone")
 }
 
 model CncVersion {
@@ -67,7 +64,6 @@ model CncVersion {
   studySites StudySite[]
 
   @@map("cnc_versions")
-  @@schema("bilan_carbone")
 }
 
 model Cnc {
@@ -104,5 +100,4 @@ model Cnc {
   Site      Site[]
 
   @@map("cncs")
-  @@schema("bilan_carbone")
 }

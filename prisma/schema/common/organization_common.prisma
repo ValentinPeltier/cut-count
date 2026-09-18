@@ -14,5 +14,4 @@ model Organization {
   organizationVersions OrganizationVersion[]
 
   @@map("organizations")
-  @@schema("common")
 }

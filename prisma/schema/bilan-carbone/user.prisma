@@ -5,7 +5,6 @@ enum Role {
   COLLABORATOR
   DEFAULT
 
-  @@schema("bilan_carbone")
 }
 
 model Account {
@@ -34,7 +33,6 @@ model Account {
   status      UserStatus
 
   @@map("accounts")
-  @@schema("bilan_carbone")
 }
 
 model UserApplicationSettings {
@@ -48,5 +46,4 @@ model UserApplicationSettings {
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("user_application_settings")
-  @@schema("bilan_carbone")
 }

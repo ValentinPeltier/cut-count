@@ -3,7 +3,6 @@ enum Level {
   Standard
   Advanced
 
-  @@schema("bilan_carbone")
 }
 
 enum StudyRole {
@@ -11,14 +10,12 @@ enum StudyRole {
   Editor
   Reader
 
-  @@schema("bilan_carbone")
 }
 
 enum StudyResultUnit {
   K // kg (1)
   T // t (1000)
 
-  @@schema("bilan_carbone")
 }
 
 enum DayOfWeek {
@@ -30,7 +27,6 @@ enum DayOfWeek {
   Saturday
   Sunday
 
-  @@schema("bilan_carbone")
 }
 
 model OpeningHours {
@@ -47,7 +43,6 @@ model OpeningHours {
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("opening_hours")
-  @@schema("bilan_carbone")
 }
 
 model Study {
@@ -80,7 +75,6 @@ model Study {
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("studies")
-  @@schema("bilan_carbone")
 }
 
 model UserOnStudy {
@@ -96,7 +90,6 @@ model UserOnStudy {
 
   @@id([studyId, accountId])
   @@map("users_on_study")
-  @@schema("bilan_carbone")
 }
 
 model StudyEmissionFactorVersion {
@@ -115,7 +108,6 @@ model StudyEmissionFactorVersion {
 
   @@unique([studyId, source])
   @@map("study_emission_factor_versions")
-  @@schema("bilan_carbone")
 }
 
 model StudySite {
@@ -146,5 +138,4 @@ model StudySite {
 
   @@unique([studyId, siteId])
   @@map("study_sites")
-  @@schema("bilan_carbone")
 }

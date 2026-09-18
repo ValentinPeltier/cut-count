@@ -8,5 +8,3 @@ SET "deactivated_environments" = array_remove("deactivated_environments", 'MIP':
 WHERE 'MIP'::"common"."Environment" = ANY("deactivated_environments");
 
 DROP SCHEMA IF EXISTS "mip" CASCADE;
-
-ALTER TYPE "common"."Environment" DROP VALUE IF EXISTS 'MIP';

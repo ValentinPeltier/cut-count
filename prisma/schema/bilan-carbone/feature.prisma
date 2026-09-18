@@ -2,7 +2,6 @@ enum DeactivatableFeature {
   Creation
   DownloadReport
 
-  @@schema("bilan_carbone")
 }
 
 model DeactivatableFeatureStatus {
@@ -18,5 +17,4 @@ model DeactivatableFeatureStatus {
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("deactivable_features_statuses")
-  @@schema("bilan_carbone")
 }
