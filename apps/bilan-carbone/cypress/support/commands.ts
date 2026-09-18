@@ -5,16 +5,14 @@ Cypress.Commands.add(
 )
 
 const ENV_LOGIN_DEFAULTS: Record<string, { email: string; password: string }> = {
-  bc: { email: 'bc-collaborator-0@yopmail.com', password: 'password-0' },
   cut: { email: 'cut-env-admin-0@yopmail.com', password: 'password-0' },
 }
 
 const ENV_ENTRY_PATHS: Record<string, string> = {
-  bc: '/login',
-  cut: '/count',
+  cut: '/login',
 }
 
-Cypress.Commands.add('login', (email = 'bc-collaborator-0@yopmail.com', password = 'password-0') => {
+Cypress.Commands.add('login', (email = 'cut-env-admin-0@yopmail.com', password = 'password-0') => {
   cy.visit('/login')
   cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
     .should('be.visible')
@@ -25,7 +23,7 @@ Cypress.Commands.add('login', (email = 'bc-collaborator-0@yopmail.com', password
   cy.wait(`@login`)
 })
 
-Cypress.Commands.add('loginForEnv', (env: 'bc' | 'cut', email?: string, password?: string) => {
+Cypress.Commands.add('loginForEnv', (env: 'cut', email?: string, password?: string) => {
   const defaults = ENV_LOGIN_DEFAULTS[env]
   const loginEmail = email ?? defaults.email
   const loginPassword = password ?? defaults.password
@@ -47,7 +45,7 @@ Cypress.Commands.add('logout', () => {
 })
 
 Cypress.Commands.add('signupCut', (email = 'cut-cnc@yopmail.com', cncOrSiret = '321') => {
-  cy.visit('/count/register')
+  cy.visit('/register')
 
   cy.getByTestId('activation-email').should('be.visible')
   cy.getByTestId('activation-siretOrCNC').should('be.visible')

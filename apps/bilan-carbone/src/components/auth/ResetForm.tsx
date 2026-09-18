@@ -17,7 +17,7 @@ interface Props {
   environment?: Environment
 }
 
-const ResetForm = ({ user, token, environment = Environment.BC }: Props) => {
+const ResetForm = ({ user, token, environment = Environment.CUT }: Props) => {
   useEffect(() => {
     checkToken(token).then((invalidtoken) => {
       setInvalidResetLink(invalidtoken)

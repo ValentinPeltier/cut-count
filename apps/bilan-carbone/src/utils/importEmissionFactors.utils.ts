@@ -14,9 +14,10 @@ import {
   matchLabelFromTranslations,
   matchUnitLabelFromTranslations,
 } from './import.utils'
-import { getExampleRowPrefixes } from './importEmissionSources.utils'
 import { parseNumericValue } from './number'
 import { getBcTranslations, getCommonTranslations, getSingularForm } from './translation.utils'
+
+const getExampleRowPrefixes = () => ['Example', 'Exemple']
 
 export function getAllPostsLabel(locale: LocaleType): string {
   return getBcTranslations(locale).emissionFactors.importModal.allPostsAndSubPosts
@@ -286,7 +287,7 @@ export function parseImportFile(buffer: Buffer, locale: LocaleType, environment:
     const rawBase = String(row[COLUMNS.base] ?? '').trim()
     const base = matchBaseLabelFromTranslations(rawBase, locale) ?? (rawBase ? null : EmissionFactorBase.LocationBased)
 
-    if (flatSubPosts.includes(SubPost.Electricite) && rawBase && !base) {
+    if (flatSubPosts.includes(SubPost.Energie) && rawBase && !base) {
       rowErrors.push({ key: 'invalidBase', value: rawBase })
     }
 

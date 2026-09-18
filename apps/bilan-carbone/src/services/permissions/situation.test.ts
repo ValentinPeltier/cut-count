@@ -1,5 +1,5 @@
 import { Environment } from '@abc-transitionbascarbone/db-common/enums'
-import { canSaveSituationOnStudy, isSimplifiedContributor } from './situation'
+import { canSaveSituationOnStudy, isCutContributor } from './situation'
 import * as studyPermissionsModule from './study'
 
 jest.mock('./study', () => ({
@@ -8,8 +8,8 @@ jest.mock('./study', () => ({
 
 const mockHasEditAccessOnStudy = jest.mocked(studyPermissionsModule.hasEditAccessOnStudy)
 
-describe('isSimplifiedContributor', () => {
-  const mockStudy: Parameters<typeof isSimplifiedContributor>[0] = {
+describe('isCutContributor', () => {
+  const mockStudy: Parameters<typeof isCutContributor>[0] = {
     contributors: [{ accountId: 'account-1' }],
   }
 
@@ -18,10 +18,10 @@ describe('isSimplifiedContributor', () => {
       user: {
         accountId: 'account-1',
         environment: Environment.CUT,
-      } as Parameters<typeof isSimplifiedContributor>[1]['user'],
+      } as Parameters<typeof isCutContributor>[1]['user'],
     }
 
-    expect(isSimplifiedContributor(mockStudy, session)).toBe(false)
+    expect(isCutContributor(mockStudy, session)).toBe(false)
   })
 })
 

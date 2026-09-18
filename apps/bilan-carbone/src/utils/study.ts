@@ -1,31 +1,11 @@
 import type { FullStudy } from '@/db/study'
-import { getEmissionResults } from '@/services/emissionSource'
-import { hasAccessToStudyHomePage } from '@/services/permissions/environment'
-import { isTiltSimplified } from '@/services/permissions/environmentAdvanced'
 import { isAdminOnStudyOrga } from '@/services/permissions/study.utils'
-import { subPostsByPost } from '@/services/posts'
-import { UpdateEmissionSourceCommand } from '@/services/serverFunctions/emissionSource.command'
-import { ResultsByPost } from '@/types/study.types'
 import { isAdmin } from '@/utils/user'
-import {
-  EmissionFactorBase,
-  EmissionFactorPartType,
-  Environment,
-  Export,
-  Level,
-  Role,
-  StudyResultUnit,
-  StudyRole,
-  SubPost,
-  Unit,
-} from '@abc-transitionbascarbone/db-common/enums'
+import { Environment, Level, Role, StudyResultUnit, StudyRole } from '@abc-transitionbascarbone/db-common/enums'
 import { Post, STUDY_UNIT_VALUES } from '@abc-transitionbascarbone/utils/charts'
 import { formatNumber } from '@abc-transitionbascarbone/utils/number'
-import { Getter } from '@tanstack/react-table'
 import { UserSession } from 'next-auth'
-import { unique } from './array'
-import { getEmissionSourcesTotalCo2 } from './emissionSources'
-import { hasActiveLicence, isInOrgaOrParent } from './organization'
+import { isInOrgaOrParent } from './organization'
 
 export const getUserRoleOnPublicStudy = (
   user: Pick<UserSession, 'role' | 'level' | 'environment'>,
@@ -53,49 +33,35 @@ export type StudyWithRoleFields = {
     id: string
     parentId: string | null
     environment: Environment
-    activatedLicence: number[]
-    parent: { activatedLicence: number[] } | null
   }
   allowedUsers: { role: StudyRole; account: { id: string; user: { email: string } } }[]
 }
 
 export const getAccountRoleOnStudy = (user: UserSession, study: StudyWithRoleFields) => {
-  if (isTiltSimplified(study.organizationVersion.environment, study.simplified)) {
-    return StudyRole.Editor
-  }
   if (isAdminOnStudyOrga(user, study.organizationVersion)) {
-    return hasSufficientLevel(user.level, study.level) && hasActiveLicence(study.organizationVersion)
-      ? StudyRole.Validator
-      : StudyRole.Reader
+    return hasSufficientLevel(user.level, study.level) ? StudyRole.Validator : StudyRole.Reader
   }
 
-  const right = study.allowedUsers.find((right) => right.account.id === user.accountId)
+  const right = study.allowedUsers.find((studyRight) => studyRight.account.id === user.accountId)
   if (right) {
-    return hasSufficientLevel(user.level, study.level) && hasActiveLicence(study.organizationVersion)
-      ? right.role
-      : StudyRole.Reader
+    return hasSufficientLevel(user.level, study.level) ? right.role : StudyRole.Reader
   }
 
   if (study.isPublic && isInOrgaOrParent(user.organizationVersionId, study.organizationVersion)) {
-    return hasActiveLicence(study.organizationVersion) ? getUserRoleOnPublicStudy(user, study.level) : StudyRole.Reader
+    return getUserRoleOnPublicStudy(user, study.level)
   }
 
   return null
 }
 
-export const getDisplayedRoleOnStudy = (
-  user: UserSession,
-  study: StudyWithRoleFields & { contributors: { accountId: string }[] },
-) => {
-  return study.contributors.some((contributor) => contributor.accountId === user.accountId)
-    ? 'Contributor'
-    : getAccountRoleOnStudy(user, study)
+export const getDisplayedRoleOnStudy = (user: UserSession, study: StudyWithRoleFields) => {
+  return getAccountRoleOnStudy(user, study)
 }
 
 export const getAllowedRolesFromDefaultRole = (role: StudyRole) => {
   switch (role) {
-    case StudyRole.Validator:
-      return [StudyRole.Validator]
+    case StudyRole.Reader:
+      return [StudyRole.Reader]
     case StudyRole.Editor:
       return [StudyRole.Editor, StudyRole.Validator]
     default:
@@ -106,17 +72,6 @@ export const getAllowedRolesFromDefaultRole = (role: StudyRole) => {
 export const defaultPostColor = 'blue'
 
 export const postColors: Record<Post, string> = {
-  [Post.Energies]: 'darkBlue',
-  [Post.AutresEmissionsNonEnergetiques]: 'darkBlue',
-  [Post.DechetsDirects]: 'darkBlue',
-  [Post.Immobilisations]: 'darkBlue',
-  [Post.IntrantsBiensEtMatieres]: 'blue',
-  [Post.IntrantsServices]: 'blue',
-  [Post.Deplacements]: 'green',
-  [Post.Fret]: 'green',
-  [Post.FinDeVie]: 'orange',
-  [Post.UtilisationEtDependance]: 'orange',
-
   [Post.Fonctionnement]: 'darkBlue',
   [Post.MobiliteSpectateurs]: 'darkBlue',
   [Post.TourneesAvantPremieres]: 'darkBlue',
@@ -124,79 +79,16 @@ export const postColors: Record<Post, string> = {
   [Post.ConfiseriesEtBoissons]: 'orange',
   [Post.Dechets]: 'darkBlue',
   [Post.BilletterieEtCommunication]: 'darkBlue',
-
-  [Post.ConstructionDesLocaux]: 'darkBlue',
-  [Post.FroidEtClim]: 'darkBlue',
-  [Post.AutresEmissions]: 'darkBlue',
-  [Post.DeplacementsDePersonne]: 'green',
-  [Post.TransportDeMarchandises]: 'green',
-  [Post.IntrantsBiensEtMatieresTilt]: 'blue',
-  [Post.Alimentation]: 'blue',
-  [Post.EquipementsEtImmobilisations]: 'blue',
-  [Post.Utilisation]: 'orange',
-  [Post.Teletravail]: 'darkBlue',
-  [Post.LocauxSimplified]: 'darkBlue',
-  [Post.EnergieSimplified]: 'darkBlue',
-  [Post.DechetsSimplified]: 'darkBlue',
-  [Post.FroidEtClimSimplified]: 'darkBlue',
-  [Post.DeplacementsDePersonneSimplified]: 'green',
-  [Post.TransportDeMarchandisesSimplified]: 'green',
-  [Post.IntrantsBiensEtMatieresTiltSimplified]: 'blue',
-  [Post.AlimentationSimplified]: 'blue',
-  [Post.ServiceEtNumeriqueSimplified]: 'blue',
-  [Post.EquipementsEtImmobilisationsSimplified]: 'blue',
-  [Post.UtilisationSimplified]: 'orange',
-  [Post.FinDeVieSimplified]: 'orange',
-  [Post.TeletravailSimplified]: 'darkBlue',
-  [Post.EvenementSimplified]: 'darkBlue',
 }
 
 export const hasEditionRights = (userRoleOnStudy: StudyRole | null) => {
   return userRoleOnStudy && userRoleOnStudy !== StudyRole.Reader
 }
 
-export const isCASSubPost = (subPost: SubPost, unit: string | null | undefined) =>
-  subPost === SubPost.EmissionsLieesAuChangementDAffectationDesSolsCas && unit === Unit.HA_YEAR
-
-export const isCAS = (emissionSource: FullStudy['emissionSources'][number]) =>
-  isCASSubPost(emissionSource.subPost, emissionSource.emissionFactor?.unit)
-
-export const hasFabricationPart = (emissionFactor?: FullStudy['emissionSources'][number]['emissionFactor']) =>
-  emissionFactor?.emissionFactorParts.some((part) => part.type === EmissionFactorPartType.Fabrication) || false
-
-export const hasDeprecationPeriod = (subPost: SubPost) =>
-  [
-    ...subPostsByPost[Post.Immobilisations],
-    ...subPostsByPost[Post.EquipementsEtImmobilisations],
-    SubPost.Electromenager,
-    SubPost.Batiment,
-    SubPost.TransportFabricationDesVehicules,
-    SubPost.DeplacementsFabricationDesVehicules,
-  ].includes(subPost)
-
 export const defaultStudyResultUnit = StudyResultUnit.T
 
 export const convertValue = (value: number, fromUnit: StudyResultUnit, toUnit: StudyResultUnit): number => {
   return (value * STUDY_UNIT_VALUES[fromUnit]) / STUDY_UNIT_VALUES[toUnit]
-}
-
-export const isPostValidated = (data?: ResultsByPost): boolean => {
-  if (!data) {
-    return false
-  }
-
-  return data.numberOfEmissionSource > 0 && data.numberOfValidatedEmissionSource === data.numberOfEmissionSource
-}
-
-export const getValidationPercentage = (data?: {
-  numberOfEmissionSource: number
-  numberOfValidatedEmissionSource: number
-}): number => {
-  if (!data || data.numberOfEmissionSource === 0) {
-    return 0
-  }
-
-  return (data.numberOfValidatedEmissionSource / data.numberOfEmissionSource) * 100
 }
 
 export const getEmissionValueString = (
@@ -217,171 +109,6 @@ export const formatEmissionValueForExport = (value: number, unit: StudyResultUni
   return Math.round(value / STUDY_UNIT_VALUES[unit])
 }
 
-/**
- * Calculates the monetary ratio percentage from monetary value and total value
- */
-export const calculateMonetaryRatio = (monetaryValue: number, totalValue: number): number => {
-  if (totalValue === 0) {
-    return 0
-  }
-  return (monetaryValue / totalValue) * 100
-}
-
-export const exportSpecificFields: Record<Export, (keyof UpdateEmissionSourceCommand)[]> = {
-  [Export.Beges]: ['caracterisation'] as const,
-  [Export.GHGP]: ['caracterisation', 'constructionYear'] as const,
-  [Export.ISO14069]: [],
-}
-
-export const getAllSpecificFieldsForExports = (exportTypes: Export[]) => {
-  if (!exportTypes) {
-    return []
-  }
-  return exportTypes.reduce(
-    (res, exportType) => unique(exportType ? res.concat(exportSpecificFields[exportType as Export]) : res),
-    [] as (keyof UpdateEmissionSourceCommand)[],
-  )
-}
-
-export const formatEmission = (getValue: Getter<number>, resultsUnit: StudyResultUnit) =>
-  formatNumber(getValue() / STUDY_UNIT_VALUES[resultsUnit])
-
-export const formatEmissionFromNumber = (value: number, resultsUnit: StudyResultUnit) =>
-  formatNumber(value / STUDY_UNIT_VALUES[resultsUnit])
-
-export const formatConfidenceInterval = (confidenceInterval: number[], resultsUnit: StudyResultUnit) => {
-  return `[${formatEmissionFromNumber(confidenceInterval[0], resultsUnit)} ;
-                                  ${formatEmissionFromNumber(confidenceInterval[1], resultsUnit)}]`
-}
-
-export const getBaseFilteredEmissionSources = <T extends Pick<FullStudy['emissionSources'][number], 'emissionFactor'>>(
-  emissionSources: T[],
-  base: EmissionFactorBase = EmissionFactorBase.LocationBased,
-) => {
-  return emissionSources.filter((emissionSource) => {
-    if (!emissionSource.emissionFactor || !emissionSource.emissionFactor.base) {
-      return true
-    }
-
-    const isMarketBased = base === EmissionFactorBase.MarketBased
-    if (!isMarketBased) {
-      return emissionSource.emissionFactor.base === base
-    }
-
-    return true
-  })
-}
-
-/**
- * Computes emissions after applying filters coming from DB scope or UI selectors.
- */
-const getFilteredEmissionTotalValue = (
-  study: Pick<FullStudy, 'emissionSources' | 'resultsUnit' | 'organizationVersion' | 'tagFamilies'>,
-  validatedOnly: boolean,
-  siteIds: string[],
-  subPosts: SubPost[],
-  tagIds: string[],
-  // emptyFilterIncludesAll controls empty-array logic which is inverted for DB scope and UI filters:
-  //   - false (UI filters): empty = user selected nothing = no sources match = returns 0
-  //   - true (scope from DB): empty = no scope saved = all sources pass
-  emptyFilterIncludesAll: boolean,
-): number => {
-  const environment = study.organizationVersion.environment
-  let filteredSources = study.emissionSources
-
-  if (validatedOnly) {
-    filteredSources = filteredSources.filter((source) => source.validated)
-  }
-
-  if (!emptyFilterIncludesAll || siteIds.length > 0) {
-    filteredSources = filteredSources.filter((source) => source.studySite && siteIds.includes(source.studySite.site.id))
-  }
-
-  if (!emptyFilterIncludesAll || subPosts.length > 0) {
-    filteredSources = filteredSources.filter((source) => subPosts.includes(source.subPost))
-  }
-
-  const studyHasTags = study.tagFamilies.flatMap((f) => f.tags.map((t) => t.id)).length > 0
-  if (studyHasTags && (!emptyFilterIncludesAll || tagIds.length > 0)) {
-    filteredSources = filteredSources.filter((source) => {
-      const hasNoTags = source.emissionSourceTags.length === 0
-      const untaggedSelected = tagIds.includes('other')
-      return (hasNoTags && untaggedSelected) || source.emissionSourceTags.some((t) => tagIds.includes(t.tag.id))
-    })
-  }
-
-  const emissionSourcesWithEmission = filteredSources.map((source) => ({
-    ...source,
-    ...getEmissionResults(source, environment),
-  }))
-
-  const totalCo2InKg = getEmissionSourcesTotalCo2(emissionSourcesWithEmission)
-  return totalCo2InKg / STUDY_UNIT_VALUES[study.resultsUnit]
-}
-
-export const getUIFilteredEmissions = (
-  study: Pick<FullStudy, 'emissionSources' | 'resultsUnit' | 'organizationVersion' | 'tagFamilies'>,
-  validatedOnly: boolean,
-  siteIds: string[],
-  subPosts: SubPost[],
-  tagIds: string[],
-): number => getFilteredEmissionTotalValue(study, validatedOnly, siteIds, subPosts, tagIds, false)
-
-const getActionFilteredEmissions = (
-  study: Pick<FullStudy, 'emissionSources' | 'resultsUnit' | 'organizationVersion' | 'tagFamilies'>,
-  validatedOnly: boolean,
-  siteIds: string[],
-  subPosts: SubPost[],
-  tagIds: string[],
-): number => getFilteredEmissionTotalValue(study, validatedOnly, siteIds, subPosts, tagIds, true)
-
-export const getActionReductionRatio = (
-  study: Pick<FullStudy, 'emissionSources' | 'resultsUnit' | 'organizationVersion' | 'tagFamilies'>,
-  validatedOnly: boolean,
-  actionSiteIds: string[],
-  actionSubPosts: SubPost[],
-  actionTagIds: string[],
-  filterSiteIds: string[],
-  filterSubPosts: SubPost[],
-  filterTagIds: string[],
-): number => {
-  const emissionsWithActionScope = getActionFilteredEmissions(
-    study,
-    validatedOnly,
-    actionSiteIds,
-    actionSubPosts,
-    actionTagIds,
-  )
-
-  if (emissionsWithActionScope === 0) {
-    return 1
-  }
-
-  const getUiFiltersWithScope = <T>(scope: T[], filters: T[]): T[] => {
-    if (scope.length === 0) {
-      return filters
-    }
-    if (filters.length === 0) {
-      return []
-    }
-    return scope.filter((item) => filters.includes(item))
-  }
-
-  const intersectedSiteIds = getUiFiltersWithScope(actionSiteIds, filterSiteIds)
-  const intersectedSubPosts = getUiFiltersWithScope(actionSubPosts, filterSubPosts)
-  const intersectedTagIds = getUiFiltersWithScope(actionTagIds, filterTagIds)
-
-  const emissionsWithActionScopeAndFilters = getUIFilteredEmissions(
-    study,
-    validatedOnly,
-    intersectedSiteIds,
-    intersectedSubPosts,
-    intersectedTagIds,
-  )
-
-  return emissionsWithActionScopeAndFilters / emissionsWithActionScope
-}
-
 export const getAllowedLevels = (level: Level | null) => {
   switch (level) {
     case Level.Initial:
@@ -398,19 +125,21 @@ export const getAllowedLevels = (level: Level | null) => {
 export const hasSufficientLevel = (userLevel: Level | null, targetLevel: Level) =>
   userLevel ? getAllowedLevels(userLevel).includes(targetLevel) : false
 
-export const getStudyDefaultLandingPath = async (
-  environment: Environment,
-  studyId: string,
-  _sites: FullStudy['sites'],
-  simplified?: boolean | null,
-) => {
-  if (isTiltSimplified(environment, simplified)) {
-    return `/etudes/${studyId}/cadrage`
-  }
+export const getStudyDefaultLandingPath = async (_environment: Environment, studyId: string) => {
+  return `/etudes/${studyId}/cadrage`
+}
 
-  if (!hasAccessToStudyHomePage(environment)) {
-    return `/etudes/${studyId}/cadrage`
+export const getSiteLabelFromId = (study: FullStudy, siteId: string, tOrga: (key: string) => string): string => {
+  if (siteId === 'all') {
+    return tOrga('allSites')
   }
+  const site = study.sites.find((studySite) => studySite.site.id === siteId)
+  return site?.site.name ?? ''
+}
 
-  return `/etudes/${studyId}/comptabilisation/saisie-des-donnees`
+export const sanitizeStudyName = (name: string) => {
+  return name
+    .replace(/[/\\?%*:|"<>]/g, '-')
+    .replace(/\s+/g, '_')
+    .trim()
 }

@@ -1,14 +1,11 @@
 'use client'
 import type { FullStudy } from '@/db/study'
-import DynamicComponent from '@/environments/core/utils/DynamicComponent'
+import PDFSummaryCut from '@/environments/cut/study/PDF/PDFSummary'
 import { getMessages } from '@/i18n/utils'
 import { Environment } from '@abc-transitionbascarbone/db-common/enums'
 import { LocaleType } from '@abc-transitionbascarbone/i18n/config'
 import { NextIntlClientProvider } from 'next-intl'
-import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
-
-const PDFSummaryCut = dynamic(() => import('@/environments/cut/study/PDF/PDFSummary'))
 
 interface Props {
   study: FullStudy
@@ -33,11 +30,7 @@ const PDFSummaryContainer = ({ study, environment, locale }: Props) => {
 
   return (
     <NextIntlClientProvider locale={messages.locale} messages={messages.messages}>
-      <DynamicComponent
-        forceEnvironment={environment}
-        environmentComponents={{}}
-        defaultComponent={<PDFSummaryCut study={study} />}
-      />
+      <PDFSummaryCut study={study} />
     </NextIntlClientProvider>
   )
 }

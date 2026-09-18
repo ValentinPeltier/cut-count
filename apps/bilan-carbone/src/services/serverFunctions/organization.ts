@@ -24,7 +24,7 @@ import { CA_UNIT_VALUES, defaultCAUnit } from '@/utils/number'
 import { withServerResponse } from '@/utils/serverResponse'
 import { isAdmin } from '@/utils/user'
 import type { Account, Prisma, User } from '@abc-transitionbascarbone/db-common'
-import { StudyRole, UserChecklist } from '@abc-transitionbascarbone/db-common/enums'
+import { StudyRole } from '@abc-transitionbascarbone/db-common/enums'
 import { NOT_AUTHORIZED } from '@abc-transitionbascarbone/services/permissions/check'
 import { AddMemberCommand } from '@abc-transitionbascarbone/services/serverFunctions/user.command'
 import { auth, dbActualizedAuth } from '../auth'
@@ -39,7 +39,7 @@ import {
 import { CreateOrganizationCommand, UpdateOrganizationCommand } from './organization.command'
 import { getStudy } from './study'
 import { DeleteCommand, SitesCommand } from './study.command'
-import { addMember, addUserChecklistItem } from './user'
+import { addMember } from './user'
 import { OnboardingCommand } from './user.command'
 
 /**
@@ -80,7 +80,6 @@ export const createOrganizationCommand = async (command: CreateOrganizationComma
 
     try {
       const createdOrganizationVersion = await createOrganizationWithVersion(organization, organizationVersion)
-      addUserChecklistItem(UserChecklist.AddClient)
       return { id: createdOrganizationVersion.id }
     } catch (e) {
       console.error(e)
@@ -104,7 +103,6 @@ export const updateOrganizationCommand = async (command: UpdateOrganizationComma
 
     await updateOrganization(command, caUnit)
     const isCR = await getOrganizationVersionIsCR(command.organizationVersionId)
-    addUserChecklistItem(isCR ? UserChecklist.AddSiteCR : UserChecklist.AddSiteOrga)
   })
 
 export const updateOrganizationSitesCommand = async (command: SitesCommand, organizationVersionId: string) =>

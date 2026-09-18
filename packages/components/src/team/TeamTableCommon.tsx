@@ -31,7 +31,7 @@ interface Props {
   canUpdateTeam: boolean
   environmentRoles: RoleBcOrMip[]
   deleteMember: () => Promise<void>
-  isAdvanced?: boolean
+  isCut?: boolean
   deletionError: string
   setDeletionErrorData: (data: DeletionErrorData[] | undefined) => void
   changeRole: (email: string, newRole: RoleBcOrMip) => Promise<ApiResponse>
@@ -56,7 +56,7 @@ const TeamTableCommon = ({
   canUpdateTeam,
   environmentRoles,
   deleteMember,
-  isAdvanced,
+  isCut,
   deletionError,
   deletionErrorData,
   setDeletionErrorData,
@@ -83,7 +83,7 @@ const TeamTableCommon = ({
       { header: t('email'), accessorKey: 'user.email' },
     ]
 
-    if (isAdvanced) {
+    if (isCut) {
       col.push({
         header: t('level'),
         accessorFn: (member: TeamMemberCommon) =>

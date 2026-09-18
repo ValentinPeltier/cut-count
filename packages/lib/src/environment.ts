@@ -2,7 +2,7 @@
 
 import { Environment } from '@abc-transitionbascarbone/db-common/enums'
 
-export const getEnvVar = async (key: string, environment: Environment = Environment.BC) => {
+export const getEnvVar = async (key: string, environment: Environment = Environment.CUT) => {
   const prefix = environment.toUpperCase()
   const possibleKeys = [`NEXT_PUBLIC_${prefix}_${key}`, `${prefix}_${key}`, `NEXT_PUBLIC_${key}`, key]
 

@@ -279,7 +279,7 @@ export const getEmissionFactorImportVersions = async (withArchived: boolean = fa
     switch (session.user.environment) {
       case Environment.CUT:
         return getEmissionFactorImportVersionsCUT()
-      case Environment.BC:
+      case Environment.CUT:
       default:
         return getEmissionFactorImportVersionsBC(withArchived)
     }

@@ -7,7 +7,7 @@ import { Environment } from '@abc-transitionbascarbone/db-common/enums'
 import LockIcon from '@mui/icons-material/Lock'
 import LockOpenIcon from '@mui/icons-material/LockOpen'
 import { UserSession } from 'next-auth'
-import { useFormatter, useTranslations } from 'next-intl'
+import { useFormatter } from 'next-intl'
 import styles from './StudyDetailsHeader.module.css'
 import StudyManagementActions from './StudyManagementActions'
 import SelectStudySite from './site/SelectStudySite'
@@ -34,7 +34,6 @@ const StudyDetailsHeader = ({
   setSite,
 }: Props) => {
   const format = useFormatter()
-  const tExport = useTranslations('exports')
   const userRole = getAccountRoleOnStudy(user, study)
 
   if (!userRole) {
@@ -63,11 +62,6 @@ const StudyDetailsHeader = ({
                 {format.dateTime(study.startDate, { year: 'numeric', day: 'numeric', month: 'long' })} -{' '}
                 {format.dateTime(study.endDate, { year: 'numeric', day: 'numeric', month: 'long' })}
               </p>
-              {study.exports && study.exports.types.length > 0 && (
-                <p>
-                  {tExport('title')} {study.exports.types.join(', ')}
-                </p>
-              )}
             </div>
           }
           rightComponent={<SelectStudySite sites={study.sites} defaultValue={studySite} setSite={setSite} />}

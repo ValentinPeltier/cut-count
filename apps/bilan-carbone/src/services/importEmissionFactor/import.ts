@@ -418,8 +418,8 @@ export const getGases = (emissionFactor: ImportEmissionFactor) => {
 }
 
 const subPostByNetworkType = {
-  froid: [SubPost.ReseauxDeFroid],
-  chaud: [SubPost.ReseauxDeChaleurEtDeVapeur],
+  froid: [SubPost.Energie],
+  chaud: [SubPost.Energie],
 }
 
 export const getSubPosts = (
@@ -435,11 +435,11 @@ export const getSubPosts = (
       }
       return subPostByNetworkType[emissionFactor.reseau]
     case Import.NegaOctet:
-      return [SubPost.UsagesNumeriques]
+      return [SubPost.CommunicationDigitale]
     case Import.AIB:
-      return [SubPost.Electricite]
+      return [SubPost.Energie]
     case Import.CUT:
-      return [SubPost.UsagesNumeriques]
+      return [SubPost.CommunicationDigitale]
     case Import.GIEC:
     case Import.BaseEmpreinte:
     default:
@@ -455,7 +455,7 @@ export const getBaseFunc = (subPosts: SubPost[], importedFrom: Import) => {
       return EmissionFactorBase.MarketBased
     case Import.GIEC:
     case Import.BaseEmpreinte:
-      return subPosts.includes(SubPost.Electricite) ? EmissionFactorBase.LocationBased : null
+      return subPosts.includes(SubPost.Energie) ? EmissionFactorBase.LocationBased : null
     case Import.Legifrance:
     case Import.NegaOctet:
     case Import.CUT:

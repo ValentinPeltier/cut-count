@@ -1,38 +1,26 @@
-import { hasAccessToCarbonResponsibilityIntensitiesAdvanced } from '@/services/permissions/environmentAdvanced'
-import { useAppEnvironmentStore } from '@/store/AppEnvironment'
+import { StudyResultUnit } from '@abc-transitionbascarbone/db-common/enums'
 import { formatNumber } from '@abc-transitionbascarbone/utils/number'
-import classNames from 'classnames'
 import { useTranslations } from 'next-intl'
-import Data from './Data'
+import styles from './CarbonIntensity.module.css'
 
 interface Props {
   withDep: number
   withoutDep: number
   divider: number
-  resultsUnit: string
+  resultsUnit: StudyResultUnit
   label: string
   testId: string
   simplified?: boolean | null
 }
 
-const CarbonIntensity = ({ withDep, withoutDep, divider, resultsUnit, label, testId, simplified }: Props) => {
-  const tResultUnits = useTranslations('study.results.units')
-  const { environment } = useAppEnvironmentStore()
+const CarbonIntensity = ({ withDep, divider, resultsUnit, label, testId }: Props) => {
+  const tUnits = useTranslations('study.results.units')
 
   return (
-    <div className={classNames('flex grow', !simplified && 'mt1')}>
-      <Data
-        value={formatNumber(withDep / divider)}
-        label={`${tResultUnits(resultsUnit)}/${label}`}
-        testId={`dependency-${testId}`}
-      />
-      {environment && hasAccessToCarbonResponsibilityIntensitiesAdvanced(environment, simplified) && (
-        <Data
-          value={formatNumber(withoutDep / divider)}
-          label={`${tResultUnits(resultsUnit)}/${label}`}
-          testId={`responsibility-${testId}`}
-        />
-      )}
+    <div className={styles.container}>
+      <strong data-testid={`dependency-${testId}`}>
+        {formatNumber(withDep / divider)} {tUnits(resultsUnit)}/{label}
+      </strong>
     </div>
   )
 }

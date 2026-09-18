@@ -1,20 +1,14 @@
 import { Environment } from '@abc-transitionbascarbone/db-common/enums'
 
-const { BC, CUT } = Environment
-const advancedEnvironments: Environment[] = [BC]
-const simplifiedEnvironments: Environment[] = [CUT]
-
-export const isAdvanced = (environment: Environment) => advancedEnvironments.includes(environment)
-export const isSimplified = (environment: Environment) => simplifiedEnvironments.includes(environment)
-
-export const environmentWithOnboarding: Environment[] = [BC]
-export const environmentsWithChecklist: Environment[] = [BC]
-export const EnvironmentNames = {
-  [BC]: 'BC+ 2.0',
-  [CUT]: 'Count',
-}
+export const isCut = (_environment?: Environment) => true
 
 export enum EnvironmentMode {
   SIMPLIFIED = 'SIMPLIFIED',
-  ADVANCED = 'ADVANCED',
 }
+
+export const EnvironmentNames = {
+  [Environment.CUT]: 'Count',
+}
+
+export const environmentWithOnboarding: Environment[] = []
+export const environmentsWithChecklist: Environment[] = []

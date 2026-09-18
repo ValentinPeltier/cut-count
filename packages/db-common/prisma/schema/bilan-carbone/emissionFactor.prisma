@@ -42,74 +42,8 @@ enum EmissionFactorStatus {
 }
 
 enum SubPost {
-  // Energies
-  CombustiblesFossiles
-  CombustiblesOrganiques
-  ReseauxDeChaleurEtDeVapeur
-  ReseauxDeFroid
-  Electricite
-
-  // AutresEmissionsNonEnergetiques
-  Agriculture
-  EmissionsLieesAuChangementDAffectationDesSolsCas
-  EmissionsLieesALaProductionDeFroid
-  EmissionsLieesAuxProcedesIndustriels
-  AutresEmissionsNonEnergetiques
-
-  // IntrantsBiensEtMatieres
-  MetauxPlastiquesEtVerre
-  PapiersCartons
-  MateriauxDeConstruction
-  ProduitsChimiquesEtHydrogene
-  NourritureRepasBoissons
-  MatiereDestineeAuxEmballages
-  AutresIntrants
-  BiensEtMatieresEnApprocheMonetaire
-
-  // IntrantsServices
-  AchatsDeServices
-  UsagesNumeriques
-  ServicesEnApprocheMonetaire
-
-  // DechetsDirects
-  DechetsDEmballagesEtPlastiques
-  DechetsOrganiques
-  DechetsOrduresMenageres
-  DechetsDangereux
-  DechetsBatiments
-  DechetsFuitesOuEmissionsNonEnergetiques
-  EauxUsees
-  AutresDechets
-
-  //Fret
-  FretEntrant
-  FretInterne
-  FretSortant
-
-  // Deplacements
-  DeplacementsDomicileTravail
+  // Count — Fonctionnement
   DeplacementsProfessionnels
-  DeplacementsVisiteurs
-
-  // Immobilisations
-  Batiments
-  AutresInfrastructures
-  Equipements
-  Informatique
-
-  // UtilisationEtDependance
-  UtilisationEnResponsabilite
-  UtilisationEnDependance
-  InvestissementsFinanciersRealises
-
-  // FinDeVie
-  ConsommationDEnergieEnFinDeVie
-  TraitementDesDechetsEnFinDeVie
-  FuitesOuEmissionsNonEnergetiques
-  TraitementDesEmballagesEnFinDeVie
-
-  // CUT
-  // Fonctionnement
   Batiment
   Equipe
   Energie
@@ -139,93 +73,6 @@ enum SubPost {
   MaterielCinema
   CommunicationDigitale
   CaissesEtBornes
-
-  // TILT
-  // Dechets
-  FroidEtClim
-
-  // Autres émissions
-  ActivitesAgricoles
-  ActivitesIndustrielles
-
-  // Deplacements de personnes
-  DeplacementsDomicileTravailSalaries
-  DeplacementsDomicileTravailBenevoles
-  DeplacementsDansLeCadreDUneMissionAssociativeSalaries
-  DeplacementsDansLeCadreDUneMissionAssociativeBenevoles
-  DeplacementsDesBeneficiaires
-  DeplacementsFabricationDesVehicules
-
-  // Transport de marchandises
-  Entrant
-  Interne
-  Sortant
-  TransportFabricationDesVehicules
-
-  // Alimentation
-  RepasPrisParLesSalaries
-  RepasPrisParLesBenevoles
-  RepasPrisParLesBeneficiaires
-
-  // Utilisation
-  UtilisationEnResponsabiliteConsommationDeBiens
-  UtilisationEnResponsabiliteConsommationNumerique
-  UtilisationEnResponsabiliteConsommationDEnergie
-  UtilisationEnResponsabiliteFuitesEtAutresConsommations
-  UtilisationEnDependanceConsommationDeBiens
-  UtilisationEnDependanceConsommationNumerique
-  UtilisationEnDependanceConsommationDEnergie
-  UtilisationEnDependanceFuitesEtAutresConsommations
-
-  // Télétravail
-  TeletravailSalaries
-  TeletravailBenevoles
-
-  // TILT Simplifié
-  DechetsEmisParLOrganisation
-  DeplacementsBenevoles
-  BienMatieres
-  ConsommationsEnergieUtilisationProduits
-  TeletravailSalariesBenevoles
-  FinDeVieProduitsVendusFournisBeneficiaires
-
-  EnergieSimplified
-
-  // Équipements et immobilisations
-  EquipementsDesSalaries
-  ParcInformatiqueDesSalaries
-  EquipementsDesBenevoles
-  ParcInformatiqueDesBenevoles
-
-  // Evenements
-  Evenement
-
-  // CLICKSON
-  // Energie
-  Combustibles
-  AutresGaz
-
-  // Restauration
-  TypesDeRepasServis
-  DistributeursAutomatiques
-
-  // Deplacements
-  TransportDesEleves
-  TransportDuPersonnel
-  VoyagesScolaires
-
-  // Achats
-  Fournitures
-  ProduitsChimiques
-  EquipementsDeSport
-  DechetsRecyclables
-  OrduresMenageresResiduelles
-
-  // Immobilisations
-  Construction
-  Renovation
-  EquipementsInformatiqueAudiovisuel
-  EquipementsDivers
 
   @@schema("bilan_carbone")
 }
@@ -314,8 +161,7 @@ model EmissionFactor {
   importedRawCsv String? @map("imported_raw_csv")
   overrideRawCsv String? @map("override_raw_csv")
 
-  subPosts            SubPost[]             @map("sub_posts")
-  studyEmissionSource StudyEmissionSource[]
+  subPosts SubPost[] @map("sub_posts")
 
   @@index([organizationId])
   @@index([status])

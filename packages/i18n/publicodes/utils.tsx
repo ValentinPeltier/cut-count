@@ -22,23 +22,21 @@ import { Locale, LocaleType } from '../config'
 export { Locale }
 
 // For backward-compatibility, mapping LocaleType to string[] where needed
-export const AVAILABLE_LOCALES: LocaleType[] = [
-  Locale.EN,
-  Locale.FR,
-  Locale.ES,
-  Locale.IT,
-  Locale.RO,
-  Locale.HR,
-  Locale.HU,
-  Locale.EL,
-]
+export const AVAILABLE_LOCALES: LocaleType[] = [Locale.FR]
 // LocaleType already includes all supported locale codes as string values
 
 export const AVAILABLE_MODELS = ['cut'] as const
 export type Model = (typeof AVAILABLE_MODELS)[number]
 
 const MODEL_PACKAGES: Record<Model, string> = {
-  cut: '@abc-transitionbascarbone/publicodes-count/publicodes-build/publicodes-count.model.json',
+  cut: url
+    .pathToFileURL(
+      path.resolve(
+        __dirname,
+        '../../../apps/bilan-carbone/src/publicodes/rules/publicodes-build/publicodes-count.model.json',
+      ),
+    )
+    .toString(),
 }
 
 // Helper to load publicodes rules from a given model

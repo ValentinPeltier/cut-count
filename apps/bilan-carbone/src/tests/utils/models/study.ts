@@ -1,14 +1,11 @@
 import type { FullStudy } from '@/db/study'
 import type { Prisma, Study } from '@abc-transitionbascarbone/db-common'
 import {
-  ControlMode,
   EmissionFactorBase,
-  Export,
   Import,
   Level,
   StudyResultUnit,
   StudyRole,
-  SubPost,
   Unit,
 } from '@abc-transitionbascarbone/db-common/enums'
 import { mockedUser } from '@abc-transitionbascarbone/services/tests/models/user'
@@ -78,21 +75,10 @@ export const mockedDdStudy = {
 
 export const mockedFullStudy = {
   ...mockedDdStudy,
-  emissionSources: [],
-  contributors: [],
   allowedUsers: [],
   sites: [],
   emissionFactorVersions: [],
-  exports: {
-    types: [],
-    control: ControlMode.Operational,
-  },
   organizationVersion: mockedOrganizationVersion,
-  tagFamilies: [],
-  cncVersion: {
-    id: '1',
-    year: 2023,
-  },
   parent: null,
 }
 
@@ -245,7 +231,6 @@ export const getMockedDetailedFullStudySite = (
       name,
       postalCode: '12345',
       city: 'Test City',
-      country: null,
       cnc: {
         id: '1',
         numberOfProgrammedFilms: 10,
@@ -253,10 +238,7 @@ export const getMockedDetailedFullStudySite = (
         fauteuils: 10,
       },
       etp: 0,
-      superficy: null,
-      studentNumber: null,
       address: null,
-      establishmentYear: null,
     },
     cncVersion: {
       id: '1',
@@ -279,107 +261,29 @@ export const getMockedDuplicateStudyCommand = (overrides = {}) => ({
   ...overrides,
 })
 
-export const getMockeFullStudy = (overrides = {}): FullStudy => ({
-  id: TEST_IDS.sourceStudy,
-  name: 'Source Study',
-  simplified: false,
-  subPostsConfigVersion: null,
-  resultsUnit: StudyResultUnit.K,
-  organizationVersionId: TEST_IDS.orgVersion,
-  exports: { types: [Export.Beges], control: ControlMode.Operational },
-  emissionFactorVersions: [
-    {
-      source: Import.BaseEmpreinte,
-      importVersionId: TEST_IDS.importVersion,
-      id: 'fe_version_id',
-      importVersion: { name: 'Import v1', id: TEST_IDS.importVersion, source: Import.BaseEmpreinte },
-    },
-  ],
-  emissionSources: [
-    {
-      id: TEST_IDS.emissionSource,
-      name: 'Test Emission Source',
-      value: 100,
-      studySite: {
-        id: TEST_IDS.studySite,
-        site: { id: TEST_IDS.site, name: 'Test Site' },
-      },
-      emissionFactor: mockedEmissionSourceEmissionFactor,
-      emissionSourceTags: [],
-      validated: true,
-      subPost: SubPost.Achats,
-      depreciationPeriod: 5,
-      caracterisation: null,
-      constructionYear: null,
-      emissionFactorId: null,
-      reliability: null,
-      technicalRepresentativeness: null,
-      geographicRepresentativeness: null,
-      temporalRepresentativeness: null,
-      completeness: null,
-      source: null,
-      type: null,
-      comment: null,
-      duration: null,
-      hectare: null,
-      feReliability: null,
-      feTechnicalRepresentativeness: null,
-      feGeographicRepresentativeness: null,
-      feTemporalRepresentativeness: null,
-      feCompleteness: null,
-      feComment: null,
-      lastEditor: null,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
-  ],
-  allowedUsers: [
-    {
-      account: {
-        id: TEST_IDS.account,
-        user: {
-          email: TEST_EMAILS.teamMember,
-          id: TEST_IDS.userStudy,
-          level: 'Initial',
-          firstName: 'Team',
-          lastName: 'Member',
+export const getMockeFullStudy = (overrides = {}): FullStudy =>
+  ({
+    ...mockedFullStudy,
+    id: TEST_IDS.sourceStudy,
+    name: 'Source Study',
+    allowedUsers: [
+      {
+        account: {
+          id: TEST_IDS.account,
+          user: {
+            email: TEST_EMAILS.teamMember,
+            id: TEST_IDS.userStudy,
+            level: 'Initial',
+            firstName: 'Team',
+            lastName: 'Member',
+          },
+          organizationVersionId: TEST_IDS.orgVersion,
+          readerOnly: false,
         },
-        organizationVersionId: TEST_IDS.orgVersion,
-        readerOnly: false,
+        role: StudyRole.Validator,
+        accountId: TEST_IDS.account,
+        createdAt: new Date(),
       },
-      role: StudyRole.Validator,
-      accountId: TEST_IDS.account,
-      createdAt: new Date(),
-    },
-  ],
-  contributors: [
-    {
-      accountId: 'contributor-account-id',
-      account: {
-        id: 'contributor-account-id',
-        user: {
-          email: TEST_EMAILS.contributor,
-          id: '',
-          firstName: 'Contributor',
-          lastName: 'Contributor',
-        },
-        organizationVersionId: TEST_IDS.orgVersion,
-      },
-      subPost: SubPost.Achats,
-    },
-  ],
-  tagFamilies: [],
-  organizationVersion: mockedOrganizationVersion,
-  sites: [],
-  oldBCId: null,
-  createdById: TEST_IDS.userStudy,
-  isPublic: false,
-  startDate: new Date(),
-  endDate: new Date(),
-  realizationStartDate: null,
-  realizationEndDate: null,
-  level: 'Initial',
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  ...overrides,
-})
+    ],
+    ...overrides,
+  }) as FullStudy

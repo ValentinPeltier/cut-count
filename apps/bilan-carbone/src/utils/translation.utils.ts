@@ -1,13 +1,11 @@
-import enBc from '@/i18n/translations/en/bc.json'
-import frBc from '@/i18n/translations/fr/bc.json'
-import { Locale, LocaleType } from '@abc-transitionbascarbone/i18n/config'
-import enCommon from '@abc-transitionbascarbone/i18n/translations/en/common.json'
+import frCut from '@/i18n/translations/fr/cut.json'
+import { LocaleType } from '@abc-transitionbascarbone/i18n/config'
 import frCommon from '@abc-transitionbascarbone/i18n/translations/fr/common.json'
 
 export type CommonTranslations = typeof frCommon
 
-export function getCommonTranslations(locale: LocaleType): CommonTranslations {
-  return locale === Locale.FR ? frCommon : enCommon
+export function getCommonTranslations(_locale?: LocaleType): CommonTranslations {
+  return frCommon
 }
 
 /**
@@ -31,8 +29,8 @@ export function extractAllForms(value: string): string[] {
   return [value.trim()]
 }
 
-export type BcTranslations = typeof frBc
+export type BcTranslations = typeof frCut
 
-export function getBcTranslations(locale: LocaleType): BcTranslations {
-  return locale === Locale.FR ? frBc : enBc
+export function getBcTranslations(_locale?: LocaleType): BcTranslations {
+  return frCut
 }

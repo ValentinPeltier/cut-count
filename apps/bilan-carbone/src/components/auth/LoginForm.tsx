@@ -12,15 +12,14 @@ interface Props {
   environment?: Environment
 }
 
-const LoginForm = ({ environment = Environment.BC }: Props) => {
+const LoginForm = ({ environment = Environment.CUT }: Props) => {
   'use memo'
 
   const support = getEnvVarClient('SUPPORT_EMAIL', environment)
   const t = useTranslations('login.form')
 
   const getResetLink = (email: string) => getEnvRoute(`reset-password?email=${email}`, environment)
-  const getActivationLink = (email: string) =>
-    getEnvRoute(environment === Environment.BC ? `activation?email=${email}` : `register?email=${email}`, environment)
+  const getActivationLink = (email: string) => getEnvRoute(`register?email=${email}`, environment)
 
   return (
     <LoginFormCommon

@@ -5,8 +5,7 @@
   "workspaces": {
     "packages": [
       "apps/*",
-      "packages/*",
-      "packages/publicodes-packages/*"
+      "packages/*"
     ],
     "nohoist": []
   },
@@ -28,8 +27,8 @@
     "seed:bc": "yarn workspace bilan-carbone tsx prisma/seed/index.ts",
     "postinstall": "yarn db:generate",
     "db:generate": "rm -rf packages/db-common/src/generated/prisma && yarn workspace @abc-transitionbascarbone/db-common run db:generate",
-    "compile:publicodes": "set -e; for dir in packages/publicodes-packages/publicodes-count; do (cd \"$dir\" && yarn compile); done",
-    "compile:publicodes-windows": "for /d %d in (\"packages\\publicodes-packages\\publicodes-*\") do (@cd /d \"%d\" && yarn install && yarn compile && cd ..\\..\\..)"
+    "compile:publicodes": "yarn workspace bilan-carbone publicodes-count:compile",
+    "compile:publicodes-windows": "yarn workspace bilan-carbone publicodes-count:compile"
   },
   "dependencies": {
     "next": "16.3.3"

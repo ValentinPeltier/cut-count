@@ -18,27 +18,20 @@ import {
   getOrgNameByOrgVersionId,
   getRawOrganizationBySiret,
   getRawOrganizationBySiteCNC,
-  getRawOrganizationBySiteEstablishmentId,
-  isOrganizationVersionCR,
 } from '@/db/organization'
 import { addSite } from '@/db/site'
 import type { FullStudy } from '@/db/study'
 import {
   addUser,
   changeStatus,
-  createOrUpdateUserCheckedStep,
   deleteUserFromOrga,
-  finalizeUserChecklist,
   getUserApplicationSettings,
   getUserByEmail,
   getUserFeedbackDate,
-  getUserFormationFormStart,
   getUsers,
-  getUsersCheckedSteps,
   getUserSourceById,
   handleAddingUser,
   organizationVersionActiveAccountsCount,
-  startUserFormationForm,
   updateAccount,
   updateUser,
   updateUserApplicationSettings,
@@ -46,22 +39,13 @@ import {
   UserWithAccounts,
   validateUser,
 } from '@/db/user'
-import { processUsers } from '@/scripts/ftp/userImport'
 import { AccountWithUser } from '@/types/account.types'
 import { withServerResponse } from '@/utils/serverResponse'
 import { getRoleToSetForUntrained } from '@/utils/user'
 import { accountWithUserToUserSession, userSessionToDbUser } from '@/utils/userAccounts'
 import { Organization, User } from '@abc-transitionbascarbone/db-common'
 import { updateUserResetTokenForEmail } from '@abc-transitionbascarbone/db-common/db'
-import {
-  Country,
-  DeactivatableFeature,
-  Environment,
-  Level,
-  Role,
-  UserChecklist,
-  UserStatus,
-} from '@abc-transitionbascarbone/db-common/enums'
+import { DeactivatableFeature, Environment, Role, UserStatus } from '@abc-transitionbascarbone/db-common/enums'
 import {
   sendActivationEmail,
   sendActivationRequest,
@@ -77,17 +61,13 @@ import {
 import { EMAIL_SENT, MORE_THAN_ONE, NOT_AUTHORIZED } from '@abc-transitionbascarbone/services/permissions/check'
 import { updateUserResetToken } from '@abc-transitionbascarbone/services/serverFunctions/user'
 import { AddMemberCommand } from '@abc-transitionbascarbone/services/serverFunctions/user.command'
-import { DAY, HOUR, MIN, TIME_IN_MS, YEAR } from '@abc-transitionbascarbone/utils'
-import { environmentsWithChecklist } from '@abc-transitionbascarbone/utils/environments'
+import { DAY, HOUR, TIME_IN_MS, YEAR } from '@abc-transitionbascarbone/utils'
 import jwt from 'jsonwebtoken'
 import { UserSession } from 'next-auth'
 import { getCompanyName } from '../associationApi'
 import { auth, dbActualizedAuth } from '../auth'
-import { getUserCheckList } from '../checklist'
-import { REQUEST_SENT, UNKNOWN_SCHOOL, UNKNOWN_SIRET_OR_CNC } from '../permissions/check'
-import { isBC } from '../permissions/environment'
+import { REQUEST_SENT, UNKNOWN_SIRET_OR_CNC } from '../permissions/check'
 import { canAddMember, canChangeRole, canDeleteMember, canEditSelfRole } from '../permissions/user'
-import { establishmentTypeMap, School } from '../schoolApi'
 import { getDeactivableFeatureRestrictions } from './deactivableFeatures'
 import { EditProfileCommand, EditSettingsCommand } from './user.command'
 
@@ -305,7 +285,7 @@ export const updateUserProfile = async (command: EditProfileCommand) =>
 
 export const resetPassword = async (email: string, userEnv: Environment | undefined) =>
   withServerResponse('resetPassword', async () => {
-    const env = userEnv || Environment.BC
+    const env = userEnv || Environment.CUT
     const user = await getUserByEmail(email)
 
     if (!user || user.accounts.every((a) => a.status !== UserStatus.ACTIVE)) {
@@ -345,7 +325,7 @@ export const activateEmail = async (email: string, userEnv: Environment, fromRes
     }
 
     const accountOrgaVersion = await getOrganizationVersionForRightsCheck(account.organizationVersionId)
-    if (!accountOrgaVersion || (!accountOrgaVersion.activatedLicence && env === Environment.BC)) {
+    if (!accountOrgaVersion) {
       throw new Error(NOT_AUTHORIZED)
     }
 
@@ -401,55 +381,18 @@ export const updateUserSettings = async (command: EditSettingsCommand) =>
     await updateUserApplicationSettings(session.user.accountId, command)
   })
 
-export const getUserCheckedItems = async () =>
-  withServerResponse('getUserCheckedItems', async () => {
-    const session = await auth()
-    if (!session || !session.user) {
-      return []
-    }
-    return getUsersCheckedSteps(session.user.accountId)
-  })
+export const getUserCheckedItems = async () => withServerResponse('getUserCheckedItems', async () => [])
 
-export const addUserChecklistItem = async (step: UserChecklist) =>
-  withServerResponse('addUserChecklistItem', async () => {
-    const session = await dbActualizedAuth()
-    if (!session || !session.user || !environmentsWithChecklist.includes(session.user.environment)) {
-      return
-    }
-
-    const isCR = await isOrganizationVersionCR(session.user.organizationVersionId)
-    const checklist = getUserCheckList(session.user.role, !!isCR, session.user.level)
-    if (!Object.values(checklist).includes(step)) {
-      return
-    }
-
-    await createOrUpdateUserCheckedStep(session.user.accountId, step)
-
-    const userChecklist = await getUserCheckedItems()
-    if (userChecklist.success && userChecklist.data.length === Object.values(checklist).length - 1) {
-      setTimeout(
-        async () => {
-          await finalizeUserChecklist(session.user.accountId)
-        },
-        1 * MIN * TIME_IN_MS,
-      )
-    }
-  })
+export const addUserChecklistItem = async (_step: string) =>
+  withServerResponse('addUserChecklistItem', async () => undefined)
 
 export const sendAddedUsersAndProccess = async (results: Record<string, string>[], env: Environment) =>
   withServerResponse('sendAddedUsersAndProccess', async () => {
     sendAddedUsersByFile(results, env)
-    processUsers(results, new Date())
   })
 
 export const verifyPasswordAndProcessUsers = async (uuid: string) =>
   withServerResponse('verifyPasswordAndProcessUsers', async () => uuid === process.env.ADMIN_PASSWORD)
-
-export const getFormationFormStart = async (userId: string) =>
-  withServerResponse('getFormationFormStart', async () => getUserFormationFormStart(userId))
-
-export const startFormationForm = async (userId: string, date: Date) =>
-  withServerResponse('startFormationForm', async () => startUserFormationForm(userId, date))
 
 export const changeUserRoleOnOnboarding = async () =>
   withServerResponse('changeUserRoleOnOnboarding', async () => {
@@ -499,7 +442,7 @@ export const displayFeedBackForm = async () =>
 
     const [userFeedbackDate, activeFeature] = await Promise.all([
       getUserFeedbackDate(session.user.accountId),
-      isFeatureActiveForEnvironment(DeactivatableFeature.Feedback, session.user.environment),
+      isFeatureActiveForEnvironment(DeactivatableFeature.Creation, session.user.environment),
     ])
 
     if (!userFeedbackDate || !activeFeature) {
@@ -646,7 +589,7 @@ export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string, en
       throw new Error(NOT_AUTHORIZED)
     }
 
-    const newOrganizationRole = isBC(environment) && !user.level ? Role.GESTIONNAIRE : Role.ADMIN
+    const newOrganizationRole = Role.ADMIN
     await updateAccount(account.id, {
       role: organization?.id ? Role.DEFAULT : newOrganizationRole,
       organizationVersion: { connect: { id: organizationVersion.id } },
@@ -671,113 +614,7 @@ export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string, en
     return EMAIL_SENT
   })
 
-export const signUpWithSchool = async (email: string, country: Country, school: School, environment: Environment) =>
+export const signUpWithSchool = async (_email: string, _country: string, _school: unknown, _environment: Environment) =>
   withServerResponse('signUpWithSchool', async () => {
-    const trimmedEmail = email.trim().toLowerCase()
-    if (!school) {
-      throw new Error(NOT_AUTHORIZED)
-    }
-    if (country === Country.FRANCE && !school.identifiant_de_l_etablissement) {
-      throw new Error(UNKNOWN_SCHOOL)
-    }
-    const deactivatedFeaturesRestrictions = await getDeactivableFeatureRestrictions(DeactivatableFeature.Creation)
-    if (
-      deactivatedFeaturesRestrictions?.active &&
-      deactivatedFeaturesRestrictions.deactivatedEnvironments?.includes(environment)
-    ) {
-      throw new Error(NOT_AUTHORIZED)
-    }
-
-    const accountAlreadyCreated = await getAccountByEmailAndEnvironment(trimmedEmail, environment)
-    if (accountAlreadyCreated && accountAlreadyCreated.organizationVersionId) {
-      throw new Error(NOT_AUTHORIZED)
-    }
-
-    let user = (await getUserByEmail(trimmedEmail)) as UserWithAccounts
-    let organization = null
-    let account = null
-
-    if (!user) {
-      user = (await addUser({
-        email: trimmedEmail,
-        level: Level.Initial,
-        firstName: '',
-        lastName: '',
-        accounts: {
-          create: {
-            status: UserStatus.PENDING_REQUEST,
-            role: Role.DEFAULT,
-            environment,
-          },
-        },
-      })) as UserWithAccounts
-      account = user?.accounts[0]
-    } else {
-      account =
-        accountAlreadyCreated ||
-        ((await addAccount({
-          user: { connect: { id: user.id } },
-          role: Role.DEFAULT,
-          environment,
-          status: UserStatus.PENDING_REQUEST,
-        })) as AccountWithUser)
-    }
-    if (!user || !account) {
-      throw new Error(NOT_AUTHORIZED)
-    }
-
-    let organizationVersion = null
-
-    organization = school.identifiant_de_l_etablissement
-      ? await getRawOrganizationBySiteEstablishmentId(school.identifiant_de_l_etablissement)
-      : null
-    organizationVersion = organization?.id
-      ? await getOrganizationVersionByOrganizationIdAndEnvironment(organization.id, environment)
-      : null
-
-    if (!organizationVersion) {
-      organizationVersion = await createOrganizationWithVersion(
-        { name: school.nom_etablissement || '' },
-        { environment: environment },
-      )
-
-      await addSite({
-        name: school.nom_etablissement || '',
-        postalCode: school.code_postal || '',
-        establishmentId: school.identifiant_de_l_etablissement,
-        establishmentYear: school.date_ouverture?.slice(0, 4) || '',
-        country,
-        city: school.city || school.adresse_3?.slice(5) || '',
-        academy: school.libelle_academie,
-        establishmentType: school?.libelle_nature ? establishmentTypeMap[school.libelle_nature] : undefined,
-        organization: { connect: { id: organizationVersion.organizationId } },
-      })
-    }
-
-    if (!organizationVersion) {
-      throw new Error(NOT_AUTHORIZED)
-    }
-
-    await updateAccount(account.id, {
-      role: organization?.id ? Role.DEFAULT : Role.ADMIN,
-      organizationVersion: { connect: { id: organizationVersion.id } },
-    })
-
-    if (organization?.id) {
-      const createdAccount = (await getAccountById(account.id || '')) as AccountWithUser
-      const accounts = await getAccountFromUserOrganization(accountWithUserToUserSession(createdAccount))
-
-      await sendActivationRequest(
-        accounts.filter((a) => a.role === Role.GESTIONNAIRE || a.role === Role.ADMIN).map((a) => a.user.email),
-        trimmedEmail,
-        `${user.firstName} ${user.lastName}`,
-        environment,
-      )
-
-      return REQUEST_SENT
-    } else {
-      await validateUser(account.id)
-      await sendActivation(trimmedEmail, false, environment)
-    }
-    return EMAIL_SENT
+    throw new Error(NOT_AUTHORIZED)
   })

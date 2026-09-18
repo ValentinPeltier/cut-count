@@ -67,7 +67,7 @@ export const EmissionFactorCommandValidation = z.intersection(
     )
     .superRefine((data, ctx) => {
       const subPostsValues = Object.values(data.subPosts ?? {}).flat()
-      if (subPostsValues.includes(SubPost.Electricite) && !data.base) {
+      if (subPostsValues.includes(SubPost.Energie) && !data.base) {
         ctx.addIssue({ path: ['base'], code: 'custom', message: 'required' })
       }
     }),

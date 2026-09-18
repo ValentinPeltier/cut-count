@@ -8,26 +8,11 @@ enum Role {
   @@schema("bilan_carbone")
 }
 
-enum UserChecklist {
-  CreateAccount
-  AddCollaborator
-  AddClient
-  AddSiteCR
-  AddSiteCRCollaborator
-  AddSiteOrga
-  CreateFirstStudy
-  CreateFirstEmissionSource
-  ConsultResults
-  Completed
-
-  @@schema("bilan_carbone")
-}
-
 model Account {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @map("updated_at")
-  userId    String   @map("user_id")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  userId    String   @unique @map("user_id")
   user      User     @relation(fields: [userId], references: [id])
 
   importedFileDate DateTime? @map("imported_file_date")
@@ -44,22 +29,11 @@ model Account {
 
   createdStudies          Study[]
   allowedStudies          UserOnStudy[]
-  contributors            Contributors[]
-  editedEmissionSources   StudyEmissionSource[]
-  flows                   Document[]
   userApplicationSettings UserApplicationSettings?
 
-  studyCommentsValidated StudyComment[] @relation("study_comment_validator")
-  studyComments          StudyComment[] @relation("study_comment_author")
-
-  environment Environment
+  environment Environment @default(CUT)
   status      UserStatus
 
-  formationName      String?   @map("formation_name")
-  formationStartDate DateTime? @map("formation_start_date")
-  formationEndDate   DateTime? @map("formation_end_date")
-
-  @@unique([userId, environment])
   @@map("accounts")
   @@schema("bilan_carbone")
 }
@@ -75,18 +49,5 @@ model UserApplicationSettings {
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
   @@map("user_application_settings")
-  @@schema("bilan_carbone")
-}
-
-model UserCheckedStep {
-  id        String        @id @default(uuid())
-  accountId String        @map("account_id")
-  step      UserChecklist
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
-
-  @@unique([accountId, step])
-  @@map("user_checked_steps")
   @@schema("bilan_carbone")
 }

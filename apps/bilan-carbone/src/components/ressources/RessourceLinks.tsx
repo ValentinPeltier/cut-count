@@ -23,40 +23,38 @@ const RessourceLinks = ({ title, links }: Props) => {
   }
 
   return (
-    <Card className={classNames('h100', styles.card)} data-testid="ressource-links-card">
-      <CardContent className={'p0'}>
-        <div className={classNames(styles.cardHeader, 'p1')}>
-          <Typography className="mb-2 bold text-center" data-testid="ressource-links-title">
-            {title}
-          </Typography>
-        </div>
-        <div className={classNames(styles.cardLinks, 'text-center', 'h100')} data-testid="ressource-links-list">
-          {links.map(({ title: linkTitle, link, downloadKey }) => (
-            <div className="mt-2 mb-2" key={link || downloadKey || linkTitle}>
-              {link ? (
+    <Card className={styles.card} data-testid="ressource-links-card">
+      <CardContent>
+        <Typography variant="h6" data-testid="ressource-links-title">
+          {title}
+        </Typography>
+        <ul className={classNames(styles.links, 'flex-col')} data-testid="ressource-links-list">
+          {links.map((item) => (
+            <li key={item.link || item.downloadKey || item.title}>
+              {item.link ? (
                 <Link
-                  href={link}
+                  href={item.link}
                   target="_blank"
-                  rel="noreferrer noopener"
+                  rel="noreferrer"
                   data-testid="ressource-external-link"
-                  data-resource-title={linkTitle}
+                  data-resource-title={item.title}
                 >
-                  {linkTitle}
+                  {item.title}
                 </Link>
               ) : (
                 <button
                   type="button"
-                  onClick={() => downloadKey && handleDownload(downloadKey)}
+                  onClick={() => item.downloadKey && handleDownload(item.downloadKey)}
                   className={styles.linkButton}
                   data-testid="ressource-download-button"
-                  data-download-key={downloadKey ?? ''}
+                  data-download-key={item.downloadKey ?? ''}
                 >
-                  {linkTitle}
+                  {item.title}
                 </button>
               )}
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </CardContent>
     </Card>
   )

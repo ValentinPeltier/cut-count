@@ -27,6 +27,5 @@ export const mockedOrganizationVersion = {
   parentId: null,
   parent: null,
   organization: mockedOrganization,
-  environment: Environment.BC,
-  activatedLicence: [new Date().getFullYear()],
+  environment: Environment.CUT,
 }

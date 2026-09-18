@@ -79,6 +79,7 @@ export const addAccount = async (account: Prisma.AccountCreateInput & { role: Ex
   const deactivatedFeaturesRestrictions = await getDeactivableFeatureRestrictions(DeactivatableFeature.Creation)
   if (
     deactivatedFeaturesRestrictions?.active &&
+    account.environment !== undefined &&
     deactivatedFeaturesRestrictions.deactivatedEnvironments.includes(account.environment)
   ) {
     throw new Error(NOT_AUTHORIZED)

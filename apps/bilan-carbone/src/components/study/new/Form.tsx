@@ -1,8 +1,7 @@
 'use client'
 
 import { FormDatePicker } from '@/components/form/DatePicker'
-import StudyDuplicationForm, { InviteOptions } from '@/components/study/duplication/StudyDuplicationForm'
-import { createStudyCommand, duplicateStudyCommand } from '@/services/serverFunctions/study'
+import { createStudyCommand } from '@/services/serverFunctions/study'
 import { CreateStudyCommand } from '@/services/serverFunctions/study.command'
 import { HelpIcon } from '@abc-transitionbascarbone/components'
 import Form from '@abc-transitionbascarbone/components/src/base/Form'
@@ -37,7 +36,6 @@ const NewStudyForm = ({
   glossary,
   setGlossary,
   t,
-  duplicateStudyId,
   beforeSubmit,
   customRouteAfterCreation = '',
   showStudyDates = true,
@@ -49,10 +47,6 @@ const NewStudyForm = ({
   const tStudyNewSuggestion = useTranslations('study.new.suggestion')
   const tDocumentation = useTranslations('documentationUrl')
   const { callServerFunction } = useServerFunction()
-  const [inviteOptions, setInviteOptions] = useState<InviteOptions>({
-    team: true,
-    contributors: true,
-  })
   const [loading, setLoading] = useState(false)
 
   const onSubmit = async (command: CreateStudyCommand) => {
@@ -60,11 +54,8 @@ const NewStudyForm = ({
     if (beforeSubmit) {
       command = beforeSubmit(command)
     }
-    const serverFunction = duplicateStudyId
-      ? () => duplicateStudyCommand(duplicateStudyId, command, inviteOptions.team, inviteOptions.contributors)
-      : () => createStudyCommand(command)
 
-    await callServerFunction(() => serverFunction(), {
+    await callServerFunction(() => createStudyCommand(command), {
       onSuccess: (data) => {
         router.push(`/etudes/${data.id}${customRouteAfterCreation}`)
       },
@@ -115,15 +106,8 @@ const NewStudyForm = ({
           </div>
         )}
         {children}
-        {duplicateStudyId && (
-          <StudyDuplicationForm
-            setGlossary={setGlossary}
-            inviteOptions={inviteOptions}
-            setInviteOptions={setInviteOptions}
-          />
-        )}
         <LoadingButton type="submit" loading={loading} data-testid="new-study-create-button">
-          {duplicateStudyId ? t('duplicate') : t('create')}
+          {t('create')}
         </LoadingButton>
       </Form>
       {glossary && (

@@ -18,7 +18,7 @@ export default defineConfig([
     'out/**',
     'build/**',
     'next-env.d.ts',
-    'publicodes-packages/**/publicodes-build/**',
+    'src/publicodes/rules/publicodes-build/**',
     '**/.env**',
   ]),
 

@@ -1,7 +1,7 @@
 import { getStudyNavbarMenu } from '@/constants/navbar'
 import { HelpIcon } from '@abc-transitionbascarbone/components'
 import Modal from '@abc-transitionbascarbone/components/src/modals/Modal'
-import { Environment, StudyRole } from '@abc-transitionbascarbone/db-common/enums'
+import { StudyRole } from '@abc-transitionbascarbone/db-common/enums'
 import classNames from 'classnames'
 import { UUID } from 'crypto'
 import { useTranslations } from 'next-intl'
@@ -14,37 +14,18 @@ import styles from './StudyNavbar.module.css'
 interface Props {
   studyId: UUID
   userRole: StudyRole | null
-  environment: Environment
   studyName: string
   studySimplified: boolean
-  isTransitionPlanActive: boolean
-  hasObjectives: boolean
 }
 
-const StudyDrawer = ({
-  studyId,
-  userRole,
-  environment,
-  studyName,
-  studySimplified,
-  isTransitionPlanActive,
-  hasObjectives,
-}: Props) => {
+const StudyDrawer = ({ studyId, userRole, studyName, studySimplified }: Props) => {
   const pathName = usePathname()
   const [glossaryInfo, setGlossaryInfo] = useState<{ id: string; label: string; info: string } | null>(null)
 
   const t = useTranslations('study.navigation')
   const tCommon = useTranslations('common')
 
-  const { title, sections } = getStudyNavbarMenu(
-    environment,
-    t,
-    studyId,
-    studyName,
-    isTransitionPlanActive,
-    hasObjectives,
-    studySimplified,
-  )
+  const { title, sections } = getStudyNavbarMenu(t, studyId, studyName)
   return (
     <div className={styles.drawerContent}>
       <div className={classNames(styles.titleContainer, { [styles.hasRole]: userRole })}>

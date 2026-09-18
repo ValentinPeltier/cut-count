@@ -14,40 +14,16 @@ jest.mock('next-intl/server', () => ({
 
 describe('emissionFactors utils function', () => {
   describe('getEmissionFactorValue', () => {
-    test('should return waste impact if env is BC, FE is from base empreinte and is in wasteEmissionFactors', () => {
+    test('should return FE value even for waste emission factors', () => {
       const emissionFactor = { importedFrom: Import.BaseEmpreinte, importedId: '34662', totalCo2: 123 }
-      const env = Environment.BC
 
-      const result = getEmissionFactorValue(emissionFactor, env)
-
-      expect(result).toBe(41)
+      expect(getEmissionFactorValue(emissionFactor, Environment.CUT)).toBe(123)
     })
 
-    test('should return FE value if env is CUT, FE is from base empreinte and is in wasteEmissionFactors', () => {
-      const emissionFactor = { importedFrom: Import.BaseEmpreinte, importedId: '34662', totalCo2: 123 }
-      const env = Environment.CUT
-
-      const result = getEmissionFactorValue(emissionFactor, env)
-
-      expect(result).toBe(123)
-    })
-
-    test('should return FE value if env is BC, FE is from base empreinte but is not in wasteEmissionFactors', () => {
+    test('should return FE value if FE is from base empreinte but is not in wasteEmissionFactors', () => {
       const emissionFactor = { importedFrom: Import.BaseEmpreinte, importedId: '456789789787', totalCo2: 123 }
-      const env = Environment.BC
 
-      const result = getEmissionFactorValue(emissionFactor, env)
-
-      expect(result).toBe(123)
-    })
-
-    test('should return waste impact if env is BC, FE is not from base empreinte and is in wasteEmissionFactors', () => {
-      const emissionFactor = { importedFrom: Import.Legifrance, importedId: '34662', totalCo2: 123 }
-      const env = Environment.BC
-
-      const result = getEmissionFactorValue(emissionFactor, env)
-
-      expect(result).toBe(123)
+      expect(getEmissionFactorValue(emissionFactor, Environment.CUT)).toBe(123)
     })
   })
 
@@ -72,40 +48,16 @@ describe('emissionFactors utils function', () => {
   })
 
   describe('isWasteEmissionFactor', () => {
-    test('should return true if FE is from base empreinte and is in wasteEmissionFactors', () => {
+    test('should return false for Count even when the factor is in wasteEmissionFactors', () => {
       const emissionFactor = { importedFrom: Import.BaseEmpreinte, importedId: '34662' }
-      const env = Environment.BC
 
-      const result = isWasteEmissionFactor(emissionFactor, env)
-
-      expect(result).toBe(true)
+      expect(isWasteEmissionFactor(emissionFactor, Environment.CUT)).toBe(false)
     })
 
     test('should return false if FE is from base empreinte but is not in wasteEmissionFactors', () => {
       const emissionFactor = { importedFrom: Import.BaseEmpreinte, importedId: '456789789787' }
-      const env = Environment.BC
 
-      const result = isWasteEmissionFactor(emissionFactor, env)
-
-      expect(result).toBe(false)
-    })
-
-    test('should return false if FE is not from base empreinte and is in wasteEmissionFactors', () => {
-      const emissionFactor = { importedFrom: Import.Legifrance, importedId: '34662' }
-      const env = Environment.BC
-
-      const result = isWasteEmissionFactor(emissionFactor, env)
-
-      expect(result).toBe(false)
-    })
-
-    test('should return false if FE is from base empreinte and is in wasteEmissionFactors but env is not BC', () => {
-      const emissionFactor = { importedFrom: Import.BaseEmpreinte, importedId: '34662' }
-      const env = Environment.CUT
-
-      const result = isWasteEmissionFactor(emissionFactor, env)
-
-      expect(result).toBe(false)
+      expect(isWasteEmissionFactor(emissionFactor, Environment.CUT)).toBe(false)
     })
   })
 })

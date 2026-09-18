@@ -1,4 +1,3 @@
-import { getI18nUnitKey } from '@abc-transitionbascarbone/publicodes/utils'
 import { isObject } from '@abc-transitionbascarbone/utils/object'
 import Engine, { Rule } from 'publicodes'
 import {
@@ -15,10 +14,12 @@ import {
   UPDATED_PREFIX,
 } from './utils'
 
+const getI18nUnitKey = (unit: string) => unit.trim().replace(/\./g, '/')
+
 const { model } = getArgs()
 
 // Définition statique des locales prises en charge pour chaque modèle
-const LOCALES_CUT = [Locale.FR, Locale.EN, Locale.ES] as const
+const LOCALES_CUT = [Locale.FR] as const
 const getLocales = () => {
   switch (model) {
     case 'cut':
@@ -41,11 +42,7 @@ function extractTranslationKeysFromRules(
       continue
     }
 
-    if (
-      !rule?.question &&
-      rule?.['form']?.['à traduire'] !== 'oui' &&
-      !KEYS_TO_TRANSLATE.some((key) => key in rule)
-    ) {
+    if (!rule?.question && rule?.['form']?.['à traduire'] !== 'oui' && !KEYS_TO_TRANSLATE.some((key) => key in rule)) {
       continue
     }
 

@@ -3,7 +3,7 @@
 import Stepper from '@/components/base/Stepper'
 import TabsWithGreenStyling from '@/components/dynamic-form/TabsWithGreenStyling'
 import type { FullStudy } from '@/db/study'
-import { SUBPOSTS_PUBLICODE_FROM_ENV } from '@/environments/core/publicodes/subposts'
+import { CUT_PUBLICODES_SUBPOSTS } from '@/environments/cut/publicodes/subposts'
 import { PublicodesFormProvider } from '@/lib/publicodes/context'
 import { EnvironmentWithSimplifiedStudies } from '@/services/permissions/environment'
 import { subPostsByPost } from '@/services/posts'
@@ -36,8 +36,8 @@ const SimplifiedStudyPostsPage = ({ environment, post, currentSubPost, study, st
   const pathName = usePathname()
   const searchParams = useSearchParams()
   const subPosts = useMemo(
-    () => subPostsByPost[post].filter((subPost) => SUBPOSTS_PUBLICODE_FROM_ENV[environment]?.includes(subPost)),
-    [post, environment],
+    () => subPostsByPost[post].filter((subPost) => CUT_PUBLICODES_SUBPOSTS.includes(subPost)),
+    [post],
   )
 
   const activeSubPostFromUrl = searchParams.get('subPost') as SubPost | null

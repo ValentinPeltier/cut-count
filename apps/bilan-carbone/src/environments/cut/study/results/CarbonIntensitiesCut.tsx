@@ -22,7 +22,7 @@ const CarbonIntensitiesCut = ({ study, studySite, withDepValue }: Props) => {
           (res, studySite) => [
             res[0] + (studySite.site.cnc?.ecrans || 0),
             res[1] + (studySite.numberOfTickets || 0),
-            res[2] + (studySite.superficy || 0),
+            res[2] + 0,
             res[3] + (studySite.numberOfSessions || 0),
             res[4] + (studySite.site.cnc?.numberOfProgrammedFilms || 0),
             res[5] + (studySite.site.cnc?.fauteuils || 0),
@@ -35,7 +35,7 @@ const CarbonIntensitiesCut = ({ study, studySite, withDepValue }: Props) => {
       return [
         site.site.cnc?.ecrans || 1,
         site.numberOfTickets || 1,
-        site.superficy || 1,
+        1,
         site.numberOfSessions || 1,
         site.site.cnc?.numberOfProgrammedFilms || 1,
         site.site.cnc?.fauteuils || 1,

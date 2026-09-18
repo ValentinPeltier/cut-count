@@ -27,7 +27,7 @@ export const checkToken = async (token: string) => {
 
 export const reset = async (password: string, token: string, userEnv: Environment | undefined) =>
   withServerResponse('reset', async () => {
-    const env = userEnv || Environment.BC
+    const env = userEnv || Environment.CUT
 
     const tokenValues = jwt.verify(token, process.env.NEXTAUTH_SECRET as string) as {
       email: string

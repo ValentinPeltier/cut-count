@@ -2,14 +2,14 @@
 
 import { FormCheckbox } from '@/components/form/Checkbox'
 import GlobalSites from '@/components/organization/Sites'
-import EnvironmentLoader from '@/environments/core/utils/EnvironmentLoader'
+import EnvironmentLoader from '@/environments/simplified/utils/EnvironmentLoader'
 import { getAllCNCs } from '@/services/serverFunctions/cnc'
 import { SitesCommand } from '@/services/serverFunctions/study.command'
 import { TableActionButton } from '@abc-transitionbascarbone/components/src/base/TableActionButton'
 import { FormTextField } from '@abc-transitionbascarbone/components/src/form/TextField'
 import { useServerFunction } from '@abc-transitionbascarbone/components/src/hooks/useServerFunction'
 import type { Cnc } from '@abc-transitionbascarbone/db-common'
-import { Environment } from '@abc-transitionbascarbone/db-common/enums'
+import { Environment, SiteCAUnit } from '@abc-transitionbascarbone/db-common/enums'
 import { Autocomplete, TextField } from '@mui/material'
 import { ColumnDef } from '@tanstack/react-table'
 import { useTranslations } from 'next-intl'
@@ -21,6 +21,7 @@ interface Props {
   sites: SitesCommand['sites']
   withSelection?: boolean
   disabled?: boolean
+  caUnit?: SiteCAUnit
 }
 
 const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {

@@ -9,11 +9,6 @@ const CLIENT_ENV_DEFAULT: Record<ClientEnvKey, string> = {
 }
 
 const CLIENT_ENV_BY_ENV: Partial<Record<Environment, Partial<Record<ClientEnvKey, string>>>> = {
-  BC: {
-    SUPPORT_EMAIL: process.env.NEXT_PUBLIC_BC_SUPPORT_EMAIL,
-    FAQ_LINK: process.env.NEXT_PUBLIC_BC_FAQ_LINK,
-    ABC_SITE: process.env.NEXT_PUBLIC_BC_ABC_SITE,
-  },
   CUT: {
     SUPPORT_EMAIL: process.env.NEXT_PUBLIC_CUT_SUPPORT_EMAIL,
     FAQ_LINK: process.env.NEXT_PUBLIC_CUT_FAQ_LINK,
@@ -21,6 +16,6 @@ const CLIENT_ENV_BY_ENV: Partial<Record<Environment, Partial<Record<ClientEnvKey
   },
 }
 
-export const getEnvVarClient = (key: ClientEnvKey, environment: Environment = Environment.BC) => {
+export const getEnvVarClient = (key: ClientEnvKey, environment: Environment = Environment.CUT) => {
   return CLIENT_ENV_BY_ENV[environment]?.[key] ?? CLIENT_ENV_DEFAULT[key] ?? ''
 }

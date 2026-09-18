@@ -13,11 +13,11 @@ export const customRich = (
   t: Translations,
   key: string,
   params: CustomRichParams = {},
-  env: Environment = Environment.BC,
+  env: Environment = Environment.CUT,
 ) => {
   const faq = getEnvVarClient('FAQ_LINK', env)
-  const support = getEnvVarClient('SUPPORT_EMAIL', Environment.BC)
-  const abc = getEnvVarClient('ABC_SITE', Environment.BC)
+  const support = getEnvVarClient('SUPPORT_EMAIL', Environment.CUT)
+  const abc = getEnvVarClient('ABC_SITE', Environment.CUT)
 
   return t.rich(key, {
     error: (children) => <span className="error">{children}</span>,

@@ -1,27 +1,17 @@
-import { EmissionFactorWithParts } from '@/db/emissionFactors'
 import type { FullStudy } from '@/db/study'
-import DynamicAllResults from '@/environments/core/study/results/DynamicAllResults'
-import { addUserChecklistItem } from '@/services/serverFunctions/user'
-import { ExportRule } from '@abc-transitionbascarbone/db-common'
-import { SiteCAUnit, UserChecklist } from '@abc-transitionbascarbone/db-common/enums'
+import AllResultsPublicodes from '@/environments/simplified/study/results/AllResultsPublicodes'
 import { UserSession } from 'next-auth'
 import { useTranslations } from 'next-intl'
 import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
 
 interface Props {
   study: FullStudy
-  rules: ExportRule[]
-  emissionFactorsWithParts: EmissionFactorWithParts[]
-  validatedOnly: boolean
-  caUnit?: SiteCAUnit
   user: UserSession
 }
 
-const ResultsPage = ({ study, rules, emissionFactorsWithParts, validatedOnly, caUnit, user }: Props) => {
+const ResultsPage = ({ study }: Props) => {
   const tNav = useTranslations('nav')
   const tStudyNav = useTranslations('study.navigation')
-
-  addUserChecklistItem(UserChecklist.ConsultResults)
 
   return (
     <>
@@ -38,14 +28,7 @@ const ResultsPage = ({ study, rules, emissionFactorsWithParts, validatedOnly, ca
           { label: study.name, link: `/etudes/${study.id}` },
         ].filter((link) => link !== undefined)}
       />
-      <DynamicAllResults
-        emissionFactorsWithParts={emissionFactorsWithParts}
-        rules={rules}
-        study={study}
-        validatedOnly={validatedOnly}
-        caUnit={caUnit}
-        user={user}
-      />
+      <AllResultsPublicodes study={study} />
     </>
   )
 }

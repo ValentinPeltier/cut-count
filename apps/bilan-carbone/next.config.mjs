@@ -18,10 +18,6 @@ const nextConfig = {
   turbopack: {
     resolveAlias: {
       underscore: 'lodash',
-      // NOTE: while the package is not published to npm, we use a local path
-      '@abc-transitionbascarbone/publicodes-count': '../../packages/publicodes-packages/publicodes-count/',
-      '@abc-transitionbascarbone/publicodes-clickson': '../../packages/publicodes-packages/publicodes-clickson/',
-      '@abc-transitionbascarbone/publicodes-tilt': '../../packages/publicodes-packages/publicodes-tilt/',
       // '@publicodes/forms': '../../publicodes/publicodes/packages/forms/src/',
     },
     resolveExtensions: ['.tsx', '.ts', '.jsx', '.js', '.json'],
@@ -30,13 +26,7 @@ const nextConfig = {
   images: {
     remotePatterns: [{ hostname: scalewayUrl }],
   },
-  transpilePackages: [
-    'mui-color-input',
-    '@abc-transitionbascarbone/publicodes-count',
-    '@abc-transitionbascarbone/publicodes-clickson',
-    '@abc-transitionbascarbone/publicodes-tilt',
-    '@publicodes/forms',
-  ],
+  transpilePackages: ['mui-color-input', '@publicodes/forms'],
   reactStrictMode: true,
   headers: async () => [
     {

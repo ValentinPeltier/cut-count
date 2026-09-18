@@ -1,10 +1,9 @@
 import { UpdateOrganizationCommand } from '@/services/serverFunctions/organization.command'
 import { SitesCommand } from '@/services/serverFunctions/study.command'
 import { OnboardingCommand } from '@/services/serverFunctions/user.command'
-import { unique } from '@/utils/array'
 import type { Organization, OrganizationVersion, Site } from '@abc-transitionbascarbone/db-common'
 import { Prisma } from '@abc-transitionbascarbone/db-common'
-import { Environment, EstablishmentType, UserStatus } from '@abc-transitionbascarbone/db-common/enums'
+import { Environment, UserStatus } from '@abc-transitionbascarbone/db-common/enums'
 import { prismaClient } from './client.server'
 import { OrganizationVersionWithOrganizationSelect } from './organization.select'
 import { deleteStudy } from './study'
@@ -60,9 +59,7 @@ export const getOrganizationVersionForRightsCheck = (id: string | null) =>
         select: {
           id: true,
           environment: true,
-          activatedLicence: true,
           parentId: true,
-          parent: { select: { activatedLicence: true } },
         },
       })
     : null
@@ -131,21 +128,17 @@ export const getOrganizationVersionWithSitesById = (id: string) =>
 
 export const getOrganizationVersionByOrganizationIdAndEnvironment = (
   organizationId: string,
-  environment: Environment,
+  _environment: Environment,
 ) =>
   prismaClient.organizationVersion.findUnique({
     where: {
-      organizationId_environment: {
-        organizationId,
-        environment,
-      },
+      organizationId,
     },
     select: {
       id: true,
       environment: true,
-      activatedLicence: true,
       isCR: true,
-      parent: { select: { activatedLicence: true } },
+      parent: { select: { id: true } },
     },
   })
 
@@ -167,8 +160,6 @@ export const getOrganizationWithSitesById = (id: string) =>
           id: true,
           postalCode: true,
           city: true,
-          volunteerNumber: true,
-          beneficiaryNumber: true,
           cnc: true,
         },
         orderBy: { createdAt: 'asc' },
@@ -190,7 +181,6 @@ export const createOrganizationWithVersion = async (
       ...organizationVersion,
       organization: { connect: { id: newOrganization.id } },
       isCR: false,
-      activatedLicence: [],
     },
   })
 }
@@ -217,12 +207,6 @@ export const updateOrganization = async (
           postalCode: site.postalCode,
           city: site.city,
           cncId: site.cncId || undefined,
-          volunteerNumber: site.volunteerNumber || undefined,
-          beneficiaryNumber: site.beneficiaryNumber || undefined,
-          studentNumber: site.studentNumber || undefined,
-          establishmentYear: site.establishmentYear?.toString() || undefined,
-          academy: site.academy,
-          establishmentType: site.establishmentType as EstablishmentType,
         },
         update: {
           name: site.name,
@@ -231,12 +215,6 @@ export const updateOrganization = async (
           postalCode: site.postalCode,
           city: site.city,
           cncId: site.cncId || undefined,
-          volunteerNumber: site.volunteerNumber || undefined,
-          beneficiaryNumber: site.beneficiaryNumber || undefined,
-          studentNumber: site.studentNumber || undefined,
-          establishmentYear: site.establishmentYear?.toString() || undefined,
-          academy: site.academy,
-          establishmentType: site.establishmentType as EstablishmentType,
         },
       }),
     ),
@@ -270,8 +248,6 @@ export const updateOrganizationSites = async (
           postalCode: site.postalCode,
           city: site.city,
           cncId: site.cncId || undefined,
-          volunteerNumber: site.volunteerNumber || undefined,
-          beneficiaryNumber: site.beneficiaryNumber || undefined,
         },
       }),
     ),
@@ -361,8 +337,7 @@ export const getRawOrganizationBySiret = (siret: string | null) =>
 export const getRawOrganizationBySiteCNC = (cncCode: string | null) =>
   cncCode ? prismaClient.organization.findFirst({ where: { sites: { some: { cncId: cncCode } } } }) : null
 
-export const getRawOrganizationBySiteEstablishmentId = (establishmentId: string | null) =>
-  establishmentId ? prismaClient.organization.findFirst({ where: { sites: { some: { establishmentId } } } }) : null
+export const getRawOrganizationBySiteEstablishmentId = (_establishmentId: string | null) => null
 
 export const getRawOrganizationById = (id: string | null) =>
   id ? prismaClient.organization.findUnique({ where: { id } }) : null
@@ -370,9 +345,9 @@ export const getRawOrganizationById = (id: string | null) =>
 export const createOrUpdateOrganization = async (
   organization: Prisma.OrganizationCreateInput & { id?: string },
   isCR?: boolean,
-  activatedLicence?: number[],
+  _activatedLicence?: number[],
   importedFileDate?: Date,
-  environment: Environment = Environment.BC,
+  environment: Environment = Environment.CUT,
 ) => {
   const updatedOrganization = await prismaClient.organization.upsert({
     where: { id: organization.id ?? '' },
@@ -392,20 +367,15 @@ export const createOrUpdateOrganization = async (
 
   await prismaClient.organizationVersion.upsert({
     where: {
-      organizationId_environment: {
-        organizationId: updatedOrganization.id,
-        environment,
-      },
+      organizationId: updatedOrganization.id,
     },
     update: {
       isCR: isCR || organizationVersion?.isCR || false,
       updatedAt: new Date(),
-      activatedLicence: unique([...(organizationVersion?.activatedLicence ?? []), ...(activatedLicence ?? [])]),
     },
     create: {
       organizationId: updatedOrganization.id,
       isCR: isCR || false,
-      activatedLicence,
       onboarded: false,
       environment,
     },

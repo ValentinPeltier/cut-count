@@ -9,11 +9,11 @@ export async function accountHandler(accountId: string) {
 }
 
 export const signOutEnv = async <P extends boolean = true>(
-  env: Environment = Environment.BC,
+  _env: Environment = Environment.CUT,
   options?: SignOutParams<P>,
 ): Promise<P extends true ? void : { url: string }> => {
   const result = (await signOut({
-    callbackUrl: `/signed-out?env=${env}`,
+    callbackUrl: '/login',
     ...options,
   })) as P extends true ? void : { url: string }
 

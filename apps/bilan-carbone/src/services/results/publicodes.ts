@@ -1,6 +1,6 @@
 import { TOTAL_RULE } from '@/constants/publicodes'
+import { safeEvaluate } from '@/publicodes/utils'
 import { Environment, StudyResultUnit, SubPost } from '@abc-transitionbascarbone/db-common'
-import { safeEvaluate } from '@abc-transitionbascarbone/publicodes/utils'
 import { Post, STUDY_UNIT_VALUES } from '@abc-transitionbascarbone/utils/charts'
 import Engine from 'publicodes'
 import type { BaseResultsByPost } from '../posts'

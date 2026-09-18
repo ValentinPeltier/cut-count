@@ -2,13 +2,10 @@ import { Environment } from '@abc-transitionbascarbone/db-common/enums'
 import { Locale } from '@abc-transitionbascarbone/i18n/config'
 import { getToken } from 'next-auth/jwt'
 import { NextRequest, NextResponse } from 'next/server'
-import { getLocalesForEnv } from './services/permissions/environment'
 
-const COUNT_ROUTE = '/count'
 const ENVIRONMENT_COOKIE = 'ENVIRONMENT'
 const LOCALE_COOKIE = 'NEXT_LOCALE'
-const ENV_ROUTES = [COUNT_ROUTE]
-const publicRoutes = ['/login', '/reset-password', '/activation', '/preview', ...ENV_ROUTES]
+const publicRoutes = ['/login', '/register', '/reset-password', '/activation', '/preview', '/count']
 const assetsRoutes = ['/_next', '/img']
 
 const bucketName = process.env.SCW_BUCKET_NAME as string
@@ -19,46 +16,28 @@ const logos = ['https://base-empreinte.ademe.fr', 'https://www.legifrance.gouv.f
 
 const nonce = Buffer.from(crypto.randomUUID()).toString('base64')
 
-const normalizeLocaleCookie = (req: NextRequest, response: NextResponse) => {
-  const environment = req.cookies.get(ENVIRONMENT_COOKIE)?.value as Environment | undefined
-  const locale = req.cookies.get(LOCALE_COOKIE)?.value
-  const locales = getLocalesForEnv(environment ?? Environment.BC)
-
-  if (!locales.includes(locale as Locale)) {
-    response.cookies.set(LOCALE_COOKIE, Locale.FR)
-  }
-
+const normalizeCookies = (response: NextResponse) => {
+  response.cookies.set(ENVIRONMENT_COOKIE, Environment.CUT)
+  response.cookies.set(LOCALE_COOKIE, Locale.FR)
   return response
 }
 
 export async function proxy(req: NextRequest) {
-  const host = req.headers.get('host')?.toLowerCase()
-  const redirectHosts = ['www.bilancarbone-app.com']
-  if (host && redirectHosts.includes(host)) {
-    return normalizeLocaleCookie(req, NextResponse.redirect('https://bilancarbone-app.com', 308))
+  const pathname = req.nextUrl.pathname
+
+  if (pathname === '/count' || pathname.startsWith('/count/')) {
+    const rest = pathname === '/count' ? '/login' : pathname.replace(/^\/count/, '')
+    const url = new URL(rest || '/login', req.url)
+    url.search = req.nextUrl.search
+    return normalizeCookies(NextResponse.redirect(url))
   }
 
-  if (ENV_ROUTES.includes(req.nextUrl.pathname)) {
-    const countLoginUrl = new URL(`${req.nextUrl}/login`, req.url)
-    return normalizeLocaleCookie(req, NextResponse.redirect(countLoginUrl))
-  }
-
-  if (![...publicRoutes, ...assetsRoutes].find((route) => req.nextUrl.pathname.startsWith(route))) {
+  if (![...publicRoutes, ...assetsRoutes].find((route) => pathname.startsWith(route))) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
 
     if (!token) {
-      const env = req.nextUrl.searchParams.get('env')
-      let baseUrl = ''
-      switch (env) {
-        case Environment.CUT:
-          baseUrl = `${COUNT_ROUTE}`
-          break
-        default:
-          break
-      }
-
-      const loginUrl = new URL(`${baseUrl}/login`, req.url)
-      return normalizeLocaleCookie(req, NextResponse.redirect(loginUrl))
+      const loginUrl = new URL('/login', req.url)
+      return normalizeCookies(NextResponse.redirect(loginUrl))
     }
   }
 
@@ -89,13 +68,12 @@ export async function proxy(req: NextRequest) {
   response.headers.set('X-Content-Type-Options', 'nosniff')
   response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
 
-  return normalizeLocaleCookie(req, response)
+  return normalizeCookies(response)
 }
 
 export const config = {
   matcher: [
     {
-      // Appliquer le middleware uniquement sur les routes spécifiées
       source: '/((?!_next/static|_next/image|favicon.ico|images|logos|api/auth|api/schools/*|api/cron/*).*)',
       missing: [
         { type: 'header', key: 'next-router-prefetch' },

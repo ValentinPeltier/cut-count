@@ -1,14 +1,11 @@
-import ProgressBar from '@/components/base/ProgressBar'
 import { StudyCardItem } from '@/db/study'
-import { hasAccessToEmissionSourceValidation, hasRoleOnStudy } from '@/services/permissions/environment'
+import { hasRoleOnStudy } from '@/services/permissions/environment'
 import { getDisplayedRoleOnStudy } from '@/utils/study'
 import Box from '@abc-transitionbascarbone/components/src/base/Box'
 import { Button } from '@abc-transitionbascarbone/ui'
-import { customRich } from '@abc-transitionbascarbone/utils/customRich'
 import classNames from 'classnames'
 import { UserSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
-import GlossaryIconModal from '../../modals/GlossaryIconModal'
 import styles from './StudyCard.module.css'
 import StudyName from './StudyName'
 
@@ -20,7 +17,7 @@ interface Props {
 
 const StudyCard = async ({ study, user, simplified }: Props) => {
   const t = await getTranslations('study')
-  const { id, name, validatedSources } = study
+  const { id, name } = study
 
   const showRoleInChip = hasRoleOnStudy(user.environment)
   const accountRoleOnStudy = getDisplayedRoleOnStudy(user, study)
@@ -29,49 +26,14 @@ const StudyCard = async ({ study, user, simplified }: Props) => {
     return null
   }
 
-  const percent = validatedSources.validated
-    ? Math.floor((validatedSources.validated / validatedSources.total) * 100)
-    : 0
-
   return (
     <li data-testid="study" className="flex">
       <Box className={classNames(styles.card, 'flex-col grow w100')}>
         <div className="justify-center">
           <StudyName studyId={id} name={name} role={showRoleInChip ? accountRoleOnStudy : null} clickable />
         </div>
-        {hasAccessToEmissionSourceValidation(user.environment, simplified) && (
-          <Box>
-            <p className="mb1 align-center">
-              {customRich(t, 'validatedSources', {
-                validated: validatedSources.validated,
-                total: validatedSources.total,
-                data: (children) => (
-                  <span className={classNames(styles.validated, 'mr-4', { [styles.success]: percent === 100 })}>
-                    {children}
-                  </span>
-                ),
-              })}
-              <GlossaryIconModal
-                title="validatedOnly"
-                className={`ml-2 ${styles.helpIcon}`}
-                iconLabel="information"
-                label="study-card"
-                tModal="study"
-              >
-                {t('validatedOnlyDescription')}
-              </GlossaryIconModal>
-            </p>
-            <ProgressBar
-              value={percent}
-              barClass={classNames(styles.progressBar, { [styles.success]: percent === 100 })}
-            />
-          </Box>
-        )}
         <div className="justify-end">
-          <Button
-            href={`/etudes/${id}${accountRoleOnStudy === 'Contributor' ? '/contributeur' : ''}`}
-            data-testid="study-link"
-          >
+          <Button href={`/etudes/${id}`} data-testid="study-link">
             {t(simplified ? 'seeSimplified' : 'see')}
           </Button>
         </div>

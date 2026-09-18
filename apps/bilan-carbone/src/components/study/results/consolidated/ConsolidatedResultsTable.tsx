@@ -1,145 +1,45 @@
-'use client'
-
-import { getConfidenceInterval, getQualitativeUncertaintyFromSquaredStandardDeviation } from '@/services/uncertainty'
-import { formatConfidenceInterval, formatEmissionFromNumber } from '@/utils/study'
-import { Table as BaseTable } from '@abc-transitionbascarbone/components'
-import { StudyResultUnit } from '@abc-transitionbascarbone/db-common'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
-import { ColumnDef, getCoreRowModel, getExpandedRowModel, useReactTable } from '@tanstack/react-table'
-import classNames from 'classnames'
+import type { BaseResultsByPost } from '@/services/posts'
+import { StudyResultUnit } from '@abc-transitionbascarbone/db-common/enums'
+import { STUDY_UNIT_VALUES } from '@abc-transitionbascarbone/utils/charts'
+import { formatNumber } from '@abc-transitionbascarbone/utils/number'
 import { useTranslations } from 'next-intl'
-import { useMemo } from 'react'
-import commonStyles from '../commonTable.module.css'
+import styles from './ConsolidatedResultsTable.module.css'
 
-interface Props<T> {
+interface Props {
   resultsUnit: StudyResultUnit
-  data: T[]
+  data: BaseResultsByPost[]
   hiddenUncertainty?: boolean
-  expandAll?: boolean
   hideExpandIcons?: boolean
-  isCompact?: boolean
 }
 
-type TableDataType = {
-  label: string
-  value: number
-  post: string
-  children: TableDataType[]
-  squaredStandardDeviation?: number
-}
-
-const ConsolidatedResultsTable = <T extends TableDataType>({
-  resultsUnit,
-  data,
-  hiddenUncertainty,
-  expandAll,
-  hideExpandIcons,
-  isCompact,
-}: Props<T>) => {
-  const t = useTranslations('study.results')
-  const tQuality = useTranslations('quality')
-  const tPost = useTranslations('emissionFactors.post')
+const ConsolidatedResultsTable = ({ resultsUnit, data }: Props) => {
   const tUnits = useTranslations('study.results.units')
 
-  const columns = useMemo(() => {
-    const tmpColumns = [
-      {
-        header: t('post'),
-        accessorFn: ({ post }) => tPost(post),
-        cell: ({ row, getValue }) => {
-          if (hideExpandIcons) {
-            const isSubpost = row.depth > 0
-            return (
-              <p
-                className={classNames(
-                  'align-center',
-                  isSubpost ? `${commonStyles.notExpandable} pl1` : commonStyles.expandable,
-                )}
-              >
-                {getValue<string>()}
-              </p>
-            )
-          }
-
-          return row.getCanExpand() ? (
-            <button
-              onClick={row.getToggleExpandedHandler()}
-              className={classNames('align-center', commonStyles.expandable)}
-            >
-              {row.getIsExpanded() ? <KeyboardArrowDownIcon /> : <KeyboardArrowRightIcon />}
-              {getValue<string>()}
-            </button>
-          ) : (
-            <p className={classNames('align-center', commonStyles.notExpandable, { pl1: row.depth > 0 })}>
-              {getValue<string>()}
-            </p>
-          )
-        },
-      },
-    ] as ColumnDef<TableDataType>[]
-
-    if (!hiddenUncertainty) {
-      tmpColumns.push({
-        header: t('uncertainty'),
-        accessorFn: ({ squaredStandardDeviation }) =>
-          squaredStandardDeviation
-            ? tQuality(getQualitativeUncertaintyFromSquaredStandardDeviation(squaredStandardDeviation).toString())
-            : '',
-      })
-    }
-
-    tmpColumns.push({
-      header: t('emissions'),
-      accessorKey: 'value',
-      accessorFn: ({ value }) => formatEmissionFromNumber(value, resultsUnit),
-    })
-
-    if (!hiddenUncertainty) {
-      tmpColumns.push({
-        id: 'confidenceInterval',
-        header: t('confidenceIntervalTitle'),
-        accessorFn: ({ value, squaredStandardDeviation }) => {
-          // NOTE: it's assumed that if the hiddenUncertainty flag is false,
-          // then the squaredStandardDeviation will be defined.
-          if (squaredStandardDeviation === undefined) {
-            return undefined
-          }
-          const confidenceInterval = getConfidenceInterval(value, squaredStandardDeviation)
-          return formatConfidenceInterval(confidenceInterval, resultsUnit)
-        },
-        cell: ({ getValue }) => <p>{getValue<string>()}</p>,
-      })
-    }
-
-    return tmpColumns
-  }, [hiddenUncertainty, hideExpandIcons, resultsUnit, t, tPost, tQuality])
-
-  const tableData = useMemo(() => {
-    const mappedData = data.map((d) => ({
-      ...d,
-      children: d.children.map((child) => ({ ...child, children: [] })),
-    }))
-    return mappedData
-  }, [data])
-
-  const table = useReactTable({
-    columns,
-    data: tableData,
-    getSubRows: (row) => row.children,
-    getExpandedRowModel: getExpandedRowModel(),
-    getCoreRowModel: getCoreRowModel(),
-    initialState: expandAll ? { expanded: true } : undefined,
-  })
-
   return (
-    <BaseTable
-      table={table}
-      className={classNames({ [commonStyles.compact]: isCompact })}
-      testId="consolidated-results"
-      size="small"
-      firstHeader={<div className="text-center">{t('ges', { unit: tUnits(resultsUnit) })}</div>}
-    />
+    <table className={styles.table}>
+      <thead>
+        <tr>
+          <th>Post</th>
+          <th>{tUnits(resultsUnit)}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((row) => (
+          <>
+            <tr key={String(row.post)}>
+              <td>{row.label}</td>
+              <td>{formatNumber((row.value ?? 0) / STUDY_UNIT_VALUES[resultsUnit])}</td>
+            </tr>
+            {row.children.map((child) => (
+              <tr key={`${row.post}-${String(child.post)}`}>
+                <td className={styles.child}>{child.label}</td>
+                <td>{formatNumber((child.value ?? 0) / STUDY_UNIT_VALUES[resultsUnit])}</td>
+              </tr>
+            ))}
+          </>
+        ))}
+      </tbody>
+    </table>
   )
 }
 

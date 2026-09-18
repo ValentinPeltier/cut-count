@@ -1,8 +1,8 @@
+import { InputQuestion } from '@/publicodes/form/InputQuestion'
 import type { EvaluatedFormElement } from '@publicodes/forms'
 import { render, screen } from '@testing-library/react'
 import Engine from 'publicodes'
 import type { ReactNode } from 'react'
-import { InputQuestion } from '../../../../../packages/publicodes/form/InputQuestion'
 
 type MockQuestionContainerProps = {
   label: ReactNode
@@ -17,18 +17,18 @@ const formElement: EvaluatedFormElement<string> = {
   type: 'text',
 } as EvaluatedFormElement<string>
 
-jest.mock('@abc-transitionbascarbone/publicodes/hooks', () => ({
+jest.mock('@/publicodes/hooks', () => ({
   usePublicodesRuleTranslation: () => ({
     question: 'Question',
     description: undefined,
   }),
 }))
 
-jest.mock('../../../../../packages/publicodes/form/InputField', () => ({
+jest.mock('@/publicodes/form/InputField', () => ({
   InputField: ({ formElement }: { formElement: { id: string } }) => <div>{formElement.id}</div>,
 }))
 
-jest.mock('../../../../../packages/publicodes/form/QuestionContainer', () => ({
+jest.mock('@/publicodes/form/QuestionContainer', () => ({
   QuestionContainer: ({ label, description, children }: MockQuestionContainerProps) => (
     <div>
       <span>{label}</span>

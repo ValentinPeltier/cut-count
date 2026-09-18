@@ -1,7 +1,6 @@
 import { ZodConfigClientProvider } from '@/components/providers/zod.provider'
 import RouteChangeListener from '@/components/RouteChangeListener'
 import '@/css/index.css'
-import { getEnvironment } from '@/i18n/environment'
 import { Environment } from '@abc-transitionbascarbone/db-common/enums'
 import { Locale, LocaleType } from '@abc-transitionbascarbone/i18n/config'
 import { Providers, configureZod } from '@abc-transitionbascarbone/lib'
@@ -9,12 +8,12 @@ import { CssBaseline } from '@mui/material'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter'
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
-import { getLocale, getMessages, getTranslations, setRequestLocale } from 'next-intl/server'
+import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server'
 import { headers } from 'next/headers'
 
 export const metadata: Metadata = {
-  title: 'Bilan Carbone +',
-  description: 'Découvrez le logiciel Bilan Carbone +',
+  title: 'Count',
+  description: "Count, le calculateur d'impact écologique dédié aux salles de cinéma",
 }
 
 interface Props {
@@ -22,24 +21,15 @@ interface Props {
 }
 
 const RootLayout = async ({ children }: Readonly<Props>) => {
-  const environment = await getEnvironment()
   const t = await getTranslations()
-
-  const locale = environment === Environment.CUT ? Locale.FR : await getLocale()
-  if (environment === Environment.CUT) {
-    setRequestLocale(Locale.FR)
-  }
-
-  // Configure Zod for server-side rendering
+  const locale = Locale.FR
+  setRequestLocale(locale)
   configureZod(locale as LocaleType, t)
-
-  // Providing all messages to the client
-  // side is the easiest way to get started
   const messages = await getMessages()
 
   const providerOptions = { key: 'mui', nonce: (await headers()).get('x-nonce') || undefined, prepend: true }
   return (
-    <html lang={locale} className={environment}>
+    <html lang={locale} className={Environment.CUT}>
       <body>
         <AppRouterCacheProvider options={providerOptions}>
           <NextIntlClientProvider messages={messages}>

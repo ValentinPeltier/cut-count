@@ -1,12 +1,11 @@
 'use server'
 
 import { withServerResponse } from '@/utils/serverResponse'
-import { Document } from '@abc-transitionbascarbone/db-common'
 import xlsx from 'node-xlsx'
 import { canAccessFlowFromStudy } from '../permissions/study'
 import { getFileUrlFromBucket } from '../serverFunctions/scaleway'
 
-export const getDocumentUrl = async (document: Document, studyId: string) =>
+export const getDocumentUrl = async (document: { id: string; bucketKey: string }, studyId: string) =>
   withServerResponse('getDocumentUrl', async () => {
     if (!(await canAccessFlowFromStudy(document.id, studyId))) {
       return ''

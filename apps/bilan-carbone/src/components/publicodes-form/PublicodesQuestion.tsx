@@ -1,19 +1,11 @@
-import {
-  InputQuestion,
-  MosaicQuestion,
-  OnFieldChange,
-  QuestionContainer,
-} from '@abc-transitionbascarbone/publicodes/form'
+import { InputQuestion, MosaicQuestion, OnFieldChange, QuestionContainer } from '@/publicodes/form'
 import {
   EvaluatedFormLayout,
   EvaluatedGroupLayout,
   EvaluatedListLayout,
   EvaluatedTableLayout,
-} from '@abc-transitionbascarbone/publicodes/form/layouts'
-import {
-  usePublicodesLayoutTranslation,
-  usePublicodesRuleTranslation,
-} from '@abc-transitionbascarbone/publicodes/hooks'
+} from '@/publicodes/form/layouts'
+import { usePublicodesLayoutTranslation, usePublicodesRuleTranslation } from '@/publicodes/hooks'
 import Engine from 'publicodes'
 import GroupQuestion from './GroupQuestion'
 import ListQuestion from './ListQuestion'

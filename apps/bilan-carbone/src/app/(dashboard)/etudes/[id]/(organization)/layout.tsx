@@ -3,13 +3,9 @@ import StudyNavbar from '@/components/studyNavbar/StudyNavbar'
 import { getStudyForNavbar } from '@/db/study'
 import { hasRoleOnStudy } from '@/services/permissions/environment'
 import { canReadStudy, canReadStudyDetail } from '@/services/permissions/study'
-import { isDeactivableFeatureActiveForEnvironment } from '@/services/serverFunctions/deactivableFeatures'
-import { checkStudyHasObjectives } from '@/services/serverFunctions/trajectory.serverFunction'
 import { getAccountRoleOnStudy } from '@/utils/study'
 import NotFound from '@abc-transitionbascarbone/components/src/pages/NotFound'
-import { DeactivatableFeature } from '@abc-transitionbascarbone/db-common/enums'
 import { UUID } from 'crypto'
-import { redirect } from 'next/navigation'
 import styles from './layout.module.css'
 
 interface Props {
@@ -29,31 +25,19 @@ const NavLayout = async ({ children, params, user }: Props & UserSessionProps) =
     if (!(await canReadStudy(user, id))) {
       return <NotFound />
     }
-    redirect(`/etudes/${id}/contributeur`)
+    return <NotFound />
   }
 
-  const environment = study.organizationVersion.environment
-
-  const [transitionPlanFeature, objectivesResponse, userRole] = await Promise.all([
-    isDeactivableFeatureActiveForEnvironment(DeactivatableFeature.TransitionPlan, environment),
-    checkStudyHasObjectives(id),
-    getAccountRoleOnStudy(user, study),
-  ])
-
+  const userRole = await getAccountRoleOnStudy(user, study)
   const showRoleInChip = user && hasRoleOnStudy(user.environment)
-  const isTransitionPlanActive = transitionPlanFeature.success && transitionPlanFeature.data
-  const hasObjectives = objectivesResponse.success ? objectivesResponse.data : false
 
   return (
     <>
       <div className="flex">
         <StudyNavbar
-          environment={environment}
           studyId={id}
           studyName={study.name}
           studySimplified={study.simplified}
-          isTransitionPlanActive={isTransitionPlanActive}
-          hasObjectives={hasObjectives}
           userRole={showRoleInChip ? userRole : null}
         />
         <div className={styles.children}>{children}</div>

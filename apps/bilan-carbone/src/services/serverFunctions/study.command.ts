@@ -1,19 +1,8 @@
-import {
-  ControlMode,
-  Country,
-  DayOfWeek,
-  EngagementPhase,
-  EstablishmentType,
-  Export,
-  Level,
-  StudyResultUnit,
-  StudyRole,
-} from '@abc-transitionbascarbone/db-common/enums'
+import { DayOfWeek, Level, StudyResultUnit, StudyRole } from '@abc-transitionbascarbone/db-common/enums'
 import { setCustomIssue, setCustomMessage } from '@abc-transitionbascarbone/lib'
 import dayjs from 'dayjs'
 import z from 'zod'
 import { HolidayOpeningHoursValidation, OpeningHoursValidation } from '../hours'
-import { SubPostsCommandValidation } from './emissionFactor.command'
 
 export const SitesCommandValidation = z.object({
   sites: z.array(
@@ -27,24 +16,10 @@ export const SitesCommandValidation = z.object({
       selected: z.boolean().optional(),
       postalCode: z.string().optional(),
       city: z.string().optional(),
-      emissionSourcesCount: z.number().optional(),
-      volunteerNumber: z.number().optional().nullable(),
-      beneficiaryNumber: z.number().optional().nullable(),
-      studentNumber: z.number().optional().nullable(),
-      establishmentYear: z.number().int().max(new Date().getFullYear()).optional().nullable(),
-      academy: z.string().optional(),
-      establishmentType: z.enum(EstablishmentType).optional(),
     }),
   ),
 })
 export type SitesCommand = z.infer<typeof SitesCommandValidation>
-
-export const StudyExportsCommandValidation = z.object({
-  exports: z.array(z.enum(Export)),
-  controlMode: z.enum(ControlMode).nullable().optional(),
-})
-
-export type StudyExportsCommand = z.infer<typeof StudyExportsCommandValidation>
 
 const dateValidation = () => z.string().refine((val) => dayjs(val).isValid(), setCustomMessage('invalidDate'))
 
@@ -66,10 +41,11 @@ const BaseStudyValidation = z.object({
   level: z.enum(Level),
   isPublic: z.string(),
   simplified: z.boolean().optional(),
+  exports: z.array(z.string()).optional(),
 })
 
 export const CreateStudyCommandValidation = z
-  .intersection(z.intersection(BaseStudyValidation, StudyExportsCommandValidation), SitesCommandValidation)
+  .intersection(BaseStudyValidation, SitesCommandValidation)
   .superRefine((data, ctx) => {
     if (!dayjs(data.endDate).isAfter(dayjs(data.startDate))) {
       ctx.addIssue(setCustomIssue(['endDate'], 'endDateBeforeStartDate'))
@@ -160,17 +136,6 @@ export const ChangeStudyCinemaValidation = z.object({
 
 export type ChangeStudyCinemaCommand = z.infer<typeof ChangeStudyCinemaValidation>
 
-export const ChangeStudyEstablishmentValidation = z.object({
-  address: z.string().optional(),
-  establishmentYear: z.string().optional(),
-  etp: z.int().min(0).optional(),
-  studentNumber: z.int().min(0).optional(),
-  superficy: z.number().optional().nullable(),
-  country: z.enum(Country).optional().nullable(),
-})
-
-export type ChangeStudyEstablishmentCommand = z.infer<typeof ChangeStudyEstablishmentValidation>
-
 export const NewStudyRightCommandValidation = z.object({
   studyId: z.string(),
   email: z.email().trim(),
@@ -179,45 +144,8 @@ export const NewStudyRightCommandValidation = z.object({
 
 export type NewStudyRightCommand = z.infer<typeof NewStudyRightCommandValidation>
 
-export const NewStudyContributorCommandValidation = (requireNaming: boolean) =>
-  z.intersection(
-    z.object({
-      studyId: z.string(),
-      email: z.string().email().trim(),
-      firstName: requireNaming ? z.string().min(1) : z.string().optional(),
-      lastName: z.string().optional(),
-    }),
-    SubPostsCommandValidation,
-  )
-
-export type NewStudyContributorCommand = z.infer<ReturnType<typeof NewStudyContributorCommandValidation>>
-
 export const DeleteCommandValidation = z.object({
   id: z.string(),
   name: z.string(),
 })
 export type DeleteCommand = z.infer<typeof DeleteCommandValidation>
-
-export const DuplicateSiteCommandValidation = z.object({
-  sourceSiteId: z.uuid(),
-  targetSiteIds: z.array(z.uuid()),
-  newSitesCount: z.int().min(0),
-  organizationId: z.uuid(),
-  studyId: z.uuid(),
-  fieldsToDuplicate: z.array(z.enum(['etp', 'ca', 'volunteerNumber', 'beneficiaryNumber', 'emissionSources'])),
-})
-
-export type DuplicateSiteCommand = z.infer<typeof DuplicateSiteCommandValidation>
-
-export const AddEngagementActionCommandValidation = z.object({
-  studyId: z.uuid(),
-  name: z.string().min(1),
-  date: dateValidation(),
-  targets: z.array(z.string()).min(1),
-  steps: z.string(),
-  phase: z.enum(EngagementPhase),
-  description: z.string(),
-  sites: z.array(z.uuid()).min(1),
-})
-
-export type AddEngagementActionCommand = z.infer<typeof AddEngagementActionCommandValidation>

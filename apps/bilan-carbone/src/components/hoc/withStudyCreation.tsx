@@ -5,7 +5,7 @@ import { UserSessionProps } from './withAuth'
 
 export type StudyCreationProps = {
   duplicateStudyId: string | null
-  isSimplified: boolean
+  isCut: boolean
 }
 
 interface Props {
@@ -20,7 +20,7 @@ const withStudyCreation = (
   const Component = async (props: any & Props & UserSessionProps) => {
     const searchParams = await props.searchParams
     const duplicateStudyId = searchParams.duplicate ?? null
-    const isSimplified = searchParams.simplified === 'true'
+    const isCut = searchParams.simplified === 'true'
 
     if (duplicateStudyId) {
       const canDuplicate = await canDuplicateStudy(duplicateStudyId)
@@ -29,7 +29,7 @@ const withStudyCreation = (
       }
     }
 
-    return <WrappedComponent {...props} duplicateStudyId={duplicateStudyId} isSimplified={isSimplified} />
+    return <WrappedComponent {...props} duplicateStudyId={duplicateStudyId} isCut={isCut} />
   }
 
   Component.displayName = 'WithStudyCreation'

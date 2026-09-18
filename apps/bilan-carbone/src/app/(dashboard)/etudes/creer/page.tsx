@@ -10,8 +10,8 @@ import { hasActiveLicence } from '@/utils/organization'
 import NotFound from '@abc-transitionbascarbone/components/src/pages/NotFound'
 import { redirect } from 'next/navigation'
 
-const NewStudy = async ({ user, duplicateStudyId, isSimplified }: UserSessionProps & StudyCreationProps) => {
-  if (!user.organizationVersionId || !(await canCreateAStudy(user, isSimplified))) {
+const NewStudy = async ({ user, duplicateStudyId, isCut }: UserSessionProps & StudyCreationProps) => {
+  if (!user.organizationVersionId || !(await canCreateAStudy(user, isCut))) {
     return <NotFound />
   }
 

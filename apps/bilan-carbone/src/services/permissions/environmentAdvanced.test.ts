@@ -3,11 +3,7 @@ import { hasAccessToEmissionFactors } from './environmentAdvanced'
 
 describe('environmentAdvanced permissions', () => {
   describe('hasAccessToEmissionFactors', () => {
-    it('allows BC users', () => {
-      expect(hasAccessToEmissionFactors(Environment.BC, null)).toBe(true)
-    })
-
-    it('forbids CUT users', () => {
+    it('forbids Count users from the emission-factor UI', () => {
       expect(hasAccessToEmissionFactors(Environment.CUT, Level.Advanced)).toBe(false)
     })
   })

@@ -6,14 +6,13 @@ export const OrganizationVersionWithOrganizationSelect = {
   updatedAt: true,
   organizationId: true,
   isCR: true,
-  activatedLicence: true,
   onboarded: true,
   onboarderId: true,
   environment: true,
   parentId: true,
   parent: {
     select: {
-      activatedLicence: true,
+      id: true,
     },
   },
   organization: {
@@ -37,17 +36,8 @@ export const OrganizationVersionWithOrganizationSelect = {
           oldBCId: true,
           postalCode: true,
           city: true,
-          volunteerNumber: true,
-          beneficiaryNumber: true,
-          establishmentId: true,
-          establishmentYear: true,
-          studentNumber: true,
-          academy: true,
-          establishmentType: true,
-          superficy: true,
           address: true,
           cncId: true,
-          country: true,
           cnc: {
             select: {
               cncCode: true,

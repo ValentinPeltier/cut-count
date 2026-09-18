@@ -1,5 +1,3 @@
-import { reCreateBegesRules, reCreateGHGPRules } from '@/db/exports'
-import { getSectenVersion, updateSectenVersion } from '@/scripts/secten/secten'
 import { getAllowedLevels } from '@/utils/study'
 import type { Account, User } from '@abc-transitionbascarbone/db-common'
 import { PrismaClient } from '@abc-transitionbascarbone/db-common'
@@ -13,24 +11,18 @@ import {
   StudyRole,
   SubPost,
   Unit,
-  UserChecklist,
   UserStatus,
 } from '@abc-transitionbascarbone/db-common/enums'
 import { signPassword } from '@abc-transitionbascarbone/utils/auth'
-import { environmentsWithChecklist } from '@abc-transitionbascarbone/utils/environments'
 import { faker } from '@faker-js/faker'
 import { PrismaPg } from '@prisma/adapter-pg'
 
-import { prismaClient } from '@/db/client.node'
 import { Command } from 'commander'
-import { ACTUALITIES } from '../legacy_data/actualities'
-import { SECTEN_SEED_DATA } from './sectenSeedData'
 import { createCountGoldenStudy } from './countGoldenStudy'
 import { createRealStudy } from './study'
 import { getCutRoleFromBase, getRolesFromEnvironment } from './utils'
 
 import type { BCEnvironment } from '@/types/environment'
-import { getValidSubPostsForEnvironment } from '@/utils/importEmissionSources.utils'
 
 const program = new Command()
 
@@ -59,26 +51,16 @@ const users = async () => {
   await prisma.emissionFactorVersion.deleteMany()
   await prisma.emissionFactor.deleteMany()
 
-  await prisma.emissionSourceTag.deleteMany()
-  await prisma.studyTag.deleteMany()
-  await prisma.studyTagFamily.deleteMany()
-
   await prisma.userOnStudy.deleteMany()
-  await prisma.studyExport.deleteMany()
-  await prisma.studyEmissionSource.deleteMany()
   await prisma.studyEmissionFactorVersion.deleteMany()
-  await prisma.contributors.deleteMany()
 
   await prisma.openingHours.deleteMany()
   await prisma.studySite.deleteMany()
-  await prisma.document.deleteMany()
-  await prisma.transitionPlan.deleteMany()
   await prisma.study.deleteMany()
 
   await prisma.emissionFactorImportVersion.deleteMany()
 
   await prisma.site.deleteMany()
-  await prisma.userCheckedStep.deleteMany()
   await prisma.userApplicationSettings.deleteMany()
   await prisma.account.deleteMany()
 
@@ -113,7 +95,7 @@ const users = async () => {
       isCR: false,
       onboarded: false,
       organizationId: unOnboardedOrganization.id,
-      environment: Environment.BC,
+      environment: Environment.CUT,
     },
   })
 
@@ -133,7 +115,7 @@ const users = async () => {
       organizationVersionId: unOnboardedOrganizationVersion.id,
       role: Role.COLLABORATOR,
       userId: onboarding.id,
-      environment: Environment.BC,
+      environment: Environment.CUT,
       status: UserStatus.IMPORTED,
     },
   })
@@ -151,7 +133,7 @@ const users = async () => {
       organizationVersionId: unOnboardedOrganizationVersion.id,
       role: Role.COLLABORATOR,
       userId: onboardingNotTrained.id,
-      environment: Environment.BC,
+      environment: Environment.CUT,
       status: UserStatus.IMPORTED,
     },
   })
@@ -168,7 +150,7 @@ const users = async () => {
       isCR: true,
       onboarded: true,
       organizationId: clientLessOrganization.id,
-      environment: Environment.BC,
+      environment: Environment.CUT,
     },
   })
 
@@ -187,7 +169,7 @@ const users = async () => {
       organizationVersionId: clientLessOrganizationVersion.id,
       role: Role.COLLABORATOR,
       userId: clientLessUser.id,
-      environment: Environment.BC,
+      environment: Environment.CUT,
       status: UserStatus.ACTIVE,
     },
   })
@@ -237,18 +219,7 @@ const users = async () => {
       organizationId: organization.id,
       isCR: index % 2 === 1,
       onboarded: true,
-      environment: Environment.BC,
-      activatedLicence: [new Date().getFullYear()],
-    })),
-  })
-
-  const organizationVersionsCUT = await prisma.organizationVersion.createManyAndReturn({
-    data: organizations.map((organization) => ({
-      organizationId: organization.id,
-      isCR: false,
-      onboarded: false,
       environment: Environment.CUT,
-      activatedLicence: [],
     })),
   })
 
@@ -256,8 +227,7 @@ const users = async () => {
   const regularOrganizationVersions = organizationVersions.filter((organization) => !organization.isCR)
 
   const environmentOrganizationVersions = {
-    [Environment.BC]: regularOrganizationVersions,
-    [Environment.CUT]: organizationVersionsCUT,
+    [Environment.CUT]: regularOrganizationVersions,
   }
 
   const childOrganizations = await prisma.organization.createManyAndReturn({
@@ -279,7 +249,7 @@ const users = async () => {
         importedId: '1',
         unit: Unit.KG,
         isMonetary: false,
-        subPosts: [SubPost.MetauxPlastiquesEtVerre],
+        subPosts: [SubPost.Achats],
         metaData: {
           create: {
             language: 'fr',
@@ -301,7 +271,7 @@ const users = async () => {
         importedId: '2',
         unit: Unit.KG_DRY_MATTER,
         isMonetary: false,
-        subPosts: [SubPost.MetauxPlastiquesEtVerre],
+        subPosts: [SubPost.Achats],
         metaData: {
           create: {
             language: 'fr',
@@ -323,7 +293,7 @@ const users = async () => {
         importedId: '3',
         unit: Unit.CAR_KM,
         isMonetary: false,
-        subPosts: [SubPost.MetauxPlastiquesEtVerre],
+        subPosts: [SubPost.Achats],
         organizationId: regularOrganizationVersions[0]?.organizationId,
         metaData: {
           create: {
@@ -341,7 +311,7 @@ const users = async () => {
       organizationId: childOrganization.id,
       isCR: false,
       onboarded: true,
-      environment: Environment.BC,
+      environment: Environment.CUT,
     })),
   })
 
@@ -360,7 +330,7 @@ const users = async () => {
   })
 
   if (cncRecord) {
-    const cutOrganizationIds = organizationVersionsCUT.map((orgVersion) => orgVersion.organizationId)
+    const cutOrganizationIds = organizationVersions.map((orgVersion) => orgVersion.organizationId)
     const cutSites = sites.filter((site) => cutOrganizationIds.includes(site.organizationId))
 
     await Promise.all(
@@ -391,7 +361,7 @@ const users = async () => {
             organizationVersionId: regularOrganizationVersions[index % regularOrganizationVersions.length].id,
             role: role as Role,
             userId: user.id,
-            environment: Environment.BC,
+            environment: Environment.CUT,
             status: UserStatus.ACTIVE,
           },
         })
@@ -422,7 +392,7 @@ const users = async () => {
             organizationVersionId: crOrganizationVersions[index % crOrganizationVersions.length].id,
             role: role as Role,
             userId: user.id,
-            environment: Environment.BC,
+            environment: Environment.CUT,
             status: UserStatus.ACTIVE,
           },
         })
@@ -453,7 +423,7 @@ const users = async () => {
           organizationVersionId: regularOrganizationVersions[index % regularOrganizationVersions.length].id,
           role: Role.COLLABORATOR,
           userId: user.id,
-          environment: Environment.BC,
+          environment: Environment.CUT,
           status: UserStatus.IMPORTED,
         },
       })
@@ -516,13 +486,6 @@ const users = async () => {
         const accountsData = [
           {
             organizationVersionId: regularOrganizationVersions[index % regularOrganizationVersions.length].id,
-            role: role as Role,
-            userId: user.id,
-            environment: Environment.BC,
-            status: UserStatus.ACTIVE,
-          },
-          {
-            organizationVersionId: organizationVersionsCUT[index % organizationVersionsCUT.length].id,
             role: getCutRoleFromBase(role as Role),
             userId: user.id,
             environment: Environment.CUT,
@@ -564,13 +527,6 @@ const users = async () => {
         const accountsData = [
           {
             organizationVersionId: crOrganizationVersions[index % crOrganizationVersions.length].id,
-            role: role as Role,
-            userId: user.id,
-            environment: Environment.BC,
-            status: UserStatus.ACTIVE,
-          },
-          {
-            organizationVersionId: organizationVersionsCUT[index % organizationVersionsCUT.length].id,
             role: getCutRoleFromBase(role as Role),
             userId: user.id,
             environment: Environment.CUT,
@@ -606,7 +562,7 @@ const users = async () => {
       data: {
         organizationVersionId: organizationVersions[0].id,
         role: Role.COLLABORATOR,
-        environment: Environment.BC,
+        environment: Environment.CUT,
         status: UserStatus.ACTIVE,
         userId: (
           await prisma.user.create({
@@ -625,7 +581,7 @@ const users = async () => {
       data: {
         organizationVersionId: regularOrganizationVersions[1].id,
         role: Role.DEFAULT,
-        environment: Environment.BC,
+        environment: Environment.CUT,
         status: UserStatus.ACTIVE,
         userId: (
           await prisma.user.create({
@@ -653,7 +609,7 @@ const users = async () => {
     .then(async (user) => {
       await prisma.account.create({
         data: {
-          environment: Environment.BC,
+          environment: Environment.CUT,
           organizationVersionId: regularOrganizationVersions[0].id,
           role: Role.COLLABORATOR,
           userId: user.id,
@@ -662,17 +618,6 @@ const users = async () => {
       })
     })
 
-  const activeAccounts = await prisma.account.findMany({
-    where: { status: UserStatus.ACTIVE },
-    select: { id: true, environment: true },
-  })
-  await prisma.userCheckedStep.createMany({
-    data: activeAccounts
-      .filter((account) => environmentsWithChecklist.includes(account.environment))
-      .map((account) => ({ accountId: account.id, step: UserChecklist.CreateAccount })),
-  })
-
-  const subPosts = Object.keys(SubPost)
   const creator = faker.helpers.arrayElement(
     usersWithAccounts.filter((userWithAccount) => userWithAccount.accounts[0].account.status === UserStatus.ACTIVE),
   )
@@ -752,7 +697,7 @@ const users = async () => {
       isMonetary: false,
       source: 'Magic',
       base: EmissionFactorBase.LocationBased,
-      subPosts: [SubPost.Electricite],
+      subPosts: [SubPost.Energie],
       organizationId: defaultUserWithAccount.accounts[0].organizationVersion.organizationId,
       emissionFactorParts: {
         create: [
@@ -842,9 +787,6 @@ const users = async () => {
             ],
           },
         },
-        contributors: {
-          create: { accountId: contributor.id, subPost: SubPost.MetauxPlastiquesEtVerre },
-        },
       },
     }),
   )
@@ -884,62 +826,12 @@ const users = async () => {
     }),
   )
 
-  await Promise.all(
-    studies.map(async (study) => {
-      const organizationVersion = await prisma.organizationVersion.findFirst({
-        where: { id: study.organizationVersionId },
-      })
-
-      if (!organizationVersion) {
-        throw Error(`Organization version not found for study ${study.id}`)
-      }
-
-      const validSubPosts = getValidSubPostsForEnvironment(organizationVersion.environment)
-
-      return prisma.studyEmissionSource.createMany({
-        data: faker.helpers
-          .arrayElements(Array.from(validSubPosts), { min: 1, max: subPosts.length })
-          .flatMap((subPost) => {
-            // Keep this study clean for e2e tests to prevent flakiness
-            if (study.id === '88c93e88-7c80-4be4-905b-f0bbd2ccc779' && subPost === SubPost.MetauxPlastiquesEtVerre) {
-              return []
-            }
-
-            return Array.from({ length: Math.ceil(Math.random() * 20) }).map(() => ({
-              studyId: study.id,
-              name: faker.lorem.words({ min: 2, max: 5 }),
-              subPost: subPost as SubPost,
-              studySiteId: faker.helpers.arrayElement(study.sites).id,
-            }))
-          }),
-      })
-    }),
-  )
-
   await createRealStudy(prisma, defaultUserWithAccount.accounts[0].account)
   await createCountGoldenStudy(prisma)
 }
 
-const actualities = async () => {
-  await prisma.actuality.deleteMany()
-  await prisma.actuality.createMany({ data: ACTUALITIES })
-}
-
-const seedSecten = async () => {
-  await prisma.$transaction(async (transaction) => {
-    const versionResult = await getSectenVersion(transaction, 2024)
-    await updateSectenVersion(transaction, versionResult.id, SECTEN_SEED_DATA)
-  })
-}
-
 const main = async () => {
-  await Promise.all([
-    actualities(),
-    users(),
-    reCreateBegesRules(prismaClient),
-    reCreateGHGPRules(prismaClient),
-    seedSecten(),
-  ])
+  await users()
 }
 
 program.name('seed database').description('Clear and seed the database').version('1.0.0').parse(process.argv)

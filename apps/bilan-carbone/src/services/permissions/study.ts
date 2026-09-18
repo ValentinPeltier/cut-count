@@ -1,5 +1,4 @@
 import { getAccountById } from '@/db/account'
-import { getDocumentById } from '@/db/document'
 import { getOrganizationVersionForRightsCheck, getOrganizationVersionsByOrganizationId } from '@/db/organization'
 import { FullStudy, getStudyById } from '@/db/study'
 import { getAccountByIdWithAllowedStudies, UserWithAllowedStudies } from '@/db/user'
@@ -12,10 +11,9 @@ import {
   StudyWithRoleFields,
 } from '@/utils/study'
 import type { Prisma, Study, User } from '@abc-transitionbascarbone/db-common'
-import { DeactivatableFeature, Environment, Level, Role, StudyRole } from '@abc-transitionbascarbone/db-common/enums'
+import { Level, Role, StudyRole } from '@abc-transitionbascarbone/db-common/enums'
 import { UserSession } from 'next-auth'
 import { dbActualizedAuth } from '../auth'
-import { isDeactivableFeatureActiveForEnvironment } from '../serverFunctions/deactivableFeatures'
 import { getUserActiveAccounts } from '../serverFunctions/user'
 import { canCreateStudyOnlyAsAdministrator, canCreateStudyWithoutSpecificRights } from './environment'
 import { hasAccessToDuplicateStudy } from './environmentAdvanced'
@@ -42,19 +40,13 @@ export const canReadStudy = async (user: UserSession | UserWithAllowedStudies, s
 
   let allowedStudiesId: string[]
   if ('allowedStudies' in user) {
-    allowedStudiesId = [
-      ...user.allowedStudies.map((allowedStudy) => allowedStudy.studyId),
-      ...user.contributors.map((contributor) => contributor.studyId),
-    ]
+    allowedStudiesId = [...user.allowedStudies.map((allowedStudy) => allowedStudy.studyId)]
   } else {
     const accountWithAllowedStudies = await getAccountByIdWithAllowedStudies(user.accountId)
     if (!accountWithAllowedStudies) {
       return false
     }
-    allowedStudiesId = [
-      ...accountWithAllowedStudies.allowedStudies.map((allowedStudy) => allowedStudy.studyId),
-      ...accountWithAllowedStudies.contributors.map((contributor) => contributor.studyId),
-    ]
+    allowedStudiesId = [...accountWithAllowedStudies.allowedStudies.map((allowedStudy) => allowedStudy.studyId)]
   }
 
   if (allowedStudiesId.some((allowedStudiesId) => allowedStudiesId === study.id)) {
@@ -127,17 +119,10 @@ const canCreateSpecificStudyBC = async (
 
 export const canCreateSpecificStudy = async (
   user: UserSession,
-  study: Prisma.StudyCreateInput,
+  _study: Prisma.StudyCreateInput,
   organizationVersionId: string,
 ) => {
-  switch (user.environment) {
-    case Environment.CUT:
-      return canCreateSpecificStudySimplified(user.accountId, organizationVersionId)
-    case Environment.BC:
-      return canCreateSpecificStudyBC(user.accountId, study, organizationVersionId)
-    default:
-      return false
-  }
+  return canCreateSpecificStudySimplified(user.accountId, organizationVersionId)
 }
 
 const canEditStudy = async (user: UserSession, study: FullStudy) => {
@@ -344,18 +329,7 @@ export const getEnvironmentsForDuplication = async (studyId: string) => {
     .map((eligibleEnvironment) => eligibleEnvironment.environment)
 }
 
-export const filterStudyEmissionSources = (user: UserSession, study: FullStudy) => {
-  const availableSubPosts = study.contributors
-    .filter((contributor) => contributor.account.user.email === user.email)
-    .map((contributor) => contributor.subPost)
-
-  return {
-    ...study,
-    emissionSources: study.emissionSources.filter((emissionSource) =>
-      availableSubPosts.includes(emissionSource.subPost),
-    ),
-  }
-}
+export const filterStudyEmissionSources = (_user: UserSession, study: FullStudy) => study
 
 export const canReadStudyDetail = async (user: UserSession, study: StudyWithRoleFields) => {
   const studyRight = await canReadStudy(user, study.id)
@@ -412,27 +386,9 @@ export const canEditStudyFlows = async (studyId: string) => {
   return true
 }
 
-export const canAccessFlowFromStudy = async (documentId: string, studyId: string) => {
-  if (!(await canAccessStudyFlows(studyId))) {
-    return false
-  }
+export const canAccessFlowFromStudy = async (_documentId: string, _studyId: string) => false
 
-  const document = await getDocumentById(documentId)
-
-  if (!document || document?.studyId !== studyId) {
-    return false
-  }
-
-  return true
-}
-
-export const hasAccessToFormationStudy = async (userAccount: Prisma.AccountCreateInput) => {
-  const isFormationStudyFeatureActive = await isDeactivableFeatureActiveForEnvironment(
-    DeactivatableFeature.FormationStudy,
-    userAccount.environment,
-  )
-  return isFormationStudyFeatureActive.success && isFormationStudyFeatureActive.data
-}
+export const hasAccessToFormationStudy = async (_userAccount: Prisma.AccountCreateInput) => false
 
 export const hasReadAccessOnStudy = async (studyId: string, session?: { user: UserSession }) => {
   const actualSession = session ?? (await dbActualizedAuth())

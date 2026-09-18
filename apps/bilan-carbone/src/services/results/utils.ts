@@ -1,38 +1,8 @@
-import type { FullStudy } from '@/db/study'
-import { getBaseFilteredEmissionSources } from '@/utils/study'
-import { SubPost } from '@abc-transitionbascarbone/db-common/enums'
+export const getSiteEmissionSourcesWithoutMarketBase = <T>(emissionSources: T[], _siteId: string): T[] =>
+  emissionSources
 
-export const getSiteEmissionSourcesWithoutMarketBase = <
-  T extends Pick<FullStudy['emissionSources'][number], 'studySite' | 'emissionFactor'>,
->(
-  emissionSources: T[],
-  siteId: string,
-): T[] =>
-  getBaseFilteredEmissionSources(
-    siteId === 'all'
-      ? emissionSources
-      : emissionSources.filter((emissionSource) => emissionSource.studySite.site.id === siteId),
-  )
+export const getAllSiteEmissionSources = <T>(emissionSources: T[], _siteId: string): T[] => emissionSources
 
-export const getAllSiteEmissionSources = <T extends Pick<FullStudy['emissionSources'][number], 'studySite'>>(
-  emissionSources: T[],
-  siteId: string,
-): T[] =>
-  siteId === 'all'
-    ? emissionSources
-    : emissionSources.filter((emissionSource) => emissionSource.studySite.site.id === siteId)
+export const filterEmissionSourcesWithDeps = <T>(emissionSources: T[]) => emissionSources
 
-const dependencySubPosts = [
-  SubPost.UtilisationEnDependance,
-  SubPost.UtilisationEnDependanceConsommationDEnergie,
-  SubPost.UtilisationEnDependanceConsommationDeBiens,
-  SubPost.UtilisationEnDependanceConsommationNumerique,
-  SubPost.UtilisationEnDependanceFuitesEtAutresConsommations,
-] as SubPost[]
-
-export const filterWithDependencies = (subPost: SubPost, withDependencies: boolean) =>
-  withDependencies || !dependencySubPosts.includes(subPost)
-
-export const filterEmissionSourcesWithDeps = (emissionSources: { subPost: SubPost; emissionValue: number }[]) => {
-  return emissionSources.filter((source) => dependencySubPosts.includes(source.subPost))
-}
+export const filterWithDependencies = <T>(items: T[], _withDependencies: boolean) => items

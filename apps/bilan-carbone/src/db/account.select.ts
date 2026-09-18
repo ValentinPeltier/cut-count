@@ -17,9 +17,6 @@ export const AccountWithUserSelect = {
     },
   },
   role: true,
-  formationName: true,
-  formationStartDate: true,
-  formationEndDate: true,
   user: {
     select: {
       id: true,
@@ -32,7 +29,6 @@ export const AccountWithUserSelect = {
       password: true,
       resetToken: true,
       source: true,
-      formationFormStartTime: true,
     },
   },
 }

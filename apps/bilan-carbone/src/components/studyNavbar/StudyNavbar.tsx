@@ -1,6 +1,6 @@
 'use client'
 
-import { Environment, StudyRole } from '@abc-transitionbascarbone/db-common/enums'
+import { StudyRole } from '@abc-transitionbascarbone/db-common/enums'
 import MenuIcon from '@mui/icons-material/Menu'
 import MenuOpenIcon from '@mui/icons-material/MenuOpen'
 import { Drawer, Fab } from '@mui/material'
@@ -13,24 +13,13 @@ import StudyDrawer from './StudyDrawer'
 import styles from './StudyNavbar.module.css'
 
 interface Props {
-  environment: Environment
   studyId: UUID
   studyName: string
   studySimplified: boolean
-  isTransitionPlanActive: boolean
-  hasObjectives: boolean
   userRole: StudyRole | null
 }
 
-const StudyNavbar = ({
-  environment,
-  studyId,
-  studyName,
-  studySimplified,
-  isTransitionPlanActive,
-  hasObjectives,
-  userRole,
-}: Props) => {
+const StudyNavbar = ({ studyId, studyName, studySimplified, userRole }: Props) => {
   const t = useTranslations('study.navigation')
   const [open, setOpen] = useState(true)
 
@@ -61,15 +50,7 @@ const StudyNavbar = ({
         variant="persistent"
         transitionDuration={0}
       >
-        <StudyDrawer
-          studyId={studyId}
-          studyName={studyName}
-          studySimplified={studySimplified}
-          userRole={userRole}
-          environment={environment}
-          isTransitionPlanActive={isTransitionPlanActive}
-          hasObjectives={hasObjectives}
-        />
+        <StudyDrawer studyId={studyId} studyName={studyName} studySimplified={studySimplified} userRole={userRole} />
       </Drawer>
     </>
   )

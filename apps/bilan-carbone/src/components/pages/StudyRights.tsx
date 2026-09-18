@@ -1,9 +1,6 @@
 import type { FullStudy } from '@/db/study'
-import { getUserApplicationSettings } from '@/db/user'
-import DynamicStudyRights from '@/environments/core/study/DynamicStudyRights'
-import { getEmissionFactorImportVersions } from '@/services/serverFunctions/emissionFactor'
-import { defaultCAUnit } from '@/utils/number'
-import { getAccountRoleOnStudy, hasEditionRights } from '@/utils/study'
+import StudyRightsCut from '@/environments/cut/study/StudyRightsCut'
+import { getAccountRoleOnStudy } from '@/utils/study'
 import NotFound from '@abc-transitionbascarbone/components/src/pages/NotFound'
 import { UserSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
@@ -16,18 +13,7 @@ interface Props {
 
 const StudyRightsPage = async ({ study, user }: Props) => {
   const tNav = await getTranslations('nav')
-
   const userRoleOnStudy = getAccountRoleOnStudy(user, study)
-
-  const editionDisabled = !hasEditionRights(userRoleOnStudy)
-
-  const caUnit = (await getUserApplicationSettings(user.accountId))?.caUnit || defaultCAUnit
-
-  const emissionFactorImportVersionRes = await getEmissionFactorImportVersions(true)
-  if (!emissionFactorImportVersionRes.success) {
-    console.error('Failed to fetch emission factor import versions')
-    return <NotFound />
-  }
 
   if (!userRoleOnStudy) {
     return <NotFound />
@@ -48,15 +34,7 @@ const StudyRightsPage = async ({ study, user }: Props) => {
           { label: study.name, link: `/etudes/${study.id}` },
         ].filter((link) => link !== undefined)}
       />
-
-      <DynamicStudyRights
-        user={user}
-        study={study}
-        editionDisabled={editionDisabled}
-        userRoleOnStudy={userRoleOnStudy}
-        emissionFactorSources={emissionFactorImportVersionRes.data}
-        caUnit={caUnit}
-      />
+      <StudyRightsCut study={study} />
     </>
   )
 }

@@ -2,27 +2,17 @@
 import SelectOrganization from '@/components/study/organization/Select'
 import { OrganizationWithSites } from '@/db/account'
 import { getOrganizationVersionAccounts } from '@/db/organization'
-import NewStudyForm from '@/environments/base/study/new/Form'
-import DynamicComponent from '@/environments/core/utils/DynamicComponent'
-import { useDuplicateStudy } from '@/hooks/useDuplicateStudy'
-import { hasAccessToDuplicateStudy } from '@/services/permissions/environmentAdvanced'
+import NewStudyFormCut from '@/environments/cut/study/new/Form'
 import { CreateStudyCommand, CreateStudyCommandValidation } from '@/services/serverFunctions/study.command'
 import { CA_UNIT_VALUES, displayCA } from '@/utils/number'
-import { Environment, SiteCAUnit } from '@abc-transitionbascarbone/db-common/enums'
+import { SiteCAUnit } from '@abc-transitionbascarbone/db-common/enums'
 import { zodResolver } from '@hookform/resolvers/zod'
-import CircularProgress from '@mui/material/CircularProgress'
-import Typography from '@mui/material/Typography'
 import dayjs from 'dayjs'
 import { UserSession } from 'next-auth'
 import { useTranslations } from 'next-intl'
-import dynamic from 'next/dynamic'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
-import styles from './NewStudy.module.css'
-
-const NewStudyFormCut = dynamic(() => import('@/environments/cut/study/new/Form'))
 
 interface Props {
   user: UserSession
@@ -33,36 +23,10 @@ interface Props {
   duplicateStudyId: string | null
 }
 
-const NewStudyPage = ({
-  organizationVersions,
-  user,
-  accounts,
-  defaultOrganizationVersion,
-  caUnit,
-  duplicateStudyId,
-}: Props) => {
+const NewStudyPage = ({ organizationVersions, user, defaultOrganizationVersion, caUnit }: Props) => {
   const [organizationVersion, setOrganizationVersion] = useState<OrganizationWithSites>()
-  const [simplified, setSimplified] = useState<boolean>(false)
-  const router = useRouter()
   const tNav = useTranslations('nav')
   const tStudy = useTranslations('study')
-  const tSpinner = useTranslations('spinner')
-
-  useEffect(() => {
-    if (!hasAccessToDuplicateStudy(user.environment, simplified)) {
-      const url = new URL(window.location.href)
-      if (url.searchParams.has('duplicate')) {
-        url.searchParams.delete('duplicate')
-        router.replace(url.pathname + (url.search ? `?${url.searchParams}` : ''))
-      }
-    }
-  }, [user.environment, router, simplified])
-
-  useEffect(() => {
-    const url = new URL(window.location.href)
-    const simplifiedParam = url.searchParams.get('simplified')
-    setSimplified(simplifiedParam === 'true')
-  }, [router])
 
   const form = useForm<CreateStudyCommand>({
     resolver: zodResolver(CreateStudyCommandValidation),
@@ -84,32 +48,15 @@ const NewStudyPage = ({
           city: site.city ?? '',
           cncId: site.cncId ?? '',
           cncCode: site.cnc?.cncCode || '',
-          establishmentYear: site?.establishmentYear ? parseInt(site?.establishmentYear) : 0,
-          establishmentType: site.establishmentType ?? undefined,
-          academy: site.establishmentType ?? undefined,
         })) || [],
       exports: [],
     },
   })
 
-  // DO NOT REMOVE. Necessary to keep form up to date after controlMode change
-  form.watch('controlMode')
-
-  const { isLoading, sourceStudy } = useDuplicateStudy({ duplicateStudyId, form, user, caUnit })
-
-  if (isLoading) {
-    return (
-      <div className="flex-cc flex-col my2 gapped1">
-        <CircularProgress className={styles.spinner} color="primary" />
-        <Typography>{tSpinner('loading')}</Typography>
-      </div>
-    )
-  }
-
   return (
     <>
       <Breadcrumbs
-        current={duplicateStudyId ? tStudy('duplicate') : tNav('newStudy')}
+        current={tNav('newStudy')}
         links={[
           { label: tNav('home'), link: '/' },
           defaultOrganizationVersion
@@ -121,20 +68,7 @@ const NewStudyPage = ({
         ].filter((link) => link !== undefined)}
       />
       {organizationVersion ? (
-        <DynamicComponent
-          environmentComponents={{
-            [Environment.CUT]: <NewStudyFormCut form={form} />,
-          }}
-          defaultComponent={
-            <NewStudyForm
-              user={user}
-              accounts={accounts}
-              form={form}
-              duplicateStudyId={duplicateStudyId}
-              sourceStudy={sourceStudy}
-            />
-          }
-        />
+        <NewStudyFormCut form={form} />
       ) : (
         <SelectOrganization
           user={user}
@@ -142,7 +76,6 @@ const NewStudyPage = ({
           selectOrganizationVersion={setOrganizationVersion}
           form={form}
           caUnit={caUnit}
-          duplicateStudyId={duplicateStudyId}
         />
       )}
     </>

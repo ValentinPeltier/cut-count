@@ -12,7 +12,7 @@ interface Props {
   environment?: Environment
 }
 
-const NewPasswordForm = ({ environment = Environment.BC }: Props) => {
+const NewPasswordForm = ({ environment = Environment.CUT }: Props) => {
   const t = useTranslations('login.form')
   const { callServerFunction } = useServerFunction()
   const router = useRouter()

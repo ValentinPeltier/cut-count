@@ -40,7 +40,6 @@ jest.mock('@/services/auth', () => ({
   dbActualizedAuth: jest.fn(),
 }))
 
-jest.mock('@/services/checklist', () => ({}))
 jest.mock('@/db/account')
 jest.mock('@/db/cnc')
 jest.mock('@/db/deactivableFeatures')

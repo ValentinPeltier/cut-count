@@ -1,20 +1,13 @@
 import { getDeactivableFeatureRestrictions } from '@/services/serverFunctions/deactivableFeatures'
-import { addUserChecklistItem, sendEmailToAddedUser } from '@/services/serverFunctions/user'
+import { sendEmailToAddedUser } from '@/services/serverFunctions/user'
 import { AuthorizedInOrgaUserStatus } from '@/services/users'
 import { getRoleToSetForUntrained } from '@/utils/user'
 import { userSessionToDbUser } from '@/utils/userAccounts'
 import { Prisma } from '@abc-transitionbascarbone/db-common'
-import {
-  DeactivatableFeature,
-  Environment,
-  Role,
-  UserChecklist,
-  UserStatus,
-} from '@abc-transitionbascarbone/db-common/enums'
+import { DeactivatableFeature, Environment, Role, UserStatus } from '@abc-transitionbascarbone/db-common/enums'
 import { NOT_AUTHORIZED } from '@abc-transitionbascarbone/services/permissions/check'
 import { AddMemberCommand } from '@abc-transitionbascarbone/services/serverFunctions/user.command'
 import { signPassword } from '@abc-transitionbascarbone/utils/auth'
-import { environmentsWithChecklist } from '@abc-transitionbascarbone/utils/environments'
 import { UserSession } from 'next-auth'
 import { addAccount, getAccountByEmailAndEnvironment, getAccountByEmailAndOrganizationVersionId } from './account'
 import { prismaClient } from './client.server'
@@ -57,7 +50,6 @@ export const getUserWithAccountsAndOrganizationsById = async (id: string) => {
             select: {
               id: true,
               environment: true,
-              activatedLicence: true,
               organization: { select: { id: true, name: true } },
             },
           },
@@ -76,7 +68,7 @@ export const getUserWithAccountsAndOrganizationsById = async (id: string) => {
 }
 
 export const getAccountByIdWithAllowedStudies = (id: string) =>
-  prismaClient.account.findUnique({ where: { id }, include: { allowedStudies: true, contributors: true } })
+  prismaClient.account.findUnique({ where: { id }, include: { allowedStudies: true } })
 
 export type UserWithAllowedStudies = AsyncReturnType<typeof getAccountByIdWithAllowedStudies>
 
@@ -111,21 +103,10 @@ export const updateUserPasswordForEmail = async (email: string, password: string
   })
 
   if (accounts.length > 0) {
-    await Promise.all([
-      ...accounts
-        .filter((account) => environmentsWithChecklist.includes(account.environment))
-        .map((account) =>
-          prismaClient.userCheckedStep.upsert({
-            where: { accountId_step: { accountId: account.id, step: UserChecklist.CreateAccount } },
-            update: {},
-            create: { accountId: account.id, step: UserChecklist.CreateAccount },
-          }),
-        ),
-      prismaClient.account.update({
-        where: { userId_environment: { userId: user.id, environment: env } },
-        data: { status: UserStatus.ACTIVE },
-      }),
-    ])
+    await prismaClient.account.update({
+      where: { userId: user.id },
+      data: { status: UserStatus.ACTIVE },
+    })
   }
 
   return user
@@ -169,28 +150,6 @@ export const getUserApplicationSettings = (accountId: string) =>
 
 export const getUsers = () => prismaClient.user.findMany({ select: { id: true, email: true } })
 
-export const getUsersCheckedSteps = async (accountId: string) =>
-  prismaClient.userCheckedStep.findMany({ where: { accountId } })
-
-export const finalizeUserChecklist = async (accountId: string) =>
-  prismaClient.userCheckedStep.create({
-    data: { accountId, step: UserChecklist.Completed },
-  })
-
-export const createOrUpdateUserCheckedStep = async (accountId: string, step: UserChecklist) =>
-  prismaClient.userCheckedStep.upsert({
-    where: { accountId_step: { accountId, step } },
-    update: {},
-    create: { accountId, step },
-  })
-
-export const getUserFormationFormStart = async (userId: string) =>
-  (await prismaClient.user.findUnique({ where: { id: userId }, select: { formationFormStartTime: true } }))
-    ?.formationFormStartTime
-
-export const startUserFormationForm = async (userId: string, date: Date) =>
-  prismaClient.user.update({ where: { id: userId }, data: { formationFormStartTime: date } })
-
 export const updateUserApplicationSettings = (accountId: string, data: Prisma.UserApplicationSettingsUpdateInput) =>
   prismaClient.userApplicationSettings.update({
     where: { accountId },
@@ -219,10 +178,11 @@ export const createUsersWithAccount = async (
 
   if (deactivatedFeaturesRestrictions?.active) {
     const notAllowedEnvironments = users.some(({ account }) =>
-      deactivatedFeaturesRestrictions.deactivatedEnvironments.includes(account.environment),
+      deactivatedFeaturesRestrictions.deactivatedEnvironments.includes(account.environment ?? Environment.CUT),
     )
     filteredUsers = users.filter(
-      ({ account }) => !deactivatedFeaturesRestrictions.deactivatedEnvironments.includes(account.environment),
+      ({ account }) =>
+        !deactivatedFeaturesRestrictions.deactivatedEnvironments.includes(account.environment ?? Environment.CUT),
     )
     if (notAllowedEnvironments) {
       console.log(
@@ -252,7 +212,10 @@ export const createUsersWithAccount = async (
     }
 
     for (const originalUser of originalUsers) {
-      const accoutAlreadyExists = await getAccountByEmailAndEnvironment(user.email, originalUser.account.environment)
+      const accoutAlreadyExists = await getAccountByEmailAndEnvironment(
+        user.email,
+        originalUser.account.environment ?? Environment.CUT,
+      )
       if (accoutAlreadyExists) {
         continue
       }
@@ -358,8 +321,6 @@ export const handleAddingUser = async (creator: UserSession, newUser: AddMemberC
     }
 
     await addUser(newMember)
-
-    await addUserChecklistItem(UserChecklist.AddCollaborator)
   } else if (!memberAccountForEnv) {
     await addAccount({
       status: isMemberActiveInSomeEnv ? UserStatus.ACTIVE : UserStatus.VALIDATED,

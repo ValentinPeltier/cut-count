@@ -17,7 +17,7 @@ const StudyView = async ({ study, user, searchParams }: StudyProps & UserSession
     return <StudyPage study={study} user={user} />
   }
 
-  redirect(await getStudyDefaultLandingPath(user.environment, study.id, study.sites, study.simplified))
+  redirect(await getStudyDefaultLandingPath(user.environment, study.id))
 }
 
 export default withAuth(withStudyDetails(StudyView))

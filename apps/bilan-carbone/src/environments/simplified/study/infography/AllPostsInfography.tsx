@@ -1,5 +1,5 @@
 import type { FullStudy } from '@/db/study'
-import EnvironmentLoader from '@/environments/core/utils/EnvironmentLoader'
+import EnvironmentLoader from '@/environments/simplified/utils/EnvironmentLoader'
 import { usePublicodesSituation } from '@/lib/publicodes/context'
 import type { BaseResultsByPost } from '@/services/posts'
 import { getQuestionProgressBySubPost, StatsResult } from '@/services/publicodes/questionProgress'

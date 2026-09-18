@@ -1,4 +1,4 @@
-import { Questions, RuleName } from '@abc-transitionbascarbone/publicodes-count'
+import type { Questions, RuleName } from '@/publicodes/rules/publicodes-build'
 import Engine, { Situation } from 'publicodes'
 
 export type CutRuleName = RuleName

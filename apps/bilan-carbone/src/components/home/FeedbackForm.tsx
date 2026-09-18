@@ -10,8 +10,7 @@ interface Props {
   environment: BCEnvironment
 }
 const formPerEnvironmentTab: Record<BCEnvironment, string | undefined> = {
-  [Environment.BC]: typeformId,
-  [Environment.CUT]: cutTypeformId,
+  [Environment.CUT]: cutTypeformId || typeformId,
 }
 
 const FeedbackForm = ({ environment }: Props) => {

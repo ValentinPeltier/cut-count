@@ -1,27 +1,20 @@
 'use client'
 import type { FullStudy } from '@/db/study'
-import DynamicComponent from '@/environments/core/utils/DynamicComponent'
-import { EnvironmentWithSimplifiedStudies } from '@/services/permissions/environment'
-import { subPostsByPost } from '@/services/posts'
+import SimplifiedStudyPostsPage from '@/environments/simplified/study/SimplifiedStudyPostsPage'
 import Block from '@abc-transitionbascarbone/components/src/base/Block'
 import GlossaryModal from '@abc-transitionbascarbone/components/src/modals/GlossaryModal'
-import { StudyRole, SubPost } from '@abc-transitionbascarbone/db-common/enums'
+import { Environment, StudyRole, SubPost } from '@abc-transitionbascarbone/db-common/enums'
 import { Post } from '@abc-transitionbascarbone/utils/charts'
 import { customRich } from '@abc-transitionbascarbone/utils/customRich'
-import { EnvironmentMode } from '@abc-transitionbascarbone/utils/environments'
 import { CircularProgress } from '@mui/material'
 import { UserSession } from 'next-auth'
 import { useTranslations } from 'next-intl'
-import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
 import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
 import StudyPostsCard from '../study/card/StudyPostsCard'
 import useStudySite from '../study/site/useStudySite'
-import StudyPostsPage from './StudyPostsPage'
 import styles from './StudyPostsPage.module.css'
-
-const SimplifiedStudyPostsPage = dynamic(() => import('@/environments/simplified/study/SimplifiedStudyPostsPage'))
 
 interface Props {
   post: Post
@@ -31,31 +24,19 @@ interface Props {
   user: UserSession
 }
 
-const StudyPostsPageContainer = ({ post, currentSubPost, study, userRole, user }: Props) => {
+const StudyPostsPageContainer = ({ post, currentSubPost, study }: Props) => {
   const tNav = useTranslations('nav')
   const tPost = useTranslations('emissionFactors.post')
   const { siteId, studySiteId, setSite } = useStudySite(study)
   const [glossary, setGlossary] = useState('')
-  const environment = study.organizationVersion.environment
-
-  const emissionSources = useMemo(
-    () =>
-      study.emissionSources.filter(
-        (emissionSource) =>
-          subPostsByPost[post].includes(emissionSource.subPost) && emissionSource.studySite.site.id === siteId,
-      ) as FullStudy['emissionSources'],
-    [study, post, siteId],
-  )
 
   const glossaryDescription = useMemo(() => {
     if (!glossary) {
       return ''
     }
 
-    const textForGlossary = tPost.has(
-      `glossaryDescription.${glossary}${study.organizationVersion.environment.toLowerCase()}`,
-    )
-      ? `glossaryDescription.${glossary}${study.organizationVersion.environment.toLowerCase()}`
+    const textForGlossary = tPost.has(`glossaryDescription.${glossary}`)
+      ? `glossaryDescription.${glossary}`
       : `glossaryDescription.${glossary}`
 
     return customRich(tPost, textForGlossary, {
@@ -65,7 +46,7 @@ const StudyPostsPageContainer = ({ post, currentSubPost, study, userRole, user }
         </Link>
       ),
     })
-  }, [glossary, study.organizationVersion.environment, tPost])
+  }, [glossary, tPost])
 
   if (!siteId) {
     return <CircularProgress />
@@ -83,7 +64,6 @@ const StudyPostsPageContainer = ({ post, currentSubPost, study, userRole, user }
                 link: `/organisations/${study.organizationVersion.id}`,
               }
             : undefined,
-
           { label: study.name, link: `/etudes/${study.id}` },
         ].filter((link) => link !== undefined)}
       />
@@ -93,47 +73,18 @@ const StudyPostsPageContainer = ({ post, currentSubPost, study, userRole, user }
           post={post}
           studySite={siteId}
           setSite={setSite}
-          environment={study.organizationVersion.environment}
+          environment={Environment.CUT}
           setGlossary={setGlossary}
-          simplified={study.simplified}
+          simplified
         />
       </Block>
-      <DynamicComponent
-        defaultComponent={
-          !study.simplified ? (
-            <StudyPostsPage
-              post={post}
-              study={study}
-              userRole={userRole}
-              emissionSources={emissionSources}
-              siteId={siteId}
-              studySiteId={studySiteId}
-              user={user}
-              setGlossary={setGlossary}
-            />
-          ) : (
-            <SimplifiedStudyPostsPage
-              environment={environment as EnvironmentWithSimplifiedStudies}
-              currentSubPost={currentSubPost}
-              post={post}
-              study={study}
-              studySiteId={studySiteId}
-            />
-          )
-        }
-        environmentComponents={{
-          [EnvironmentMode.SIMPLIFIED]: (
-            <SimplifiedStudyPostsPage
-              environment={environment as EnvironmentWithSimplifiedStudies}
-              currentSubPost={currentSubPost}
-              post={post}
-              study={study}
-              studySiteId={studySiteId}
-            />
-          ),
-        }}
+      <SimplifiedStudyPostsPage
+        environment={Environment.CUT}
+        currentSubPost={currentSubPost}
+        post={post}
+        study={study}
+        studySiteId={studySiteId}
       />
-
       {glossary && (
         <GlossaryModal glossary={glossary} label="post-glossary" t={tPost} onClose={() => setGlossary('')}>
           <p>{glossaryDescription}</p>

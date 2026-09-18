@@ -1,10 +1,10 @@
 'use client'
 import SiteDeselectionWarningModal from '@/components/modals/SiteDeselectionWarningModal'
 import { OrganizationWithSites } from '@/db/account'
-import DynamicSites from '@/environments/core/organization/DynamicSites'
+import DynamicSites from '@/environments/cut/organization/Sites'
 import { hasAccessToStudySiteAddAndSelection } from '@/services/permissions/environment'
 import { updateOrganizationCommand } from '@/services/serverFunctions/organization'
-import { CreateStudyCommand } from '@/services/serverFunctions/study.command'
+import { CreateStudyCommand, SitesCommand } from '@/services/serverFunctions/study.command'
 import { CA_UNIT_VALUES, displayCA } from '@/utils/number'
 import Block from '@abc-transitionbascarbone/components/src/base/Block'
 import { FormSelect } from '@abc-transitionbascarbone/components/src/form/Select'
@@ -113,9 +113,6 @@ const SelectOrganization = ({
             city: site.city ?? '',
             cncId: site.cncId ?? '',
             cncCode: site.cnc?.cncCode || '',
-            establishmentYear: site?.establishmentYear ? parseInt(site?.establishmentYear) : 0,
-            academy: site.academy ?? '',
-            establishmentType: site.establishmentType ?? undefined,
           })),
         )
       }
@@ -194,13 +191,13 @@ const SelectOrganization = ({
         .filter((site) => {
           const wasOriginallySelected = originalSelectedSites?.includes(site.id)
           const isCurrentlySelected = currentSelectedSiteIds.includes(site.id)
-          const hasEmissionSources = site.emissionSourcesCount && site.emissionSourcesCount > 0
+          const hasEmissionSources = false
 
           return wasOriginallySelected && !isCurrentlySelected && hasEmissionSources
         })
         .map((site) => ({
           name: site.name,
-          emissionSourcesCount: site.emissionSourcesCount || 0,
+          emissionSourcesCount: 0,
         }))
 
       if (deselectedSitesWithSources.length > 0) {
@@ -244,7 +241,13 @@ const SelectOrganization = ({
             </FormSelect>
           </>
         )}
-        <DynamicSites sites={sites} form={form} caUnit={caUnit} withSelection={!hasNoSites} disabled={false} />
+        <DynamicSites
+          sites={sites}
+          form={form as unknown as UseFormReturn<SitesCommand>}
+          caUnit={caUnit}
+          withSelection={!hasNoSites}
+          disabled={false}
+        />
         <NextButton control={form.control} onClick={next} error={error} hasNoSites={hasNoSites} />
       </Block>
 

@@ -6,7 +6,7 @@ import Link from 'next/link'
 import styles from './styles.module.css'
 
 const LegalNotices = async () => {
-  const contactMail = await getEnvVar('CONTACT_EMAIL', Environment.BC)
+  const contactMail = await getEnvVar('CONTACT_EMAIL', Environment.CUT)
   const t = await getTranslations('legalNotices')
   return (
     <Block>

@@ -13,7 +13,7 @@ const tSubject = async (keys: string, object?: Record<string, string | number | 
 const tBody = async (keys: string, object?: Record<string, string | number | Date>) =>
   (await getTranslations('email.body'))(keys, object)
 
-export const sendResetPassword = async (toEmail: string, token: string, env: Environment = Environment.BC) => {
+export const sendResetPassword = async (toEmail: string, token: string, env: Environment = Environment.CUT) => {
   return sendEmail(env, [toEmail], await tSubject('resetPassword'), 'reset-password', {
     link: getEnvResetLink('reset-password', token, env),
     t_resetContent: await tBody('resetPassword.content'),
@@ -38,16 +38,7 @@ export const sendNewUserEmail = async (
   })
 }
 
-const getEnvInfo = async (env: Environment) => {
-  switch (env) {
-    case Environment.BC:
-      return tBody('addedActiveUser.envInfoBC')
-    case Environment.CUT:
-      return tBody('addedActiveUser.envInfoCUT')
-    default:
-      return tBody('addedActiveUser.envInfoDefault')
-  }
-}
+const getEnvInfo = async (_env: Environment) => tBody('addedActiveUser.envInfoCUT')
 
 export const sendAddedActiveUserEmail = async (
   toEmail: string,
@@ -94,7 +85,7 @@ export const sendActivationRequest = async (
   toEmailList: string[],
   emailToActivate: string,
   userToActivate: string,
-  env: Environment = Environment.BC,
+  env: Environment = Environment.CUT,
 ) => {
   return sendEmail(env, toEmailList, await tSubject('activationRequest'), 'activation-request', {
     emailToActivate,

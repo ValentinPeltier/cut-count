@@ -37,28 +37,18 @@ const PDFSummary = ({ study }: Props) => {
   const tExports = useTranslations('exports')
 
   // Helper function to create ConsolidatedResultsTable data from bilan carbone equivalent results
-  const createBilanCarboneTableData = (bilanCarboneEquivalent: Record<string, number>) => {
+  const createBilanCarboneTableData = (bilanCarboneEquivalent: Record<string, number>): BaseResultsByPost[] => {
     return [
       ...Object.entries(bilanCarboneEquivalent).map(([result, value]) => ({
-        post: result,
+        post: result as BaseResultsByPost['post'],
         label: result,
-        value: value,
-        monetaryValue: 0,
-        nonSpecificMonetaryValue: 0,
-        numberOfEmissionSource: 0,
-        numberOfValidatedEmissionSource: 0,
-        squaredStandardDeviation: 1,
+        value,
         children: [],
       })),
       {
         post: 'total' as const,
         label: 'Total',
         value: Object.values(bilanCarboneEquivalent).reduce((sum, result) => sum + result, 0),
-        monetaryValue: 0,
-        nonSpecificMonetaryValue: 0,
-        numberOfEmissionSource: 0,
-        numberOfValidatedEmissionSource: 0,
-        squaredStandardDeviation: 1,
         children: [],
       },
     ]
@@ -246,9 +236,7 @@ const PDFSummary = ({ study }: Props) => {
                     resultsUnit={study.resultsUnit}
                     data={site.results}
                     hiddenUncertainty
-                    expandAll
                     hideExpandIcons
-                    isCompact
                   />
                 </div>
               </div>

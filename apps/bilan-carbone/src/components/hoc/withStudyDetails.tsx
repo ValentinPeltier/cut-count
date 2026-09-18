@@ -1,7 +1,6 @@
 import { getStudyById } from '@/db/study'
-import { canReadStudy, canReadStudyDetail } from '@/services/permissions/study'
+import { canReadStudyDetail } from '@/services/permissions/study'
 import NotFound from '@abc-transitionbascarbone/components/src/pages/NotFound'
-import { redirect } from 'next/navigation'
 import React from 'react'
 import { UserSessionProps } from './withAuth'
 import { StudyProps } from './withStudy'
@@ -28,10 +27,7 @@ const WithStudyDetails = (WrappedComponent: React.ComponentType<any & UserSessio
     }
 
     if (!(await canReadStudyDetail(props.user, study))) {
-      if (!(await canReadStudy(props.user, study.id))) {
-        return <NotFound />
-      }
-      return redirect(`/etudes/${study.id}/contributeur`)
+      return <NotFound />
     }
 
     return <WrappedComponent {...props} study={study} />

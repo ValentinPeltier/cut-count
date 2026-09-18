@@ -1,17 +1,14 @@
 import type { FullStudy } from '@/db/study'
-import { hasAccessToEmissionSourceValidation } from '@/services/permissions/environment'
-import { subPostsByPost } from '@/services/posts'
 import { withInfobulle } from '@/utils/post'
 import { Environment } from '@abc-transitionbascarbone/db-common/enums'
 import { Post } from '@abc-transitionbascarbone/utils/charts'
-import { customRich } from '@abc-transitionbascarbone/utils/customRich'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 import classNames from 'classnames'
 import { useTranslations } from 'next-intl'
 import PostIcon from '../infography/icons/PostIcon'
 import SelectStudySite from '../site/SelectStudySite'
 import styles from './StudyPostsCard.module.css'
-import { StyledPostContainer, StyledProgressLayer } from './StudyPostsCard.styles'
+import { StyledPostContainer } from './StudyPostsCard.styles'
 
 interface Props {
   study: FullStudy
@@ -22,16 +19,9 @@ interface Props {
   environment: Environment
   simplified?: boolean
 }
-const StudyPostsCard = ({ study, post, studySite, setSite, setGlossary, environment, simplified }: Props) => {
-  const t = useTranslations('study')
-  const tPost = useTranslations('emissionFactors.post')
 
-  const emissionSources = study.emissionSources.filter(
-    (emissionSource) =>
-      subPostsByPost[post].includes(emissionSource.subPost) && emissionSource.studySite.site.id === studySite,
-  )
-  const validated = emissionSources.filter((emissionSource) => emissionSource.validated).length
-  const percent = emissionSources.length ? Math.floor((validated / emissionSources.length) * 100) : 0
+const StudyPostsCard = ({ study, post, studySite, setSite, setGlossary }: Props) => {
+  const tPost = useTranslations('emissionFactors.post')
 
   return (
     <div className={classNames(styles.card, 'flex-col px1')}>
@@ -48,7 +38,6 @@ const StudyPostsCard = ({ study, post, studySite, setSite, setGlossary, environm
         <div className="grow justify-center">
           <StyledPostContainer post={post}>
             <div className={classNames(styles.header, 'flex-col align-center grow')}>
-              {percent > 0 && <StyledProgressLayer post={post} percent={percent} />}
               <div className={classNames(styles.content, 'flex-cc text-center w100')}>
                 <PostIcon className={styles.icon} post={post} />
                 {tPost(post)}
@@ -64,21 +53,6 @@ const StudyPostsCard = ({ study, post, studySite, setSite, setGlossary, environm
             </div>
           </StyledPostContainer>
         </div>
-        {hasAccessToEmissionSourceValidation(environment, simplified) && (
-          <div className={classNames({ [styles.allValidated]: percent === 100 }, 'grow flex-cc')}>
-            <p className={classNames(styles.emissionSources, 'mb1 justify-end grow')}>
-              {customRich(t, 'validatedSources', {
-                validated: validated,
-                total: emissionSources.length,
-                data: (children) => (
-                  <span className={classNames(styles.validated, 'mr-4', { [styles.success]: percent === 100 })}>
-                    {children}
-                  </span>
-                ),
-              })}
-            </p>
-          </div>
-        )}
       </div>
     </div>
   )

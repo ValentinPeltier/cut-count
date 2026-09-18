@@ -17,12 +17,12 @@
     "ts": "tsc --noEmit",
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write .",
-    "test": "jest",
+    "test": "jest && yarn publicodes-count:test",
     "test:watch": "jest --watch",
     "tsx": "dotenv -e .env -- tsx",
-    "publicodes-count:compile": "cd ../../packages/publicodes-packages/publicodes-count && yarn run compile",
-    "publicodes-count:watch": "cd ../../packages/publicodes-packages/publicodes-count && yarn run watch ",
-    "publicodes-count:test": "cd ../../packages/publicodes-packages/publicodes-count && yarn test",
+    "publicodes-count:compile": "cd src/publicodes/rules && publicodes compile",
+    "publicodes-count:watch": "cd src/publicodes/rules && publicodes compile --watch",
+    "publicodes-count:test": "yarn publicodes-count:compile && cd src/publicodes/rules && vitest run --reporter=tree --config vitest.config.ts",
     "publicodes-count:translate": "yarn run publicodes-count:compile && npx tsx ../../packages/i18n/publicodes/generate-translation-file.tsx -m cut",
     "cypress": "cypress run",
     "cypress:gui": "cypress open",
@@ -35,8 +35,6 @@
   },
   "dependencies": {
     "@abc-transitionbascarbone/lib": "*",
-    "@abc-transitionbascarbone/publicodes": "*",
-    "@abc-transitionbascarbone/publicodes-count": "*",
     "@abc-transitionbascarbone/services": "*",
     "@abc-transitionbascarbone/tests": "*",
     "@abc-transitionbascarbone/types": "*",
@@ -109,6 +107,7 @@
     "@eslint/eslintrc": "^3.3.4",
     "@eslint/js": "^9.39.2",
     "@faker-js/faker": "^10.6.0",
+    "@publicodes/tools": "^1.10.2",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
@@ -141,6 +140,7 @@
     "prettier-plugin-prisma": "^5.0.0",
     "ts-jest": "^29.4.11",
     "typescript": "^6.0.3",
+    "vitest": "^4.1.11",
     "yargs": "^18.0.0"
   }
 }

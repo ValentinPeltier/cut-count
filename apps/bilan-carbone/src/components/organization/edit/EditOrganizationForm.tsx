@@ -1,13 +1,14 @@
 'use client'
 
 import { OrganizationVersionWithOrganization } from '@/db/organization'
-import DynamicSites from '@/environments/core/organization/DynamicSites'
+import DynamicSites from '@/environments/cut/organization/Sites'
 import { updateOrganizationCommand } from '@/services/serverFunctions/organization'
 import {
   UpdateOrganizationCommand,
   UpdateOrganizationCommandValidation,
 } from '@/services/serverFunctions/organization.command'
 import { findStudiesWithSites } from '@/services/serverFunctions/study'
+import { SitesCommand } from '@/services/serverFunctions/study.command'
 import { handleWarningText } from '@/utils/components'
 import { CA_UNIT_VALUES, displayCA } from '@/utils/number'
 import Form from '@abc-transitionbascarbone/components/src/base/Form'
@@ -23,7 +24,7 @@ import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, UseFormReturn } from 'react-hook-form'
 
 interface Props {
   organizationVersion: OrganizationVersionWithOrganization
@@ -59,12 +60,6 @@ const EditOrganizationForm = ({ organizationVersion, caUnit, isCut = false, disa
         city: site.city ?? '',
         cncId: site.cncId ?? '',
         cncCode: site.cnc?.cncCode || '',
-        volunteerNumber: site.volunteerNumber || 0,
-        beneficiaryNumber: site.beneficiaryNumber || 0,
-        studentNumber: site.studentNumber || 0,
-        establishmentYear: site?.establishmentYear ? parseInt(site?.establishmentYear) : 0,
-        academy: site.academy ?? '',
-        establishmentType: site.establishmentType ?? undefined,
       })),
     },
   })
@@ -102,7 +97,12 @@ const EditOrganizationForm = ({ organizationVersion, caUnit, isCut = false, disa
           label={t('name')}
         />
       )}
-      <DynamicSites disabled={disabled} sites={sites} form={form} caUnit={caUnit} />
+      <DynamicSites
+        disabled={disabled}
+        sites={sites}
+        form={form as unknown as UseFormReturn<SitesCommand>}
+        caUnit={caUnit}
+      />
       {!disabled && (
         <LoadingButton type="submit" loading={form.formState.isSubmitting} data-testid="edit-organization-button">
           {t('edit')}
@@ -126,7 +126,7 @@ const EditOrganizationForm = ({ organizationVersion, caUnit, isCut = false, disa
                   {customRich(tStudySites, 'existingSite', {
                     name: () =>
                       `${studySite.site.name}${studySite.study.organizationVersion.isCR ? ` (${studySite.site.organization.name})` : ''}`,
-                    link: () => <Link href={`/etudes/${studySite.studyId}/perimetre`}>{studySite.study.name}</Link>,
+                    link: () => <Link href={`/etudes/${studySite.studyId}/cadrage`}>{studySite.study.name}</Link>,
                   })}
                 </li>
               ))}

@@ -1,69 +1,26 @@
 'use client'
 
-import TopLeftNavBar from '@/components/navbar/TopLeftNavBar'
-import DynamicComponent from '@/environments/core/utils/DynamicComponent'
-import { hasAccessToStudyComments } from '@/services/permissions/environment'
-import { hasAccessToMethodology, hasAccessToSettings } from '@/services/permissions/environmentAdvanced'
-import { hasAccessToFormation } from '@/services/permissions/formations'
-import { getUserActiveAccounts } from '@/services/serverFunctions/user'
-import { Environment, Role } from '@abc-transitionbascarbone/db-common/enums'
-import { Locale } from '@abc-transitionbascarbone/i18n/config'
+import { Logo } from '@/components/base/Logo'
+import CutTopLeftNavBar from '@/environments/cut/navbar/TopLeftNavBar'
+import { Role } from '@abc-transitionbascarbone/db-common/enums'
 import { signOutEnv } from '@abc-transitionbascarbone/services/auth/auth.utils'
 import AppBar from '@abc-transitionbascarbone/ui/navbar/AppBar'
 import NavbarButton from '@abc-transitionbascarbone/ui/navbar/NavbarButton'
 import NavbarLink from '@abc-transitionbascarbone/ui/navbar/NavbarLink'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
-import MenuBookIcon from '@mui/icons-material/MenuBook'
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
-import SettingsIcon from '@mui/icons-material/Settings'
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz'
 import { Box, Container, Toolbar } from '@mui/material'
 import classNames from 'classnames'
 import { UserSession } from 'next-auth'
-import { useLocale, useTranslations } from 'next-intl'
-import dynamic from 'next/dynamic'
-import { useEffect, useMemo, useState } from 'react'
-import { Logo } from '../base/Logo'
-import NavbarComments from './NavbarComments'
-
-const CutTopLeftNavBar = dynamic(() => import('@/environments/cut/navbar/TopLeftNavBar'))
+import { useTranslations } from 'next-intl'
 
 interface Props {
   user: UserSession
-  environment: Environment
 }
 
-const Navbar = ({ user, environment }: Props) => {
+const Navbar = ({ user }: Props) => {
   const t = useTranslations('navigation')
-  const [hasFormation, setHasFormation] = useState(false)
-  const [hasMultipleAccounts, setHasMultipleAccounts] = useState(false)
-  const locale = useLocale()
-
-  useEffect(() => {
-    const getFormationAccess = async () => {
-      const hasAccess = await hasAccessToFormation(user)
-      setHasFormation(hasAccess)
-    }
-
-    const hasMultipleAccounts = async () => {
-      const userAccounts = await getUserActiveAccounts()
-      if (userAccounts.success) {
-        setHasMultipleAccounts((userAccounts && userAccounts.data.length > 1) || false)
-      }
-    }
-
-    hasMultipleAccounts()
-    getFormationAccess()
-  }, [user])
-
-  const methodologyLink = useMemo(
-    () =>
-      locale === Locale.FR
-        ? 'https://www.bilancarbone-methode.com/'
-        : 'https://www.bilancarbone-methode.com/methode-bilan-carbone-r-en',
-    [locale],
-  )
 
   return (
     <AppBar position="sticky" elevation={0}>
@@ -71,51 +28,20 @@ const Navbar = ({ user, environment }: Props) => {
         <Container maxWidth="lg" className="justify-between">
           <Box className={classNames('flex-cc', 'gapped1')}>
             <NavbarLink href="/" aria-label={t('home')} title={t('home')}>
-              <Logo environment={environment} />
+              <Logo />
             </NavbarLink>
-            <DynamicComponent
-              environmentComponents={{
-                [Environment.CUT]: <CutTopLeftNavBar user={user} />,
-              }}
-              defaultComponent={<TopLeftNavBar user={user} hasFormation={hasFormation} />}
-            />
+            <CutTopLeftNavBar user={user} />
           </Box>
           <div className="flex gapped1">
             <Box>
               <div className="h100 align-center">
-                {hasMultipleAccounts && (
-                  <NavbarButton aria-label={t('selectAccount')} href="/selection-du-compte">
-                    <SwapHorizIcon />
-                  </NavbarButton>
-                )}
-
                 {user.role === Role.SUPER_ADMIN && <NavbarLink href="/super-admin">{t('admin')}</NavbarLink>}
                 <NavbarButton rel="noreferrer noopener" href="/ressources" aria-label={t('help')}>
                   <HelpOutlineIcon />
                 </NavbarButton>
-                {hasAccessToSettings(user.environment, user.level) && (
-                  <NavbarButton aria-label={t('settings')} href="/parametres">
-                    <SettingsIcon />
-                  </NavbarButton>
-                )}
                 <NavbarButton aria-label={t('profile')} href="/profil">
                   <AccountCircleIcon />
                 </NavbarButton>
-                {hasAccessToMethodology(user.environment, user.level) && (
-                  <NavbarLink
-                    aria-label={t('methodology')}
-                    rel="noreferrer noopener"
-                    target="_blank"
-                    href={methodologyLink}
-                  >
-                    <MenuBookIcon />
-                  </NavbarLink>
-                )}
-                {hasAccessToStudyComments(user.environment) && user.organizationVersionId && (
-                  <NavbarButton title={t('comments')} aria-label={t('comments')} href={'/gestion-commentaires'}>
-                    <NavbarComments organizationVersionId={user.organizationVersionId} />
-                  </NavbarButton>
-                )}
                 <NavbarButton title={t('logout')} aria-label={t('logout')} onClick={() => signOutEnv(user.environment)}>
                   <PowerSettingsNewIcon />
                 </NavbarButton>

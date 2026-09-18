@@ -17,7 +17,7 @@ interface Props {
   user: UserSession
   canDeleteStudy?: boolean
   canDuplicateStudy?: boolean
-  duplicableEnvironments: Environment[]
+  duplicableEnvironments?: Environment[]
   organizationVersionId: string | null
 }
 

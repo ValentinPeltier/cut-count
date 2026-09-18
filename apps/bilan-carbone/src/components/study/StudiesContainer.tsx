@@ -5,7 +5,6 @@ import {
   getAllowedStudiesByUserAndOrganization,
   getExternalAllowedStudiesByUser,
   getStudiesForCards,
-  getStudiesValidatedEmissionsSources,
 } from '@/db/study'
 import { canCreateStudyOnlyAsAdministrator } from '@/services/permissions/environment'
 import { canCreateAStudy } from '@/services/permissions/study'
@@ -45,10 +44,9 @@ const StudiesContainer = async ({ user, organizationVersionId, isCR, simplified 
 
   const mainStudyOrganizationVersionId = organizationVersionId ?? user.organizationVersionId
 
-  const [organizationVersion, studiesForCards, studiesValidatedSources] = await Promise.all([
+  const [organizationVersion, studiesForCards] = await Promise.all([
     getOrganizationVersionForRightsCheck(mainStudyOrganizationVersionId),
     getStudiesForCards(allowedStudyIds),
-    getStudiesValidatedEmissionsSources(allowedStudyIds),
   ])
 
   const studies = allowedStudyIds
@@ -57,7 +55,7 @@ const StudiesContainer = async ({ user, organizationVersionId, isCR, simplified 
       if (!card) {
         return null
       }
-      return { ...card, validatedSources: studiesValidatedSources[studyId] }
+      return card
     })
     .filter((c): c is StudyCardItem => c !== null)
 
@@ -145,7 +143,7 @@ const StudiesContainer = async ({ user, organizationVersionId, isCR, simplified 
         </p>
         <p>
           {customRich(t, 'canCreateFootPrint', {
-            link: (children) => <Link href="/mes-empreintes">{children}</Link>,
+            link: (children) => <Link href="/">{children}</Link>,
           })}
         </p>
       </Alert>

@@ -7,7 +7,7 @@ import { changeRole } from '@/services/serverFunctions/user'
 import { canEditMemberRole, getEnvironmentRoles } from '@/utils/user'
 import { useServerFunction } from '@abc-transitionbascarbone/components/src/hooks/useServerFunction'
 import TeamTableCommon from '@abc-transitionbascarbone/components/src/team/TeamTableCommon'
-import { isAdvanced } from '@abc-transitionbascarbone/utils/environments'
+import { isCut } from '@abc-transitionbascarbone/utils/environments'
 import { UserSession } from 'next-auth'
 import { useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
@@ -63,7 +63,7 @@ const TeamTable = ({ user, team, crOrga }: Props) => {
         canUpdateTeam={canUpdateTeam}
         environmentRoles={Object.values(getEnvironmentRoles(user.environment))}
         deleteMember={deleteMember}
-        isAdvanced={isAdvanced(user.environment)}
+        isCut={isCut(user.environment)}
         deletionError={deletionError}
         deletionErrorData={deletionErrorData}
         setDeletionErrorData={setDeletionErrorData}

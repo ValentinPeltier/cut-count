@@ -5,9 +5,9 @@ import {
   getPostRuleNameCut,
   getSubPostRuleNameCut,
 } from '@/environments/cut/publicodes/subPostMapping'
+import { FormLayout } from '@/publicodes/form/layouts'
 import { EnvironmentWithSimplifiedStudies } from '@/services/permissions/environment'
 import { SubPost } from '@abc-transitionbascarbone/db-common/enums'
-import { FormLayout } from '@abc-transitionbascarbone/publicodes/form/layouts'
 import Engine from 'publicodes'
 import { CutPost, SimplifiedPost, subPostsByPostCUT } from '../posts'
 

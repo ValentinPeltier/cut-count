@@ -26,7 +26,6 @@ describe('userUtils functions', () => {
       const result = findUserInfo(user)
       expect(result).toEqual({
         select: {
-          formationName: true,
           user: {
             select: {
               email: true,
@@ -50,7 +49,6 @@ describe('userUtils functions', () => {
       const result = findUserInfo(user)
       expect(result).toEqual({
         select: {
-          formationName: true,
           user: {
             select: {
               email: true,
@@ -70,29 +68,17 @@ describe('userUtils functions', () => {
   })
 
   describe('getEnvironmentRoles', () => {
-    test('should return CutRoles when environment is CUT', () => {
+    test('should return CutRoles', () => {
       expect(getEnvironmentRoles(Environment.CUT)).toEqual(CutRoles)
-    })
-
-    test('should return Role when environment is not CUT', () => {
-      expect(getEnvironmentRoles(Environment.BC)).toEqual(Role)
     })
   })
 
   describe('getRoleToSetForUntrained', () => {
-    test('should return the same role for CUT environment', () => {
+    test('should return the same role for Count', () => {
       expect(getRoleToSetForUntrained(Role.ADMIN, Environment.CUT)).toBe(Role.ADMIN)
       expect(getRoleToSetForUntrained(Role.DEFAULT, Environment.CUT)).toBe(Role.DEFAULT)
-    })
-
-    test('should return GESTIONNAIRE for ADMIN and GESTIONNAIRE roles in BASE environment', () => {
-      expect(getRoleToSetForUntrained(Role.ADMIN, Environment.BC)).toBe(Role.GESTIONNAIRE)
-      expect(getRoleToSetForUntrained(Role.GESTIONNAIRE, Environment.BC)).toBe(Role.GESTIONNAIRE)
-    })
-
-    test('should return DEFAULT for other roles in BASE environment', () => {
-      expect(getRoleToSetForUntrained(Role.COLLABORATOR, Environment.BC)).toBe(Role.DEFAULT)
-      expect(getRoleToSetForUntrained(Role.DEFAULT, Environment.BC)).toBe(Role.DEFAULT)
+      expect(getRoleToSetForUntrained(Role.GESTIONNAIRE, Environment.CUT)).toBe(Role.GESTIONNAIRE)
+      expect(getRoleToSetForUntrained(Role.COLLABORATOR, Environment.CUT)).toBe(Role.COLLABORATOR)
     })
   })
 })

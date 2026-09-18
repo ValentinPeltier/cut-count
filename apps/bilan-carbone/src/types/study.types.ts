@@ -1,4 +1,3 @@
-import { Export } from '@abc-transitionbascarbone/db-common/enums'
 import { BaseResultsByPost } from '../services/posts'
 
 export enum AdditionalResultTypes {
@@ -6,7 +5,7 @@ export enum AdditionalResultTypes {
   ENV_SPECIFIC_EXPORT = 'env_specific_export',
 }
 
-export type ResultType = Export | AdditionalResultTypes
+export type ResultType = AdditionalResultTypes
 
 export interface BaseResultsBySite {
   aggregated: BaseResultsByPost[]

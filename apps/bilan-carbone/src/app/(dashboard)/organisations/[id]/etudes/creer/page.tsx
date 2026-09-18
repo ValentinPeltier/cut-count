@@ -18,9 +18,9 @@ const NewStudyInOrganization = async (props: Props & UserSessionProps & StudyCre
   const [params] = await Promise.all([props.params])
 
   const id = params.id
-  const { user, isSimplified } = props
+  const { user, isCut } = props
 
-  if (!id || !(await canCreateAStudy(user, isSimplified))) {
+  if (!id || !(await canCreateAStudy(user, isCut))) {
     return <NotFound />
   }
 

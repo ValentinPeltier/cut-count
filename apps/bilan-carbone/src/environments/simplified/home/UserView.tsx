@@ -1,5 +1,4 @@
-import DynamicComponent from '@/environments/core/utils/DynamicComponent'
-import { hasAccessToHomeSubtitle, hasHomeAlert, hasStartLinkOnFootprints } from '@/services/permissions/environment'
+import { hasAccessToHomeSubtitle, hasHomeAlert } from '@/services/permissions/environment'
 import { hasAccessToStudies } from '@/services/permissions/environmentAdvanced'
 import { customRich } from '@abc-transitionbascarbone/utils/customRich'
 import Groups2OutlinedIcon from '@mui/icons-material/Groups2Outlined'
@@ -25,10 +24,7 @@ const UserView = async ({ account }: Props) => {
 
   const title = t('title')
   const navigation = await getTranslations('home.navigation')
-
   const hasAlert = hasHomeAlert(account.environment)
-
-  const isFootprintsEnabled = true
 
   return (
     <div className={styles.block}>
@@ -50,25 +46,20 @@ const UserView = async ({ account }: Props) => {
               </Box>
             ))}
           </Box>
-          {isFootprintsEnabled && (
-            <Box className="flex align-center">
-              <Link
-                href={hasStartLinkOnFootprints(account.environment) ? 'mes-empreintes' : '/organisations'}
-                className={styles.startButtonLink}
-              >
-                <Box className={classNames('flex-cc px2 py1', styles.startButton)} component="button">
-                  <Typography variant="h6" className={styles.startButtonText}>
-                    {tAction('start')}
-                  </Typography>
-                </Box>
-              </Link>
-            </Box>
-          )}
+          <Box className="flex align-center">
+            <Link href="/organisations" className={styles.startButtonLink}>
+              <Box className={classNames('flex-cc px2 py1', styles.startButton)} component="button">
+                <Typography variant="h6" className={styles.startButtonText}>
+                  {tAction('start')}
+                </Typography>
+              </Box>
+            </Link>
+          </Box>
         </Box>
         <Box className="flex gapped1 mt1">
           <LinkCard
             href={`/organisations/${account.organizationVersionId}/modifier`}
-            icon={<DynamicComponent defaultComponent={<CinemaOutlinedIcon className={styles.icon} />} />}
+            icon={<CinemaOutlinedIcon className={styles.icon} />}
             title={customRich(navigation, 'sites.title')}
             message={customRich(navigation, 'sites.message')}
           />
@@ -78,21 +69,14 @@ const UserView = async ({ account }: Props) => {
             title={customRich(navigation, 'collaborators.title')}
             message={customRich(navigation, 'collaborators.message')}
           />
-          {hasAccessToStudies(account.environment, account.level) ? (
+          {hasAccessToStudies(account.environment, account.level) && (
             <LinkCard
               href="/organisations"
               icon={<DiagramOutlinedIcon className={styles.icon} />}
               title={customRich(navigation, 'footprints.title')}
               message={customRich(navigation, 'footprints.message')}
             />
-          ) : isFootprintsEnabled ? (
-            <LinkCard
-              href="/mes-empreintes"
-              icon={<DiagramOutlinedIcon className={styles.icon} />}
-              title={customRich(navigation, 'footprints.title')}
-              message={customRich(navigation, 'footprints.message')}
-            />
-          ) : null}
+          )}
         </Box>
         {hasAlert && (
           <Alert severity="info" className="mb-2">

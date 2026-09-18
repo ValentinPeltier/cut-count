@@ -1,29 +1,20 @@
 import { Environment, Level } from '@abc-transitionbascarbone/db-common/enums'
-import { hasAccessToCarbonResponsibilityIntensities } from './environment'
 
-const { BC, CUT } = Environment
+export const hasAccessToEmissionFactors = (_environment?: Environment, _userLevel?: Level | null) => false
 
-export const isTiltSimplified = (_environment: Environment, _simplified?: boolean | null) => false
+export const hasAccessToStudies = (_environment?: Environment, _userLevel?: Level | null) => true
 
-export const isAdvancedAndNotTiltSimplified = (environment: Environment, _simplified?: boolean | null) =>
-  environment === BC
+export const hasAccessToSettings = (_environment?: Environment, _userLevel?: Level | null) => false
 
-export const hasAccessToEmissionFactors = (environment: Environment, _userLevel: Level | null) => environment === BC
-
-export const hasAccessToStudies = (environment: Environment, _userLevel: Level | null) =>
-  environment === BC || environment === CUT
-
-export const hasAccessToSettings = (environment: Environment, _userLevel: Level | null) => environment === BC
-
-export const hasAccessToMethodology = (environment: Environment, _userLevel: Level | null) => environment === BC
+export const hasAccessToMethodology = (_environment?: Environment, _userLevel?: Level | null) => false
 
 export const hasAccessToCarbonResponsibilityIntensitiesAdvanced = (
-  environment: Environment,
+  _environment?: Environment,
   _simplified?: boolean | null,
-) => hasAccessToCarbonResponsibilityIntensities(environment)
+) => false
 
-export const hasAccessToEngagementActions = isAdvancedAndNotTiltSimplified
+export const hasAccessToEngagementActions = (_environment?: Environment, _simplified?: boolean | null) => false
 
-export const hasAccessToPerimeterPage = isAdvancedAndNotTiltSimplified
+export const hasAccessToPerimeterPage = (_environment?: Environment, _simplified?: boolean | null) => false
 
-export const hasAccessToDuplicateStudy = isAdvancedAndNotTiltSimplified
+export const hasAccessToDuplicateStudy = (_environment?: Environment, _simplified?: boolean | null) => false

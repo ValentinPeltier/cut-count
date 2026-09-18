@@ -10,14 +10,14 @@ describe('commonuserUtils functions', () => {
     })
 
     test('should return true for GESTIONNAIRE and DEFAULT roles in BASE environment', () => {
-      expect(canBeUntrainedRole(Role.GESTIONNAIRE, Environment.BC)).toBe(true)
-      expect(canBeUntrainedRole(Role.DEFAULT, Environment.BC)).toBe(true)
+      expect(canBeUntrainedRole(Role.GESTIONNAIRE, Environment.CUT)).toBe(true)
+      expect(canBeUntrainedRole(Role.DEFAULT, Environment.CUT)).toBe(true)
     })
 
     test('should return false for other roles in BASE environment', () => {
-      expect(canBeUntrainedRole(Role.ADMIN, Environment.BC)).toBe(false)
-      expect(canBeUntrainedRole(Role.COLLABORATOR, Environment.BC)).toBe(false)
-      expect(canBeUntrainedRole(Role.SUPER_ADMIN, Environment.BC)).toBe(false)
+      expect(canBeUntrainedRole(Role.ADMIN, Environment.CUT)).toBe(false)
+      expect(canBeUntrainedRole(Role.COLLABORATOR, Environment.CUT)).toBe(false)
+      expect(canBeUntrainedRole(Role.SUPER_ADMIN, Environment.CUT)).toBe(false)
     })
   })
 })

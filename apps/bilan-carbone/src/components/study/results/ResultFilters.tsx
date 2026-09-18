@@ -6,10 +6,9 @@ import { SubPost } from '@abc-transitionbascarbone/db-common/enums'
 import { Post } from '@abc-transitionbascarbone/utils/charts'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { PostSubPostFilter } from '../../form/PostSubPostFilter'
-import { TagFilter } from '../../form/TagFilter'
 
 interface Props {
-  study: Pick<FullStudy, 'tagFamilies' | 'organizationVersion'>
+  study: Pick<FullStudy, 'organizationVersion'>
   selectedPostIds: string[]
   selectedTagIds: string[]
   onPostFilterChange: (subposts: SubPost[]) => void
@@ -17,35 +16,9 @@ interface Props {
   exportType: ResultType
 }
 
-const ResultFilters = ({
-  study,
-  selectedPostIds,
-  selectedTagIds,
-  onPostFilterChange,
-  onTagFilterChange,
-  exportType,
-}: Props) => {
+const ResultFilters = ({ study, selectedPostIds, onPostFilterChange, exportType }: Props) => {
   const [previousExportType, setPreviousExportType] = useState<string | null>(null)
   const hasInitializedRef = useRef(false)
-
-  const tagItems = useMemo(() => {
-    return study.tagFamilies.reduce(
-      (acc, tagFamily) => {
-        const tagInfos = tagFamily.tags.map((tag) => ({ id: tag.id, label: tag.name }))
-
-        if (tagInfos.length > 0) {
-          acc[tagFamily.id] = {
-            id: tagFamily.id,
-            name: tagFamily.name,
-            children: tagInfos,
-          }
-        }
-
-        return acc
-      },
-      {} as Record<string, { id: string; name: string; children: { id: string; label: string }[] }>,
-    )
-  }, [study.tagFamilies])
 
   const { envPosts, envSubPosts } = useMemo(() => {
     const envSubPostsByPost = environmentSubPostsMapping[study.organizationVersion.environment as BCEnvironment]
@@ -80,14 +53,6 @@ const ResultFilters = ({
     [selectedPostIds],
   )
 
-  useEffect(() => {
-    if (tagItems && previousExportType !== exportType) {
-      const defaultTagItems = Object.values(tagItems).flatMap((parent) => parent.children.map((child) => child.id))
-      defaultTagItems.push('other')
-      onTagFilterChange(defaultTagItems)
-    }
-  }, [tagItems, previousExportType, exportType, onTagFilterChange])
-
   return (
     <div className="flex gapped1">
       <PostSubPostFilter
@@ -96,7 +61,6 @@ const ResultFilters = ({
         selectedSubPosts={selectedSubPosts}
         onChange={onPostFilterChange}
       />
-      <TagFilter tagFamilies={study.tagFamilies} selectedTagIds={selectedTagIds} onChange={onTagFilterChange} />
     </div>
   )
 }

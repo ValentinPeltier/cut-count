@@ -1,7 +1,0 @@
-.addButton {
-  height: 3.5rem;
-}
-
-.datePicker :global(.MuiInputAdornment-positionEnd) {
-  margin-left: 0;
-}

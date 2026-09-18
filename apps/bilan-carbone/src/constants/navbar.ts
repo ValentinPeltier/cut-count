@@ -1,6 +1,3 @@
-import { isCut } from '@/services/permissions/environment'
-import { hasAccessToEngagementActions } from '@/services/permissions/environmentAdvanced'
-import { Environment } from '@abc-transitionbascarbone/db-common/enums'
 import { Translations } from '@abc-transitionbascarbone/lib'
 
 interface MenuLink {
@@ -23,117 +20,28 @@ interface Menu {
   sections: MenuSection[]
 }
 
-export const getStudyNavbarMenu = (
-  environment: Environment,
-  t: Translations,
-  studyId: string,
-  studyName: string,
-  isTransitionPlanActive: boolean = false,
-  hasObjectives: boolean = false,
-  studySimplified: boolean = false,
-): Menu => {
-  if (isCut(environment)) {
-    return {
-      title: {
-        href: `/etudes/${studyId}`,
-        label: studyName,
-      },
-      sections: [
+export const getStudyNavbarMenu = (t: Translations, studyId: string, studyName: string): Menu => ({
+  title: {
+    href: `/etudes/${studyId}`,
+    label: studyName,
+  },
+  sections: [
+    {
+      links: [
         {
-          links: [
-            {
-              href: `/etudes/${studyId}/cadrage`,
-              label: t('framing'),
-              testId: 'study-cadrage-link',
-            },
-            {
-              href: `/etudes/${studyId}/comptabilisation/saisie-des-donnees`,
-              label: t('dataEntry'),
-            },
-            {
-              href: `/etudes/${studyId}/comptabilisation/resultats`,
-              label: t('results'),
-            },
-          ],
+          href: `/etudes/${studyId}/cadrage`,
+          label: t('framing'),
+          testId: 'study-cadrage-link',
+        },
+        {
+          href: `/etudes/${studyId}/comptabilisation/saisie-des-donnees`,
+          label: t('dataEntry'),
+        },
+        {
+          href: `/etudes/${studyId}/comptabilisation/resultats`,
+          label: t('results'),
         },
       ],
-    }
-  }
-
-  return {
-    title: {
-      href: `/etudes/${studyId}`,
-      label: studyName,
     },
-    sections: [
-      {
-        header: t('engagement'),
-        links: [
-          {
-            disabled: !hasAccessToEngagementActions(environment, studySimplified),
-            href: `/etudes/${studyId}/actions-de-mobilisation`,
-            label: t('carriedActions'),
-          },
-        ],
-      },
-      {
-        header: t('informationDefinition'),
-        links: [
-          {
-            href: `/etudes/${studyId}/cadrage`,
-            label: t('framing'),
-            testId: 'study-cadrage-link',
-          },
-          {
-            href: `/etudes/${studyId}/perimetre`,
-            label: t('scope'),
-            testId: 'study-perimetre-link',
-          },
-        ],
-      },
-      {
-        header: t('dataAccounting'),
-        links: [
-          {
-            href: `/etudes/${studyId}/comptabilisation/saisie-des-donnees`,
-            label: t('dataEntry'),
-          },
-          {
-            href: `/etudes/${studyId}/comptabilisation/resultats`,
-            label: t('results'),
-          },
-        ],
-      },
-      {
-        header: t('transitionPlan'),
-        links: isTransitionPlanActive
-          ? [
-              {
-                href: `/etudes/${studyId}/initialisation`,
-                label: t('initialization'),
-                testId: 'study-initialization-link',
-              },
-              {
-                disabled: !hasObjectives,
-                href: hasObjectives ? `/etudes/${studyId}/trajectoires` : '#',
-                label: t('trajectories'),
-                testId: 'study-trajectories-link',
-              },
-              {
-                disabled: !hasObjectives,
-                href: hasObjectives ? `/etudes/${studyId}/actions` : '#',
-                label: t('actionPlan'),
-                testId: 'study-action-plan-link',
-              },
-            ]
-          : [
-              {
-                disabled: true,
-                href: '#',
-                label: t('commingSoon'),
-              },
-            ],
-      },
-    ],
-  }
-}
+  ],
+})
