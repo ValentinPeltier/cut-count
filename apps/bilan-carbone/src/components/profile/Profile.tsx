@@ -63,7 +63,7 @@ const Profile = ({ version }: Props) => {
     form.reset()
   }
   return (
-    <div className={classNames(styles.gapped, 'grow justify-between')}>
+    <div className={classNames(styles.gapped, 'grow justify-between')} data-testid="profile-page">
       <div className="grow">
         <div className="mb1">
           {editing ? (

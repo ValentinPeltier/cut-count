@@ -39,6 +39,22 @@ const mockGetStudyById = studyDbModule.getStudyById as jest.Mock
 const mockUpsertSituation = situationDbModule.upsertSituation as jest.Mock
 
 describe('saveSituation', () => {
+  const mockCutSession = {
+    user: {
+      id: 'user-cut',
+      accountId: 'account-cut',
+      organizationVersionId: 'org-cut',
+      environment: Environment.CUT,
+    },
+  }
+
+  const mockCutStudy = {
+    id: 'study-cut',
+    simplified: true,
+    contributors: [{ accountId: 'account-cut' }],
+    sites: [{ id: 'site-cut' }],
+  }
+
   const mockSession = {
     user: {
       id: 'user-1',
@@ -103,5 +119,19 @@ describe('saveSituation', () => {
     expect(result.success).toBe(false)
     expect((result as { errorMessage: string }).errorMessage).toBe('NOT_AUTHORIZED')
     expect(mockUpsertSituation).not.toHaveBeenCalled()
+  })
+
+  it('saves situation for CUT simplified study when authorized', async () => {
+    mockAuth.mockResolvedValue(mockCutSession)
+    mockDbActualizedAuth.mockResolvedValue(mockCutSession)
+    mockGetStudyById.mockResolvedValue(mockCutStudy)
+    mockCanSaveSituationOnStudy.mockResolvedValue(true)
+    mockUpsertSituation.mockResolvedValue({ id: 'saved-cut-situation' })
+
+    const situation = { fonctionnement: 10 }
+    const result = await saveSituation('study-cut', 'site-cut', situation, {}, 'publicodes-count@1.0.0')
+
+    expect(result.success).toBe(true)
+    expect(mockUpsertSituation).toHaveBeenCalledWith('site-cut', situation, {}, 'publicodes-count@1.0.0')
   })
 })

@@ -25,10 +25,12 @@ const OrganizationPage = async ({ organizationVersion, user }: Props) => {
   return (
     <>
       <Breadcrumbs current={organizationVersion.organization.name} links={[{ label: tNav('home'), link: '/' }]} />
+      <div data-testid="organization-page">
       {environment !== Environment.CUT && (
         <OrganizationInfo organizationVersion={organizationVersion} canUpdate={canUpdate} canDelete={canDelete} />
       )}
       <StudiesContainer user={user} organizationVersionId={organizationVersion.id} />
+      </div>
     </>
   )
 }

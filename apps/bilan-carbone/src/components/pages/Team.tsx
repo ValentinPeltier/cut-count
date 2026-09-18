@@ -21,6 +21,7 @@ const TeamPage = ({ user, team, crOrga = false }: Props) => {
 
   return (
     <SessionProvider>
+      <div data-testid="team-page">
       <Breadcrumbs current={tNav('team')} links={[{ label: tNav('home'), link: '/' }]} />
       <InvitationsToValidate
         usersToValidate={team.filter((member) => member.status === UserStatus.PENDING_REQUEST)}
@@ -28,6 +29,7 @@ const TeamPage = ({ user, team, crOrga = false }: Props) => {
       />
       <PendingInvitations team={team.filter((member) => member.status === UserStatus.VALIDATED)} user={user} />
       <Team team={team.filter((member) => member.status === UserStatus.ACTIVE)} user={user} crOrga={crOrga} />
+      </div>
     </SessionProvider>
   )
 }

@@ -23,21 +23,35 @@ const RessourceLinks = ({ title, links }: Props) => {
   }
 
   return (
-    <Card className={classNames('h100', styles.card)}>
+    <Card className={classNames('h100', styles.card)} data-testid="ressource-links-card">
       <CardContent className={'p0'}>
         <div className={classNames(styles.cardHeader, 'p1')}>
-          <Typography className="mb-2 bold text-center">{title}</Typography>
+          <Typography className="mb-2 bold text-center" data-testid="ressource-links-title">
+            {title}
+          </Typography>
         </div>
-        <div className={classNames(styles.cardLinks, 'text-center', 'h100')}>
-          {links.map(({ title, link, downloadKey }) => (
-            <div className="mt-2 mb-2" key={link || title}>
+        <div className={classNames(styles.cardLinks, 'text-center', 'h100')} data-testid="ressource-links-list">
+          {links.map(({ title: linkTitle, link, downloadKey }) => (
+            <div className="mt-2 mb-2" key={link || downloadKey || linkTitle}>
               {link ? (
-                <Link href={link} target="_blank" rel="noreferrer noopener">
-                  {title}
+                <Link
+                  href={link}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  data-testid="ressource-external-link"
+                  data-resource-title={linkTitle}
+                >
+                  {linkTitle}
                 </Link>
               ) : (
-                <button onClick={() => downloadKey && handleDownload(downloadKey)} className={styles.linkButton}>
-                  {title}
+                <button
+                  type="button"
+                  onClick={() => downloadKey && handleDownload(downloadKey)}
+                  className={styles.linkButton}
+                  data-testid="ressource-download-button"
+                  data-download-key={downloadKey ?? ''}
+                >
+                  {linkTitle}
                 </button>
               )}
             </div>

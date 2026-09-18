@@ -240,6 +240,7 @@ jobs:
       fail-fast: false
       matrix:
         group:
+          - count
           - auth
           - organization
           - study

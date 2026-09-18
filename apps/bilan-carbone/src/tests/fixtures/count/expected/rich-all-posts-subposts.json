@@ -1,0 +1,20 @@
+{
+  "Fonctionnement.Batiment": 0,
+  "Fonctionnement.Equipe": 647.895,
+  "Fonctionnement.DeplacementsProfessionnels": 0,
+  "Fonctionnement.Energie": 24788,
+  "Fonctionnement.ActivitesDeBureau": 0,
+  "MobiliteSpectateurs.MobiliteSpectateurs": 41.615,
+  "TourneesAvantPremieres.EquipesRecues": 161.79,
+  "SallesEtCabines.MaterielTechnique": 0,
+  "SallesEtCabines.AutreMateriel": 131,
+  "ConfiseriesEtBoissons.Achats": 1520.7,
+  "ConfiseriesEtBoissons.Fret": 0.5658,
+  "ConfiseriesEtBoissons.Electromenager": 0,
+  "Dechets.DechetsOrdinaires": 7948.512,
+  "Dechets.DechetsExceptionnels": 0,
+  "BilletterieEtCommunication.MaterielDistributeurs": 0,
+  "BilletterieEtCommunication.MaterielCinema": 0,
+  "BilletterieEtCommunication.CommunicationDigitale": 4.71,
+  "BilletterieEtCommunication.CaissesEtBornes": 0
+}

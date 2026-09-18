@@ -27,6 +27,7 @@ import { Command } from 'commander'
 import { ACTUALITIES } from '../legacy_data/actualities'
 import { SECTEN_SEED_DATA } from './sectenSeedData'
 import { createRealStudy } from './study'
+import { createCountGoldenStudy } from './countGoldenStudy'
 import { getClicksonRoleFromBase, getCutRoleFromBase, getRolesFromEnvironment } from './utils'
 
 import type { BCEnvironment } from '@/types/environment'
@@ -1062,6 +1063,7 @@ const users = async () => {
   )
 
   await createRealStudy(prisma, defaultUserWithAccount.accounts[0].account)
+  await createCountGoldenStudy(prisma)
 }
 
 const actualities = async () => {

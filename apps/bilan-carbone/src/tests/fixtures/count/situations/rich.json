@@ -1,0 +1,16 @@
+{
+  "général . distance depuis paris": 200,
+  "général . nombre entrées": 50000,
+  "général . nombre séances": 1200,
+  "général . nombre de jours ouverture": 365,
+  "fonctionnement . équipe . collaborateur type . nombre de jours par semaine": 5,
+  "fonctionnement . équipe . collaborateur type . transport . distance": 10,
+  "fonctionnement . équipe . collaborateur type . transport . moyen de transport": "'voiture hybride'",
+  "fonctionnement . énergie . électricité . consommation": 120000,
+  "fonctionnement . énergie . gaz . consommation": 8000,
+  "fonctionnement . énergie . est équipé climatisation": "oui",
+  "mobilité spectateurs . précision": "'résultat précis'",
+  "mobilité spectateurs . résultat précis . empreinte . RER et transilien . distance": 1000,
+  "mobilité spectateurs . résultat précis . empreinte . métro ou tram . distance": 500,
+  "mobilité spectateurs . résultat précis . empreinte . bus . distance": 200
+}

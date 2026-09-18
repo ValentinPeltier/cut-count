@@ -1,64 +1,19 @@
 'use client'
 import type { FullStudy } from '@/db/study'
 import { EnvironmentWithSimplifiedStudies } from '@/services/permissions/environment'
-import type { BaseResultsByPost } from '@/services/posts'
-import {
-  getSimplifiedPublicodesConfig,
-  type SimplifiedPublicodesConfig,
-} from '@/services/publicodes/simplifiedPublicodesConfig'
-import { aggregateBaseResultsByPost, computeBaseResultsByPostFromEngine } from '@/services/results/publicodes'
+import { getSimplifiedPublicodesConfig } from '@/services/publicodes/simplifiedPublicodesConfig'
+import { computeResultsForAllSitesFromSituations } from '@/services/results/computeSimplifiedResults'
 import { loadSituations } from '@/services/serverFunctions/situation'
 import type { BaseResultsBySite } from '@/types/study.types'
 import { Environment } from '@abc-transitionbascarbone/db-common/enums'
 import { useTranslations } from 'next-intl'
-import Engine, { Situation } from 'publicodes'
+import { Situation } from 'publicodes'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 interface UsePublicodesResultsReturn extends BaseResultsBySite {
   isLoading: boolean
   error: string | null
   refresh: () => void
-}
-
-function computeResultsFromConfig(
-  engine: Engine,
-  situation: Situation<string>,
-  config: SimplifiedPublicodesConfig,
-  tPost: (key: string) => string,
-  environment: Environment,
-): BaseResultsByPost[] {
-  const engineCopy = engine.shallowCopy()
-  engineCopy.setSituation(situation)
-  return computeBaseResultsByPostFromEngine(
-    engineCopy,
-    config.posts,
-    config.subPostsByPost,
-    tPost,
-    config.getPostRuleName,
-    config.getSubPostRuleName,
-    environment,
-  )
-}
-
-const computeResultsForAllSitesFromSituations = (
-  situations: Record<string, Situation<string>>,
-  config: SimplifiedPublicodesConfig,
-  tPost: (key: string) => string,
-  environment: Environment,
-): BaseResultsBySite => {
-  const engine = config.getEngine()
-  const bySite = Object.entries(situations).reduce(
-    (bySite, [siteId, situation]) => {
-      bySite[siteId] = computeResultsFromConfig(engine, situation, config, tPost, environment)
-      return bySite
-    },
-    {} as Record<string, BaseResultsByPost[]>,
-  )
-
-  return {
-    aggregated: aggregateBaseResultsByPost(Object.values(bySite)),
-    bySite,
-  }
 }
 
 export function usePublicodesResults(
@@ -130,7 +85,7 @@ export function usePublicodesResults(
       return { aggregated: [], bySite: {} }
     }
     return computeResultsForAllSitesFromSituations(situationBySiteId, config, tPost, environment)
-  }, [config, situationBySiteId, tPost])
+  }, [config, situationBySiteId, tPost, environment])
 
   return { ...results, isLoading, error, refresh }
 }
