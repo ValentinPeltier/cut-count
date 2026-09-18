@@ -4,7 +4,7 @@ Cinema carbon-footprint app for Association Bilan Carbone. Single Next.js 16 app
 
 ## Stack
 
-- Node 24.x, Yarn 1.22
+- Node 26.x, Yarn 1.22
 - Next.js 16 App Router, React 19, Turbopack, `output: 'standalone'`
 - next-auth v4, next-intl (French)
 - PostgreSQL 17 + Prisma 7 (`@prisma/adapter-pg`)
@@ -15,7 +15,7 @@ Cinema carbon-footprint app for Association Bilan Carbone. Single Next.js 16 app
 
 ### Prerequisites
 
-- Node.js 24.18.x
+- Node.js 26.9.x
 - Yarn 1.22
 - Docker and Docker Compose
 
