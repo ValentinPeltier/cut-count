@@ -1,5 +1,0 @@
-# add files or folders that should not be pretified
-**/publicodes-build/**
-.next/
-next-env.d.ts
-**/*.publicodes

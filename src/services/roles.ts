@@ -1,0 +1,6 @@
+import { Role } from '@/db-common/enums'
+
+export const CutRoles = {
+  ADMIN: Role.ADMIN,
+  DEFAULT: Role.DEFAULT,
+}

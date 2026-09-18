@@ -1,7 +1,0 @@
-{
-  "name": "@abc-transitionbascarbone/publicodes-count",
-  "description": "Règles de calculs de count!, le premier calculateur d'impact écologique dédié aux salles de cinéma.",
-  "version": "0.1.0",
-  "private": true,
-  "type": "module"
-}

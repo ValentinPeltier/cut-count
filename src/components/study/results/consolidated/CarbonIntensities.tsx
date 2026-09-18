@@ -1,0 +1,17 @@
+import { SiteCAUnit } from '@/db-common/enums'
+import type { FullStudy } from '@/db/study'
+import CarbonIntensitiesCut from '@/environments/cut/study/results/CarbonIntensitiesCut'
+
+interface Props {
+  study: FullStudy
+  studySite: string
+  withDep: number
+  withoutDep?: number
+  caUnit?: SiteCAUnit
+}
+
+const CarbonIntensities = ({ study, studySite, withDep }: Props) => {
+  return <CarbonIntensitiesCut study={study} studySite={studySite} withDepValue={withDep} />
+}
+
+export default CarbonIntensities
