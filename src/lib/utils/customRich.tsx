@@ -1,5 +1,4 @@
 import { Translations } from '@/lib'
-import { getClientEnvVar } from '@/lib/clientEnv'
 import Link from 'next/link'
 import { ReactNode } from 'react'
 
@@ -8,16 +7,16 @@ type CustomRichParams = {
 }
 
 export const customRich = (t: Translations, key: string, params: CustomRichParams = {}) => {
-  const faq = getClientEnvVar('FAQ_LINK')
-  const support = getClientEnvVar('SUPPORT_EMAIL')
-  const abc = getClientEnvVar('ABC_SITE')
+  const faq = process.env.NEXT_PUBLIC_CUT_FAQ_LINK
+  const support = process.env.NEXT_PUBLIC_CUT_SUPPORT_EMAIL
+  const abc = process.env.NEXT_PUBLIC_CUT_ABC_SITE
 
   return t.rich(key, {
     error: (children) => <span className="error">{children}</span>,
     b: (children) => <span className="bold">{children}</span>,
     i: (children) => <span className="italic">{children}</span>,
     faq: (children) => (
-      <Link href={faq} target="_blank" rel="noreferrer noopener" className="font-inherit">
+      <Link href={faq ?? ''} target="_blank" rel="noreferrer noopener" className="font-inherit">
         {children}
       </Link>
     ),
@@ -27,12 +26,12 @@ export const customRich = (t: Translations, key: string, params: CustomRichParam
       </Link>
     ),
     abc: (children) => (
-      <Link href={abc} target="_blank" rel="noreferrer noopener" className="font-inherit">
+      <Link href={abc ?? ''} target="_blank" rel="noreferrer noopener" className="font-inherit">
         {children}
       </Link>
     ),
     abcAssociation: (children) => (
-      <Link href={abc} target="_blank" rel="noreferrer noopener" className="font-inherit">
+      <Link href={abc ?? ''} target="_blank" rel="noreferrer noopener" className="font-inherit">
         {children}
       </Link>
     ),

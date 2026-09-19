@@ -2,12 +2,11 @@
 
 import Block from '@/lib/components/base/Block'
 import { customRich } from '@/lib/utils/customRich'
-import { getClientEnvVar } from '@/lib/clientEnv'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 
 const Error = () => {
-  const support = getClientEnvVar('SUPPORT_EMAIL')
+  const support = process.env.NEXT_PUBLIC_CUT_SUPPORT_EMAIL
 
   const t = useTranslations('error')
   return (

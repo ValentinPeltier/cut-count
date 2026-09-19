@@ -8,7 +8,6 @@ import { FormTextField } from '@/lib/components/form/TextField'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
 import { getEnvRoute } from '@/lib/services/email/utils'
 import { customRich } from '@/lib/utils/customRich'
-import { getClientEnvVar } from '@/lib/clientEnv'
 import { getAllCNCs } from '@/services/serverFunctions/cnc'
 import { signUpWithSiretOrCNC } from '@/services/serverFunctions/user'
 import { SignUpCutCommand, SignUpCutCommandValidation } from '@/services/serverFunctions/user.command'
@@ -24,8 +23,8 @@ import { FormAutocomplete } from '../form/Autocomplete'
 import authStyles from './Auth.module.css'
 
 const SignUpFormCut = () => {
-  const contactMail = getClientEnvVar('SUPPORT_EMAIL')
-  const faq = getClientEnvVar('FAQ_LINK')
+  const contactMail = process.env.NEXT_PUBLIC_CUT_SUPPORT_EMAIL
+  const faq = process.env.NEXT_PUBLIC_CUT_FAQ_LINK
 
   const t = useTranslations('signup')
   const tForm = useTranslations('login.form')
@@ -125,7 +124,7 @@ const SignUpFormCut = () => {
             {customRich(t, message, {
               support: (children) => <Link href={`mailto:${contactMail}`}>{children}</Link>,
               link: (children) => (
-                <Link href={faq} target="_blank" rel="noreferrer noopener">
+                <Link href={faq ?? ''} target="_blank" rel="noreferrer noopener">
                   {children}
                 </Link>
               ),

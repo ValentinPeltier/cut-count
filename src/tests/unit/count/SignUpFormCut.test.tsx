@@ -9,10 +9,6 @@ jest.mock('next/navigation', () => ({
   useSearchParams: () => new URLSearchParams(),
 }))
 
-jest.mock('@/lib/clientEnv', () => ({
-  getClientEnvVar: () => 'test@example.com',
-}))
-
 jest.mock('@/lib/components/hooks/useServerFunction', () => ({
   useServerFunction: () => ({
     callServerFunction: jest.fn(async (fn) => {
