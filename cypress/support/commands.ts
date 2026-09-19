@@ -64,7 +64,7 @@ Cypress.Commands.add('logout', () => {
   Cypress.session.clearAllSavedSessions()
 })
 
-Cypress.Commands.add('signup', (email = 'cut-cnc@yopmail.com', cncOrSiret = '321') => {
+Cypress.Commands.add('signup', (email, cncOrSiret) => {
   cy.visit('/register')
 
   cy.getByTestId('activation-email').should('exist')
@@ -74,9 +74,11 @@ Cypress.Commands.add('signup', (email = 'cut-cnc@yopmail.com', cncOrSiret = '321
   cy.getByTestId('activation-email').find('input').clear()
   cy.getByTestId('activation-email').find('input').type(email)
   cy.getByTestId('activation-siretOrCNC').find('input').clear()
-  cy.getByTestId('activation-siretOrCNC').find('input').type(cncOrSiret)
+  if (cncOrSiret !== null) {
+    cy.getByTestId('activation-siretOrCNC').find('input').type(cncOrSiret)
+  }
   cy.getByTestId('activation-form-message').should('not.exist')
-  cy.getByTestId('activation-button').click()
+  cy.getByTestId('activation-button').click({ force: true })
 
   cy.wait('@signup')
 })

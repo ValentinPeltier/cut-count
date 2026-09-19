@@ -43,6 +43,23 @@ describe('Register', () => {
       .should('match', /Vous avez activé votre compte sur Count/)
   })
 
+  it('does create new user without CNC or SIRET', () => {
+    const email = uniqueEmail('no-siret-cnc')
+    cy.signup(email, null)
+
+    cy.getByTestId('activation-form-message').should('exist')
+    cy.getByTestId('activation-form-message')
+      .invoke('text')
+      .should('include', "Vous allez recevoir un mail pour finaliser l'activation de votre compte.")
+
+    cy.waitForEmail({
+      to: email,
+      subject: /Vous avez activé votre compte sur Count/,
+    })
+      .its('subject')
+      .should('match', /Vous avez activé votre compte sur Count/)
+  })
+
   it('does not create new user and organization when user already in environment', () => {
     const email = uniqueEmail('existing')
     cy.signup(email, '1321')
@@ -61,7 +78,9 @@ describe('Register', () => {
     cy.signup(uniqueEmail('wrong-cnc'), '0')
 
     cy.getByTestId('activation-form-message').should('exist')
-    cy.getByTestId('activation-form-message').invoke('text').should('include', "Ce Siret ou code CNC n'est pas reconnu")
+    cy.getByTestId('activation-form-message')
+      .invoke('text')
+      .should('include', "Ce numéro CNC ou SIRET n'est pas reconnu")
   })
 
   it('does create new user and ask for validation to already existing organization', () => {
