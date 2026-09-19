@@ -79,7 +79,7 @@ jobs:
           path: /tmp/next-build.tgz
           retention-days: 7
 
-  e2e:
+  e2e-tests:
     timeout-minutes: 30
     runs-on: ubuntu-latest
     needs: [lint-typecheck, unit-tests, build]

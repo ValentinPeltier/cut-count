@@ -34,7 +34,7 @@ export default defineConfig([
       'react/no-unescaped-entities': 'off',
       'react/self-closing-comp': 'error',
       curly: 'error',
-      'prettier/prettier': ['error', { endOfLine: 'auto' }],
+      'prettier/prettier': 'error',
       'react/jsx-tag-spacing': [
         'error',
         { beforeSelfClosing: 'always', afterOpening: 'never', beforeClosing: 'never' },

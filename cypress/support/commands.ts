@@ -90,7 +90,8 @@ Cypress.Commands.add('signup', (email = 'cut-cnc@yopmail.com', cncOrSiret = '321
   cy.wait('@signup')
 })
 
-const MAILDEV_API = 'http://localhost:1080/api'
+// Absolute URL required: support files are bundled for the browser and do not get Node `process.env`.
+const MAILDEV_ORIGIN = 'http://localhost:1080'
 
 type MailDevEmail = {
   id: string
@@ -110,7 +111,7 @@ const extractFirstLink = (html: string) => {
 }
 
 Cypress.Commands.add('clearEmails', () => {
-  cy.request('DELETE', `${MAILDEV_API}/email/all`)
+  cy.request('DELETE', `${MAILDEV_ORIGIN}/email/all`)
 })
 
 Cypress.Commands.add(
@@ -119,7 +120,7 @@ Cypress.Commands.add(
     const started = Date.now()
 
     const poll = (): Cypress.Chainable<MailDevEmail> =>
-      cy.request(`${MAILDEV_API}/email`).then((response) => {
+      cy.request(`${MAILDEV_ORIGIN}/email`).then((response) => {
         const emails = response.body as MailDevEmail[]
         const match = [...emails].reverse().find((email) => {
           const toMatches = !matcher.to || email.to?.some((recipient) => recipient.address === matcher.to)
