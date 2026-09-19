@@ -1,5 +1,5 @@
 import { DEFAULT_FUZZY_OPTIONS } from '@/constants/fuse.constant'
-import { Unit } from '@/db-common/enums'
+import { Unit } from '@/generated/prisma/enums'
 import {
   findEmissionFactorByImportedIdForMatch,
   findEmissionFactorsByNameAndUnit,

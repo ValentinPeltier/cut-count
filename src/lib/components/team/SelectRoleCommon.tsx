@@ -1,6 +1,6 @@
 'use client'
 
-import { Level, Role } from '@/db-common/enums'
+import { Level, Role } from '@/generated/prisma/enums'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
 import { ApiResponse } from '@/lib/utils/serverResponse'
 import { RoleBcOrMip } from '@/lib/utils/types'

@@ -1,5 +1,5 @@
-import { PrismaClient } from '@/db-common'
-import { EmissionFactorPartType } from '@/db-common/enums'
+import { PrismaClient } from '@/generated/prisma/client'
+import { EmissionFactorPartType } from '@/generated/prisma/enums'
 import { PrismaPg } from '@prisma/adapter-pg'
 import { writeFileSync } from 'fs'
 

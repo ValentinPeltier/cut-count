@@ -1,4 +1,4 @@
-import { Role, UserStatus } from '@/db-common/enums'
+import { Role, UserStatus } from '@/generated/prisma/enums'
 import * as abcUserUtils from '@/lib/utils/user'
 import { mockedOrganizationVersionId } from '@/tests/utils/models/organization'
 import { getMockedAuthUser, getMockedDbAccount, mockedAccountId } from '@/tests/utils/models/user'

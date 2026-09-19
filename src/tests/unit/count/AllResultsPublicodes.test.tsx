@@ -1,4 +1,4 @@
-import { StudyResultUnit } from '@/db-common/enums'
+import { StudyResultUnit } from '@/generated/prisma/enums'
 import { ThemeProvider } from '@mui/material/styles'
 import { render, screen } from '@testing-library/react'
 import theme from '@/environments/cut/theme/theme'
@@ -25,18 +25,6 @@ jest.mock('@/components/study/site/useStudySite', () => ({
 
 jest.mock('@/store/AppLoading', () => ({
   useAppLoadingStore: () => ({ isLoading: false }),
-}))
-
-jest.mock('@/services/permissions/environment', () => ({
-  hasAccessToFeedbackButton: () => false,
-  hasAccessToPDFExport: () => false,
-  hasAccessToResultsRatioTab: () => true,
-  hasAccessToSimplifiedEmissionAnalysis: () => false,
-  hasAccessToAdvancedEmissionAnalysis: () => false,
-  showResultsInfoText: () => false,
-  isCut: () => true,
-  isClickson: () => false,
-  isTilt: () => false,
 }))
 
 jest.mock('@/services/serverFunctions/pdf', () => ({ generateStudySummaryPDF: jest.fn() }))

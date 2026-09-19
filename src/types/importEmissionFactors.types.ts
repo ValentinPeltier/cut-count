@@ -1,4 +1,4 @@
-import { EmissionFactorBase, SubPost, Unit } from '@/db-common'
+import { EmissionFactorBase, SubPost, Unit } from '@/generated/prisma/client'
 import { ImportError, ImportWarning } from '@/types/import.types'
 
 export type { ImportError }

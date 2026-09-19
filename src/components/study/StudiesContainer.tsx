@@ -11,7 +11,6 @@ import Box from '@/lib/components/base/Box'
 import LinkButton from '@/lib/components/base/LinkButton'
 import Image from '@/lib/components/document/Image'
 import { customRich } from '@/lib/utils/customRich'
-import { canCreateStudyOnlyAsAdministrator } from '@/services/permissions/environment'
 import { canCreateAStudy } from '@/services/permissions/study'
 import { hasActiveLicence } from '@/utils/organization'
 import AddIcon from '@mui/icons-material/Add'
@@ -35,7 +34,7 @@ const StudiesContainer = async ({ user, organizationVersionId, isCR, simplified 
   const tCommon = await getTranslations('common')
 
   const allowedStudies = organizationVersionId
-    ? await getAllowedStudiesByUserAndOrganization(user, organizationVersionId, simplified)
+    ? await getAllowedStudiesByUserAndOrganization(user, organizationVersionId)
     : isCR
       ? await getExternalAllowedStudiesByUser(user)
       : await getAllowedStudiesByAccount(user)
@@ -74,20 +73,21 @@ const StudiesContainer = async ({ user, organizationVersionId, isCR, simplified 
   const collaborationStudies = isOrgaHomePage ? otherStudies : []
   const advancedStudies = mainStudies.filter((study) => !study.simplified)
   const simplifiedStudies = mainStudies.filter((study) => study.simplified)
+  const footprintStudies = advancedStudies.length > 0 ? advancedStudies : simplifiedStudies
+  const showSeparateSimplifiedList = advancedStudies.length > 0 && simplifiedStudies.length > 0
 
   const creationUrl = organizationVersionId ? `/organisations/${organizationVersionId}/etudes/creer` : '/etudes/creer'
-  const creationUrlSimplified = `${creationUrl}?simplified=true`
 
   const activeLicence = !!(organizationVersion && hasActiveLicence(organizationVersion))
 
-  const displaySimplifiedStudies = true
+  const displaySimplifiedStudies = showSeparateSimplifiedList
   const hasStudies = studies.length > 0
 
   return hasStudies ? (
     <>
-      {!!advancedStudies.length && (
+      {!!footprintStudies.length && (
         <Studies
-          studies={advancedStudies}
+          studies={footprintStudies}
           canAddStudy={(await canCreateAStudy(user)) && !isCR && activeLicence}
           creationUrl={creationUrl}
           user={user}
@@ -95,11 +95,11 @@ const StudiesContainer = async ({ user, organizationVersionId, isCR, simplified 
         />
       )}
 
-      {displaySimplifiedStudies && !!simplifiedStudies.length && (
+      {displaySimplifiedStudies && (
         <Studies
           studies={simplifiedStudies}
           canAddStudy={(await canCreateAStudy(user, true)) && !isCR && activeLicence}
-          creationUrl={creationUrlSimplified}
+          creationUrl={`${creationUrl}?simplified=true`}
           user={user}
           collaborations={!organizationVersionId && isCR}
           simplified
@@ -121,7 +121,7 @@ const StudiesContainer = async ({ user, organizationVersionId, isCR, simplified 
               <LinkButton
                 data-testid="new-study"
                 className={classNames('w100 justify-center mb1')}
-                href={simplified ? creationUrlSimplified : creationUrl}
+                href={simplified ? `${creationUrl}?simplified=true` : creationUrl}
               >
                 <AddIcon />
                 {t(simplified ? 'createFirstSimplifiedStudy' : 'createFirstStudy')}
@@ -131,7 +131,7 @@ const StudiesContainer = async ({ user, organizationVersionId, isCR, simplified 
         </Block>
       </MUIBox>
     )
-  ) : !canCreateStudyOnlyAsAdministrator() && !simplified ? (
+  ) : !simplified ? (
     <Block>
       <Alert className="p0" severity="info">
         <p>

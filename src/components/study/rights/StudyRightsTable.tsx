@@ -1,6 +1,6 @@
 'use client'
 
-import { StudyRole } from '@/db-common/enums'
+import { StudyRole } from '@/generated/prisma/enums'
 import type { FullStudy } from '@/db/study'
 import { Table as BaseTable, HelpIcon } from '@/lib/components'
 import Block from '@/lib/components/base/Block'

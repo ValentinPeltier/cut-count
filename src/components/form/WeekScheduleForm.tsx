@@ -1,4 +1,4 @@
-import { DayOfWeek } from '@/db-common/enums'
+import { DayOfWeek } from '@/generated/prisma/enums'
 import { Control, FieldPath, FieldValues } from 'react-hook-form'
 import FormDayHours from './FormDayHours'
 

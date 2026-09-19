@@ -1,6 +1,6 @@
 'use server'
 
-import { EmissionFactorBase, EmissionFactorStatus, Import, Unit } from '@/db-common/enums'
+import { EmissionFactorBase, EmissionFactorStatus, Import, Unit } from '@/generated/prisma/enums'
 import { createEmissionFactorWithParts, getManualEmissionFactorsByOrganization } from '@/db/emissionFactors'
 import { getLocale } from '@/i18n/locale'
 import { LocaleType } from '@/lib/i18n/config'

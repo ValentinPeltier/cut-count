@@ -1,5 +1,5 @@
-import type { Prisma } from '@/db-common'
-import { Role, UserStatus } from '@/db-common/enums'
+import type { Prisma } from '@/generated/prisma/client'
+import { Role, UserStatus } from '@/generated/prisma/enums'
 import { findAccountSelect } from '@/db/common.select'
 import { CutRoles } from '@/services/roles'
 import { UserSession } from 'next-auth'

@@ -1,4 +1,4 @@
-import { Role } from '@/db-common/enums'
+import { Role } from '@/generated/prisma/enums'
 import { isAdmin } from '@/utils/user'
 import { UserSession } from 'next-auth'
 

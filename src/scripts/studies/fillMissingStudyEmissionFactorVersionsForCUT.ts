@@ -1,6 +1,6 @@
 'use server'
 
-import { Prisma } from '@/db-common'
+import { Prisma } from '@/generated/prisma/client'
 
 import { prismaClient } from '@/db/client.server'
 import { getSourceCutImportVersionIds } from '@/db/study'

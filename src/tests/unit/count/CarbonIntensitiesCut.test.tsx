@@ -1,6 +1,6 @@
 import CarbonIntensitiesCut from '@/environments/cut/study/results/CarbonIntensitiesCut'
 import type { FullStudy } from '@/db/study'
-import { StudyResultUnit } from '@/db-common/enums'
+import { StudyResultUnit } from '@/generated/prisma/enums'
 import { render, screen } from '@testing-library/react'
 
 jest.mock('next-intl', () => ({
@@ -9,10 +9,6 @@ jest.mock('next-intl', () => ({
 
 jest.mock('@/store/AppLoading', () => ({
   useAppLoadingStore: () => ({ isLoading: false }),
-}))
-
-jest.mock('@/services/permissions/environmentAdvanced', () => ({
-  hasAccessToCarbonResponsibilityIntensitiesAdvanced: () => false,
 }))
 
 describe('CarbonIntensitiesCut', () => {

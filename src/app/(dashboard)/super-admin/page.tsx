@@ -2,7 +2,7 @@
 
 import withAuth from '@/components/hoc/withAuth'
 import SuperAdminPage from '@/components/pages/SuperAdmin'
-import { Role } from '@/db-common/enums'
+import { Role } from '@/generated/prisma/enums'
 import NotFound from '@/lib/components/pages/NotFound'
 import { auth } from '@/services/auth'
 

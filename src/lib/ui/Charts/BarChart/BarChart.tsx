@@ -1,6 +1,6 @@
 'use client'
 
-import { StudyResultUnit } from '@/db-common'
+import { StudyResultUnit } from '@/generated/prisma/client'
 import { BasicTypeCharts, processBarChartData } from '@/lib/utils/charts'
 import { formatNumber } from '@/lib/utils/number'
 import { Typography, useTheme } from '@mui/material'

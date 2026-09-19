@@ -1,4 +1,4 @@
-import { Role } from '@/db-common/enums'
+import { Role } from '@/generated/prisma/enums'
 import z from 'zod'
 
 export const AddMemberCommandValidation = z.object({

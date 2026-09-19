@@ -1,6 +1,6 @@
 'use client'
 
-import { Level, Role } from '@/db-common/enums'
+import { Level, Role } from '@/generated/prisma/enums'
 import { Table as BaseTable, HelpIcon } from '@/lib/components'
 import Block from '@/lib/components/base/Block'
 import { TableActionButton } from '@/lib/components/base/TableActionButton'
@@ -31,7 +31,6 @@ interface Props {
   canUpdateTeam: boolean
   teamRoles: RoleBcOrMip[]
   deleteMember: () => Promise<void>
-  isCut?: boolean
   deletionError: string
   setDeletionErrorData: (data: DeletionErrorData[] | undefined) => void
   changeRole: (email: string, newRole: RoleBcOrMip) => Promise<ApiResponse>
@@ -55,7 +54,6 @@ const TeamTableCommon = ({
   canUpdateTeam,
   teamRoles,
   deleteMember,
-  isCut,
   deletionError,
   deletionErrorData,
   setDeletionErrorData,
@@ -81,13 +79,11 @@ const TeamTableCommon = ({
       { header: t('email'), accessorKey: 'user.email' },
     ]
 
-    if (isCut) {
-      col.push({
-        header: t('level'),
-        accessorFn: (member: TeamMemberCommon) =>
-          member.formationName ? member.formationName : tLevel(member.user.level ? member.user.level : 'noLevel'),
-      })
-    }
+    col.push({
+      header: t('level'),
+      accessorFn: (member: TeamMemberCommon) =>
+        member.formationName ? member.formationName : tLevel(member.user.level ? member.user.level : 'noLevel'),
+    })
 
     col.push({
       header: t('role'),

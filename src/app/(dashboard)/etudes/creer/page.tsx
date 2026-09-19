@@ -10,7 +10,7 @@ import { defaultCAUnit } from '@/utils/number'
 import { hasActiveLicence } from '@/utils/organization'
 import { redirect } from 'next/navigation'
 
-const NewStudy = async ({ user, duplicateStudyId, isCut }: UserSessionProps & StudyCreationProps) => {
+const NewStudy = async ({ user, isCut }: UserSessionProps & StudyCreationProps) => {
   if (!user.organizationVersionId || !(await canCreateAStudy(user, isCut))) {
     return <NotFound />
   }
@@ -40,7 +40,6 @@ const NewStudy = async ({ user, duplicateStudyId, isCut }: UserSessionProps & St
       user={user}
       accounts={accounts}
       caUnit={caUnit}
-      duplicateStudyId={duplicateStudyId}
     />
   )
 }

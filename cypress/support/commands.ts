@@ -60,5 +60,5 @@ Cypress.Commands.add('signupCut', (email = 'cut-cnc@yopmail.com', cncOrSiret = '
 })
 
 Cypress.Commands.add('resetTestDatabase', () => {
-  cy.exec('yarn db:test:reset')
+  cy.exec('npm run db:test:seed', { timeout: 180000 })
 })

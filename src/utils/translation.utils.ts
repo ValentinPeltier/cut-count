@@ -1,11 +1,65 @@
-import frCut from '@/i18n/translations/fr/cut.json'
+import frMessages from '@/i18n/translations/fr.json'
 import { LocaleType } from '@/lib/i18n/config'
-import frCommon from '@/lib/i18n/translations/fr/common.json'
 
-export type CommonTranslations = typeof frCommon
+const COMMON_MESSAGE_KEYS = [
+  'common',
+  'saveStatus',
+  'signup',
+  'navigation',
+  'country',
+  'study',
+  'locale',
+  'login',
+  'spinner',
+  'error',
+  'email',
+  'nav',
+  'team',
+  'level',
+  'role',
+  'newMember',
+] as const satisfies readonly (keyof typeof frMessages)[]
+
+export type CommonTranslations = Pick<typeof frMessages, (typeof COMMON_MESSAGE_KEYS)[number]>
 
 export function getCommonTranslations(_locale?: LocaleType): CommonTranslations {
-  return frCommon
+  const {
+    common,
+    saveStatus,
+    signup,
+    navigation,
+    country,
+    study,
+    locale,
+    login,
+    spinner,
+    error,
+    email,
+    nav,
+    team,
+    level,
+    role,
+    newMember,
+  } = frMessages
+
+  return {
+    common,
+    saveStatus,
+    signup,
+    navigation,
+    country,
+    study,
+    locale,
+    login,
+    spinner,
+    error,
+    email,
+    nav,
+    team,
+    level,
+    role,
+    newMember,
+  }
 }
 
 /**
@@ -29,8 +83,8 @@ export function extractAllForms(value: string): string[] {
   return [value.trim()]
 }
 
-export type BcTranslations = typeof frCut
+export type BcTranslations = typeof frMessages
 
 export function getBcTranslations(_locale?: LocaleType): BcTranslations {
-  return frCut
+  return frMessages
 }

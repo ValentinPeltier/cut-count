@@ -1,5 +1,5 @@
 import { PUBLICODES_ENGINE_VERSION } from '@/constants/versions'
-import { Situation as SituationSchema } from '@/db-common'
+import { Situation as SituationSchema } from '@/generated/prisma/client'
 import type { InputJsonValue } from '@prisma/client/runtime/client'
 import { prismaClient } from './client.server'
 

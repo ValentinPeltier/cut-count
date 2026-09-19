@@ -1,5 +1,5 @@
-import type { Account, Prisma, User } from '@/db-common'
-import { Level, Role, UserStatus } from '@/db-common/enums'
+import type { Account, Prisma, User } from '@/generated/prisma/client'
+import { Level, Role, UserStatus } from '@/generated/prisma/enums'
 import { mockedOrganizationId } from '@/lib/services/tests/models/organization'
 import { mockedDbUser, mockedUser, mockedUserId } from '@/lib/services/tests/models/user'
 import { Session, UserSession } from 'next-auth'

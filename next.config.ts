@@ -16,6 +16,7 @@ const nextConfig: NextConfig = {
   },
   images: {
     remotePatterns: [],
+    qualities: [75, 90],
   },
   transpilePackages: ['mui-color-input', '@publicodes/forms'],
   reactStrictMode: true,

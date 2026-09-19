@@ -1,4 +1,4 @@
-import { Prisma } from '@/db-common'
+import { Prisma } from '@/generated/prisma/client'
 
 const baseUserInfoSelect = {
   user: {

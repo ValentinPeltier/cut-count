@@ -1,4 +1,4 @@
-import { StudyResultUnit } from '@/db-common/enums'
+import { StudyResultUnit } from '@/generated/prisma/enums'
 import { formatNumber } from '@/lib/utils/number'
 import { useTranslations } from 'next-intl'
 import styles from './CarbonIntensity.module.css'

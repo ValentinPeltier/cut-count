@@ -7,7 +7,7 @@ import {
 import { computeResultsForAllSitesFromSituations } from '@/services/results/computeSimplifiedResults'
 import { CutPost, subPostsByPostCUT, type BaseResultsByPost } from '@/services/posts'
 import { loadCountSituation } from '@/tests/fixtures/count/loadFixtures'
-import { StudyResultUnit } from '@/db-common/enums'
+import { StudyResultUnit } from '@/generated/prisma/enums'
 import Engine, { Situation } from 'publicodes'
 
 describe('computeSimplifiedResults edge cases', () => {

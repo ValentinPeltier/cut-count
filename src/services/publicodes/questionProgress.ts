@@ -1,4 +1,4 @@
-import { SubPost } from '@/db-common/enums'
+import { SubPost } from '@/generated/prisma/enums'
 import { ListLayoutSituations } from '@/lib/publicodes/context'
 import {
   hasDefaultValue,

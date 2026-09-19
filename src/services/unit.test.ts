@@ -1,4 +1,4 @@
-import { Unit } from '@/db-common/enums'
+import { Unit } from '@/generated/prisma/enums'
 import { CUTUnit, OldUnit } from './unit'
 
 jest.mock('next-intl', () => ({

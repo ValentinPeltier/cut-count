@@ -1,5 +1,5 @@
 'use client'
-import { StudyRole, SubPost } from '@/db-common/enums'
+import { StudyRole, SubPost } from '@/generated/prisma/enums'
 import type { FullStudy } from '@/db/study'
 import SimplifiedStudyPostsPage from '@/environments/simplified/study/SimplifiedStudyPostsPage'
 import Block from '@/lib/components/base/Block'

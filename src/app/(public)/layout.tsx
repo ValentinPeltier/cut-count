@@ -1,8 +1,7 @@
 import PublicCutPage from '@/components/pages/PublicCut'
 
-import cutTheme from '@/environments/cut/theme/theme'
+import CutThemeProvider from '@/environments/cut/theme/CutThemeProvider'
 import { customRich } from '@/lib/utils/customRich'
-import { ThemeProvider } from '@mui/material/styles'
 import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { ReactNode } from 'react'
@@ -20,11 +19,11 @@ const PublicLayout = async ({ children }: Props) => {
   const t = await getTranslations('login')
   const question = customRich(t, 'question', {})
   return (
-    <ThemeProvider theme={cutTheme}>
+    <CutThemeProvider>
       <main className="h100">
         <PublicCutPage question={question}>{children}</PublicCutPage>
       </main>
-    </ThemeProvider>
+    </CutThemeProvider>
   )
 }
 

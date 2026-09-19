@@ -1,5 +1,5 @@
 import { EngagementActionSteps, EngagementActionTargets } from '@/constants/engagementActions'
-import { EmissionFactorBase, EmissionSourceCaracterisation, EmissionSourceType, EngagementPhase, SubPost } from '@/db-common/enums'
+import { EmissionFactorBase, EmissionSourceCaracterisation, EmissionSourceType, EngagementPhase, SubPost } from '@/generated/prisma/enums'
 import { BCUnit } from '@/services/unit'
 import { EmissionSourcesStatus } from './emissionSource.types'
 

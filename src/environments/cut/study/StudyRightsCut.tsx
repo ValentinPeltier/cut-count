@@ -2,8 +2,8 @@
 
 import SelectStudySite from '@/components/study/site/SelectStudySite'
 import useStudySite from '@/components/study/site/useStudySite'
-import type { OpeningHours } from '@/db-common'
-import { DayOfWeek } from '@/db-common/enums'
+import type { OpeningHours } from '@/generated/prisma/client'
+import { DayOfWeek } from '@/generated/prisma/enums'
 import type { FullStudy } from '@/db/study'
 import Block from '@/lib/components/base/Block'
 import LinkButton from '@/lib/components/base/LinkButton'

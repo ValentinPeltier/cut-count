@@ -1,6 +1,6 @@
 'use client'
 
-import type { Cnc } from '@/db-common'
+import type { Cnc } from '@/generated/prisma/client'
 
 import Form from '@/lib/components/base/Form'
 import LoadingButton from '@/lib/components/base/LoadingButton'

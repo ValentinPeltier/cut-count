@@ -1,4 +1,4 @@
-import { Role, UserStatus } from '@/db-common/enums'
+import { Role, UserStatus } from '@/generated/prisma/enums'
 import { CutRoles } from '@/services/roles'
 import { getMockedAuthUser } from '@/tests/utils/models/user'
 import { expect } from '@jest/globals'

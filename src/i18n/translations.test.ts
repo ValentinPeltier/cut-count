@@ -4,15 +4,14 @@ import fs from 'fs'
 import path from 'path'
 
 describe('Translations', () => {
-  it('loads French common and cut message trees', () => {
-    const translationsDir = path.join(__dirname, 'translations', Locale.FR)
-    const common = JSON.parse(fs.readFileSync(path.join(translationsDir, 'cut.json'), 'utf8'))
-    const cut = JSON.parse(fs.readFileSync(path.join(translationsDir, 'cut.json'), 'utf8'))
-    const packagesCommon = path.join(__dirname, '../lib/i18n/translations', Locale.FR, 'common.json')
+  it('loads the French message tree from a single file', () => {
+    const translationsDir = path.join(__dirname, 'translations')
+    const messages = JSON.parse(fs.readFileSync(path.join(translationsDir, `${Locale.FR}.json`), 'utf8'))
 
-    expect(common).toBeDefined()
-    expect(cut).toBeDefined()
-    expect(fs.existsSync(packagesCommon)).toBe(true)
-    expect(fs.existsSync(path.join(translationsDir, 'bc.json'))).toBe(false)
+    expect(messages).toBeDefined()
+    expect(messages.common).toBeDefined()
+    expect(messages['publicodes-rules']).toBeDefined()
+    expect(messages['publicodes-layout']).toBeDefined()
+    expect(fs.existsSync(path.join(translationsDir, Locale.FR, 'bc.json'))).toBe(false)
   })
 })

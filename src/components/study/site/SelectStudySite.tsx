@@ -1,7 +1,6 @@
 'use client'
 
 import type { FullStudy } from '@/db/study'
-import { hasAccessToStudySiteAddAndSelection } from '@/services/permissions/environment'
 import { FormControl, InputLabel, MenuItem, Select, Tooltip } from '@mui/material'
 import { useTranslations } from 'next-intl'
 import styles from './SelectStudySite.module.css'
@@ -37,10 +36,6 @@ const SelectStudySite = ({
 
   const value = getSelectStudySiteValue(sites, defaultValue, showAllOption)
   const orderedSites = [...(sites ?? [])].sort((a, b) => a.site.name.localeCompare(b.site.name))
-
-  if (!hasAccessToStudySiteAddAndSelection()) {
-    return null
-  }
 
   return (
     <FormControl className={styles.select}>

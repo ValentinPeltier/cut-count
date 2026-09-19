@@ -1,4 +1,4 @@
-import { Role, SiteCAUnit } from '@/db-common/enums'
+import { Role, SiteCAUnit } from '@/generated/prisma/enums'
 import z from 'zod'
 
 export const EditProfileCommandValidation = z.object({

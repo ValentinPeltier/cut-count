@@ -1,4 +1,4 @@
-import { Import, Unit } from '@/db-common/enums'
+import { Import, Unit } from '@/generated/prisma/enums'
 import { expect } from '@jest/globals'
 import { getEmissionFactorValue, isMonetaryEmissionFactor, isWasteEmissionFactor } from './emissionFactors'
 

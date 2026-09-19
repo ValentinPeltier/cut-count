@@ -1,9 +1,8 @@
 import withAuth, { UserSessionProps } from '@/components/hoc/withAuth'
 import Navbar from '@/components/navbar/Navbar'
 import { getAccountOrganizationVersions } from '@/db/account'
-import cutTheme from '@/environments/cut/theme/theme'
+import CutThemeProvider from '@/environments/cut/theme/CutThemeProvider'
 import { Box } from '@mui/material'
-import { ThemeProvider } from '@mui/material/styles'
 import styles from './layout.module.css'
 
 interface Props {
@@ -18,14 +17,14 @@ const NavLayout = async ({ children, user: account }: Props & UserSessionProps) 
   await getAccountOrganizationVersions(account.accountId)
 
   return (
-    <ThemeProvider theme={cutTheme}>
+    <CutThemeProvider>
       <Box className="flex-col h100">
         <Navbar user={account} />
         <Box component="main" className={styles.content}>
           {children}
         </Box>
       </Box>
-    </ThemeProvider>
+    </CutThemeProvider>
   )
 }
 

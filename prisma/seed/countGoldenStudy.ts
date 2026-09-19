@@ -6,9 +6,9 @@ import {
   COUNT_GOLDEN_STUDY_SITE_ID,
 } from '@/tests/fixtures/count/constants'
 import { loadCountSituation } from '@/tests/fixtures/count/loadFixtures'
-import { PrismaClient } from '@/db-common'
-import { Level, StudyRole, StudyResultUnit, UserStatus } from '@/db-common/enums'
-import type { Prisma } from '@/db-common'
+import { PrismaClient } from '@/generated/prisma/client'
+import { Level, StudyRole, StudyResultUnit, UserStatus } from '@/generated/prisma/enums'
+import type { Prisma } from '@/generated/prisma/client'
 
 const richSituation = loadCountSituation('rich')
 

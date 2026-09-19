@@ -1,6 +1,6 @@
 'use server'
 
-import { DeactivatableFeature, Role, UserSource } from '@/db-common/enums'
+import { DeactivatableFeature, Role, UserSource } from '@/generated/prisma/enums'
 import {
   createDeactivableFeatures,
   createOrUpdateDeactivableFeature,

@@ -1,4 +1,4 @@
-import { StudyResultUnit } from '@/db-common/enums'
+import { StudyResultUnit } from '@/generated/prisma/enums'
 import Box from '@/lib/components/base/Box'
 import Title from '@/lib/components/base/Title'
 import GlossaryModal from '@/lib/components/modals/GlossaryModal'

@@ -1,5 +1,5 @@
 import { KG_CO2E_PREFIX_REGEX } from '@/constants/import'
-import { EmissionFactorBase, SubPost, Unit } from '@/db-common/enums'
+import { EmissionFactorBase, SubPost, Unit } from '@/generated/prisma/enums'
 import { LocaleType } from '@/lib/i18n/config'
 import { environmentPostMapping, environmentSubPostsMapping } from '@/services/posts'
 import { ImportWarning } from '@/types/import.types'

@@ -1,8 +1,7 @@
-import type { Level, Prisma } from '@/db-common'
-import { Import, StudyRole } from '@/db-common/enums'
+import type { Level, Prisma } from '@/generated/prisma/client'
+import { Import, StudyRole } from '@/generated/prisma/enums'
 import { getEnvVar } from '@/lib/environment'
 import { isSourceForEnv } from '@/services/importEmissionFactor/import'
-import { hasAccessToCreateStudyWithEmissionFactorVersions } from '@/services/permissions/environment'
 import { filterAllowedStudies } from '@/services/permissions/study'
 import { ChangeStudyCinemaCommand } from '@/services/serverFunctions/study.command'
 import { mapCncToStudySite } from '@/utils/cnc'
@@ -38,7 +37,7 @@ export const createStudy = async (
     },
   })
 
-  if (hasAccessToCreateStudyWithEmissionFactorVersions() || shouldCreateFEVersions) {
+  if (shouldCreateFEVersions) {
     const studyEmissionFactorVersions = (await getSourceCutImportVersionIds()).map((importVersion) => ({
       studyId: dbStudy.id,
       source: importVersion.source,
@@ -268,7 +267,7 @@ export const getAllowedStudyIdByAccount = async (account: UserSession) => {
 export const getAllowedStudiesByUserAndOrganization = async (
   user: UserSession,
   organizationVersionId: string,
-  simplified = false,
+  simplified?: boolean,
 ) => {
   const organizationVersion = await prismaClient.organizationVersion.findUnique({
     where: { id: organizationVersionId },
@@ -292,7 +291,7 @@ export const getAllowedStudiesByUserAndOrganization = async (
   const studies = await prismaClient.study.findMany({
     where: {
       organizationVersionId,
-      simplified,
+      ...(simplified !== undefined ? { simplified } : {}),
       ...(isAdminOnOrga(user, organizationVersion)
         ? {}
         : {

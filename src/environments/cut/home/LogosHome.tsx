@@ -6,8 +6,12 @@ import { Box } from '@mui/material'
 import styles from './LogosHome.module.css'
 
 const logos = [
-  { src: '/logos/cut/Republique_francaise.png', alt: 'Logo de la république française' },
-  { src: '/logos/cut/Banques_des_territoires.svg', alt: 'Logo du groupe la caisse des dépots' },
+  { src: '/logos/cut/Republique_francaise.png', alt: 'Logo de la république française', priority: true },
+  {
+    src: '/logos/cut/Banques_des_territoires.svg',
+    alt: 'Logo du groupe la caisse des dépots',
+    priority: true,
+  },
 ]
 
 const LogosHome = (_props: UserSessionProps) => {
@@ -25,6 +29,7 @@ const LogosHome = (_props: UserSessionProps) => {
             quality={90}
             width={400}
             height={100}
+            priority={logo.priority}
           />
         ))}
       </Box>

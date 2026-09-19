@@ -1,4 +1,4 @@
-import { User } from '@/db-common'
+import { User } from '@/generated/prisma/client'
 import { AccountWithUser } from '@/types/account.types'
 import { UserSession } from 'next-auth'
 

@@ -1,7 +1,7 @@
 'use server'
 
-import type { Prisma } from '@/db-common'
-import { Role, StudyResultUnit, StudyRole, UserStatus } from '@/db-common/enums'
+import type { Prisma } from '@/generated/prisma/client'
+import { Role, StudyResultUnit, StudyRole, UserStatus } from '@/generated/prisma/enums'
 import {
   addAccount,
   getAccountByEmail,
@@ -61,7 +61,6 @@ import { UserSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
 import { dbActualizedAuth } from '../auth'
 import { ALREADY_IN_STUDY } from '../permissions/check'
-import { hasSimplifiedStudies } from '../permissions/environment'
 import { isInOrgaOrParentFromId } from '../permissions/organization'
 import {
   canAddRightOnStudy,
@@ -389,9 +388,6 @@ async function updateSituationWithStudySiteData(
   studyIsSimplified: boolean,
 ) {
   if (studyIsSimplified) {
-    if (!hasSimplifiedStudies()) {
-      return
-    }
     const situationUpdates = studySiteToSituation(siteDependentFields)
 
     if (Object.keys(situationUpdates).length > 0) {

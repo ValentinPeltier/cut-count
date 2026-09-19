@@ -1,5 +1,5 @@
 import PostIcon from '@/components/study/infography/icons/PostIcon'
-import { SubPost } from '@/db-common/enums'
+import { SubPost } from '@/generated/prisma/enums'
 import { Post } from '@/lib/utils/charts'
 import { useTranslations } from 'next-intl'
 import styles from './PostHeader.module.css'

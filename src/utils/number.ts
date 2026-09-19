@@ -1,4 +1,4 @@
-import { SiteCAUnit } from '@/db-common/enums'
+import { SiteCAUnit } from '@/generated/prisma/enums'
 import { formatNumber } from '@/lib/utils/number'
 import Big from 'big.js'
 

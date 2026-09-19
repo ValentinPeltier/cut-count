@@ -1,3 +1,3 @@
-import { Role } from '@/db-common/enums'
+import { Role } from '@/generated/prisma/enums'
 
 export type RoleBcOrMip = Role

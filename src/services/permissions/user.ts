@@ -1,5 +1,5 @@
-import type { Prisma } from '@/db-common'
-import { Role, UserStatus } from '@/db-common/enums'
+import type { Prisma } from '@/generated/prisma/client'
+import { Role, UserStatus } from '@/generated/prisma/enums'
 import { canBeUntrainedRole } from '@/lib/utils/user'
 import { AccountWithUser } from '@/types/account.types'
 import { canEditMemberRole } from '@/utils/user'

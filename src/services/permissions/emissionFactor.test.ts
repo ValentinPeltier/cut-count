@@ -1,5 +1,5 @@
-import type { EmissionFactor } from '@/db-common'
-import { Import } from '@/db-common/enums'
+import type { EmissionFactor } from '@/generated/prisma/client'
+import { Import } from '@/generated/prisma/enums'
 import { getMockedDbAccount } from '@/tests/utils/models/user'
 import { AccountWithUser } from '@/types/account.types'
 import { expect } from '@jest/globals'

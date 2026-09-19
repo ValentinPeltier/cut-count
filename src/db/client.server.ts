@@ -1,4 +1,4 @@
-import { PrismaClient } from '@/db-common'
+import { PrismaClient } from '@/generated/prisma/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 // Au lieu de : import 'server-only' pour pas casser la seed
 if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'test') {

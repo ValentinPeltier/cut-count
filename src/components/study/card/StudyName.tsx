@@ -24,7 +24,7 @@ const StudyName = ({ studyId, name, role, clickable = false }: Props) => {
       roleClass={role ? role.toLowerCase() : 'validator'} // For env without role default to green design
       {...(clickable && {
         component: 'a',
-        href: `/etudes/${studyId}?showHome=true`,
+        href: `/etudes/${studyId}/cadrage`,
         clickable: true,
       })}
     />

@@ -1,4 +1,4 @@
-import type { Prisma } from '@/db-common'
+import type { Prisma } from '@/generated/prisma/client'
 import { getOrCreateCncVersion, upsertCNC } from '@/db/cnc'
 import { removeDiacritics } from '@/lib/utils/parsing'
 import { Command } from 'commander'

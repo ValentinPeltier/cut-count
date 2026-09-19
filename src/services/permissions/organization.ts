@@ -1,7 +1,6 @@
 import { getAccountById } from '@/db/account'
 import {
   getOrganizationVersionForRightsCheck,
-  getOrganizationVersionIsCR,
   getOrgVersionWithOrgId,
   organizationVersionExists,
 } from '@/db/organization'
@@ -36,21 +35,6 @@ export const isVersionInOrgaOrParent = async (
 
   const organizationVersion = await getOrgVersionWithOrgId(organizationVersionId.parentId)
   return organizationId === organizationVersion?.organizationId
-}
-
-export const canCreateOrganization = async (account: UserSession) => {
-  const dbAccount = await getAccountById(account.accountId)
-
-  if (!dbAccount) {
-    return false
-  }
-
-  const organizationIsCR = await getOrganizationVersionIsCR(dbAccount.organizationVersionId)
-  if (!organizationIsCR) {
-    return false
-  }
-
-  return true
 }
 
 export const canUpdateOrganizationVersion = async (account: UserSession, organizationVersionId: string) => {

@@ -100,8 +100,8 @@ jobs:
       postgres:
         image: postgres:17
         env:
-          POSTGRES_USER: bilancarbone
-          POSTGRES_PASSWORD: bilancarbone
+          POSTGRES_USER: count
+          POSTGRES_PASSWORD: count
         ports:
           - 5432:5432
         options: >-
@@ -162,8 +162,8 @@ jobs:
       postgres:
         image: postgres:17
         env:
-          POSTGRES_USER: bilancarbone
-          POSTGRES_PASSWORD: bilancarbone
+          POSTGRES_USER: count
+          POSTGRES_PASSWORD: count
         ports:
           - 5432:5432
         options: >-

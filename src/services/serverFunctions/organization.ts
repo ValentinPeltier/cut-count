@@ -1,12 +1,11 @@
 'use server'
 
-import type { Account, Prisma, User } from '@/db-common'
-import { StudyRole } from '@/db-common/enums'
+import type { Account, Prisma, User } from '@/generated/prisma/client'
+import { StudyRole } from '@/generated/prisma/enums'
 import { getAccountOrganizationVersions } from '@/db/account'
 import { prismaClient } from '@/db/client.server'
 import { getEmissionFactorWithoutQuality } from '@/db/emissionFactors'
 import {
-  createOrganizationWithVersion,
   deleteClient,
   getOrgNameByOrgVersionId,
   getOrgVersionWithNameById,
@@ -29,14 +28,12 @@ import { withServerResponse } from '@/utils/serverResponse'
 import { isAdmin } from '@/utils/user'
 import { auth, dbActualizedAuth } from '../auth'
 import { UNKNOWN_ERROR } from '../permissions/check'
-import { hasAccessToCreateOrganization } from '../permissions/environment'
 import {
-  canCreateOrganization,
   canDeleteMember,
   canDeleteOrganizationVersion,
   canUpdateOrganizationVersion,
 } from '../permissions/organization'
-import { CreateOrganizationCommand, UpdateOrganizationCommand } from './organization.command'
+import { UpdateOrganizationCommand } from './organization.command'
 import { getStudy } from './study'
 import { DeleteCommand, SitesCommand } from './study.command'
 import { addMember } from './user'
@@ -56,34 +53,6 @@ export const getStudyOrganizationVersion = async (studyId: string) =>
       return null
     }
     return getOrgVersionWithNameById(study.data.organizationVersionId)
-  })
-
-export const createOrganizationCommand = async (command: CreateOrganizationCommand) =>
-  withServerResponse('createOrganizationCommand', async () => {
-    const session = await dbActualizedAuth()
-    if (!session || !session.user.organizationVersionId || !hasAccessToCreateOrganization()) {
-      throw new Error(NOT_AUTHORIZED)
-    }
-
-    const organization = {
-      ...command,
-    } satisfies Prisma.OrganizationCreateInput
-
-    const organizationVersion = {
-      parent: { connect: { id: session.user.organizationVersionId } },
-    } satisfies Omit<Prisma.OrganizationVersionCreateInput, 'organization'>
-
-    if (!(await canCreateOrganization(session.user))) {
-      throw new Error(NOT_AUTHORIZED)
-    }
-
-    try {
-      const createdOrganizationVersion = await createOrganizationWithVersion(organization, organizationVersion)
-      return { id: createdOrganizationVersion.id }
-    } catch (e) {
-      console.error(e)
-      throw new Error(UNKNOWN_ERROR)
-    }
   })
 
 export const updateOrganizationCommand = async (command: UpdateOrganizationCommand) =>

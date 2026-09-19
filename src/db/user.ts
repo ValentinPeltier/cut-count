@@ -1,5 +1,5 @@
-import type { Prisma } from '@/db-common'
-import { DeactivatableFeature, Role, UserStatus } from '@/db-common/enums'
+import type { Prisma } from '@/generated/prisma/client'
+import { DeactivatableFeature, Role, UserStatus } from '@/generated/prisma/enums'
 import { NOT_AUTHORIZED } from '@/lib/services/permissions/check'
 import { AddMemberCommand } from '@/lib/services/serverFunctions/user.command'
 import { signPassword } from '@/lib/utils/auth'

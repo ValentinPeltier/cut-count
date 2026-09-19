@@ -1,6 +1,6 @@
 'use client'
 
-import { Role } from '@/db-common/enums'
+import { Role } from '@/generated/prisma/enums'
 import Form from '@/lib/components/base/Form'
 import LoadingButton from '@/lib/components/base/LoadingButton'
 import { FormSelect } from '@/lib/components/form/Select'

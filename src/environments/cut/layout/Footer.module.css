@@ -8,3 +8,9 @@
     flex-wrap: wrap;
   }
 }
+
+.cutLogo {
+  width: auto;
+  height: auto;
+  max-width: 150px;
+}

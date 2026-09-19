@@ -9,6 +9,6 @@
 
 .image {
   height: 100%;
-  width: fit-content;
+  width: auto;
   object-fit: contain;
 }

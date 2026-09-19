@@ -1,4 +1,4 @@
-import { SubPost } from '@/db-common/enums'
+import { SubPost } from '@/generated/prisma/enums'
 import { Post } from '@/lib/utils/charts'
 import { subPostsByPost } from '@/services/posts'
 import { Checkbox, FormControl, FormLabel, InputLabel, ListItemText, MenuItem, Select } from '@mui/material'

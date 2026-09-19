@@ -1,4 +1,4 @@
-import { type Account, type User } from '@/db-common'
+import { type Account, type User } from '@/generated/prisma/client'
 
 export type AccountWithUser = Account & {
   user: User

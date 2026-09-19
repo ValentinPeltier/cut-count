@@ -2,7 +2,6 @@ import withAuth, { UserSessionProps } from '@/components/hoc/withAuth'
 import StudyNavbar from '@/components/studyNavbar/StudyNavbar'
 import { getStudyForNavbar } from '@/db/study'
 import NotFound from '@/lib/components/pages/NotFound'
-import { hasRoleOnStudy } from '@/services/permissions/environment'
 import { canReadStudy, canReadStudyDetail } from '@/services/permissions/study'
 import { getAccountRoleOnStudy } from '@/utils/study'
 import { UUID } from 'crypto'
@@ -29,7 +28,7 @@ const NavLayout = async ({ children, params, user }: Props & UserSessionProps) =
   }
 
   const userRole = await getAccountRoleOnStudy(user, study)
-  const showRoleInChip = user && hasRoleOnStudy()
+  const showRoleInChip = !!user
 
   return (
     <>

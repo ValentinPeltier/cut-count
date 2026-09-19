@@ -1,6 +1,6 @@
 'use client'
 
-import { SubPost } from '@/db-common/enums'
+import { SubPost } from '@/generated/prisma/enums'
 import { Post } from '@/lib/utils/charts'
 import { SimplifiedPost } from '@/services/posts'
 import { QuestionStats } from '@/services/publicodes/questionProgress'

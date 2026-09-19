@@ -1,7 +1,7 @@
 'use client'
 
-import { UserApplicationSettings } from '@/db-common'
-import { SiteCAUnit } from '@/db-common/enums'
+import { UserApplicationSettings } from '@/generated/prisma/client'
+import { SiteCAUnit } from '@/generated/prisma/enums'
 import { HelpIcon } from '@/lib/components'
 import Form from '@/lib/components/base/Form'
 import LoadingButton from '@/lib/components/base/LoadingButton'

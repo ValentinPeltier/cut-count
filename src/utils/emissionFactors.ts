@@ -1,34 +1,14 @@
-import { wasteImpact } from '@/constants/emissions'
-import { wasteEmissionFactors } from '@/constants/wasteEmissionFactors'
-import type { EmissionFactor, Prisma } from '@/db-common'
-import { Import, SubPost, Unit } from '@/db-common/enums'
-import { hasWasteImpact } from '@/services/permissions/environment'
+import type { EmissionFactor, Prisma } from '@/generated/prisma/client'
+import { Import, SubPost, Unit } from '@/generated/prisma/enums'
 import { unique } from './array'
 
-export const isWasteEmissionFactor = (emissionFactor: Pick<EmissionFactor, 'importedFrom' | 'importedId'>) =>
-  hasWasteImpact() &&
-  emissionFactor.importedFrom === Import.BaseEmpreinte &&
-  !!emissionFactor.importedId &&
-  !!wasteEmissionFactors[emissionFactor.importedId]
+export const isWasteEmissionFactor = (_emissionFactor: Pick<EmissionFactor, 'importedFrom' | 'importedId'>) => false
 
 export const getEmissionFactorValue = (emissionFactor: {
   totalCo2: EmissionFactor['totalCo2']
   importedFrom?: EmissionFactor['importedFrom']
   importedId?: EmissionFactor['importedId']
-}) => {
-  if (emissionFactor.importedFrom && emissionFactor.importedId) {
-    if (
-      isWasteEmissionFactor({
-        importedFrom: emissionFactor.importedFrom,
-        importedId: emissionFactor.importedId,
-      })
-    ) {
-      return wasteImpact
-    }
-  }
-
-  return emissionFactor.totalCo2
-}
+}) => emissionFactor.totalCo2
 
 export const emissionFactorDefautQualityStar = '☆'
 

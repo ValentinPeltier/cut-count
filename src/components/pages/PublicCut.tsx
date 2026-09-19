@@ -54,6 +54,7 @@ const PublicCutPage = ({ children, question }: Props) => {
               width={400}
               height={400}
               className={classNames(styles.image, 'w100')}
+              priority
             />
             <Typography className="title-h6 bold">{t('subtext')}</Typography>
             <div className="justify-center">

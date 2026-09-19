@@ -1,4 +1,4 @@
-import { SubPost } from '@/db-common/enums'
+import { SubPost } from '@/generated/prisma/enums'
 
 export const OTHER_TAG_ID = 'other'
 

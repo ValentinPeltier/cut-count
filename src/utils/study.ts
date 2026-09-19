@@ -1,4 +1,4 @@
-import { Level, Role, StudyResultUnit, StudyRole } from '@/db-common/enums'
+import { Level, Role, StudyResultUnit, StudyRole } from '@/generated/prisma/enums'
 import type { FullStudy } from '@/db/study'
 import { Post, STUDY_UNIT_VALUES } from '@/lib/utils/charts'
 import { formatNumber } from '@/lib/utils/number'

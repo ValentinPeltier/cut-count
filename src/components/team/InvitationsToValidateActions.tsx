@@ -1,6 +1,6 @@
 'use client'
 
-import { Role } from '@/db-common/enums'
+import { Role } from '@/generated/prisma/enums'
 import { TeamMember } from '@/db/account'
 import LoadingButton from '@/lib/components/base/LoadingButton'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'

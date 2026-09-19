@@ -1,10 +1,10 @@
-import type { Prisma, Study, User } from '@/db-common'
-import { Level, Role, StudyRole } from '@/db-common/enums'
+import type { Prisma, Study, User } from '@/generated/prisma/client'
+import { Level, StudyRole } from '@/generated/prisma/enums'
 import { getAccountById } from '@/db/account'
 import { getOrganizationVersionForRightsCheck } from '@/db/organization'
 import { FullStudy, getStudyById } from '@/db/study'
 import { getAccountByIdWithAllowedStudies, UserWithAllowedStudies } from '@/db/user'
-import { canEditOrganizationVersion, hasActiveLicence, isInOrgaOrParent } from '@/utils/organization'
+import { hasActiveLicence, isInOrgaOrParent } from '@/utils/organization'
 import {
   getAccountRoleOnStudy,
   hasEditionRights,
@@ -14,8 +14,6 @@ import {
 import { UserSession } from 'next-auth'
 import { dbActualizedAuth } from '../auth'
 import { getUserActiveAccounts } from '../serverFunctions/user'
-import { canCreateStudyOnlyAsAdministrator, canCreateStudyWithoutSpecificRights } from './environment'
-import { hasAccessToDuplicateStudy } from './environmentAdvanced'
 import { isInOrgaOrParentFromId } from './organization'
 import { isAdminOnStudyOrga } from './study.utils'
 
@@ -65,14 +63,7 @@ export const filterAllowedStudies = async (user: UserSession, studies: Study[]) 
 }
 
 export const canCreateAStudy = async (user: UserSession, _simplified: boolean = false) => {
-  const canCreateAdvancedStudy =
-    !!user.level &&
-    user.role !== Role.DEFAULT &&
-    (user.role === Role.ADMIN || !canCreateStudyOnlyAsAdministrator())
-
-  return (
-    !!user.organizationVersionId && (canCreateAdvancedStudy || canCreateStudyWithoutSpecificRights())
-  )
+  return !!user.organizationVersionId
 }
 
 const canCreateSpecificStudyCommon = async (accountId: string, organizationVersionId: string) => {
@@ -97,23 +88,6 @@ const canCreateSpecificStudyCommon = async (accountId: string, organizationVersi
 const canCreateSpecificStudySimplified = async (accountId: string, organizationVersionId: string) => {
   const { allowed } = await canCreateSpecificStudyCommon(accountId, organizationVersionId)
   return allowed
-}
-
-const canCreateSpecificStudyBC = async (
-  accountId: string,
-  study: Prisma.StudyCreateInput,
-  organizationVersionId: string,
-) => {
-  const { allowed: commonRights, account: dbAccount } = await canCreateSpecificStudyCommon(
-    accountId,
-    organizationVersionId,
-  )
-
-  if (!commonRights || !dbAccount || !hasSufficientLevel(dbAccount.user.level, study.level)) {
-    return false
-  }
-
-  return true
 }
 
 export const canCreateSpecificStudy = async (
@@ -254,36 +228,6 @@ export const canDeleteStudy = async (studyId: string) => {
   return false
 }
 
-export const canDuplicateStudy = async (studyId: string) => {
-  const session = await dbActualizedAuth()
-
-  if (!session) {
-    return false
-  }
-
-  const study = await getStudyById(studyId, session.user.organizationVersionId)
-
-  if (!study) {
-    return false
-  }
-
-  if (!hasAccessToDuplicateStudy()) {
-    return false
-  }
-
-  const canEditOrga = canEditOrganizationVersion(session.user, study.organizationVersion)
-  if (!canEditOrga) {
-    return false
-  }
-
-  const accountRoleOnStudy = getAccountRoleOnStudy(session.user, study)
-  if (!accountRoleOnStudy || accountRoleOnStudy !== StudyRole.Validator) {
-    return false
-  }
-
-  return true
-}
-
 export const filterStudyEmissionSources = (_user: UserSession, study: FullStudy) => study
 
 export const canReadStudyDetail = async (user: UserSession, study: StudyWithRoleFields) => {
@@ -340,10 +284,6 @@ export const canEditStudyFlows = async (studyId: string) => {
 
   return true
 }
-
-export const canAccessFlowFromStudy = async (_documentId: string, _studyId: string) => false
-
-export const hasAccessToFormationStudy = async (_userAccount: Prisma.AccountCreateInput) => false
 
 export const hasReadAccessOnStudy = async (studyId: string, session?: { user: UserSession }) => {
   const actualSession = session ?? (await dbActualizedAuth())

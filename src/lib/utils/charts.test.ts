@@ -1,4 +1,4 @@
-import { StudyResultUnit, SubPost } from '@/db-common/enums'
+import { StudyResultUnit, SubPost } from '@/generated/prisma/enums'
 import { Post } from '@/lib/utils/charts'
 import { translationMock } from '@/tests/utils/models/translationsMock'
 import { expect } from '@jest/globals'

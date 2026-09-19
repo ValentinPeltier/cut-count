@@ -1,11 +1,10 @@
 'use client'
 
-import { SiteCAUnit } from '@/db-common/enums'
+import { SiteCAUnit } from '@/generated/prisma/enums'
 import { OrganizationVersionWithOrganization } from '@/db/organization'
 import DynamicSites from '@/environments/cut/organization/Sites'
 import Form from '@/lib/components/base/Form'
 import LoadingButton from '@/lib/components/base/LoadingButton'
-import { FormTextField } from '@/lib/components/form/TextField'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
 import Modal from '@/lib/components/modals/Modal'
 import { customRich } from '@/lib/utils/customRich'
@@ -29,7 +28,6 @@ import { useForm, UseFormReturn } from 'react-hook-form'
 interface Props {
   organizationVersion: OrganizationVersionWithOrganization
   caUnit: SiteCAUnit
-  isCut?: boolean
   disabled?: boolean
 }
 
@@ -37,7 +35,7 @@ type StudiesWithSites = IsSuccess<AsyncReturnType<typeof findStudiesWithSites>>
 
 const emptySitesOnError = { authorizedStudySites: [], unauthorizedStudySites: [] }
 
-const EditOrganizationForm = ({ organizationVersion, caUnit, isCut = false, disabled = false }: Props) => {
+const EditOrganizationForm = ({ organizationVersion, caUnit, disabled = false }: Props) => {
   const router = useRouter()
   const t = useTranslations('organization.form')
   const tStudySites = useTranslations('organization.studySites')
@@ -88,15 +86,6 @@ const EditOrganizationForm = ({ organizationVersion, caUnit, isCut = false, disa
   const sites = form.watch('sites')
   return (
     <Form onSubmit={form.handleSubmit(onSubmit)}>
-      {!isCut && (
-        <FormTextField
-          disabled={disabled}
-          data-testid="edit-organization-name"
-          control={form.control}
-          name="name"
-          label={t('name')}
-        />
-      )}
       <DynamicSites
         disabled={disabled}
         sites={sites}

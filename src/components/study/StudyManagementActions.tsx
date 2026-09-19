@@ -1,6 +1,6 @@
 'use client'
 
-import { StudyRole } from '@/db-common/enums'
+import { StudyRole } from '@/generated/prisma/enums'
 import { FullStudy } from '@/db/study'
 import { Props as BlockProps } from '@/lib/components/base/Block'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
@@ -18,7 +18,6 @@ interface Props {
   study: FullStudy
   organizationVersionId?: string | null
   canDeleteStudy?: boolean
-  canDuplicateStudy?: boolean
   userRole?: StudyRole
   siteId?: string
   children: (actions: BlockProps['actions']) => ReactNode

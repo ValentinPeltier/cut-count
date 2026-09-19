@@ -1,8 +1,9 @@
-import { StudyResultUnit } from '@/db-common/enums'
+import { StudyResultUnit } from '@/generated/prisma/enums'
 import { STUDY_UNIT_VALUES } from '@/lib/utils/charts'
 import { formatNumber } from '@/lib/utils/number'
 import type { BaseResultsByPost } from '@/services/posts'
 import { useTranslations } from 'next-intl'
+import { Fragment } from 'react'
 import styles from './ConsolidatedResultsTable.module.css'
 
 interface Props {
@@ -25,8 +26,8 @@ const ConsolidatedResultsTable = ({ resultsUnit, data }: Props) => {
       </thead>
       <tbody>
         {data.map((row) => (
-          <>
-            <tr key={String(row.post)}>
+          <Fragment key={String(row.post)}>
+            <tr>
               <td>{row.label}</td>
               <td>{formatNumber((row.value ?? 0) / STUDY_UNIT_VALUES[resultsUnit])}</td>
             </tr>
@@ -36,7 +37,7 @@ const ConsolidatedResultsTable = ({ resultsUnit, data }: Props) => {
                 <td>{formatNumber((child.value ?? 0) / STUDY_UNIT_VALUES[resultsUnit])}</td>
               </tr>
             ))}
-          </>
+          </Fragment>
         ))}
       </tbody>
     </table>

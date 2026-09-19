@@ -1,4 +1,4 @@
-import { StudyResultUnit, SubPost } from '@/db-common'
+import { StudyResultUnit, SubPost } from '@/generated/prisma/client'
 import { Translations } from '@/lib'
 import { CutPost } from '@/lib/services/results/posts.enums'
 import { formatNumber } from '@/lib/utils/number'

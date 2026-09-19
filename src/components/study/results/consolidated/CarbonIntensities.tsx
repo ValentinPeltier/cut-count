@@ -1,4 +1,4 @@
-import { SiteCAUnit } from '@/db-common/enums'
+import { SiteCAUnit } from '@/generated/prisma/enums'
 import type { FullStudy } from '@/db/study'
 import CarbonIntensitiesCut from '@/environments/cut/study/results/CarbonIntensitiesCut'
 

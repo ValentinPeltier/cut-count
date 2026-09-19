@@ -1,4 +1,4 @@
-import { Prisma } from '@/db-common'
+import { Prisma } from '@/generated/prisma/client'
 
 export const OrganizationVersionWithOrganizationSelect = {
   id: true,

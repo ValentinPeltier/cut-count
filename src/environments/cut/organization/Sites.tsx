@@ -2,8 +2,8 @@
 
 import { FormCheckbox } from '@/components/form/Checkbox'
 import GlobalSites from '@/components/organization/Sites'
-import type { Cnc } from '@/db-common'
-import { SiteCAUnit } from '@/db-common/enums'
+import type { Cnc } from '@/generated/prisma/client'
+import { SiteCAUnit } from '@/generated/prisma/enums'
 import CenteredLoader from '@/components/base/CenteredLoader'
 import { TableActionButton } from '@/lib/components/base/TableActionButton'
 import { FormTextField } from '@/lib/components/form/TextField'

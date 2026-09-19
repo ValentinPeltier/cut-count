@@ -1,4 +1,4 @@
-import { StudyResultUnit } from '@/db-common/enums'
+import { StudyResultUnit } from '@/generated/prisma/enums'
 import { Translations } from '@/lib'
 import { BarChart, PieChart } from '@/lib/ui'
 import type { BaseResultsByPost } from '@/services/posts'

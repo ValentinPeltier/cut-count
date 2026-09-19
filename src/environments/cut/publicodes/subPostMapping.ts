@@ -1,4 +1,4 @@
-import { SubPost } from '@/db-common/enums'
+import { SubPost } from '@/generated/prisma/enums'
 import { CutPost } from '@/lib/services/results/posts.enums'
 import { FormLayout, groupLayout, inputLayout, listLayout, tableLayout } from '@/publicodes/form/layouts'
 import { CutRuleName } from './types'

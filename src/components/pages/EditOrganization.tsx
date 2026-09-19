@@ -30,12 +30,7 @@ const EditOrganizationPage = async ({ organizationVersion, user, disabled = fals
         ]}
       />
       <Block as="h1" title={t('editTitle')}>
-        <EditOrganizationForm
-          organizationVersion={organizationVersion}
-          caUnit={caUnit}
-          isCut={true}
-          disabled={disabled}
-        />
+        <EditOrganizationForm organizationVersion={organizationVersion} caUnit={caUnit} disabled={disabled} />
       </Block>
     </>
   )

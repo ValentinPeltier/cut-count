@@ -19,7 +19,7 @@ import {
   loadCountSituation,
 } from '@/tests/fixtures/count/loadFixtures'
 import { studySiteToSituation } from '@/services/studySiteToSituation'
-import { StudyResultUnit, SubPost } from '@/db-common/enums'
+import { StudyResultUnit, SubPost } from '@/generated/prisma/enums'
 import { roundTo } from '@/lib/utils/number'
 import { Situation } from 'publicodes'
 

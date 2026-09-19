@@ -1,6 +1,6 @@
 'use client'
 
-import { StudyRole } from '@/db-common/enums'
+import { StudyRole } from '@/generated/prisma/enums'
 import MenuIcon from '@mui/icons-material/Menu'
 import MenuOpenIcon from '@mui/icons-material/MenuOpen'
 import { Drawer, Fab } from '@mui/material'

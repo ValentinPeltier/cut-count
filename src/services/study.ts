@@ -3,7 +3,7 @@ import {
   simplifiedDisclaimerColSpan,
   simplifiedDisclaimerExportKeys,
 } from '@/constants/exports'
-import { StudyResultUnit } from '@/db-common/enums'
+import { StudyResultUnit } from '@/generated/prisma/enums'
 import type { EmissionFactorWithParts } from '@/db/emissionFactors'
 import type { FullStudy } from '@/db/study'
 import { Translations } from '@/lib'

@@ -1,7 +1,7 @@
 'use client'
 
 import GlobalNewStudyForm from '@/components/study/new/Form'
-import { Level } from '@/db-common/enums'
+import { Level } from '@/generated/prisma/enums'
 import Block from '@/lib/components/base/Block'
 import { CreateStudyCommand } from '@/services/serverFunctions/study.command'
 import { useTranslations } from 'next-intl'
@@ -10,10 +10,9 @@ import { UseFormReturn } from 'react-hook-form'
 
 interface Props {
   form: UseFormReturn<CreateStudyCommand>
-  duplicateStudyId?: string | null
 }
 
-const NewStudyForm = ({ form, duplicateStudyId }: Props) => {
+const NewStudyForm = ({ form }: Props) => {
   const t = useTranslations('study.new')
   const [glossary, setGlossary] = useState('')
 
@@ -24,13 +23,7 @@ const NewStudyForm = ({ form, duplicateStudyId }: Props) => {
 
   return (
     <Block title={t('title')} as="h1">
-      <GlobalNewStudyForm
-        form={form}
-        t={t}
-        duplicateStudyId={duplicateStudyId}
-        glossary={glossary}
-        setGlossary={setGlossary}
-      />
+      <GlobalNewStudyForm form={form} t={t} glossary={glossary} setGlossary={setGlossary} />
     </Block>
   )
 }

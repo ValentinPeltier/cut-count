@@ -1,7 +1,7 @@
 import withAuth, { UserSessionProps } from '@/components/hoc/withAuth'
 import withStudy, { StudyProps } from '@/components/hoc/withStudy'
 import StudyPostsPageContainer from '@/components/pages/StudyPostsContainer'
-import { SubPost } from '@/db-common/enums'
+import { SubPost } from '@/generated/prisma/enums'
 import NotFound from '@/lib/components/pages/NotFound'
 import { Post } from '@/lib/utils/charts'
 import { canReadStudyDetail } from '@/services/permissions/study'

@@ -1,7 +1,7 @@
 'use client'
 
 import PublicodesForm from '@/components/publicodes-form/PublicodesForm'
-import { SubPost } from '@/db-common/enums'
+import { SubPost } from '@/generated/prisma/enums'
 import { usePublicodesForm } from '@/lib/publicodes/context'
 import { CircularProgress } from '@mui/material'
 import classNames from 'classnames'

@@ -1,7 +1,7 @@
 'use client'
 
 import { Logo } from '@/components/base/Logo'
-import { Role } from '@/db-common/enums'
+import { Role } from '@/generated/prisma/enums'
 import CutTopLeftNavBar from '@/environments/cut/navbar/TopLeftNavBar'
 import { signOutEnv } from '@/lib/services/auth/auth.utils'
 import AppBar from '@/lib/ui/navbar/AppBar'

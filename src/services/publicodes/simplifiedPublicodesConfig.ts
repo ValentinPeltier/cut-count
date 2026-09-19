@@ -1,5 +1,5 @@
 import { PUBLICODES_COUNT_VERSION } from '@/constants/versions'
-import { SubPost } from '@/db-common/enums'
+import { SubPost } from '@/generated/prisma/enums'
 import { getCutEngine } from '@/environments/cut/publicodes/cut-engine'
 import {
   getFormLayoutsForSubPostCUT,

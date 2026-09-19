@@ -1,14 +1,13 @@
 'use client'
 
 import useStudySite from '@/components/study/site/useStudySite'
-import { SiteCAUnit } from '@/db-common/enums'
+import { SiteCAUnit } from '@/generated/prisma/enums'
 import type { FullStudy } from '@/db/study'
 import { usePublicodesResults } from '@/hooks/usePublicodesResults'
 import Block from '@/lib/components/base/Block'
 import Box from '@/lib/components/base/Box'
 import { getTotalValueFromBaseResults } from '@/services/results/publicodes'
 import CircularProgress from '@mui/material/CircularProgress'
-import { UserSession } from 'next-auth'
 import { useTranslations } from 'next-intl'
 import { useMemo } from 'react'
 import AllResults from './AllResults'
@@ -19,10 +18,9 @@ interface Props {
   chartOrder?: Record<ChartType, number>
   caUnit?: SiteCAUnit
   showSubLevel?: boolean
-  user?: UserSession
 }
 
-const AllResultsPublicodes = ({ study, chartOrder = defaultChartOrder, caUnit, showSubLevel = false, user }: Props) => {
+const AllResultsPublicodes = ({ study, chartOrder = defaultChartOrder, caUnit, showSubLevel = false }: Props) => {
   const tStudyNav = useTranslations('study.navigation')
   const { siteId, studySiteId, setSite } = useStudySite(study, true)
   const { aggregated, bySite, isLoading, error } = usePublicodesResults(study, 'all')
@@ -68,7 +66,6 @@ const AllResultsPublicodes = ({ study, chartOrder = defaultChartOrder, caUnit, s
       chartOrder={chartOrder}
       caUnit={caUnit}
       showSubLevel={showSubLevel}
-      user={user}
     />
   )
 }

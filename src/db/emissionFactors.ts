@@ -1,5 +1,5 @@
-import { Prisma } from '@/db-common'
-import { EmissionFactorBase, EmissionFactorStatus, Import, SubPost, Unit } from '@/db-common/enums'
+import { Prisma } from '@/generated/prisma/client'
+import { EmissionFactorBase, EmissionFactorStatus, Import, SubPost, Unit } from '@/generated/prisma/enums'
 import { LocaleType } from '@/lib/i18n/config'
 import { EmissionFactorCommand, UpdateEmissionFactorCommand } from '@/services/serverFunctions/emissionFactor.command'
 import { FeFilters } from '@/types/filters'

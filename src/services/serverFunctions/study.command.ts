@@ -1,4 +1,4 @@
-import { DayOfWeek, Level, StudyResultUnit, StudyRole } from '@/db-common/enums'
+import { DayOfWeek, Level, StudyResultUnit, StudyRole } from '@/generated/prisma/enums'
 import { setCustomIssue, setCustomMessage } from '@/lib'
 import dayjs from 'dayjs'
 import z from 'zod'

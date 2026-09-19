@@ -1,10 +1,7 @@
-import NotFound from '@/lib/components/pages/NotFound'
-import { canDuplicateStudy } from '@/services/permissions/study'
 import React from 'react'
 import { UserSessionProps } from './withAuth'
 
 export type StudyCreationProps = {
-  duplicateStudyId: string | null
   isCut: boolean
 }
 
@@ -19,17 +16,9 @@ const withStudyCreation = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const Component = async (props: any & Props & UserSessionProps) => {
     const searchParams = await props.searchParams
-    const duplicateStudyId = searchParams.duplicate ?? null
     const isCut = searchParams.simplified === 'true'
 
-    if (duplicateStudyId) {
-      const canDuplicate = await canDuplicateStudy(duplicateStudyId)
-      if (!canDuplicate) {
-        return <NotFound />
-      }
-    }
-
-    return <WrappedComponent {...props} duplicateStudyId={duplicateStudyId} isCut={isCut} />
+    return <WrappedComponent {...props} isCut={isCut} />
   }
 
   Component.displayName = 'WithStudyCreation'

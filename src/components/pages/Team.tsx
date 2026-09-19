@@ -1,6 +1,6 @@
 'use client'
 
-import { UserStatus } from '@/db-common/enums'
+import { UserStatus } from '@/generated/prisma/enums'
 import { TeamMember } from '@/db/account'
 import { UserSession } from 'next-auth'
 import { SessionProvider } from 'next-auth/react'

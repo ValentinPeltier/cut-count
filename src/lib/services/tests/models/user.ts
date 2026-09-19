@@ -1,5 +1,5 @@
-import type { User } from '@/db-common'
-import { Level, UserSource } from '@/db-common/enums'
+import type { User } from '@/generated/prisma/client'
+import { Level, UserSource } from '@/generated/prisma/enums'
 
 export const mockedUserId = 'mocked-user-id'
 

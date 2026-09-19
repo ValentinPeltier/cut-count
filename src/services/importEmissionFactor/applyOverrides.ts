@@ -1,4 +1,4 @@
-import { Import } from '@/db-common/enums'
+import { Import } from '@/generated/prisma/enums'
 import { MIN, TIME_IN_MS } from '@/lib/utils/time'
 import { prismaClient } from '../../db/client.server'
 import { getGases, getType, ImportEmissionFactor, mapEmissionFactors, serializeRowAsCsv } from './import'

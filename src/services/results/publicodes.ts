@@ -1,5 +1,5 @@
 import { TOTAL_RULE } from '@/constants/publicodes'
-import { StudyResultUnit, SubPost } from '@/db-common'
+import { StudyResultUnit, SubPost } from '@/generated/prisma/client'
 import { Post, STUDY_UNIT_VALUES } from '@/lib/utils/charts'
 import { safeEvaluate } from '@/publicodes/utils'
 import Engine from 'publicodes'

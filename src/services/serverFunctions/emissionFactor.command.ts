@@ -1,4 +1,4 @@
-import { EmissionFactorBase, EmissionFactorPartType, SubPost, Unit } from '@/db-common/enums'
+import { EmissionFactorBase, EmissionFactorPartType, SubPost, Unit } from '@/generated/prisma/enums'
 import { setCustomIssue } from '@/lib'
 import z from 'zod'
 

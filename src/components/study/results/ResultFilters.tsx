@@ -1,4 +1,4 @@
-import { SubPost } from '@/db-common/enums'
+import { SubPost } from '@/generated/prisma/enums'
 import type { FullStudy } from '@/db/study'
 import { Post } from '@/lib/utils/charts'
 import { environmentSubPostsMapping, subPostsByPost } from '@/services/posts'

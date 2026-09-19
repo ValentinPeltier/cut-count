@@ -1,22 +1,10 @@
-import withAuth, { UserSessionProps } from '@/components/hoc/withAuth'
+import withAuth from '@/components/hoc/withAuth'
 import { StudyProps } from '@/components/hoc/withStudy'
 import withStudyDetails from '@/components/hoc/withStudyDetails'
-import StudyPage from '@/components/pages/Study'
-import { hasAccessToStudyHomePage } from '@/services/permissions/environment'
 import { getStudyDefaultLandingPath } from '@/utils/study'
 import { redirect } from 'next/navigation'
 
-interface Props {
-  searchParams: Promise<{ showHome?: string }>
-}
-
-const StudyView = async ({ study, user, searchParams }: StudyProps & UserSessionProps & Props) => {
-  const { showHome } = await searchParams
-
-  if (showHome === 'true' && hasAccessToStudyHomePage() && !study.simplified) {
-    return <StudyPage study={study} user={user} />
-  }
-
+const StudyView = async ({ study }: StudyProps) => {
   redirect(await getStudyDefaultLandingPath(study.id))
 }
 

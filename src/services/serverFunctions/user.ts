@@ -1,7 +1,7 @@
 'use server'
 
-import { Organization, User } from '@/db-common'
-import { DeactivatableFeature, Role, UserStatus } from '@/db-common/enums'
+import { Organization, User } from '@/generated/prisma/client'
+import { DeactivatableFeature, Role, UserStatus } from '@/generated/prisma/enums'
 import {
   addAccount,
   changeAccountRole,

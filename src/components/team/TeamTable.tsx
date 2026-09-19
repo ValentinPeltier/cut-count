@@ -7,7 +7,6 @@ import { canEditSelfRole } from '@/services/permissions/user'
 import { deleteOrganizationMember } from '@/services/serverFunctions/organization'
 import { changeRole } from '@/services/serverFunctions/user'
 import { canEditMemberRole, getTeamRoles } from '@/utils/user'
-import { isCut } from '@/services/permissions/environment'
 import { UserSession } from 'next-auth'
 import { useRouter } from 'next/navigation'
 import { useCallback, useState } from 'react'
@@ -63,7 +62,6 @@ const TeamTable = ({ user, team, crOrga }: Props) => {
         canUpdateTeam={canUpdateTeam}
         teamRoles={Object.values(getTeamRoles())}
         deleteMember={deleteMember}
-        isCut={isCut()}
         deletionError={deletionError}
         deletionErrorData={deletionErrorData}
         setDeletionErrorData={setDeletionErrorData}

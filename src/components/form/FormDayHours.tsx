@@ -1,4 +1,4 @@
-import { DayOfWeek } from '@/db-common'
+import { DayOfWeek } from '@/generated/prisma/client'
 import { FormSelect } from '@/lib/components/form/Select'
 import { Checkbox, FormControlLabel, MenuItem } from '@mui/material'
 import { useTranslations } from 'next-intl'

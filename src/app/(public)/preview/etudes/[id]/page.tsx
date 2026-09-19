@@ -1,13 +1,12 @@
 import withPdfAuth, { PdfAuthProps } from '@/components/hoc/withPdfAuth'
-import cutTheme from '@/environments/cut/theme/theme'
-import { ThemeProvider } from '@mui/material/styles'
+import CutThemeProvider from '@/environments/cut/theme/CutThemeProvider'
 import PDFSummaryContainer from './PDFSummaryContainer'
 
 const PDFPreviewPage = async ({ study, locale }: PdfAuthProps) => {
   return (
-    <ThemeProvider theme={cutTheme}>
+    <CutThemeProvider>
       <PDFSummaryContainer study={study} locale={locale} />
-    </ThemeProvider>
+    </CutThemeProvider>
   )
 }
 

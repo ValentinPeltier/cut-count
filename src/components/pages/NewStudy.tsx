@@ -1,6 +1,6 @@
 'use client'
 import SelectOrganization from '@/components/study/organization/Select'
-import { SiteCAUnit } from '@/db-common/enums'
+import { SiteCAUnit } from '@/generated/prisma/enums'
 import { OrganizationWithSites } from '@/db/account'
 import { getOrganizationVersionAccounts } from '@/db/organization'
 import NewStudyFormCut from '@/environments/cut/study/new/Form'
@@ -16,11 +16,10 @@ import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
 
 interface Props {
   user: UserSession
-  accounts: Awaited<ReturnType<typeof getOrganizationVersionAccounts>>
   organizationVersions: OrganizationWithSites[]
+  accounts: Awaited<ReturnType<typeof getOrganizationVersionAccounts>>
   defaultOrganizationVersion?: OrganizationWithSites
   caUnit: SiteCAUnit
-  duplicateStudyId: string | null
 }
 
 const NewStudyPage = ({ organizationVersions, user, defaultOrganizationVersion, caUnit }: Props) => {
@@ -71,7 +70,6 @@ const NewStudyPage = ({ organizationVersions, user, defaultOrganizationVersion, 
         <NewStudyFormCut form={form} />
       ) : (
         <SelectOrganization
-          user={user}
           organizationVersions={organizationVersions}
           selectOrganizationVersion={setOrganizationVersion}
           form={form}

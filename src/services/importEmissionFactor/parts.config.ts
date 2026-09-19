@@ -1,4 +1,4 @@
-import { EmissionFactorPartType } from '@/db-common/enums'
+import { EmissionFactorPartType } from '@/generated/prisma/enums'
 
 export const additionalParts: Record<string, EmissionFactorPartType> = {
   '26034': EmissionFactorPartType.Amont,

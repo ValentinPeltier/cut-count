@@ -13,7 +13,7 @@ export interface TranslationRecord {
 }
 
 export const KEYS_TO_TRANSLATE: TranslationKey[] = ['titre', 'description', 'question', 'unité']
-export const TRANSLATIONS_DIR = path.join(__dirname, '../../src/lib/i18n/translations')
+export const TRANSLATIONS_DIR = path.join(__dirname, '../../src/i18n/translations')
 
 export const TO_TRANSLATE_PREFIX = '[TO_TRANSLATE]'
 export const UPDATED_PREFIX = '[UPDATED]'
@@ -84,15 +84,15 @@ export async function writeJSONFile(filePath: string, data: Record<string, unkno
   }
 }
 
-export function loadTranslation(locale: Locale, model: Model): TranslationRecord {
+export function loadTranslation(locale: Locale, _model: Model): TranslationRecord {
   return (readJSONFile(
-    url.pathToFileURL(path.resolve(path.join(TRANSLATIONS_DIR, locale, `publicodes/${model}-rules.json`))).toString(),
+    url.pathToFileURL(path.resolve(path.join(TRANSLATIONS_DIR, `${locale}.json`))).toString(),
   ) ?? {}) as TranslationRecord
 }
 
-export async function saveTranslation(locale: Locale, model: Model, data: TranslationRecord): Promise<void> {
+export async function saveTranslation(locale: Locale, _model: Model, data: TranslationRecord): Promise<void> {
   await writeJSONFile(
-    url.pathToFileURL(path.resolve(path.join(TRANSLATIONS_DIR, locale, `publicodes/${model}-rules.json`))).toString(),
+    url.pathToFileURL(path.resolve(path.join(TRANSLATIONS_DIR, `${locale}.json`))).toString(),
     data,
   )
 }

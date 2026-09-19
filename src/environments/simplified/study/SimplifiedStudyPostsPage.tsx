@@ -2,7 +2,7 @@
 
 import Stepper from '@/components/base/Stepper'
 import TabsWithGreenStyling from '@/components/dynamic-form/TabsWithGreenStyling'
-import { SubPost } from '@/db-common/enums'
+import { SubPost } from '@/generated/prisma/enums'
 import type { FullStudy } from '@/db/study'
 import { CUT_PUBLICODES_SUBPOSTS } from '@/environments/cut/publicodes/subposts'
 import Block from '@/lib/components/base/Block'

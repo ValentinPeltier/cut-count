@@ -1,6 +1,6 @@
 import { KG_CO2E_PREFIX } from '@/constants/import'
-import type { Prisma } from '@/db-common'
-import { EmissionFactorBase, EmissionFactorPartType, EmissionFactorStatus, Import, SubPost, Unit } from '@/db-common/enums'
+import type { Prisma } from '@/generated/prisma/client'
+import { EmissionFactorBase, EmissionFactorPartType, EmissionFactorStatus, Import, SubPost, Unit } from '@/generated/prisma/enums'
 import { getSourceLatestImportVersionId } from '@/db/study'
 import { getEnvVar } from '@/lib/environment'
 import { serializeSimpleCsvRecord } from '@/lib/utils/csv'

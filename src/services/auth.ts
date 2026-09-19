@@ -1,4 +1,4 @@
-import { Level, Role, UserStatus } from '@/db-common/enums'
+import { Level, Role, UserStatus } from '@/generated/prisma/enums'
 import { getAccountById } from '@/db/account'
 import { getUserByEmailWithSensibleInformations } from '@/db/user'
 import { DAY } from '@/lib/utils/time'

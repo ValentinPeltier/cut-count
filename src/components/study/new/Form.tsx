@@ -24,7 +24,6 @@ interface Props {
   glossary?: string
   setGlossary?: (glossary: string) => void
   t: (key: string) => string
-  duplicateStudyId?: string | null
   beforeSubmit?: (createStudyCommand: CreateStudyCommand) => CreateStudyCommand
   customRouteAfterCreation?: string
   showStudyDates?: boolean

@@ -1,13 +1,9 @@
 'use client'
 
-import { SiteCAUnit } from '@/db-common/enums'
+import { SiteCAUnit } from '@/generated/prisma/enums'
 import { Table as BaseTable, HelpIcon as Help } from '@/lib/components'
 import GlossaryModal from '@/lib/components/modals/GlossaryModal'
 import { Button } from '@/lib/ui'
-import {
-  hasAccessToStudySiteAddAndSelection,
-  hasCustomGlossaryTextForEstablishment,
-} from '@/services/permissions/environment'
 import { SitesCommand } from '@/services/serverFunctions/study.command'
 import { defaultCAUnit } from '@/utils/number'
 import { Checkbox, FormControlLabel } from '@mui/material'
@@ -44,7 +40,7 @@ const Sites = <T extends SitesCommand>({
   const [showGlossary, setShowGlossary] = useState(false)
 
   const setValue = form?.setValue as UseFormSetValue<SitesCommand>
-  const canAddSite = !disabled && form && !withSelection && hasAccessToStudySiteAddAndSelection()
+  const canAddSite = !disabled && form && !withSelection
   const canSelectAll = !disabled && form && withSelection && sites.length > 0
   const allSitesSelected = canSelectAll && sites.every((site) => site.selected)
   const someSitesSelected = canSelectAll && sites.some((site) => site.selected)
@@ -112,18 +108,14 @@ const Sites = <T extends SitesCommand>({
         t={tGlossary}
       >
         {' '}
-        {hasCustomGlossaryTextForEstablishment() ? (
-          <p>{tGlossary('informations')}</p>
-        ) : (
-          <>
-            <p className="mb-2">
-              <b>{tGlossary('etp')} :</b> {tGlossary('etpDescription')}
-            </p>
-            <p className="mb-2">
-              <b>{tGlossary('ca', { unit: headerCAUnit })} :</b> {tGlossary('caDescription', { unit: headerCAUnit })}
-            </p>
-          </>
-        )}
+        <>
+          <p className="mb-2">
+            <b>{tGlossary('etp')} :</b> {tGlossary('etpDescription')}
+          </p>
+          <p className="mb-2">
+            <b>{tGlossary('ca', { unit: headerCAUnit })} :</b> {tGlossary('caDescription', { unit: headerCAUnit })}
+          </p>
+        </>
       </GlossaryModal>
     </div>
   )

@@ -6,7 +6,7 @@ import {
   POST_TO_RULENAME,
 } from '@/environments/cut/publicodes/subPostMapping'
 import { CutPost, subPostsByPostCUT } from '@/services/posts'
-import { SubPost } from '@/db-common/enums'
+import { SubPost } from '@/generated/prisma/enums'
 
 describe('CUT subPostMapping', () => {
   it('maps each CutPost enum value to a Publicodes post rule', () => {

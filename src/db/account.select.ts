@@ -5,7 +5,6 @@ export const AccountWithUserSelect = {
   userId: true,
   importedFileDate: true,
   deactivatableFeatureStatus: true,
-  environment: true,
   status: true,
   feedbackDate: true,
   organizationVersionId: true,
@@ -13,7 +12,6 @@ export const AccountWithUserSelect = {
     select: {
       id: true,
       organizationId: true,
-      environment: true,
     },
   },
   role: true,

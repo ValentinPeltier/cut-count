@@ -1,4 +1,4 @@
-import { EmissionFactor } from '@/db-common'
+import { EmissionFactor } from '@/generated/prisma/client'
 
 export const qualityKeys = [
   'reliability',

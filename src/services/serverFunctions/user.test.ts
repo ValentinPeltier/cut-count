@@ -1,4 +1,4 @@
-import { DeactivatableFeature, Role, UserStatus } from '@/db-common/enums'
+import { DeactivatableFeature, Role, UserStatus } from '@/generated/prisma/enums'
 import { expect } from '@jest/globals'
 
 import {

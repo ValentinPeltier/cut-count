@@ -1,29 +1,24 @@
 'use client'
-import SiteDeselectionWarningModal from '@/components/modals/SiteDeselectionWarningModal'
-import { SiteCAUnit } from '@/db-common/enums'
+
+import { SiteCAUnit } from '@/generated/prisma/enums'
 import { OrganizationWithSites } from '@/db/account'
 import DynamicSites from '@/environments/cut/organization/Sites'
 import Block from '@/lib/components/base/Block'
 import { FormSelect } from '@/lib/components/form/Select'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
-import { NOT_AUTHORIZED } from '@/lib/services/permissions/check'
-import { hasAccessToStudySiteAddAndSelection } from '@/services/permissions/environment'
 import { updateOrganizationCommand } from '@/services/serverFunctions/organization'
 import { CreateStudyCommand, SitesCommand } from '@/services/serverFunctions/study.command'
 import { CA_UNIT_VALUES, displayCA } from '@/utils/number'
 import { Button, FormHelperText, MenuItem } from '@mui/material'
-import { UserSession } from 'next-auth'
 import { useTranslations } from 'next-intl'
 import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react'
 import { Control, UseFormReturn, useWatch } from 'react-hook-form'
 
 interface Props {
-  user: UserSession
   organizationVersions: OrganizationWithSites[]
   selectOrganizationVersion: Dispatch<SetStateAction<OrganizationWithSites | undefined>>
   form: UseFormReturn<CreateStudyCommand>
   caUnit: SiteCAUnit
-  duplicateStudyId?: string | null
   targetOrganizationVersionId?: string | null
 }
 
@@ -57,26 +52,18 @@ const NextButton = ({ control, onClick, error, hasNoSites }: NextButtonProps) =>
 }
 
 const SelectOrganization = ({
-  user,
   organizationVersions,
   selectOrganizationVersion,
   form,
   caUnit,
-  duplicateStudyId,
 }: Props) => {
   const t = useTranslations('study.organization')
   const tOrganizationSites = useTranslations('organization.sites')
   const [error, setError] = useState('')
-  const [showWarningModal, setShowWarningModal] = useState(false)
-  const [originalSelectedSites, setOriginalSelectedSites] = useState<string[] | null>(null)
-  const [pendingDeselectedSites, setPendingDeselectedSites] = useState<
-    Array<{ name: string; emissionSourcesCount: number }>
-  >([])
   const { callServerFunction } = useServerFunction()
 
   const sites = form.watch('sites')
   const organizationVersionId = form.watch('organizationVersionId')
-  const isCut = useMemo(() => true, [])
 
   const organizationVersion = useMemo(
     () => organizationVersions.find((organizationVersion) => organizationVersion.id === organizationVersionId),
@@ -87,20 +74,7 @@ const SelectOrganization = ({
   useEffect(() => {
     if (!organizationVersion) {
       form.setValue('sites', [])
-      setOriginalSelectedSites([])
     } else {
-      if (!hasAccessToStudySiteAddAndSelection()) {
-        if (sites.length > 0) {
-          form.setValue(
-            'sites',
-            sites.map((site, index) => ({ ...site, selected: index === 0 })),
-          )
-          selectOrganizationVersion(organizationVersion)
-        } else {
-          throw new Error(NOT_AUTHORIZED)
-        }
-        return
-      }
       const newSites = organizationVersion.organization.sites.map((site) => site.id)
       if (JSON.stringify(form.getValues('sites').map((site) => site.id)) !== JSON.stringify(newSites)) {
         form.setValue(
@@ -118,26 +92,6 @@ const SelectOrganization = ({
       }
     }
   }, [organizationVersion, caUnit, form])
-
-  useEffect(() => {
-    if (!originalSelectedSites && duplicateStudyId && sites.length > 0) {
-      const selectedSiteIds = sites.filter((site) => site.selected).map((site) => site.id)
-      if (selectedSiteIds.length > 0) {
-        setOriginalSelectedSites(selectedSiteIds)
-      }
-    }
-  }, [duplicateStudyId, originalSelectedSites, sites])
-
-  const handleConfirmDeselection = () => {
-    setShowWarningModal(false)
-    setPendingDeselectedSites([])
-    selectOrganizationVersion(organizationVersion)
-  }
-
-  const handleCancelDeselection = () => {
-    setShowWarningModal(false)
-    setPendingDeselectedSites([])
-  }
 
   const next = async () => {
     const currentSites = form.getValues('sites').map((site) => (hasNoSites ? { ...site, selected: true } : site))
@@ -169,7 +123,6 @@ const SelectOrganization = ({
     }
 
     if (
-      true &&
       currentSites
         .filter((site) => site.selected)
         .some(
@@ -184,80 +137,44 @@ const SelectOrganization = ({
       return
     }
 
-    // Check for deselected sites with emission sources when duplicating
-    if (duplicateStudyId) {
-      const currentSelectedSiteIds = currentSites.filter((site) => site.selected).map((site) => site.id)
-      const deselectedSitesWithSources = currentSites
-        .filter((site) => {
-          const wasOriginallySelected = originalSelectedSites?.includes(site.id)
-          const isCurrentlySelected = currentSelectedSiteIds.includes(site.id)
-          const hasEmissionSources = false
-
-          return wasOriginallySelected && !isCurrentlySelected && hasEmissionSources
-        })
-        .map((site) => ({
-          name: site.name,
-          emissionSourcesCount: 0,
-        }))
-
-      if (deselectedSitesWithSources.length > 0) {
-        setPendingDeselectedSites(deselectedSitesWithSources)
-        setShowWarningModal(true)
-        return
-      }
-    }
-
     selectOrganizationVersion(organizationVersion)
   }
 
   return (
-    <>
-      <Block>
-        {organizationVersions.length === 1 || duplicateStudyId ? (
-          <p data-testid="new-study-organization-title" className="title-h2">
-            {duplicateStudyId
-              ? organizationVersion?.organization.name
-              : !isCut
-                ? organizationVersions[0].organization.name
-                : tOrganizationSites('title')}
+    <Block>
+      {organizationVersions.length === 1 ? (
+        <p data-testid="new-study-organization-title" className="title-h2">
+          {tOrganizationSites('title')}
+        </p>
+      ) : (
+        <>
+          <p data-testid="new-study-organization-title" className="title-h1">
+            {t('title')}
           </p>
-        ) : (
-          <>
-            <p data-testid="new-study-organization-title" className="title-h1">
-              {t('title')}
-            </p>
-            <FormSelect
-              data-testid="new-study-organization-select"
-              name="organizationVersionId"
-              control={form.control}
-              translation={t}
-              label={t('select')}
-            >
-              {organizationVersions.map((organizationVersion) => (
-                <MenuItem key={organizationVersion.id} value={organizationVersion.id}>
-                  {organizationVersion.organization.name}
-                </MenuItem>
-              ))}
-            </FormSelect>
-          </>
-        )}
-        <DynamicSites
-          sites={sites}
-          form={form as unknown as UseFormReturn<SitesCommand>}
-          caUnit={caUnit}
-          withSelection={!hasNoSites}
-          disabled={false}
-        />
-        <NextButton control={form.control} onClick={next} error={error} hasNoSites={hasNoSites} />
-      </Block>
-
-      <SiteDeselectionWarningModal
-        isOpen={showWarningModal}
-        onClose={handleCancelDeselection}
-        onConfirm={handleConfirmDeselection}
-        sitesWithSources={pendingDeselectedSites}
+          <FormSelect
+            data-testid="new-study-organization-select"
+            name="organizationVersionId"
+            control={form.control}
+            translation={t}
+            label={t('select')}
+          >
+            {organizationVersions.map((organizationVersion) => (
+              <MenuItem key={organizationVersion.id} value={organizationVersion.id}>
+                {organizationVersion.organization.name}
+              </MenuItem>
+            ))}
+          </FormSelect>
+        </>
+      )}
+      <DynamicSites
+        sites={sites}
+        form={form as unknown as UseFormReturn<SitesCommand>}
+        caUnit={caUnit}
+        withSelection={!hasNoSites}
+        disabled={false}
       />
-    </>
+      <NextButton control={form.control} onClick={next} error={error} hasNoSites={hasNoSites} />
+    </Block>
   )
 }
 

@@ -1,6 +1,4 @@
 import { customRich } from '@/lib/utils/customRich'
-import { hasAccessToHomeSubtitle, hasHomeAlert } from '@/services/permissions/environment'
-import { hasAccessToStudies } from '@/services/permissions/environmentAdvanced'
 import Groups2OutlinedIcon from '@mui/icons-material/Groups2Outlined'
 import { Alert, Box, Typography } from '@mui/material'
 import classNames from 'classnames'
@@ -24,7 +22,6 @@ const UserView = async ({ account }: Props) => {
 
   const title = t('title')
   const navigation = await getTranslations('home.navigation')
-  const hasAlert = hasHomeAlert()
 
   return (
     <div className={styles.block}>
@@ -34,11 +31,6 @@ const UserView = async ({ account }: Props) => {
             <Typography data-testid="title" variant="h4" className={styles.titleInBox}>
               {title}
             </Typography>
-            {hasAccessToHomeSubtitle() && (
-              <Typography variant="h5" className={styles.titleInBox}>
-                {t('subtitle')}
-              </Typography>
-            )}
             {Array.from({ length: infoLength }, (_, i) => (
               <Box key={i} className={classNames('flex align-center', styles.bulletPoint)}>
                 <Typography>{i + 1}.</Typography>
@@ -69,30 +61,26 @@ const UserView = async ({ account }: Props) => {
             title={customRich(navigation, 'collaborators.title')}
             message={customRich(navigation, 'collaborators.message')}
           />
-          {hasAccessToStudies() && (
-            <LinkCard
-              href="/organisations"
-              icon={<DiagramOutlinedIcon className={styles.icon} />}
-              title={customRich(navigation, 'footprints.title')}
-              message={customRich(navigation, 'footprints.message')}
-            />
-          )}
+          <LinkCard
+            href="/organisations"
+            icon={<DiagramOutlinedIcon className={styles.icon} />}
+            title={customRich(navigation, 'footprints.title')}
+            message={customRich(navigation, 'footprints.message')}
+          />
         </Box>
-        {hasAlert && (
-          <Alert severity="info" className="mb-2">
-            {customRich(t, 'alert.info', {
-              link: (chunks) => (
-                <Link
-                  href="https://www.guide-communication-climat.fr/definitions/approches-de-comptabilite-carbone"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {chunks}
-                </Link>
-              ),
-            })}
-          </Alert>
-        )}
+        <Alert severity="info" className="mb-2">
+          {customRich(t, 'alert.info', {
+            link: (chunks) => (
+              <Link
+                href="https://www.guide-communication-climat.fr/definitions/approches-de-comptabilite-carbone"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {chunks}
+              </Link>
+            ),
+          })}
+        </Alert>
       </Box>
     </div>
   )

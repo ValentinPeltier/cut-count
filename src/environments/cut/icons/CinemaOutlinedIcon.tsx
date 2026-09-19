@@ -2,9 +2,8 @@ import { SvgIcon, SvgIconProps } from '@mui/material'
 
 const CinemaOutlinedIcon = (props: SvgIconProps) => {
   return (
-    <SvgIcon {...props}>
-      <svg width="45" height="50" viewBox="0 0 45 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g clipPath="url(#clip0_12_2001)">
+    <SvgIcon {...props} viewBox="0 0 45 50">
+      <g clipPath="url(#clip0_12_2001)">
           <path
             d="M22.4976 7.03003C23.7836 7.03003 24.8263 5.98003 24.8263 4.68503C24.8263 3.39003 23.7836 2.34003 22.4976 2.34003C21.2116 2.34003 20.1689 3.39003 20.1689 4.68503C20.1689 5.98003 21.2116 7.03003 22.4976 7.03003ZM22.4976 3.90503C22.9247 3.90503 23.2722 4.25503 23.2722 4.68503C23.2722 5.11503 22.9247 5.46503 22.4976 5.46503C22.0706 5.46503 21.7231 5.11503 21.7231 4.68503C21.7231 4.25503 22.0706 3.90503 22.4976 3.90503Z"
             fill="#2C303A"
@@ -47,7 +46,6 @@ const CinemaOutlinedIcon = (props: SvgIconProps) => {
             <rect width="45" height="50" fill="white" />
           </clipPath>
         </defs>
-      </svg>
     </SvgIcon>
   )
 }

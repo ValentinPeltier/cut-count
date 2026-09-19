@@ -1,4 +1,4 @@
-import { Role } from '@/db-common/enums'
+import { Role } from '@/generated/prisma/enums'
 import * as dbAccount from '@/db/account'
 import * as dbOrganization from '@/db/organization'
 import * as dbStudy from '@/db/study'
@@ -12,7 +12,6 @@ import { expect } from '@jest/globals'
 import { UserSession } from 'next-auth'
 import * as authModule from '../auth'
 import {
-  canCreateOrganization,
   canDeleteMember,
   canDeleteOrganizationVersion,
   canUpdateOrganizationVersion,
@@ -85,51 +84,6 @@ describe('Organization permissions', () => {
 
       expect(result).toBe(false)
       expect(mockGetOrganizationVersionForRightsCheck).toHaveBeenCalledTimes(1)
-    })
-  })
-
-  describe('canCreateOrganization', () => {
-    it('returns true if user belongs to CR organization', async () => {
-      mockGetAccountById.mockResolvedValue({ organizationVersionId: 'mocked-organization-version-id' })
-      mockGetOrganizationVersionIsCR.mockResolvedValue(true)
-
-      const result = await canCreateOrganization(getMockedAuthUser())
-      expect(result).toBe(true)
-
-      expect(mockGetAccountById).toHaveBeenCalledTimes(1)
-      expect(mockGetOrganizationVersionIsCR).toHaveBeenCalledTimes(1)
-    })
-
-    it('returns false if user not found', async () => {
-      mockGetAccountById.mockResolvedValue(null)
-
-      const result = await canCreateOrganization(getMockedAuthUser())
-      expect(result).toBe(false)
-
-      expect(mockGetAccountById).toHaveBeenCalledTimes(1)
-      expect(mockGetOrganizationVersionIsCR).toHaveBeenCalledTimes(0)
-    })
-
-    it('returns false if organization is not found', async () => {
-      mockGetAccountById.mockResolvedValue({ organizationVersionId: 'mocked-organization-version-id' })
-      mockGetOrganizationVersionIsCR.mockResolvedValue(false)
-
-      const result = await canCreateOrganization(getMockedAuthUser())
-      expect(result).toBe(false)
-
-      expect(mockGetAccountById).toHaveBeenCalledTimes(1)
-      expect(mockGetOrganizationVersionIsCR).toHaveBeenCalledTimes(1)
-    })
-
-    it('returns false if organization is not CR', async () => {
-      mockGetAccountById.mockResolvedValue({ organizationVersionId: 'mocked-organization-version-id' })
-      mockGetOrganizationVersionIsCR.mockResolvedValue(false)
-
-      const result = await canCreateOrganization(getMockedAuthUser())
-      expect(result).toBe(false)
-
-      expect(mockGetAccountById).toHaveBeenCalledTimes(1)
-      expect(mockGetOrganizationVersionIsCR).toHaveBeenCalledTimes(1)
     })
   })
 

@@ -1,5 +1,5 @@
-import type { Prisma, PrismaClient } from '@/db-common'
-import { Import } from '@/db-common/enums'
+import type { Prisma, PrismaClient } from '@/generated/prisma/client'
+import { Import } from '@/generated/prisma/enums'
 import { MIN, TIME_IN_MS } from '@/lib/utils/time'
 import { parse } from 'csv-parse'
 import fs from 'fs'

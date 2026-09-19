@@ -1,12 +1,10 @@
 import type { FullStudy } from '@/db/study'
 import AllResultsPublicodes from '@/environments/simplified/study/results/AllResultsPublicodes'
-import { UserSession } from 'next-auth'
 import { useTranslations } from 'next-intl'
 import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
 
 interface Props {
   study: FullStudy
-  user: UserSession
 }
 
 const ResultsPage = ({ study }: Props) => {

@@ -1,6 +1,6 @@
 'use client'
 
-import { UserSource } from '@/db-common/enums'
+import { UserSource } from '@/generated/prisma/enums'
 import { getFeaturesRestictions, RestrictionsTypes } from '@/db/deactivableFeatures'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
 import {

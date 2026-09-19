@@ -1,5 +1,5 @@
 import CarbonIntensity from '@/components/study/results/consolidated/CarbonIntensity'
-import { StudyResultUnit } from '@/db-common/enums'
+import { StudyResultUnit } from '@/generated/prisma/enums'
 import type { FullStudy } from '@/db/study'
 import { useTranslations } from 'next-intl'
 import { useMemo } from 'react'

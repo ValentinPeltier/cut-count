@@ -1,5 +1,5 @@
-import type { Prisma } from '@/db-common'
-import { DeactivatableFeature, Role } from '@/db-common/enums'
+import type { Prisma } from '@/generated/prisma/client'
+import { DeactivatableFeature, Role } from '@/generated/prisma/enums'
 import { NOT_AUTHORIZED } from '@/lib/services/permissions/check'
 import { getDeactivableFeatureRestrictions } from '@/services/serverFunctions/deactivableFeatures'
 import { findUserInfo } from '@/utils/user'

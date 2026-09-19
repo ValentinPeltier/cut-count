@@ -3,25 +3,16 @@
 import Block from '@/lib/components/base/Block'
 import LoadingButton from '@/lib/components/base/LoadingButton'
 
-import CarbonIntensities from '@/components/study/results/consolidated/CarbonIntensities'
 import ConsolidatedResultsTable from '@/components/study/results/consolidated/ConsolidatedResultsTable'
 import SelectStudySite from '@/components/study/site/SelectStudySite'
 import TabPanel from '@/components/tabPanel/tabPanel'
-import { SiteCAUnit } from '@/db-common/enums'
+import { SiteCAUnit } from '@/generated/prisma/enums'
 import { EmissionFactorWithParts } from '@/db/emissionFactors'
 import type { FullStudy } from '@/db/study'
 import CarbonIntensitiesCut from '@/environments/cut/study/results/CarbonIntensitiesCut'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
 import { BarChart, PieChart } from '@/lib/ui'
 import { customRich } from '@/lib/utils/customRich'
-import {
-  hasAccessToAdvancedEmissionAnalysis,
-  hasAccessToFeedbackButton,
-  hasAccessToPDFExport,
-  hasAccessToResultsRatioTab,
-  isCut,
-  showResultsInfoText,
-} from '@/services/permissions/environment'
 import type { BaseResultsByPost } from '@/services/posts'
 import { generateStudySummaryPDF } from '@/services/serverFunctions/pdf'
 import { downloadStudyResults } from '@/services/study'
@@ -29,14 +20,10 @@ import type { BaseResultsBySite } from '@/types/study.types'
 import DownloadIcon from '@mui/icons-material/Download'
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf'
 import { Box, Button, Tab, Tabs, Typography } from '@mui/material'
-import { UserSession } from 'next-auth'
 import { useTranslations } from 'next-intl'
-import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { SyntheticEvent, useMemo, useState } from 'react'
 import { a11yProps, ChartType, defaultChartOrder, tabsLabels } from './utils'
-
-const FeedbackModal = dynamic(() => import('./FeedbackModal'))
 
 interface Props {
   setSite: (site: string) => void
@@ -51,7 +38,6 @@ interface Props {
   chartOrder?: Record<ChartType, number>
   emissionFactorsWithPart?: EmissionFactorWithParts[]
   showSubLevel?: boolean
-  user?: UserSession
 }
 
 const AllResults = ({
@@ -66,11 +52,9 @@ const AllResults = ({
   chartOrder = defaultChartOrder,
   emissionFactorsWithPart = [],
   showSubLevel = false,
-  user,
 }: Props) => {
   const [tabValue, setTabValue] = useState(0)
   const [pdfLoading, setPdfLoading] = useState(false)
-  const [openFeedback, setOpenFeedback] = useState(false)
 
   const handleChange = (_event: SyntheticEvent, newValue: number) => {
     setTabValue(newValue)
@@ -110,11 +94,10 @@ const AllResults = ({
     setPdfLoading(false)
   }
 
-  const filteredTabsLabels = useMemo(() => {
-    return tabsLabels.filter((tab) => tab !== 'ratio' || hasAccessToResultsRatioTab())
-  }, [])
-
-  const orderedTabs = [...filteredTabsLabels].sort((a, b) => chartOrder[a as ChartType] - chartOrder[b as ChartType])
+  const orderedTabs = useMemo(
+    () => [...tabsLabels].sort((a, b) => chartOrder[a as ChartType] - chartOrder[b as ChartType]),
+    [chartOrder],
+  )
 
   return (
     <Block
@@ -125,11 +108,6 @@ const AllResults = ({
       descriptionColor="primary"
       rightComponent={
         <div className="flex gapped align-center">
-          {hasAccessToFeedbackButton() && (
-            <Button variant="outlined" color="primary" size="large" onClick={() => setOpenFeedback(true)}>
-              {tResults('feedback.button')}
-            </Button>
-          )}
           <Button
             variant="contained"
             color="primary"
@@ -158,66 +136,47 @@ const AllResults = ({
           >
             {tExportButton('export')}
           </Button>
-          {hasAccessToPDFExport() && (
-            <LoadingButton
-              variant="outlined"
-              color="primary"
-              size="large"
-              endIcon={<PictureAsPdfIcon />}
-              onClick={handlePDFDownload}
-              loading={pdfLoading}
-            >
-              {pdfLoading ? tResults('downloadingPDF') : tResults('downloadPDF')}
-            </LoadingButton>
-          )}
+          <LoadingButton
+            variant="outlined"
+            color="primary"
+            size="large"
+            endIcon={<PictureAsPdfIcon />}
+            onClick={handlePDFDownload}
+            loading={pdfLoading}
+          >
+            {pdfLoading ? tResults('downloadingPDF') : tResults('downloadPDF')}
+          </LoadingButton>
           <SelectStudySite sites={study.sites} defaultValue={studySite} setSite={setSite} />
         </div>
       }
     >
-      {/* Default info text for environments that show it */}
-      {showResultsInfoText() && (
-        <Box component="section" className="mb2">
-          <Typography>
-            {customRich(tResults, 'simplifiedFeedback', {
-              ...(isCut() && {
-                questionnaire: (children) => (
-                  <Link href={process.env.NEXT_PUBLIC_CUT_FEEDBACK_TYPEFORM_LINK ?? ''} target="_blank">
-                    <strong>{children}</strong>
-                  </Link>
-                ),
-                formation: (children) => (
-                  <Link href={process.env.NEXT_PUBLIC_FORMATION_URL ?? ''} target="_blank">
-                    <strong>{children}</strong>
-                  </Link>
-                ),
-                email: (children) => (
-                  <Link href={`mailto:${process.env.NEXT_PUBLIC_CUT_SUPPORT_EMAIL ?? ''}`} target="_blank">
-                    <strong>{children}</strong>
-                  </Link>
-                ),
-                prestataire: (children) => (
-                  <Link href={process.env.NEXT_PUBLIC_ACTORS_URL ?? ''} target="_blank">
-                    <strong>{children}</strong>
-                  </Link>
-                ),
-              }),
-            })}
-          </Typography>
-        </Box>
-      )}
+      <Box component="section" className="mb2">
+        <Typography>
+          {customRich(tResults, 'simplifiedFeedback', {
+            questionnaire: (children) => (
+              <Link href={process.env.NEXT_PUBLIC_CUT_FEEDBACK_TYPEFORM_LINK ?? ''} target="_blank">
+                <strong>{children}</strong>
+              </Link>
+            ),
+            formation: (children) => (
+              <Link href={process.env.NEXT_PUBLIC_FORMATION_URL ?? ''} target="_blank">
+                <strong>{children}</strong>
+              </Link>
+            ),
+            email: (children) => (
+              <Link href={`mailto:${process.env.NEXT_PUBLIC_CUT_SUPPORT_EMAIL ?? ''}`} target="_blank">
+                <strong>{children}</strong>
+              </Link>
+            ),
+            prestataire: (children) => (
+              <Link href={process.env.NEXT_PUBLIC_ACTORS_URL ?? ''} target="_blank">
+                <strong>{children}</strong>
+              </Link>
+            ),
+          })}
+        </Typography>
+      </Box>
 
-      {/* Emissions analysis for environments that have it */}
-      {hasAccessToAdvancedEmissionAnalysis() ? (
-        <CarbonIntensities
-          study={study}
-          studySite={studySite}
-          withDep={totalValue}
-          withoutDep={totalValueWithoutDep}
-          caUnit={caUnit}
-        />
-      ) : null}
-
-      {/* Results tabs */}
       <Box component="section" sx={{ marginTop: '1rem' }}>
         <Tabs
           value={tabValue}
@@ -257,14 +216,9 @@ const AllResults = ({
               type="post"
             />
           </TabPanel>
-          {hasAccessToResultsRatioTab() ? (
-            <TabPanel value={tabValue} index={chartOrder.ratio}>
-              <CarbonIntensitiesCut study={study} studySite={studySite} withDepValue={totalValue} />
-            </TabPanel>
-          ) : null}
-          {hasAccessToFeedbackButton() && user && openFeedback && (
-            <FeedbackModal open={openFeedback} setOpen={setOpenFeedback} />
-          )}
+          <TabPanel value={tabValue} index={chartOrder.ratio}>
+            <CarbonIntensitiesCut study={study} studySite={studySite} withDepValue={totalValue} />
+          </TabPanel>
         </Box>
       </Box>
     </Block>

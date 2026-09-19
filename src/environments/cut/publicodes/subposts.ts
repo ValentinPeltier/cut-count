@@ -1,4 +1,4 @@
-import { SubPost } from '@/db-common/enums'
+import { SubPost } from '@/generated/prisma/enums'
 import {
   POST_TO_RULENAME as POST_TO_RULENAME_CUT,
   SUBPOST_TO_FORM_LAYOUTS as SUBPOST_TO_FORM_LAYOUTS_CUT,

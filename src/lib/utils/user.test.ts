@@ -1,4 +1,4 @@
-import { Role } from '@/db-common/enums'
+import { Role } from '@/generated/prisma/enums'
 import { expect } from '@jest/globals'
 import { canBeUntrainedRole } from './user'
 

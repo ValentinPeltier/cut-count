@@ -1,6 +1,6 @@
-import type { Account, User } from '@/db-common'
-import { PrismaClient } from '@/db-common'
-import { EmissionFactorBase, EmissionFactorStatus, Import, Level, Role, StudyRole, SubPost, Unit, UserStatus } from '@/db-common/enums'
+import type { Account, User } from '@/generated/prisma/client'
+import { PrismaClient } from '@/generated/prisma/client'
+import { EmissionFactorBase, EmissionFactorStatus, Import, Level, Role, StudyRole, SubPost, Unit, UserStatus } from '@/generated/prisma/enums'
 import { signPassword } from '@/lib/utils/auth'
 import { getAllowedLevels } from '@/utils/study'
 import { faker } from '@faker-js/faker'
@@ -99,7 +99,7 @@ const users = async () => {
   await prisma.account.create({
     data: {
       organizationVersionId: unOnboardedOrganizationVersion.id,
-      role: Role.COLLABORATOR,
+      role: Role.DEFAULT,
       userId: onboarding.id,
       status: UserStatus.IMPORTED,
     },
@@ -116,7 +116,7 @@ const users = async () => {
   await prisma.account.create({
     data: {
       organizationVersionId: unOnboardedOrganizationVersion.id,
-      role: Role.COLLABORATOR,
+      role: Role.DEFAULT,
       userId: onboardingNotTrained.id,
       status: UserStatus.IMPORTED,
     },
@@ -150,7 +150,7 @@ const users = async () => {
   await prisma.account.create({
     data: {
       organizationVersionId: clientLessOrganizationVersion.id,
-      role: Role.COLLABORATOR,
+      role: Role.DEFAULT,
       userId: clientLessUser.id,
       status: UserStatus.ACTIVE,
     },
@@ -335,7 +335,7 @@ const users = async () => {
         const account = await prisma.account.create({
           data: {
             organizationVersionId: regularOrganizationVersions[index % regularOrganizationVersions.length].id,
-            role: role as Role,
+            role: getCutRoleFromBase(role as Role),
             userId: user.id,
             status: UserStatus.ACTIVE,
           },
@@ -365,7 +365,7 @@ const users = async () => {
         const account = await prisma.account.create({
           data: {
             organizationVersionId: crOrganizationVersions[index % crOrganizationVersions.length].id,
-            role: role as Role,
+            role: getCutRoleFromBase(role as Role),
             userId: user.id,
             status: UserStatus.ACTIVE,
           },
@@ -395,7 +395,7 @@ const users = async () => {
       const account = await prisma.account.create({
         data: {
           organizationVersionId: regularOrganizationVersions[index % regularOrganizationVersions.length].id,
-          role: Role.COLLABORATOR,
+          role: Role.DEFAULT,
           userId: user.id,
           status: UserStatus.IMPORTED,
         },
@@ -528,7 +528,7 @@ const users = async () => {
     prisma.account.create({
       data: {
         organizationVersionId: organizationVersions[0].id,
-        role: Role.COLLABORATOR,
+        role: Role.DEFAULT,
         status: UserStatus.ACTIVE,
         userId: (
           await prisma.user.create({
@@ -575,7 +575,7 @@ const users = async () => {
       await prisma.account.create({
         data: {
           organizationVersionId: regularOrganizationVersions[0].id,
-          role: Role.COLLABORATOR,
+          role: Role.DEFAULT,
           userId: user.id,
           status: UserStatus.IMPORTED,
         },

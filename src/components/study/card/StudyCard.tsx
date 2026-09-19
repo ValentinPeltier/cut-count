@@ -1,7 +1,6 @@
 import { StudyCardItem } from '@/db/study'
 import Box from '@/lib/components/base/Box'
 import { Button } from '@/lib/ui'
-import { hasRoleOnStudy } from '@/services/permissions/environment'
 import { getDisplayedRoleOnStudy } from '@/utils/study'
 import classNames from 'classnames'
 import { UserSession } from 'next-auth'
@@ -19,7 +18,7 @@ const StudyCard = async ({ study, user, simplified }: Props) => {
   const t = await getTranslations('study')
   const { id, name } = study
 
-  const showRoleInChip = hasRoleOnStudy()
+  const showRoleInChip = true
   const accountRoleOnStudy = getDisplayedRoleOnStudy(user, study)
 
   if (!accountRoleOnStudy) {

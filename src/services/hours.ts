@@ -1,4 +1,4 @@
-import { DayOfWeek } from '@/db-common/enums'
+import { DayOfWeek } from '@/generated/prisma/enums'
 import { z } from 'zod'
 
 export const OpeningHoursValidation = z.object({

@@ -1,4 +1,4 @@
-import { StudyResultUnit } from '@/db-common'
+import { StudyResultUnit } from '@/generated/prisma/client'
 import type { FullStudy } from '@/db/study'
 import { usePublicodesResults } from '@/hooks/usePublicodesResults'
 import { Translations } from '@/lib'

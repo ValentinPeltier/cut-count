@@ -48,7 +48,6 @@ const NewStudyInOrganization = async (props: Props & UserSessionProps & StudyCre
       accounts={accounts}
       defaultOrganizationVersion={organizationVersions.find((organizationVersion) => organizationVersion.id === id)}
       caUnit={caUnit}
-      duplicateStudyId={props.duplicateStudyId}
     />
   )
 }

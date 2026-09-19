@@ -1,4 +1,4 @@
-import { Import } from '@/db-common/enums'
+import { Import } from '@/generated/prisma/enums'
 import { Command } from 'commander'
 import * as XLSX from 'xlsx'
 import { applyOverridesFromRows } from '../../services/importEmissionFactor/applyOverrides'

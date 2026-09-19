@@ -1,6 +1,6 @@
 'use server'
 
-import { EmissionFactorStatus, Import, Unit } from '@/db-common/enums'
+import { EmissionFactorStatus, Import, Unit } from '@/generated/prisma/enums'
 import { getAccountById } from '@/db/account'
 import { prismaClient } from '@/db/client.server'
 import {

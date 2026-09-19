@@ -1,5 +1,5 @@
 import { getStudyNavbarMenu } from '@/constants/navbar'
-import { StudyRole } from '@/db-common/enums'
+import { StudyRole } from '@/generated/prisma/enums'
 import { HelpIcon } from '@/lib/components'
 import Modal from '@/lib/components/modals/Modal'
 import classNames from 'classnames'

@@ -1,4 +1,4 @@
-import { PrismaClient } from '@/db-common'
+import { PrismaClient } from '@/generated/prisma/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 
 const adapter = new PrismaPg({
