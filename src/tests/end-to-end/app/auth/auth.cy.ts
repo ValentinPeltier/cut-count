@@ -14,7 +14,7 @@ describe('Authentication', () => {
     cy.visit('/')
     cy.url().should('include', '/login')
 
-    cy.login('default-1@yopmail.com', 'test1', { cacheSession: false })
+    cy.login('default-1@yopmail.com', 'wrong_password', { cacheSession: false })
 
     cy.visit('/')
     cy.url().should('include', '/login')
@@ -24,7 +24,7 @@ describe('Authentication', () => {
     cy.visit('/')
     cy.url().should('include', '/login')
 
-    cy.login('default-1@yopmail.com', 'password-1', { cacheSession: false })
+    cy.login('default-1@yopmail.com', 'default-1', { cacheSession: false })
 
     cy.url().should('not.include', '/login')
   })
@@ -82,7 +82,7 @@ describe('Authentication', () => {
     cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input')
       .should('be.visible')
       .should('not.be.disabled')
-      .type('password-0')
+      .type('default-0')
     cy.getByTestId('login-button').should('be.visible').should('not.be.disabled').click()
 
     cy.wait('@login')
@@ -120,7 +120,7 @@ describe('Authentication', () => {
     cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input')
       .should('be.visible')
       .should('not.be.disabled')
-      .type('password-1')
+      .type('imported')
     cy.getByTestId('login-button').should('be.visible').should('not.be.disabled').click()
 
     cy.wait('@login')
@@ -131,7 +131,7 @@ describe('Authentication', () => {
   })
 
   it('does activate account', () => {
-    const email = `cut-pending-activate-${Date.now()}@yopmail.com`
+    const email = `pending-activate-${Date.now()}@yopmail.com`
     cy.signup(email, '1234567891234')
 
     cy.getByTestId('activation-form-message', { timeout: 20000 }).should('be.visible')
@@ -146,7 +146,7 @@ describe('Authentication', () => {
       .should('match', /Demande d'accès à votre organisation Count/)
 
     cy.visit('/')
-    cy.login('cut-admin-test@yopmail.com', 'password', { cacheSession: false })
+    cy.login('admin-test@yopmail.com', 'admin-test', { cacheSession: false })
     cy.visit('/equipe')
     cy.getByTestId('invitations-to-validate').should('be.visible')
     cy.getByTestId('invitations-to-validate').within(() => {

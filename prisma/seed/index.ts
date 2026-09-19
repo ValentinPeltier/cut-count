@@ -14,7 +14,7 @@ import {
 import { signPassword } from '@/lib/utils/auth'
 import { getAllowedLevels } from '@/utils/study'
 import { faker } from '@faker-js/faker'
-import { PrismaPg } from '@prisma/adapter-pg'
+import { createPrismaMariaDbAdapter } from '../../src/db/prismaMariaDbAdapter'
 
 import { Command } from 'commander'
 import { createCountGoldenStudy } from './countGoldenStudy'
@@ -33,9 +33,7 @@ type userAndAccountsAndOrganizationVersion = {
   }[]
 }
 
-const adapter = new PrismaPg({
-  connectionString: process.env.DATABASE_URL,
-})
+const adapter = createPrismaMariaDbAdapter()
 
 const prisma = new PrismaClient({
   adapter,
@@ -46,6 +44,7 @@ const users = async () => {
   await prisma.emissionFactorPart.deleteMany()
   await prisma.emissionFactorMetaData.deleteMany()
   await prisma.emissionFactorVersion.deleteMany()
+  await prisma.emissionFactorSubPost.deleteMany()
   await prisma.emissionFactor.deleteMany()
 
   await prisma.userOnStudy.deleteMany()
@@ -186,41 +185,53 @@ const users = async () => {
       userId: (
         await prisma.user.create({
           data: {
-            email: 'cut-admin-test@yopmail.com',
+            email: 'admin-test@yopmail.com',
             firstName: faker.person.firstName(),
             lastName: faker.person.lastName(),
-            password: await signPassword('password'),
+            password: await signPassword('admin-test'),
           },
         })
       ).id,
     },
   })
 
-  const organizations = await prisma.organization.createManyAndReturn({
-    data: Array.from({ length: 10 }).map(() => ({
-      name: faker.company.name(),
-      wordpressId: faker.finance.accountNumber(14),
-    })),
-  })
+  const organizations = await Promise.all(
+    Array.from({ length: 10 }).map(() =>
+      prisma.organization.create({
+        data: {
+          name: faker.company.name(),
+          wordpressId: faker.finance.accountNumber(14),
+        },
+      }),
+    ),
+  )
 
-  const organizationVersions = await prisma.organizationVersion.createManyAndReturn({
-    data: organizations.map((organization, index) => ({
-      organizationId: organization.id,
-      isCR: index % 2 === 1,
-      onboarded: true,
-    })),
-  })
+  const organizationVersions = await Promise.all(
+    organizations.map((organization, index) =>
+      prisma.organizationVersion.create({
+        data: {
+          organizationId: organization.id,
+          isCR: index % 2 === 1,
+          onboarded: true,
+        },
+      }),
+    ),
+  )
 
   const crOrganizationVersions = organizationVersions.filter((organization) => organization.isCR)
   const regularOrganizationVersions = organizationVersions.filter((organization) => !organization.isCR)
 
   const cutOrganizationVersions = regularOrganizationVersions
 
-  const childOrganizations = await prisma.organization.createManyAndReturn({
-    data: Array.from({ length: 50 }).map(() => ({
-      name: faker.company.name(),
-    })),
-  })
+  const childOrganizations = await Promise.all(
+    Array.from({ length: 50 }).map(() =>
+      prisma.organization.create({
+        data: {
+          name: faker.company.name(),
+        },
+      }),
+    ),
+  )
 
   await Promise.all([
     prisma.emissionFactor.create({
@@ -235,7 +246,7 @@ const users = async () => {
         importedId: '1',
         unit: Unit.KG,
         isMonetary: false,
-        subPosts: [SubPost.Achats],
+        subPosts: { create: [{ subPost: SubPost.Achats }] },
         metaData: {
           create: {
             language: 'fr',
@@ -257,7 +268,7 @@ const users = async () => {
         importedId: '2',
         unit: Unit.KG_DRY_MATTER,
         isMonetary: false,
-        subPosts: [SubPost.Achats],
+        subPosts: { create: [{ subPost: SubPost.Achats }] },
         metaData: {
           create: {
             language: 'fr',
@@ -279,7 +290,7 @@ const users = async () => {
         importedId: '3',
         unit: Unit.CAR_KM,
         isMonetary: false,
-        subPosts: [SubPost.Achats],
+        subPosts: { create: [{ subPost: SubPost.Achats }] },
         organizationId: regularOrganizationVersions[0]?.organizationId,
         metaData: {
           create: {
@@ -291,7 +302,7 @@ const users = async () => {
     }),
   ])
 
-  await prisma.organizationVersion.createManyAndReturn({
+  await prisma.organizationVersion.createMany({
     data: childOrganizations.map((childOrganization) => ({
       parentId: faker.helpers.arrayElement(crOrganizationVersions).id,
       organizationId: childOrganization.id,
@@ -302,17 +313,21 @@ const users = async () => {
 
   const cncRecord = await prisma.cnc.findUnique({ where: { cncCode: '1321' } })
 
-  const sites = await prisma.site.createManyAndReturn({
-    data: [...organizations, ...childOrganizations].flatMap((organization) => {
+  const sites = await Promise.all(
+    [...organizations, ...childOrganizations].flatMap((organization) => {
       const sitesNumber = faker.number.int({ min: 1, max: 5 })
-      return Array.from({ length: sitesNumber }).map(() => ({
-        name: faker.commerce.department(),
-        etp: faker.number.int({ min: 1, max: 100 }),
-        ca: Math.round(faker.number.float({ min: 100_000, max: 1_000_000_000 })) / 100,
-        organizationId: organization.id,
-      }))
+      return Array.from({ length: sitesNumber }).map(() =>
+        prisma.site.create({
+          data: {
+            name: faker.commerce.department(),
+            etp: faker.number.int({ min: 1, max: 100 }),
+            ca: Math.round(faker.number.float({ min: 100_000, max: 1_000_000_000 })) / 100,
+            organizationId: organization.id,
+          },
+        }),
+      )
     }),
-  })
+  )
 
   if (cncRecord) {
     const cutOrganizationIds = organizationVersions.map((orgVersion) => orgVersion.organizationId)
@@ -335,14 +350,14 @@ const users = async () => {
     role: Role,
     organizationVersionId: string,
     level: Level,
-    passwordIndex: number,
+    password: string,
   ): Promise<userAndAccountsAndOrganizationVersion> => {
     const user = await prisma.user.create({
       data: {
         email,
         firstName: faker.person.firstName(),
         lastName: faker.person.lastName(),
-        password: await signPassword(`password-${passwordIndex}`),
+        password: await signPassword(password),
         level,
       },
     })
@@ -366,30 +381,19 @@ const users = async () => {
     return { user, accounts: [{ account, organizationVersion }] }
   }
 
-  const usersWithAccounts = await Promise.all([
-    ...CUT_SEED_ROLES.flatMap((role) =>
+  const usersWithAccounts = await Promise.all(
+    CUT_SEED_ROLES.flatMap((role) =>
       Array.from({ length: 2 }).map((_, index) =>
         toUserWithAccounts(
           `${role.toLocaleLowerCase()}-${index}@yopmail.com`,
           role,
           cutOrganizationVersions[index % cutOrganizationVersions.length].id,
           levels[index % levels.length] as Level,
-          index,
+          `${role.toLocaleLowerCase()}-${index}`,
         ),
       ),
     ),
-    ...CUT_SEED_ROLES.flatMap((role) =>
-      Array.from({ length: 2 }).map((_, index) =>
-        toUserWithAccounts(
-          `cr-${role.toLocaleLowerCase()}-${index}@yopmail.com`,
-          role,
-          crOrganizationVersions[index % crOrganizationVersions.length].id,
-          levels[index % levels.length] as Level,
-          index,
-        ),
-      ),
-    ),
-  ])
+  )
 
   await prisma.account.create({
     data: {
@@ -402,7 +406,7 @@ const users = async () => {
             email: 'untrained@yopmail.com',
             firstName: faker.person.firstName(),
             lastName: faker.person.lastName(),
-            password: await signPassword('password'),
+            password: await signPassword('untrained'),
           },
         })
       ).id,
@@ -516,7 +520,7 @@ const users = async () => {
       isMonetary: false,
       source: 'Magic',
       base: EmissionFactorBase.LocationBased,
-      subPosts: [SubPost.Energie],
+      subPosts: { create: [{ subPost: SubPost.Energie }] },
       organizationId: defaultUserWithAccount.accounts[0].organizationVersion.organizationId,
       emissionFactorParts: {
         create: [
@@ -650,16 +654,16 @@ const users = async () => {
   await createCountGoldenStudy(prisma)
 }
 
-const SEED_LOCK_KEY = 4_242_424
+const SEED_LOCK_NAME = 'count_seed'
 
 const main = async () => {
   // Cypress (and parallel local runs) can call db:test:seed concurrently against count_test.
   // Serialize the wipe+seed so we never hit unique constraint races on users.email.
-  await prisma.$executeRaw`SELECT pg_advisory_lock(${SEED_LOCK_KEY})`
+  await prisma.$executeRaw`SELECT GET_LOCK(${SEED_LOCK_NAME}, 300)`
   try {
     await users()
   } finally {
-    await prisma.$executeRaw`SELECT pg_advisory_unlock(${SEED_LOCK_KEY})`
+    await prisma.$executeRaw`SELECT RELEASE_LOCK(${SEED_LOCK_NAME})`
   }
 }
 

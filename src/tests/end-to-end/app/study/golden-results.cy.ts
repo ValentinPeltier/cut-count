@@ -15,7 +15,7 @@ describe('Count! golden study results', () => {
   })
 
   it('displays Publicodes post totals matching the seeded fixture', () => {
-    cy.loginForEnv('cut')
+    cy.login()
     cy.visit(`/etudes/${COUNT_GOLDEN_STUDY_ID}/comptabilisation/resultats`)
 
     cy.contains(COUNT_GOLDEN_STUDY_NAME, { timeout: 20000 }).should('be.visible')

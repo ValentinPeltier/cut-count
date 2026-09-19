@@ -40,7 +40,7 @@ describe('Count! create simplified study', () => {
   })
 
   it('creates a study as CUT admin and persists name after revisit', () => {
-    cy.loginForEnv('cut', 'admin-0@yopmail.com', 'password-0')
+    cy.login('admin-0@yopmail.com', 'admin-0')
     newCutStudy(STUDY_NAME)
 
     cy.url().then((url) => {
