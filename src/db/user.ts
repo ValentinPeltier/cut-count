@@ -210,7 +210,7 @@ export const createUsersWithAccount = async (
 
 export const updateAccount = (
   accountId: string,
-  data: Partial<Prisma.AccountUpdateInput & { role: Exclude<Role, 'SUPER_ADMIN'> | undefined }>,
+  data: Partial<Prisma.AccountUpdateInput>,
   userData?: Partial<Prisma.UserUpdateInput>,
 ) =>
   prismaClient.account.update({
@@ -224,7 +224,7 @@ export const updateAccount = (
 export const addUser = async (
   newMember: Omit<Prisma.UserCreateInput, 'accounts'> & {
     accounts: { create: Omit<Prisma.AccountCreateInput, 'user'> }
-    role?: Exclude<Role, 'SUPER_ADMIN'>
+    role?: Role
   },
 ) => {
   return prismaClient.user.create({
@@ -248,10 +248,6 @@ export const handleAddingUser = async (creator: UserSession, newUser: AddMemberC
   const memberAccountForOrganization = memberExists?.accounts.find(
     (a) => a.organizationVersionId === organizationVersionId,
   )
-
-  if (memberAccountForOrganization?.role === Role.SUPER_ADMIN || newUser.role === Role.SUPER_ADMIN) {
-    throw new Error(NOT_AUTHORIZED)
-  }
 
   const userFromDb = await getUserByEmail(creator.email)
   if (!userFromDb || !organizationVersionId) {

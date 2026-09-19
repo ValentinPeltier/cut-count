@@ -1,7 +1,7 @@
 describe('Home page - ', () => {
   describe('Count environment', () => {
     beforeEach(() => {
-      cy.login('cut-env-admin-0@yopmail.com')
+      cy.login('admin-0@yopmail.com')
       cy.visit('/')
     })
 

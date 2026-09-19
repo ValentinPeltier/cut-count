@@ -69,9 +69,7 @@ const NewMemberFormCommon = ({ teamRoles, addMember }: Props) => {
         trim
       />
       <FormSelect control={form.control} translation={t} name="role" label={t('role')} data-testid="new-member-role">
-        {Object.keys(teamRoles)
-          .filter((role) => role !== Role.SUPER_ADMIN)
-          .map((key) => (
+        {Object.keys(teamRoles).map((key) => (
             <MenuItem key={key} value={key}>
               {tRole(key)}
             </MenuItem>

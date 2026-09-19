@@ -2,20 +2,24 @@ import { Role, UserStatus } from '@/generated/prisma/enums'
 import { CutRoles } from '@/services/roles'
 import { getMockedAuthUser } from '@/tests/utils/models/user'
 import { expect } from '@jest/globals'
-import { findUserInfo, getRoleToSetForUntrained, getTeamRoles, isAdmin } from './user'
+import { canEditMemberRole, findUserInfo, getRoleToSetForUntrained, getTeamRoles, isAdmin } from './user'
 
 describe('userUtils functions', () => {
   describe('isAdmin', () => {
-    test('should return true for ADMIN roles', () => {
+    test('should return true for ADMIN', () => {
       expect(isAdmin(Role.ADMIN)).toBe(true)
-      expect(isAdmin(Role.SUPER_ADMIN)).toBe(true)
     })
 
-    test('should return false for non-ADMIN roles', () => {
-      expect(isAdmin(Role.GESTIONNAIRE)).toBe(false)
-      expect(isAdmin(Role.COLLABORATOR)).toBe(false)
+    test('should return false for DEFAULT', () => {
       expect(isAdmin(Role.DEFAULT)).toBe(false)
       expect(isAdmin('OTHER_ROLE' as Role)).toBe(false)
+    })
+  })
+
+  describe('canEditMemberRole', () => {
+    test('should return true only for ADMIN', () => {
+      expect(canEditMemberRole(getMockedAuthUser({ role: Role.ADMIN }))).toBe(true)
+      expect(canEditMemberRole(getMockedAuthUser({ role: Role.DEFAULT }))).toBe(false)
     })
   })
 
@@ -77,8 +81,6 @@ describe('userUtils functions', () => {
     test('should return the same role for Count', () => {
       expect(getRoleToSetForUntrained(Role.ADMIN)).toBe(Role.ADMIN)
       expect(getRoleToSetForUntrained(Role.DEFAULT)).toBe(Role.DEFAULT)
-      expect(getRoleToSetForUntrained(Role.GESTIONNAIRE)).toBe(Role.GESTIONNAIRE)
-      expect(getRoleToSetForUntrained(Role.COLLABORATOR)).toBe(Role.COLLABORATOR)
     })
   })
 })

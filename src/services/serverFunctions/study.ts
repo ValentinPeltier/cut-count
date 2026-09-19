@@ -514,14 +514,14 @@ const getOrCreateUserAndSendStudyInvite = async (
     if (!account) {
       account = (await addAccount({
         user: { connect: { id: existingUser.id } },
-        role: Role.COLLABORATOR,
+        role: Role.DEFAULT,
         status: UserStatus.VALIDATED,
       })) as AccountWithUser
     } else if (account.status === UserStatus.IMPORTED) {
       await updateAccount(account.id, {
         organizationVersion: { disconnect: true },
         status: UserStatus.VALIDATED,
-        role: Role.COLLABORATOR,
+        role: Role.DEFAULT,
       })
       account = (await getAccountByEmail(email)) as AccountWithUser
     }

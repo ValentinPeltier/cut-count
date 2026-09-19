@@ -73,7 +73,7 @@ export const getAccountsFromOrganization = (organizationVersionId: string) =>
     orderBy: { user: { email: 'asc' } },
   })
 
-export const addAccount = async (account: Prisma.AccountCreateInput & { role: Exclude<Role, 'SUPER_ADMIN'> }) => {
+export const addAccount = async (account: Prisma.AccountCreateInput) => {
   return prismaClient.account.create({
     data: account,
     select: AccountWithUserSelect,

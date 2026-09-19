@@ -22,8 +22,8 @@ import { createRealStudy } from './study'
 
 const program = new Command()
 
-/** Roles used by Count accounts (legacy GESTIONNAIRE / COLLABORATOR are unused). */
-const CUT_SEED_ROLES = [Role.ADMIN, Role.SUPER_ADMIN, Role.DEFAULT] as const
+/** Roles used by Count accounts. */
+const CUT_SEED_ROLES = [Role.ADMIN, Role.DEFAULT] as const
 
 type userAndAccountsAndOrganizationVersion = {
   user: User
@@ -370,7 +370,7 @@ const users = async () => {
     ...CUT_SEED_ROLES.flatMap((role) =>
       Array.from({ length: 2 }).map((_, index) =>
         toUserWithAccounts(
-          `cut-env-${role.toLocaleLowerCase()}-${index}@yopmail.com`,
+          `${role.toLocaleLowerCase()}-${index}@yopmail.com`,
           role,
           cutOrganizationVersions[index % cutOrganizationVersions.length].id,
           levels[index % levels.length] as Level,
@@ -381,7 +381,7 @@ const users = async () => {
     ...CUT_SEED_ROLES.flatMap((role) =>
       Array.from({ length: 2 }).map((_, index) =>
         toUserWithAccounts(
-          `cut-env-cr-${role.toLocaleLowerCase()}-${index}@yopmail.com`,
+          `cr-${role.toLocaleLowerCase()}-${index}@yopmail.com`,
           role,
           crOrganizationVersions[index % crOrganizationVersions.length].id,
           levels[index % levels.length] as Level,
@@ -470,13 +470,13 @@ const users = async () => {
   )
 
   const defaultUserWithAccount = usersWithAccounts.find(
-    (userWithAccount) => userWithAccount.user.email === 'cut-env-default-0@yopmail.com',
+    (userWithAccount) => userWithAccount.user.email === 'default-0@yopmail.com',
   ) as userAndAccountsAndOrganizationVersion
   const readerWithAccount = usersWithAccounts.find(
-    (userWithAccount) => userWithAccount.user.email === 'cut-env-default-1@yopmail.com',
+    (userWithAccount) => userWithAccount.user.email === 'default-1@yopmail.com',
   ) as userAndAccountsAndOrganizationVersion
   const editorWithAccount = usersWithAccounts.find(
-    (userWithAccount) => userWithAccount.user.email === 'cut-env-admin-1@yopmail.com',
+    (userWithAccount) => userWithAccount.user.email === 'admin-1@yopmail.com',
   ) as userAndAccountsAndOrganizationVersion
 
   if (!defaultUserWithAccount.accounts[0].account.organizationVersionId) {
@@ -493,7 +493,7 @@ const users = async () => {
   )
 
   const cutAdminWithAccount = usersWithAccounts.find(
-    (userWithAccount) => userWithAccount.user.email === 'cut-env-admin-0@yopmail.com',
+    (userWithAccount) => userWithAccount.user.email === 'admin-0@yopmail.com',
   ) as userAndAccountsAndOrganizationVersion
   const cutAdminAccount = cutAdminWithAccount.accounts[0]
   const cutAdminSites = sites.filter(

@@ -5,11 +5,11 @@ import { AccountWithUser } from '@/types/account.types'
 import { canEditMemberRole } from '@/utils/user'
 import { UserSession } from 'next-auth'
 
-export const canEditSelfRole = (userRole: Role) => userRole === Role.ADMIN || userRole === Role.GESTIONNAIRE
+export const canEditSelfRole = (userRole: Role) => userRole === Role.ADMIN
 
 export const canAddMember = (
   user: UserSession,
-  member: Pick<Prisma.AccountCreateInput, 'role'>,
+  _member: Pick<Prisma.AccountCreateInput, 'role'>,
   organizationVersionId: string | null,
 ) => {
   if (!organizationVersionId) {
@@ -17,10 +17,6 @@ export const canAddMember = (
   }
 
   if (!canEditMemberRole(user)) {
-    return false
-  }
-
-  if (member.role === Role.SUPER_ADMIN) {
     return false
   }
 
@@ -64,10 +60,6 @@ export const canChangeRole = (user: UserSession, member: AccountWithUser | null,
   }
 
   if (user.organizationVersionId !== member.organizationVersionId) {
-    return false
-  }
-
-  if (newRole === Role.SUPER_ADMIN) {
     return false
   }
 

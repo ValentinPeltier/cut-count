@@ -12,17 +12,7 @@ describe('Team', () => {
   })
 
   it('admins can edit team member role', () => {
-    cy.login('cut-env-admin-1@yopmail.com', 'password-1')
-    cy.visit('/equipe')
-    cy.getByTestId('team-table-row')
-      .eq(0)
-      .within(() => {
-        cy.get('input').should('exist')
-      })
-  })
-
-  it('super-admins can edit team member role', () => {
-    cy.login('cut-env-super_admin-1@yopmail.com', 'password-1')
+    cy.login('admin-1@yopmail.com', 'password-1')
     cy.visit('/equipe')
     cy.getByTestId('team-table-row')
       .eq(0)
@@ -32,7 +22,7 @@ describe('Team', () => {
   })
 
   it('defaults cannot edit team member role', () => {
-    cy.login('cut-env-default-1@yopmail.com', 'password-1')
+    cy.login('default-1@yopmail.com', 'password-1')
     cy.visit('/equipe')
     cy.getByTestId('team-table-row')
       .eq(0)
@@ -42,25 +32,20 @@ describe('Team', () => {
   })
 
   it('should change a member role', () => {
-    cy.login('cut-env-admin-1@yopmail.com', 'password-1')
+    cy.login('admin-1@yopmail.com', 'password-1')
     cy.visit('/equipe')
 
-    cy.contains('[data-testid="team-table-row"]', 'cut-env-admin-1@yopmail.com').within(() => {
+    cy.contains('[data-testid="team-table-row"]', 'admin-1@yopmail.com').within(() => {
       cy.get('input').should('have.value', Role.ADMIN)
       cy.get('input').should('not.be.disabled')
     })
 
-    cy.contains('[data-testid="team-table-row"]', 'cut-env-default-1@yopmail.com').within(() => {
+    cy.contains('[data-testid="team-table-row"]', 'default-1@yopmail.com').within(() => {
       cy.get('input').should('have.value', Role.DEFAULT)
       cy.get('input').should('not.be.disabled')
     })
 
-    cy.contains('[data-testid="team-table-row"]', 'cut-env-super_admin-1@yopmail.com').within(() => {
-      cy.get('input').should('have.value', Role.SUPER_ADMIN)
-      cy.get('input').should('be.disabled')
-    })
-
-    cy.contains('[data-testid="team-table-row"]', 'cut-env-default-1@yopmail.com').within(() => {
+    cy.contains('[data-testid="team-table-row"]', 'default-1@yopmail.com').within(() => {
       cy.get('input').should('have.value', Role.DEFAULT)
       cy.get('.MuiSelect-select').click()
     })
@@ -69,7 +54,7 @@ describe('Team', () => {
 
     cy.reload()
 
-    cy.contains('[data-testid="team-table-row"]', 'cut-env-default-1@yopmail.com').within(() => {
+    cy.contains('[data-testid="team-table-row"]', 'default-1@yopmail.com').within(() => {
       cy.get('input').should('have.value', Role.ADMIN)
     })
   })
@@ -77,7 +62,7 @@ describe('Team', () => {
   it('should add a new member', () => {
     cy.clearEmails()
     cy.intercept('POST', '/reset-password/*').as('reset-password')
-    cy.login('cut-env-admin-1@yopmail.com', 'password-1')
+    cy.login('admin-1@yopmail.com', 'password-1')
     cy.visit('/equipe')
 
     cy.getByTestId('pending-invitation').should('not.exist')

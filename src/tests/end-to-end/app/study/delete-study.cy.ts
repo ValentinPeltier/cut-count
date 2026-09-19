@@ -6,7 +6,7 @@ describe('Delete study', () => {
   })
 
   it('should be able to delete a study', () => {
-    cy.login('cut-env-admin-0@yopmail.com', 'password-0')
+    cy.login('admin-0@yopmail.com', 'password-0')
 
     cy.visit('/organisations')
     cy.getByTestId('organization-page', { timeout: 15000 }).should('be.visible')

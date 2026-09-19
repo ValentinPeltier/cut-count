@@ -5,7 +5,7 @@ Cypress.Commands.add(
 )
 
 const ENV_LOGIN_DEFAULTS: Record<string, { email: string; password: string }> = {
-  cut: { email: 'cut-env-admin-0@yopmail.com', password: 'password-0' },
+  cut: { email: 'admin-0@yopmail.com', password: 'password-0' },
 }
 
 const ENV_ENTRY_PATHS: Record<string, string> = {
@@ -57,7 +57,7 @@ const loginWithOptionalSession = (email: string, password: string, entryPath: st
 
 Cypress.Commands.add(
   'login',
-  (email = 'cut-env-admin-0@yopmail.com', password = 'password-0', options: LoginOptions = {}) => {
+  (email = 'admin-0@yopmail.com', password = 'password-0', options: LoginOptions = {}) => {
     loginWithOptionalSession(email, password, '/login', options)
   },
 )

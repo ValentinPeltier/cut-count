@@ -14,7 +14,7 @@ describe('Authentication', () => {
     cy.visit('/')
     cy.url().should('include', '/login')
 
-    cy.login('cut-env-default-1@yopmail.com', 'test1', { cacheSession: false })
+    cy.login('default-1@yopmail.com', 'test1', { cacheSession: false })
 
     cy.visit('/')
     cy.url().should('include', '/login')
@@ -24,7 +24,7 @@ describe('Authentication', () => {
     cy.visit('/')
     cy.url().should('include', '/login')
 
-    cy.login('cut-env-default-1@yopmail.com', 'password-1', { cacheSession: false })
+    cy.login('default-1@yopmail.com', 'password-1', { cacheSession: false })
 
     cy.url().should('not.include', '/login')
   })
@@ -35,14 +35,14 @@ describe('Authentication', () => {
     cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
       .should('be.visible')
       .should('not.be.disabled')
-      .type('cut-env-default-1@yopmail.com')
+      .type('default-1@yopmail.com')
     cy.getByTestId('reset-password-link').click()
 
     cy.url().should('include', '/reset-password')
 
     cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input').should(
       'have.value',
-      'cut-env-default-1@yopmail.com',
+      'default-1@yopmail.com',
     )
 
     cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
@@ -51,13 +51,13 @@ describe('Authentication', () => {
       .clear()
 
     cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input').type(
-      'cut-env-default-0@yopmail.com',
+      'default-0@yopmail.com',
     )
 
     cy.getByTestId('reset-button').should('be.visible').should('not.be.disabled').click()
 
     cy.openEmailLink({
-      to: 'cut-env-default-0@yopmail.com',
+      to: 'default-0@yopmail.com',
       subject: /Mot de passe oublié/,
     })
 
@@ -80,7 +80,7 @@ describe('Authentication', () => {
     cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
       .should('be.visible')
       .should('not.be.disabled')
-      .type('cut-env-default-0@yopmail.com')
+      .type('default-0@yopmail.com')
     cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input')
       .should('be.visible')
       .should('not.be.disabled')
@@ -94,7 +94,7 @@ describe('Authentication', () => {
     cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
       .should('be.visible')
       .should('not.be.disabled')
-      .should('have.value', 'cut-env-default-0@yopmail.com')
+      .should('have.value', 'default-0@yopmail.com')
 
     cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input')
       .should('be.visible')

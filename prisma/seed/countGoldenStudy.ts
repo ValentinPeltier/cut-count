@@ -14,7 +14,7 @@ const richSituation = loadCountSituation('rich')
 
 export const createCountGoldenStudy = async (prisma: PrismaClient) => {
   const cutAdmin = await prisma.user.findUnique({
-    where: { email: 'cut-env-admin-0@yopmail.com' },
+    where: { email: 'admin-0@yopmail.com' },
     include: {
       accounts: {
         where: { status: UserStatus.ACTIVE },
@@ -25,7 +25,7 @@ export const createCountGoldenStudy = async (prisma: PrismaClient) => {
 
   const cutAccount = cutAdmin?.accounts[0]
   if (!cutAccount?.organizationVersionId || !cutAccount.organizationVersion) {
-    console.warn('Count golden study seed skipped: cut-env-admin-0 account not found')
+    console.warn('Count golden study seed skipped: admin-0 account not found')
     return
   }
 

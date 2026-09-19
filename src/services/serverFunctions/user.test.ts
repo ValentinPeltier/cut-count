@@ -340,10 +340,6 @@ describe('signUpWithSiretOrCNC', () => {
           user: { email: 'admin@example.com' },
         },
         {
-          role: Role.GESTIONNAIRE,
-          user: { email: 'gestionnaire@example.com' },
-        },
-        {
           role: Role.DEFAULT,
           user: { email: 'member@example.com' },
         },
@@ -352,7 +348,7 @@ describe('signUpWithSiretOrCNC', () => {
       const result = await signUpWithSiretOrCNC(testEmail, testSiret)
 
       expect(mockSendActivationRequest).toHaveBeenCalledWith(
-        ['admin@example.com', 'gestionnaire@example.com'],
+        ['admin@example.com'],
         testEmail,
         'Test User',
       )

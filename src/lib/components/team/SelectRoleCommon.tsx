@@ -1,6 +1,6 @@
 'use client'
 
-import { Level, Role } from '@/generated/prisma/enums'
+import { Level } from '@/generated/prisma/enums'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
 import { ApiResponse } from '@/lib/utils/serverResponse'
 import { RoleBcOrMip } from '@/lib/utils/types'
@@ -64,17 +64,13 @@ const SelectRoleCommon = ({
   }
 
   const disabled = useMemo(
-    () => (!canEditSelfRole && currentUserEmail === email) || currentRole === Role.SUPER_ADMIN,
-    [currentUserEmail, email, currentRole],
+    () => !canEditSelfRole && currentUserEmail === email,
+    [canEditSelfRole, currentUserEmail, email],
   )
 
   return (
     <Select className={styles.select} value={role} onChange={selectNewRole} disabled={disabled}>
-      <MenuItem value={Role.SUPER_ADMIN} className={styles.hidden} aria-hidden="true">
-        {t(Role.SUPER_ADMIN)}
-      </MenuItem>
       {teamRoles
-        .filter((role) => role !== Role.SUPER_ADMIN)
         .filter((role) => level || canBeUntrainedRole(role))
         .map((role) => (
           <MenuItem key={role} value={role}>

@@ -15,7 +15,7 @@ describe('Edit organization', () => {
   })
 
   it('should edit an organization', () => {
-    cy.login('cut-env-admin-0@yopmail.com', 'password-0')
+    cy.login('admin-0@yopmail.com', 'password-0')
 
     openOrganizationEdit()
 

@@ -20,8 +20,7 @@ export const isInOrgaOrParent = (
   userOrganizationVersionId &&
   (userOrganizationVersionId === organizationVersion.id || userOrganizationVersionId === organizationVersion.parentId)
 
-export const hasEditionRole = (isCR: boolean, userRole: Role) =>
-  isCR ? userRole !== Role.DEFAULT : isAdmin(userRole) || userRole === Role.GESTIONNAIRE
+export const hasEditionRole = (_isCR: boolean, userRole: Role): boolean => isAdmin(userRole)
 
 export const canEditOrganizationVersion = (
   account: UserSession,

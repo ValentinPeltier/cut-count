@@ -111,7 +111,7 @@ describe('Organization permissions', () => {
       const user = {
         email: 'collaborator@email.com',
         organizationVersionId: parentOrganizationVersionId,
-        role: Role.COLLABORATOR,
+        role: Role.DEFAULT,
       } as UserSession
 
       mockGetAccountById.mockResolvedValue({ organizationVersionId: parentOrganizationVersionId })
@@ -249,7 +249,7 @@ describe('Organization permissions', () => {
 
     it('returns false if user has no edition role', async () => {
       mockDBActualizedAuth.mockResolvedValue({
-        user: { id: 'mocked-user-id', organizationVersionId: 'mocked-organization-parent', role: Role.COLLABORATOR },
+        user: { id: 'mocked-user-id', organizationVersionId: 'mocked-organization-parent', role: Role.DEFAULT },
       })
       mockGetOrganizationVersionForRightsCheck.mockResolvedValue({ parentId: 'mocked-organization-parent' })
       mockHasEditionRole.mockReturnValue(false)
@@ -266,7 +266,7 @@ describe('Organization permissions', () => {
 
     it('returns false if studies from other users exists', async () => {
       mockDBActualizedAuth.mockResolvedValue({
-        user: { id: 'mocked-user-id', organizationVersionId: 'mocked-organization-parent', role: Role.COLLABORATOR },
+        user: { id: 'mocked-user-id', organizationVersionId: 'mocked-organization-parent', role: Role.DEFAULT },
       })
       mockGetOrganizationVersionForRightsCheck.mockResolvedValue({ parentId: 'mocked-organization-parent' })
       mockHasEditionRole.mockReturnValue(true)

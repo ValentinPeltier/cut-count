@@ -140,7 +140,7 @@ const sendActivation = async (email: string, fromReset: boolean) => {
 export const addMember = async (member: AddMemberCommand) =>
   withServerResponse('addMember', async () => {
     const session = await dbActualizedAuth()
-    if (!session || !session.user || !session.user.organizationVersionId || member.role === Role.SUPER_ADMIN) {
+    if (!session || !session.user || !session.user.organizationVersionId) {
       throw new Error(NOT_AUTHORIZED)
     }
 
@@ -306,7 +306,7 @@ export const activateEmail = async (email: string, fromReset: boolean = false) =
       const accounts = await getAccountFromUserOrganization(accountWithUserToUserSession(account))
       await sendActivationRequest(
         accounts
-          .filter((a) => (a.role === Role.GESTIONNAIRE || a.role === Role.ADMIN) && a.status == UserStatus.ACTIVE)
+          .filter((a) => a.role === Role.ADMIN && a.status == UserStatus.ACTIVE)
           .map((a) => a.user.email),
         email.toLowerCase(),
         `${user.firstName} ${user.lastName}`,
@@ -499,7 +499,7 @@ export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string) =>
       const accounts = await getAccountFromUserOrganization(accountWithUserToUserSession(createdAccount))
 
       await sendActivationRequest(
-        accounts.filter((a) => a.role === Role.GESTIONNAIRE || a.role === Role.ADMIN).map((a) => a.user.email),
+        accounts.filter((a) => a.role === Role.ADMIN).map((a) => a.user.email),
         trimmedEmail,
         `${user.firstName} ${user.lastName}`,
       )

@@ -1,6 +1,6 @@
 'use client'
 
-import { Level, Role } from '@/generated/prisma/enums'
+import { Level } from '@/generated/prisma/enums'
 import { Table as BaseTable, HelpIcon } from '@/lib/components'
 import Block from '@/lib/components/base/Block'
 import { TableActionButton } from '@/lib/components/base/TableActionButton'
@@ -172,9 +172,7 @@ const TeamTableCommon = ({
           },
         ]}
       >
-        {teamRoles
-          .filter((role) => role !== Role.SUPER_ADMIN)
-          .map((role) => (
+        {teamRoles.map((role) => (
             <p key={role} className="mb-2">
               <b>{tRole(role)} :</b> {tRole(`${role}_description${crOrga ? '_CR' : ''}`)}
             </p>
