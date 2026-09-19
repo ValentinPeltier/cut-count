@@ -153,7 +153,7 @@ describe('Authentication', () => {
       cy.getByTestId('invitation')
         .filter((_index, el) => Cypress.$(el).text().includes(email))
         .getByTestId('validate-invitation')
-        .click({ force: true })
+        .click()
     })
 
     cy.getByTestId('pending-invitation').contains(email).should('exist')
