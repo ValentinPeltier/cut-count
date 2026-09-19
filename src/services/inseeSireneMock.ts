@@ -3,8 +3,6 @@ import sireneFixture from '@/fixtures/insee/sirene-utt-net-group.json'
 type SireneApiResponse = typeof sireneFixture
 type SireneEtablissement = NonNullable<SireneApiResponse['etablissement']>
 
-export const isInseeSireneMockEnabled = () => process.env.INSEE_SIRENE_MOCK === 'true'
-
 const withSiret = (fixture: SireneApiResponse, siret: string): SireneApiResponse => {
   const etablissement = fixture.etablissement
   if (!etablissement) {

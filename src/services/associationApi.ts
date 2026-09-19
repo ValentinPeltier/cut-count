@@ -1,8 +1,8 @@
-import { getMockSireneEtablissement, isInseeSireneMockEnabled } from '@/services/inseeSireneMock'
+import { getMockSireneEtablissement } from '@/services/inseeSireneMock'
 import axios from 'axios'
 
 const fetchSireneEtablissement = async (trimmedSiret: string) => {
-  if (isInseeSireneMockEnabled()) {
+  if (process.env.APP_ENV === 'test') {
     return getMockSireneEtablissement(trimmedSiret)
   }
 
