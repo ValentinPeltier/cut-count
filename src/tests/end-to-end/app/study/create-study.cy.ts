@@ -2,13 +2,34 @@ import { expect } from 'chai'
 import dayjs from 'dayjs'
 
 const STUDY_NAME = 'CUT e2e study'
+const STUDY_NAME_NO_ORGANIZATION = 'CUT e2e study without organization'
 const END_DATE = dayjs().add(1, 'y')
 const END_DATE_LABEL = END_DATE.format('DD/MM/YYYY')
 const TICKETS = '12345'
+const PERSONAL_SITE_NAME = 'Cinéma e2e sans organisation'
+
+const fillStudyFormAndSubmit = (studyName: string) => {
+  cy.getByTestId('new-study-name', { timeout: 10000 }).should('exist')
+  cy.getByTestId('new-study-name').type(studyName)
+  cy.getByTestId('new-study-endDate').within(() => {
+    cy.get('span').first().type(END_DATE_LABEL)
+  })
+  cy.getByTestId('new-study-create-button').click()
+}
+
+const fillPersonalStudySiteStep = () => {
+  cy.getByTestId('new-study-organization-title', { timeout: 10000 }).should('exist')
+  cy.getByTestId('edit-site-name', { timeout: 15000 }).find('input').clear().type(PERSONAL_SITE_NAME)
+  cy.getByTestId('new-study-organization-button').click()
+}
+
+const assertStudyCreated = (studyName: string) => {
+  cy.wait('@create', { timeout: 15000 }).its('response.statusCode').should('eq', 200)
+  cy.url({ timeout: 15000 }).should('include', '/etudes/')
+  cy.contains(studyName, { timeout: 15000 }).should('exist')
+}
 
 const newCutStudy = (studyName: string) => {
-  cy.intercept('POST', '**/etudes/creer**').as('create')
-  cy.intercept('GET', '**/etudes/creer**').as('creationPageLoad')
   cy.visit('/organisations')
   cy.getByTestId('new-study', { timeout: 15000 }).should('exist').click()
   cy.url({ timeout: 15000 }).should('include', 'creer')
@@ -18,25 +39,30 @@ const newCutStudy = (studyName: string) => {
   cy.getByTestId('organization-sites-checkbox', { timeout: 10000 }).first().click()
   cy.getByTestId('new-study-organization-button').click()
 
-  cy.getByTestId('new-study-name', { timeout: 10000 }).should('exist')
-  cy.getByTestId('new-study-name').type(studyName)
-  cy.getByTestId('new-study-endDate').within(() => {
-    cy.get('span').first().type(END_DATE_LABEL)
-  })
-  cy.getByTestId('new-study-create-button').click()
-
-  cy.wait('@create', { timeout: 15000 }).its('response.statusCode').should('eq', 200)
-  cy.url({ timeout: 15000 }).should('include', '/etudes/')
-  cy.contains(studyName, { timeout: 15000 }).should('exist')
+  fillStudyFormAndSubmit(studyName)
+  assertStudyCreated(studyName)
 }
 
-describe('Count! create simplified study', () => {
+const newPersonalStudy = (studyName: string) => {
+  cy.visit('/')
+  cy.getByTestId('new-study', { timeout: 15000 }).should('exist').click()
+  cy.url({ timeout: 15000 }).should('include', '/etudes/creer')
+  cy.wait('@creationPageLoad', { timeout: 15000 })
+
+  fillPersonalStudySiteStep()
+  fillStudyFormAndSubmit(studyName)
+  assertStudyCreated(studyName)
+}
+
+describe('Count! create study', () => {
   before(() => {
     cy.resetTestDatabase()
   })
 
   beforeEach(() => {
     cy.intercept('POST', '/api/auth/callback/credentials').as('login')
+    cy.intercept('POST', '**/etudes/creer**').as('create')
+    cy.intercept('GET', '**/etudes/creer**').as('creationPageLoad')
   })
 
   it('creates a study as CUT admin and persists name after revisit', () => {
@@ -60,5 +86,13 @@ describe('Count! create simplified study', () => {
 
       cy.getByTestId('new-study-number-of-tickets', { timeout: 20000 }).find('input').should('have.value', TICKETS)
     })
+  })
+
+  it('creates a study as a user with no organization', () => {
+    cy.login('no-organization@yopmail.com', 'no-organization')
+    newPersonalStudy(STUDY_NAME_NO_ORGANIZATION)
+
+    cy.visit('/')
+    cy.contains(STUDY_NAME_NO_ORGANIZATION, { timeout: 20000 }).should('exist')
   })
 })
