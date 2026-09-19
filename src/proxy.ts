@@ -23,9 +23,14 @@ const buildContentSecurityPolicy = (pathname: string, nonce: string) => {
   const isPublic = isPublicPath(pathname)
 
   if (isPublic) {
+    const scriptSrc =
+      process.env.NODE_ENV === 'development'
+        ? `'self' 'unsafe-inline' 'unsafe-eval'`
+        : `'self' 'unsafe-inline'`
+
     return `
       default-src 'self';
-      script-src 'self' 'unsafe-inline';
+      script-src ${scriptSrc};
       style-src 'self' 'unsafe-inline' https://fonts.cdnfonts.com;
       img-src 'self' data: ${logos};
       font-src 'self' https://fonts.cdnfonts.com;
