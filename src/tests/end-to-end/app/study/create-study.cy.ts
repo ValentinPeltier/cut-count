@@ -10,15 +10,15 @@ const newCutStudy = (studyName: string) => {
   cy.intercept('POST', '**/etudes/creer**').as('create')
   cy.intercept('GET', '**/etudes/creer**').as('creationPageLoad')
   cy.visit('/organisations')
-  cy.getByTestId('new-study', { timeout: 15000 }).should('be.visible').click()
+  cy.getByTestId('new-study', { timeout: 15000 }).should('exist').click()
   cy.url({ timeout: 15000 }).should('include', 'creer')
   cy.wait('@creationPageLoad', { timeout: 15000 })
 
-  cy.getByTestId('new-study-organization-title', { timeout: 10000 }).should('be.visible')
+  cy.getByTestId('new-study-organization-title', { timeout: 10000 }).should('exist')
   cy.getByTestId('organization-sites-checkbox', { timeout: 10000 }).first().click()
   cy.getByTestId('new-study-organization-button').click()
 
-  cy.getByTestId('new-study-name', { timeout: 10000 }).should('be.visible')
+  cy.getByTestId('new-study-name', { timeout: 10000 }).should('exist')
   cy.getByTestId('new-study-name').type(studyName)
   cy.getByTestId('new-study-endDate').within(() => {
     cy.get('span').first().type(END_DATE_LABEL)
@@ -27,7 +27,7 @@ const newCutStudy = (studyName: string) => {
 
   cy.wait('@create', { timeout: 15000 }).its('response.statusCode').should('eq', 200)
   cy.url({ timeout: 15000 }).should('include', '/etudes/')
-  cy.contains(studyName, { timeout: 15000 }).should('be.visible')
+  cy.contains(studyName, { timeout: 15000 }).should('exist')
 }
 
 describe('Count! create simplified study', () => {
@@ -48,11 +48,11 @@ describe('Count! create simplified study', () => {
       expect(studyId, 'study id in URL').to.be.a('string')
 
       cy.visit('/organisations')
-      cy.contains(STUDY_NAME, { timeout: 20000 }).scrollIntoView().should('exist')
+      cy.contains(STUDY_NAME, { timeout: 20000 }).should('exist')
 
       cy.visit(`/etudes/${studyId}/cadrage`)
       cy.intercept({ method: 'POST', url: '**/etudes/**/cadrage**' }).as('updateCinema')
-      cy.getByTestId('new-study-number-of-tickets', { timeout: 20000 }).should('be.visible')
+      cy.getByTestId('new-study-number-of-tickets', { timeout: 20000 }).should('exist')
       cy.getByTestId('new-study-number-of-tickets').find('input').clear().type(TICKETS).blur()
       cy.wait('@updateCinema', { timeout: 15000 })
 

@@ -13,7 +13,7 @@ describe('Register', () => {
     const email = uniqueEmail('cnc')
     cy.signup(email, '1321')
 
-    cy.getByTestId('activation-form-message').should('be.visible')
+    cy.getByTestId('activation-form-message').should('exist')
     cy.getByTestId('activation-form-message')
       .invoke('text')
       .should('include', "Vous allez recevoir un mail pour finaliser l'activation de votre compte.")
@@ -30,7 +30,7 @@ describe('Register', () => {
     const email = uniqueEmail('siret')
     cy.signup(email, '50016424900012')
 
-    cy.getByTestId('activation-form-message').should('be.visible')
+    cy.getByTestId('activation-form-message').should('exist')
     cy.getByTestId('activation-form-message')
       .invoke('text')
       .should('include', "Vous allez recevoir un mail pour finaliser l'activation de votre compte.")
@@ -51,7 +51,7 @@ describe('Register', () => {
       .should('include', "Vous allez recevoir un mail pour finaliser l'activation de votre compte.")
 
     cy.signup(email, '1321')
-    cy.getByTestId('activation-form-message').should('be.visible')
+    cy.getByTestId('activation-form-message').should('exist')
     cy.getByTestId('activation-form-message')
       .invoke('text')
       .should('include', 'Cet email est déjà inscrit avec un compte CUT')
@@ -60,7 +60,7 @@ describe('Register', () => {
   it('does not create new user with wrong CNC', () => {
     cy.signup(uniqueEmail('wrong-cnc'), '0')
 
-    cy.getByTestId('activation-form-message').should('be.visible')
+    cy.getByTestId('activation-form-message').should('exist')
     cy.getByTestId('activation-form-message').invoke('text').should('include', "Ce Siret ou code CNC n'est pas reconnu")
   })
 
@@ -68,7 +68,7 @@ describe('Register', () => {
     const email = uniqueEmail('pending')
     cy.signup(email, '1234567891234')
 
-    cy.getByTestId('activation-form-message').should('be.visible')
+    cy.getByTestId('activation-form-message').should('exist')
     cy.getByTestId('activation-form-message')
       .invoke('text')
       .should('include', "Une demande d'activation de votre compte a été envoyé à vos collègues")

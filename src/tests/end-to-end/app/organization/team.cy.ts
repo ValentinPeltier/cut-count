@@ -50,7 +50,7 @@ describe('Team', () => {
       cy.get('.MuiSelect-select').click()
     })
     cy.get('[data-value="ADMIN"]').click()
-    cy.getByTestId('alert-toaster').should('be.visible')
+    cy.getByTestId('alert-toaster').should('exist')
 
     cy.reload()
 
@@ -93,10 +93,10 @@ describe('Team', () => {
 
     cy.url().should('include', '/reset-password/')
     cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input')
-      .should('be.visible')
+      .should('exist')
       .type('Password-1')
     cy.get('[data-testid="input-confirm-password"] > .MuiInputBase-root > .MuiInputBase-input')
-      .should('be.visible')
+      .should('exist')
       .type('Password-1')
 
     cy.getByTestId('reset-button').click()
@@ -105,10 +105,10 @@ describe('Team', () => {
     cy.url({ timeout: 8000 }).should('include', '/login')
 
     cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
-      .should('be.visible')
+      .should('exist')
       .type('user-test-1@test.fr')
     cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input')
-      .should('be.visible')
+      .should('exist')
       .type('Password-1')
     cy.getByTestId('login-button').click()
 

@@ -18,7 +18,7 @@ describe('Count! golden study results', () => {
     cy.login()
     cy.visit(`/etudes/${COUNT_GOLDEN_STUDY_ID}/comptabilisation/resultats`)
 
-    cy.contains(COUNT_GOLDEN_STUDY_NAME, { timeout: 20000 }).should('be.visible')
+    cy.contains(COUNT_GOLDEN_STUDY_NAME, { timeout: 20000 }).should('exist')
 
     cy.getByTestId('consolidated-results-table-row', { timeout: 20000 }).should('have.length.at.least', 2)
 

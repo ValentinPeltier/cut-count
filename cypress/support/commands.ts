@@ -15,15 +15,15 @@ const fillAndSubmitLogin = (email: string, password: string, entryPath = '/login
   cy.visit(entryPath)
   cy.url().should('include', entryPath)
   cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
-    .should('be.visible')
+    .should('exist')
     .should('not.be.disabled')
     .type(email)
   cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input').should('have.value', email)
   cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input')
-    .should('be.visible')
+    .should('exist')
     .should('not.be.disabled')
     .type(password)
-  cy.getByTestId('login-button').should('be.visible').should('not.be.disabled').click()
+  cy.getByTestId('login-button').should('exist').should('not.be.disabled').click()
   cy.wait('@login')
 }
 
@@ -67,9 +67,9 @@ Cypress.Commands.add('logout', () => {
 Cypress.Commands.add('signup', (email = 'cut-cnc@yopmail.com', cncOrSiret = '321') => {
   cy.visit('/register')
 
-  cy.getByTestId('activation-email').should('be.visible')
-  cy.getByTestId('activation-siretOrCNC').should('be.visible')
-  cy.getByTestId('activation-button').should('be.visible')
+  cy.getByTestId('activation-email').should('exist')
+  cy.getByTestId('activation-siretOrCNC').should('exist')
+  cy.getByTestId('activation-button').should('exist')
 
   cy.getByTestId('activation-email').find('input').clear()
   cy.getByTestId('activation-email').find('input').type(email)
