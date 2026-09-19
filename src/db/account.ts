@@ -1,7 +1,5 @@
 import type { Prisma } from '@/generated/prisma/client'
-import { DeactivatableFeature, Role } from '@/generated/prisma/enums'
-import { NOT_AUTHORIZED } from '@/lib/services/permissions/check'
-import { getDeactivableFeatureRestrictions } from '@/services/serverFunctions/deactivableFeatures'
+import { Role } from '@/generated/prisma/enums'
 import { findUserInfo } from '@/utils/user'
 import { UserSession } from 'next-auth'
 import { AccountWithUserSelect } from './account.select'
@@ -76,8 +74,6 @@ export const getAccountsFromOrganization = (organizationVersionId: string) =>
   })
 
 export const addAccount = async (account: Prisma.AccountCreateInput & { role: Exclude<Role, 'SUPER_ADMIN'> }) => {
-  const deactivatedFeaturesRestrictions = await getDeactivableFeatureRestrictions(DeactivatableFeature.Creation)
-
   return prismaClient.account.create({
     data: account,
     select: AccountWithUserSelect,

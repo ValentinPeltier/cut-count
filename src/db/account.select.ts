@@ -4,7 +4,6 @@ export const AccountWithUserSelect = {
   updatedAt: true,
   userId: true,
   importedFileDate: true,
-  deactivatableFeatureStatus: true,
   status: true,
   feedbackDate: true,
   organizationVersionId: true,

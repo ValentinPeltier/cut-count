@@ -1,4 +1,4 @@
-import { DeactivatableFeature, Role, UserStatus } from '@/generated/prisma/enums'
+import { Role, UserStatus } from '@/generated/prisma/enums'
 import { expect } from '@jest/globals'
 
 import {
@@ -25,7 +25,6 @@ import { REQUEST_SENT, UNKNOWN_SIRET_OR_CNC } from '@/services/permissions/check
 import { mockedOrganizationVersionId } from '@/tests/utils/models/organization'
 import { mockedAccountId } from '@/tests/utils/models/user'
 import { getCompanyName } from '../associationApi'
-import { getDeactivableFeatureRestrictions } from './deactivableFeatures'
 import { activateEmail, signUpWithSiretOrCNC } from './user'
 
 // TODO: ESM module issue with Jest. Remove these mocks when moving to Vitest
@@ -42,7 +41,6 @@ jest.mock('@/services/auth', () => ({
 
 jest.mock('@/db/account')
 jest.mock('@/db/cnc')
-jest.mock('@/db/deactivableFeatures')
 jest.mock('@/db/organization')
 jest.mock('@/db/site')
 jest.mock('@/db/study', () => ({}))
@@ -53,7 +51,6 @@ jest.mock('@/lib/services/email/email', () => ({
   sendActivationEmail: jest.fn(),
   sendActivationRequest: jest.fn(),
 }))
-jest.mock('./deactivableFeatures')
 
 jest.mock('./user', () => {
   const originalModule = jest.requireActual('./user')
@@ -63,7 +60,6 @@ jest.mock('./user', () => {
   }
 })
 
-const mockGetDeactivableFeatureRestrictions = getDeactivableFeatureRestrictions as jest.Mock
 const mockGetAccountByEmail = getAccountByEmail as jest.Mock
 const mockGetUserByEmail = getUserByEmail as jest.Mock
 const mockAddUser = addUser as jest.Mock
@@ -92,45 +88,7 @@ const testCNC = 'CNC123'
 describe('signUpWithSiretOrCNC', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    mockGetDeactivableFeatureRestrictions.mockResolvedValue({ active: false })
     mockActivateEmail.mockResolvedValue({ success: true, data: EMAIL_SENT })
-  })
-
-  describe('Feature deactivation checks', () => {
-    it('returns NOT_AUTHORIZED when creation is deactivated for environment', async () => {
-      mockGetDeactivableFeatureRestrictions.mockResolvedValue({
-        active: true,
-              })
-
-      const result = await signUpWithSiretOrCNC(testEmail, testSiret)
-
-      expect(result.success).toBe(false)
-      if (!result.success) {
-        expect(result.errorMessage).toBe(NOT_AUTHORIZED)
-      }
-      expect(mockGetDeactivableFeatureRestrictions).toHaveBeenCalledWith(DeactivatableFeature.Creation)
-    })
-
-    it('allows signup when creation is not deactivated', async () => {
-      mockGetDeactivableFeatureRestrictions.mockResolvedValue({
-        active: false,
-      })
-      mockGetAccountByEmail.mockResolvedValue(null)
-      mockGetUserByEmail.mockResolvedValue(null)
-      mockAddUser.mockResolvedValue({
-        id: mockedUserId,
-        email: testEmail,
-        accounts: [{ id: mockedAccountId }],
-      })
-      mockGetRawOrganizationBySiret.mockResolvedValue(null)
-      mockGetCompanyName.mockResolvedValue('Test Company')
-      mockCreateOrganizationWithVersion.mockResolvedValue({ id: mockedOrganizationVersionId })
-      mockValidateUser.mockResolvedValue(undefined)
-
-      const result = await signUpWithSiretOrCNC(testEmail, testSiret)
-
-      expect(result.success).toBe(true)
-    })
   })
 
   describe('Account already exists scenarios', () => {

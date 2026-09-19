@@ -20,8 +20,6 @@ model Account {
   onboardedOrganizationVersions OrganizationVersion[] @relation("organizationVersionOnboarder")
   organizationVersionId         String?               @map("organization_version_id")
 
-  deactivatableFeatureStatus DeactivatableFeatureStatus[] @relation("deactivable_feature_updator")
-
   feedbackDate DateTime? @map("feedback_date")
 
   role Role

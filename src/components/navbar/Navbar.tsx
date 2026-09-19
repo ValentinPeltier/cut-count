@@ -1,7 +1,6 @@
 'use client'
 
 import { Logo } from '@/components/base/Logo'
-import { Role } from '@/generated/prisma/enums'
 import CutTopLeftNavBar from '@/environments/cut/navbar/TopLeftNavBar'
 import { signOutEnv } from '@/lib/services/auth/auth.utils'
 import AppBar from '@/lib/ui/navbar/AppBar'
@@ -35,7 +34,6 @@ const Navbar = ({ user }: Props) => {
           <div className="flex gapped1">
             <Box>
               <div className="h100 align-center">
-                {user.role === Role.SUPER_ADMIN && <NavbarLink href="/super-admin">{t('admin')}</NavbarLink>}
                 <NavbarButton rel="noreferrer noopener" href="/ressources" aria-label={t('help')}>
                   <HelpOutlineIcon />
                 </NavbarButton>

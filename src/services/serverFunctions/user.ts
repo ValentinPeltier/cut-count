@@ -1,7 +1,7 @@
 'use server'
 
 import { Organization, User } from '@/generated/prisma/client'
-import { DeactivatableFeature, Role, UserStatus } from '@/generated/prisma/enums'
+import { Role, UserStatus } from '@/generated/prisma/enums'
 import {
   addAccount,
   changeAccountRole,
@@ -43,7 +43,6 @@ import {
   sendActivationEmail,
   sendActivationRequest,
   sendAddedActiveUserEmail,
-  sendAddedUsersByFile,
   sendContributorInvitationEmail,
   sendNewContributorInvitationEmail,
   sendNewUserEmail,
@@ -65,7 +64,6 @@ import { getCompanyName } from '../associationApi'
 import { auth, dbActualizedAuth } from '../auth'
 import { REQUEST_SENT, UNKNOWN_SIRET_OR_CNC } from '../permissions/check'
 import { canAddMember, canChangeRole, canDeleteMember, canEditSelfRole } from '../permissions/user'
-import { getDeactivableFeatureRestrictions } from './deactivableFeatures'
 import { EditProfileCommand, EditSettingsCommand } from './user.command'
 
 export const sendEmailToAddedUser = async (email: string, user: User, newUserName: string, orgaVersionId: string) =>
@@ -358,14 +356,6 @@ export const getUserCheckedItems = async () => withServerResponse('getUserChecke
 export const addUserChecklistItem = async (_step: string) =>
   withServerResponse('addUserChecklistItem', async () => undefined)
 
-export const sendAddedUsersAndProccess = async (results: Record<string, string>[]) =>
-  withServerResponse('sendAddedUsersAndProccess', async () => {
-    sendAddedUsersByFile(results)
-  })
-
-export const verifyPasswordAndProcessUsers = async (uuid: string) =>
-  withServerResponse('verifyPasswordAndProcessUsers', async () => uuid === process.env.ADMIN_PASSWORD)
-
 export const changeUserRoleOnOnboarding = async () =>
   withServerResponse('changeUserRoleOnOnboarding', async () => {
     const session = await auth()
@@ -408,10 +398,6 @@ export const getUserActiveAccounts = async () =>
 export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string) =>
   withServerResponse('signUpWithSiretOrCNC', async () => {
     const trimmedEmail = email.trim().toLowerCase()
-    const deactivatedFeaturesRestrictions = await getDeactivableFeatureRestrictions(DeactivatableFeature.Creation)
-    if (deactivatedFeaturesRestrictions?.active) {
-      throw new Error(NOT_AUTHORIZED)
-    }
 
     const accountAlreadyCreated = await getAccountByEmail(trimmedEmail)
     if (accountAlreadyCreated && accountAlreadyCreated.organizationVersionId) {

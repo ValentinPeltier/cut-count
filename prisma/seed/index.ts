@@ -58,8 +58,6 @@ const users = async () => {
 
   await prisma.cnc.deleteMany()
 
-  await prisma.deactivatableFeatureStatus.deleteMany()
-
   await prisma.cnc.create({
     data: {
       cncCode: '1321',

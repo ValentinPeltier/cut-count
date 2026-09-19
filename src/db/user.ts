@@ -1,9 +1,8 @@
 import type { Prisma } from '@/generated/prisma/client'
-import { DeactivatableFeature, Role, UserStatus } from '@/generated/prisma/enums'
+import { Role, UserStatus } from '@/generated/prisma/enums'
 import { NOT_AUTHORIZED } from '@/lib/services/permissions/check'
 import { AddMemberCommand } from '@/lib/services/serverFunctions/user.command'
 import { signPassword } from '@/lib/utils/auth'
-import { getDeactivableFeatureRestrictions } from '@/services/serverFunctions/deactivableFeatures'
 import { sendEmailToAddedUser } from '@/services/serverFunctions/user'
 import { AuthorizedInOrgaUserStatus } from '@/services/users'
 import { getRoleToSetForUntrained } from '@/utils/user'
@@ -167,40 +166,16 @@ export const updateUser = (userId: string, data: Partial<Prisma.UserCreateInput>
     data,
   })
 
-const isCreationBlockedForSource = (
-  restrictions: Awaited<ReturnType<typeof getDeactivableFeatureRestrictions>>,
-  source?: Prisma.UserCreateManyInput['source'],
-) =>
-  !!restrictions?.active && !!source && restrictions.deactivatedSources.includes(source)
-
 export const createUsersWithAccount = async (
   users: (Prisma.UserCreateManyInput & { account: Prisma.AccountCreateInput })[],
 ) => {
-  const deactivatedFeaturesRestrictions = await getDeactivableFeatureRestrictions(DeactivatableFeature.Creation)
-  let filteredUsers = users
-
-  if (deactivatedFeaturesRestrictions?.active) {
-    const notAllowedSources = users.some(({ source }) =>
-      isCreationBlockedForSource(deactivatedFeaturesRestrictions, source),
-    )
-    filteredUsers = users.filter(
-      ({ source }) => !isCreationBlockedForSource(deactivatedFeaturesRestrictions, source),
-    )
-    if (notAllowedSources) {
-      console.log(
-        'Creation of users from these sources is not allowed: ',
-        deactivatedFeaturesRestrictions.deactivatedSources,
-      )
-    }
-  }
-
   const newUsers = await prismaClient.user.createMany({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    data: filteredUsers.map(({ account, ...user }) => user),
+    data: users.map(({ account, ...user }) => user),
     skipDuplicates: true,
   })
 
-  const emails = filteredUsers.map(({ email }) => email)
+  const emails = users.map(({ email }) => email)
 
   const createdUsers = await prismaClient.user.findMany({
     where: { email: { in: emails } },
@@ -208,7 +183,7 @@ export const createUsersWithAccount = async (
 
   let newAccountCount = 0
   for (const user of createdUsers) {
-    const originalUsers = filteredUsers.filter((u) => u.email === user.email)
+    const originalUsers = users.filter((u) => u.email === user.email)
     if (!originalUsers.length) {
       throw new Error(`No account info for user ${user.email}`)
     }
@@ -252,10 +227,6 @@ export const addUser = async (
     role?: Exclude<Role, 'SUPER_ADMIN'>
   },
 ) => {
-  const deactivatedFeaturesRestrictions = await getDeactivableFeatureRestrictions(DeactivatableFeature.Creation)
-  if (isCreationBlockedForSource(deactivatedFeaturesRestrictions, newMember.source)) {
-    throw new Error(NOT_AUTHORIZED)
-  }
   return prismaClient.user.create({
     data: newMember,
     select: {

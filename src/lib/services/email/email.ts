@@ -1,4 +1,3 @@
-import { getEnvVar } from '@/lib/environment'
 import { getTranslations } from 'next-intl/server'
 import { sendEmail } from './send'
 import { getEnvResetLink } from './utils'
@@ -185,9 +184,3 @@ export const sendNewContributorInvitationEmail = async (
   )
 }
 
-export const sendAddedUsersByFile = async (results: Record<string, string>[]) => {
-  const support = await getEnvVar('SUPPORT_EMAIL')
-  return sendEmail([support], await tSubject('addedUsersByFile'), 'authorization-import-users', {
-    results,
-  })
-}
