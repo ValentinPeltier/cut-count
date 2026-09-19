@@ -128,7 +128,10 @@ const SignUpFormCut = () => {
           {t('validate')}
         </LoadingButton>
         {message && (
-          <p className={classNames(!success ? 'error' : '')} data-testid="activation-form-message">
+          <p
+            className={classNames(success ? authStyles.successMessage : 'error')}
+            data-testid="activation-form-message"
+          >
             {customRich(t, message, {
               support: (children) => <Link href={`mailto:${contactMail}`}>{children}</Link>,
               link: (children) => (
