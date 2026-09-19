@@ -1,0 +1,25 @@
+name: Setup app
+description: Install Node, create .env / .env.test from examples, and install Yarn dependencies
+inputs:
+  node-version:
+    description: Node.js version
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: yarn
+
+    - name: Create .env and .env.test
+      shell: bash
+      run: |
+        cp .env.example .env
+        cp .env.test.example .env.test
+
+    - name: Install dependencies
+      shell: bash
+      # Yarn classic (1.x): --frozen-lockfile. Yarn Berry flags like --immutable are ignored.
+      run: yarn install --frozen-lockfile

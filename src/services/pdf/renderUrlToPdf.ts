@@ -26,14 +26,6 @@ const DEFAULT_MARGIN = {
   right: '1.5cm',
 }
 
-const getExecutablePath = async () => {
-  if (process.env.PDF_CHROME_PATH) {
-    return process.env.PDF_CHROME_PATH
-  }
-
-  return chromium.executablePath()
-}
-
 export const renderUrlToPdf = async (
   url: string,
   options: RenderUrlToPdfOptions = {},
@@ -47,7 +39,7 @@ export const renderUrlToPdf = async (
       headless: 'shell',
     }),
     defaultViewport: { width: 794, height: 1123 },
-    executablePath: await getExecutablePath(),
+    executablePath: await chromium.executablePath(),
     headless: 'shell',
   })
 

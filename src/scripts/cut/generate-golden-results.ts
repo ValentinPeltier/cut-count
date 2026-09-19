@@ -2,7 +2,7 @@
  * Regenerates src/tests/fixtures/count/expected/*.json from situation fixtures.
  *
  * Run from repo root (after publicodes-count is compiled):
- *   yarn tsx src/scripts/cut/generate-golden-results.ts
+ *   yarn script src/scripts/cut/generate-golden-results.ts
  */
 import { POST_TO_RULENAME, getSubPostRuleNameCut } from '@/environments/cut/publicodes/subPostMapping'
 import rules from '@/publicodes/rules/publicodes-build/index.js'
