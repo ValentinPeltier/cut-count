@@ -14,6 +14,7 @@ import {
   PreviewRow,
 } from '@/types/importEmissionFactors.types'
 import { getEmissionFactorFullName } from '@/utils/emissionFactors'
+import { emissionFactorSubPostsCreateInput } from '@/utils/emissionFactorSubPosts'
 import { formatPrefixedUnitDisplay } from '@/utils/import.utils'
 import { buildPostsAndSubPostsCell, getAllPostsLabel, parseImportFile } from '@/utils/importEmissionFactors.utils'
 import { flattenSubposts } from '@/utils/post'
@@ -77,7 +78,7 @@ function buildCreateInput(row: ParsedRow, organizationId: string, locale: Locale
       importedFrom: Import.Manual,
       status: EmissionFactorStatus.Valid,
       organization: { connect: { id: organizationId } },
-      subPosts: flattenSubposts(subPosts),
+      subPosts: emissionFactorSubPostsCreateInput(flattenSubposts(subPosts)),
       metaData: { create: { language: locale, title: name, attribute, comment } },
     },
     parts,

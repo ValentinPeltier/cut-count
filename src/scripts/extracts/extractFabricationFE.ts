@@ -1,14 +1,11 @@
+import { createPrismaMariaDbAdapter } from '@/db/prismaMariaDbAdapter'
 import { PrismaClient } from '@/generated/prisma/client'
 import { EmissionFactorPartType } from '@/generated/prisma/enums'
-import { PrismaPg } from '@prisma/adapter-pg'
 import { writeFileSync } from 'fs'
 
 // One shot script to get all FE with fabrication part
 
-const adapter = new PrismaPg({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
-})
+const adapter = createPrismaMariaDbAdapter()
 
 const prisma = new PrismaClient({
   adapter,
@@ -17,7 +14,7 @@ const prisma = new PrismaClient({
 const findFEs = async () => {
   const FEs = await prisma.emissionFactor.findMany({
     select: {
-      subPosts: true,
+      subPosts: { select: { subPost: true } },
       metaData: {
         select: {
           emissionFactorId: true,

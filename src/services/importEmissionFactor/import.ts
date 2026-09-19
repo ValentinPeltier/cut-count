@@ -482,7 +482,9 @@ export const mapEmissionFactors = (emissionFactor: ImportEmissionFactor, importe
     isMonetary: isMonetaryEmissionFactor({
       unit: getUnit(emissionFactor.Unité_français),
     }),
-    subPosts,
+    subPosts: {
+      create: subPosts.map((subPost) => ({ subPost })),
+    },
     base: getBaseFunc(subPosts, importedFrom),
     metaData: {
       createMany: {

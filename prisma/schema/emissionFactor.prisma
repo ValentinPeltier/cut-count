@@ -146,10 +146,10 @@ model EmissionFactor {
   customUnit String?
   isMonetary Boolean @map("is_monetary")
 
-  importedRawCsv String? @map("imported_raw_csv")
-  overrideRawCsv String? @map("override_raw_csv")
+  importedRawCsv String? @map("imported_raw_csv") @db.LongText
+  overrideRawCsv String? @map("override_raw_csv") @db.LongText
 
-  subPosts SubPost[] @map("sub_posts")
+  subPosts EmissionFactorSubPost[]
 
   @@index([organizationId])
   @@index([status])
@@ -199,10 +199,19 @@ model EmissionFactorPart {
   pfc      Float?
   otherGES Float? @map("other_ges")
 
-  importedRawCsv String? @map("imported_raw_csv")
-  overrideRawCsv String? @map("override_raw_csv")
+  importedRawCsv String? @map("imported_raw_csv") @db.LongText
+  overrideRawCsv String? @map("override_raw_csv") @db.LongText
 
   @@map("emission_factor_parts")
+}
+
+model EmissionFactorSubPost {
+  emissionFactorId String         @map("emission_factor_id")
+  subPost          SubPost        @map("sub_post")
+  emissionFactor   EmissionFactor @relation(fields: [emissionFactorId], references: [id], onDelete: Cascade)
+
+  @@id([emissionFactorId, subPost])
+  @@map("emission_factor_sub_posts")
 }
 
 model EmissionFactorPartMetaData {

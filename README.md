@@ -7,7 +7,7 @@ Cinema carbon-footprint app for Association Bilan Carbone. Single Next.js 16 app
 - Node 26.x, Yarn 1.22
 - Next.js 16 App Router, React 19, Turbopack, `output: 'standalone'`
 - next-auth v4, next-intl (French)
-- PostgreSQL 17 + Prisma 7 (`@prisma/adapter-pg`)
+- MySQL 8 + Prisma 7 (`@prisma/adapter-mariadb`)
 - Publicodes rules under `src/publicodes/`
 - Jest (unit) + Cypress 15 (e2e) + Vitest (Publicodes)
 
@@ -68,7 +68,11 @@ See `src/scripts/` for additional importers.
 
 ## Tests
 
-`.env.test` overlays `.env`: test DB (Postgres 5433), `NODE_ENV`, and ports 3001. Copy `.env.example` → `.env` and `.env.test.example` → `.env.test` first.
+`.env.test` overlays `.env`: test DB (MySQL 3307), `NODE_ENV`, and ports 3001. Copy `.env.example` → `.env` and `.env.test.example` → `.env.test` first.
+
+PostgreSQL migration history is archived under `prisma/schema/migrations_postgresql/`. Only `prisma/schema/migrations/` is applied on MySQL.
+
+To copy data from a fully migrated PostgreSQL database into MySQL, set `SOURCE_DATABASE_URL` (Postgres) and `DATABASE_URL` (MySQL), then run `yarn script scripts/migrate-pg-to-mysql.ts`.
 
 ```bash
 yarn db:test:reset          # reset + seed the test database
