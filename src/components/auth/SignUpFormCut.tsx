@@ -24,7 +24,11 @@ import { useForm } from 'react-hook-form'
 import { FormAutocomplete } from '../form/Autocomplete'
 import authStyles from './Auth.module.css'
 
-const SignUpFormCut = () => {
+interface Props {
+  defaultEmail?: string
+}
+
+const SignUpFormCut = ({ defaultEmail }: Props) => {
   const contactMail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL
   const faq = process.env.NEXT_PUBLIC_FAQ_LINK
 
@@ -44,7 +48,7 @@ const SignUpFormCut = () => {
     mode: 'onBlur',
     reValidateMode: 'onChange',
     defaultValues: {
-      email: searchParams.get('email') ?? '',
+      email: searchParams.get('email') ?? defaultEmail ?? '',
       siretOrCNC: '',
     },
   })
@@ -66,11 +70,11 @@ const SignUpFormCut = () => {
   }, [setCNCs])
 
   useEffect(() => {
-    const email = searchParams.get('email')
+    const email = searchParams.get('email') ?? defaultEmail
     if (email) {
       setValue('email', email)
     }
-  }, [searchParams, setValue])
+  }, [defaultEmail, searchParams, setValue])
 
   const onSubmit = async () => {
     setMessage('')

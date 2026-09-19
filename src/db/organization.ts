@@ -330,7 +330,11 @@ export const getRawOrganizationBySiret = (siret: string | null) =>
   siret ? prismaClient.organization.findFirst({ where: { wordpressId: { startsWith: siret } } }) : null
 
 export const getRawOrganizationBySiteCNC = (cncCode: string | null) =>
-  cncCode ? prismaClient.organization.findFirst({ where: { sites: { some: { cncId: cncCode } } } }) : null
+  cncCode
+    ? prismaClient.organization.findFirst({
+        where: { sites: { some: { cnc: { cncCode } } } },
+      })
+    : null
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getRawOrganizationBySiteEstablishmentId = (_establishmentId: string | null) => null

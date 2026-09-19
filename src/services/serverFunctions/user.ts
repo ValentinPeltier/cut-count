@@ -504,9 +504,14 @@ export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string) =>
     }
 
     const newOrganizationRole = Role.ADMIN
+    const joiningExistingOrganization = !!organization?.id
+    const hadNoOrganization = !accountAlreadyCreated?.organizationVersionId
     await updateAccount(account.id, {
       role: organization?.id ? Role.DEFAULT : newOrganizationRole,
       organizationVersion: { connect: { id: organizationVersion.id } },
+      ...(joiningExistingOrganization && hadNoOrganization && account.status === UserStatus.ACTIVE
+        ? { status: UserStatus.PENDING_REQUEST }
+        : {}),
     })
 
     if (organization?.id) {
@@ -521,7 +526,9 @@ export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string) =>
 
       return REQUEST_SENT
     } else {
-      await validateUser(account.id)
+      if (account.status !== UserStatus.ACTIVE) {
+        await validateUser(account.id)
+      }
       await sendActivation(trimmedEmail, false)
     }
     return EMAIL_SENT
