@@ -44,7 +44,10 @@ describe('Count! pages', () => {
 
     it('shows golden study on organizations page', () => {
       cy.visit('/organisations')
-      cy.contains(COUNT_GOLDEN_STUDY_NAME, { timeout: 20000 }).should('be.visible')
+      cy.getByTestId('study-name-chip', { timeout: 20000 })
+        .contains(COUNT_GOLDEN_STUDY_NAME)
+        .scrollIntoView()
+        .should('exist')
     })
   })
 })
