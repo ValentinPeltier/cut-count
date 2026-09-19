@@ -72,7 +72,7 @@ See `src/scripts/` for additional importers.
 
 PostgreSQL migration history is archived under `prisma/schema/migrations_postgresql/`. Only `prisma/schema/migrations/` is applied on MySQL.
 
-To copy data from a fully migrated PostgreSQL database into MySQL, set `SOURCE_DATABASE_URL` (Postgres) and `DATABASE_URL` (MySQL), then run `yarn script scripts/migrate-pg-to-mysql.ts`.
+To copy data from a fully migrated PostgreSQL database into MySQL, see [scripts/pgsql-to-mysql/README.md](scripts/pgsql-to-mysql/README.md).
 
 ```bash
 yarn db:test:reset          # reset + seed the test database
