@@ -1,4 +1,19 @@
+import { getMockSireneEtablissement, isInseeSireneMockEnabled } from '@/services/inseeSireneMock'
 import axios from 'axios'
+
+const fetchSireneEtablissement = async (trimmedSiret: string) => {
+  if (isInseeSireneMockEnabled()) {
+    return getMockSireneEtablissement(trimmedSiret)
+  }
+
+  const result = await axios.get(`${process.env.INSEE_SIRENE_API_URL}/${trimmedSiret}`, {
+    headers: {
+      'X-INSEE-Api-Key-Integration': process.env.INSEE_SIRENE_API_SECRET,
+    },
+  })
+
+  return result?.data?.etablissement
+}
 
 export const getValidAssociationNameBySiret = async (siret: string): Promise<string | null> => {
   const trimmedSiret = siret.trim()
@@ -7,13 +22,7 @@ export const getValidAssociationNameBySiret = async (siret: string): Promise<str
   }
 
   try {
-    const result = await axios.get(`${process.env.INSEE_SIRENE_API_URL}/${trimmedSiret}`, {
-      headers: {
-        'X-INSEE-Api-Key-Integration': process.env.INSEE_SIRENE_API_SECRET,
-      },
-    })
-
-    const etablissement = result?.data?.etablissement
+    const etablissement = await fetchSireneEtablissement(trimmedSiret)
     if (!etablissement) {
       return null
     }
@@ -55,11 +64,7 @@ export const getCompanyName = async (siret: string) => {
     return null
   }
 
-  const result = await axios.get(`${process.env.INSEE_SIRENE_API_URL}/${trimmedSiret}`, {
-    headers: {
-      'X-INSEE-Api-Key-Integration': process.env.INSEE_SIRENE_API_SECRET,
-    },
-  })
+  const etablissement = await fetchSireneEtablissement(trimmedSiret)
 
-  return result.data.etablissement?.uniteLegale?.denominationUniteLegale as string
+  return etablissement?.uniteLegale?.denominationUniteLegale as string
 }

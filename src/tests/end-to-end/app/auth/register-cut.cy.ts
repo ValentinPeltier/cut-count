@@ -28,7 +28,7 @@ describe('Register cut', () => {
 
   it('does create new cut user and organization with SIRET', () => {
     const email = uniqueEmail('cut-siret')
-    cy.signup(email, '55204944776279')
+    cy.signup(email, '50016424900012')
 
     cy.getByTestId('activation-form-message').should('be.visible')
     cy.getByTestId('activation-form-message')
