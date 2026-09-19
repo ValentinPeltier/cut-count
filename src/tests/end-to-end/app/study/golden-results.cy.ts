@@ -1,7 +1,4 @@
-import {
-  COUNT_GOLDEN_STUDY_ID,
-  COUNT_GOLDEN_STUDY_NAME,
-} from '../../../fixtures/count/constants'
+import { COUNT_GOLDEN_STUDY_ID, COUNT_GOLDEN_STUDY_NAME } from '../../../fixtures/count/constants'
 
 /** Study uses StudyResultUnit.T — values are kgCO2e / 1000, rounded like formatEmissionFromNumber. */
 const EXPECTED_TOTAL_T = 25

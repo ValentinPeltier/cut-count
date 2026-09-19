@@ -70,7 +70,7 @@ const TeamTable = ({ user, team, crOrga }: Props) => {
         changeRole={changeRole}
         setDeletingMember={setDeletingMember}
         deletingMember={deletingMember}
-        />
+      />
     </>
   )
 }

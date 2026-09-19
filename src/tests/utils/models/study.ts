@@ -1,6 +1,6 @@
+import type { FullStudy } from '@/db/study'
 import type { Prisma, Study } from '@/generated/prisma/client'
 import { EmissionFactorBase, Import, Level, StudyResultUnit, StudyRole, Unit } from '@/generated/prisma/enums'
-import type { FullStudy } from '@/db/study'
 import { mockedUser } from '@/lib/services/tests/models/user'
 import { mockedOrganizationVersion, mockedOrganizationVersionId } from './organization'
 import { mockedAccountId } from './user'

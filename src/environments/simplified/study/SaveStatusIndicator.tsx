@@ -27,7 +27,7 @@ const SaveStatusIndicator = () => {
     previousStatusRef.current = currentStatus
   }, [saveStatus, saveError, isLoading, error, showSuccessToast, showErrorToast, t])
 
-  return null
+  return <div data-testid="publicodes-save-status" data-status={saveStatus} hidden aria-hidden />
 }
 
 export default SaveStatusIndicator

@@ -3,8 +3,8 @@ import {
   simplifiedDisclaimerColSpan,
   simplifiedDisclaimerExportKeys,
 } from '@/constants/exports'
-import { StudyResultUnit } from '@/generated/prisma/enums'
 import type { FullStudy } from '@/db/study'
+import { StudyResultUnit } from '@/generated/prisma/enums'
 import { Translations } from '@/lib'
 import { formatDateFr } from '@/lib/utils/time'
 import { formatEmissionValueForExport, getSiteLabelFromId, sanitizeStudyName } from '@/utils/study'

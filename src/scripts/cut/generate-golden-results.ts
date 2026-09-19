@@ -4,18 +4,18 @@
  * Run from repo root (after publicodes-count is compiled):
  *   yarn tsx src/scripts/cut/generate-golden-results.ts
  */
-import fs from 'node:fs'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
-import Engine from 'publicodes'
-import rules from '@/publicodes/rules/publicodes-build/index.js'
 import { POST_TO_RULENAME, getSubPostRuleNameCut } from '@/environments/cut/publicodes/subPostMapping'
+import rules from '@/publicodes/rules/publicodes-build/index.js'
 import { CutPost, subPostsByPostCUT } from '@/services/posts'
 import {
   COUNT_FIXTURE_NAMES,
   loadCountSituation,
   type CountGoldenPostResults,
 } from '@/tests/fixtures/count/loadFixtures'
+import fs from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import Engine from 'publicodes'
 
 const TOTAL_RULE = 'bilan'
 

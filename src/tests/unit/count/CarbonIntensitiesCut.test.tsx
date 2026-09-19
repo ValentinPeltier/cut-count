@@ -1,6 +1,5 @@
-import CarbonIntensitiesCut from '@/environments/cut/study/results/CarbonIntensitiesCut'
 import type { FullStudy } from '@/db/study'
-import { StudyResultUnit } from '@/generated/prisma/enums'
+import CarbonIntensitiesCut from '@/environments/cut/study/results/CarbonIntensitiesCut'
 import { render, screen } from '@testing-library/react'
 
 jest.mock('next-intl', () => ({

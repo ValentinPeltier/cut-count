@@ -1,4 +1,5 @@
 import GroupQuestion from '@/components/publicodes-form/GroupQuestion'
+import type { EvaluatedGroupLayout } from '@/publicodes/form/layouts'
 import { render, screen } from '@testing-library/react'
 
 jest.mock('@/publicodes/form/inputFields', () => ({
@@ -17,10 +18,15 @@ describe('GroupQuestion', () => {
         groupLayout={
           {
             evaluatedElements: [
-              { id: 'fonctionnement . énergie . est équipé climatisation', label: 'Clim', element: 'input', type: 'checkbox' },
+              {
+                id: 'fonctionnement . énergie . est équipé climatisation',
+                label: 'Clim',
+                element: 'input',
+                type: 'checkbox',
+              },
               { id: 'ignored.text', label: 'Text', element: 'text' },
             ],
-          } as any
+          } as EvaluatedGroupLayout<string>
         }
         onChange={jest.fn()}
       />,

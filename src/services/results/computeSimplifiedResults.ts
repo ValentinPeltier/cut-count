@@ -1,5 +1,5 @@
-import type { SimplifiedPublicodesConfig } from '@/services/publicodes/simplifiedPublicodesConfig'
 import type { BaseResultsByPost } from '@/services/posts'
+import type { SimplifiedPublicodesConfig } from '@/services/publicodes/simplifiedPublicodesConfig'
 import { aggregateBaseResultsByPost, computeBaseResultsByPostFromEngine } from '@/services/results/publicodes'
 import type { BaseResultsBySite } from '@/types/study.types'
 

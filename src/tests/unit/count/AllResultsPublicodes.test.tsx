@@ -1,8 +1,8 @@
+import type { FullStudy } from '@/db/study'
+import theme from '@/environments/cut/theme/theme'
 import { StudyResultUnit } from '@/generated/prisma/enums'
 import { ThemeProvider } from '@mui/material/styles'
 import { render, screen } from '@testing-library/react'
-import theme from '@/environments/cut/theme/theme'
-import type { FullStudy } from '@/db/study'
 
 const mockUsePublicodesResults = jest.fn()
 
@@ -34,7 +34,6 @@ jest.mock('@/lib/components/hooks/useServerFunction', () => ({
 
 jest.mock('@/services/study', () => ({ downloadStudyResults: jest.fn() }))
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 const AllResultsPublicodes = require('@/environments/simplified/study/results/AllResultsPublicodes').default
 
 const cutStudy = {

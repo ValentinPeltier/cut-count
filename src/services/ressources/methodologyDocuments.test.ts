@@ -19,8 +19,6 @@ describe('methodologyDocuments', () => {
   })
 
   it('builds download API paths', () => {
-    expect(getMethodologyDownloadApiPath('resilio')).toBe(
-      '/api/ressources/methodologie?documentKey=resilio',
-    )
+    expect(getMethodologyDownloadApiPath('resilio')).toBe('/api/ressources/methodologie?documentKey=resilio')
   })
 })

@@ -1,7 +1,7 @@
 'use client'
 
-import { StudyRole } from '@/generated/prisma/enums'
 import type { FullStudy } from '@/db/study'
+import { StudyRole } from '@/generated/prisma/enums'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
 import { Toast, ToastColors } from '@/lib/ui'
 import { isAdminOnStudyOrga } from '@/services/permissions/study.utils'

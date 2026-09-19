@@ -44,7 +44,7 @@ describe('saveSituation', () => {
       id: 'user-cut',
       accountId: 'account-cut',
       organizationVersionId: 'org-cut',
-          },
+    },
   }
 
   const mockCutStudy = {
@@ -59,7 +59,7 @@ describe('saveSituation', () => {
       id: 'user-1',
       accountId: 'account-1',
       organizationVersionId: 'org-1',
-          },
+    },
   }
 
   const mockStudy = {

@@ -1,6 +1,6 @@
+import type { Account } from '@/generated/prisma/client'
 import { PrismaClient } from '@/generated/prisma/client'
 import { Import, Level, StudyRole } from '@/generated/prisma/enums'
-import type { Account } from '@/generated/prisma/client'
 
 const studyId = '91bb3826-2be7-4d56-bb9b-363f4d9af62f'
 

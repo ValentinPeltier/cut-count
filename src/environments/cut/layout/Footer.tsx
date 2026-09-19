@@ -19,13 +19,7 @@ const Footer = () => {
       <Grid className="flex justify-center align-center" size={size}>
         <Box className="flex-col" gap={2}>
           <Box display="flex">
-            <Image
-              width={150}
-              height={96}
-              src="/logos/cut/CUT.svg"
-              alt="Cut Logo"
-              className={styles.cutLogo}
-            />
+            <Image width={150} height={96} src="/logos/cut/CUT.svg" alt="Cut Logo" className={styles.cutLogo} />
           </Box>
         </Box>
       </Grid>

@@ -82,14 +82,10 @@ jobs:
       fail-fast: false
       matrix:
         group:
-          - count
+          - ui
           - auth
           - organization
           - study
-          - emission-factors
-          - emission-sources
-          - pages
-          - real-use-case
     services:
       postgres:
         image: postgres:17
@@ -138,7 +134,7 @@ jobs:
         env:
           NODE_OPTIONS: --max-old-space-size=4096
           CYPRESS_URL: http://localhost:3000
-        run: yarn cypress run --spec "src/tests/end-to-end/app/${{ matrix.group }}/**/*.cy.ts" --headless
+        run: yarn cypress:run --spec "src/tests/end-to-end/app/${{ matrix.group }}/**/*.cy.ts" --headless
       - name: Upload screenshots
         uses: actions/upload-artifact@v4
         if: failure()

@@ -1,4 +1,3 @@
-
 import { customRich } from '@/lib/utils/customRich'
 import Chip from '@mui/material/Chip'
 import { getTranslations } from 'next-intl/server'

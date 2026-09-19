@@ -1,5 +1,6 @@
 import SignUpFormCut from '@/components/auth/SignUpFormCut'
-import { render, screen } from '@testing-library/react'
+import { getAllCNCs } from '@/services/serverFunctions/cnc'
+import { render, screen, waitFor } from '@testing-library/react'
 
 jest.mock('next-intl', () => ({
   useTranslations: () => (key: string) => key,
@@ -32,5 +33,9 @@ describe('SignUpFormCut', () => {
 
     expect(screen.getByTestId('activation-email')).toBeInTheDocument()
     expect(screen.getByTestId('activation-button')).toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(getAllCNCs).toHaveBeenCalled()
+    })
   })
 })

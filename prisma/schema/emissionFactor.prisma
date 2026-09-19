@@ -17,7 +17,6 @@ enum EmissionFactorPartType {
   CombustionALaCentrale
   Pertes
   AutresEmissionsLieesALaConsommationDElectriciteBarrage
-
 }
 
 enum Import {
@@ -29,13 +28,11 @@ enum Import {
   CLICKSON
   AIB
   GIEC
-
 }
 
 enum EmissionFactorStatus {
   Archived
   Valid
-
 }
 
 enum SubPost {
@@ -70,13 +67,11 @@ enum SubPost {
   MaterielCinema
   CommunicationDigitale
   CaissesEtBornes
-
 }
 
 enum EmissionFactorBase {
   LocationBased
   MarketBased
-
 }
 
 model EmissionFactorImportVersion {

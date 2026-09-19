@@ -1,5 +1,5 @@
-import { getDocumentUrl } from './documents'
 import * as authModule from '../auth'
+import { getDocumentUrl } from './documents'
 
 jest.mock('../auth', () => ({
   auth: jest.fn(),
@@ -9,7 +9,9 @@ jest.mock('../auth', () => ({
 describe('getDocumentUrl', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(authModule.auth).mockResolvedValue({ user: { id: 'user-1' } } as Awaited<ReturnType<typeof authModule.auth>>)
+    jest
+      .mocked(authModule.auth)
+      .mockResolvedValue({ user: { id: 'user-1' } } as Awaited<ReturnType<typeof authModule.auth>>)
   })
 
   it('returns local API path for known methodology keys when authenticated', async () => {

@@ -18,7 +18,7 @@ interface Props {
   email: string
   level: Level | null
   teamRoles: RoleBcOrMip[]
-    changeRole?: (email: string, newRole: RoleBcOrMip) => Promise<ApiResponse>
+  changeRole?: (email: string, newRole: RoleBcOrMip) => Promise<ApiResponse>
   setLocalRole?: (newRole: RoleBcOrMip) => void
   canEditSelfRole?: boolean
 }
@@ -31,7 +31,7 @@ const SelectRoleCommon = ({
   changeRole,
   setLocalRole,
   teamRoles,
-    canEditSelfRole,
+  canEditSelfRole,
 }: Props) => {
   const t = useTranslations('role')
   const [role, setRole] = useState(currentRole)

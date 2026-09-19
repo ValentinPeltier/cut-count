@@ -1,7 +1,5 @@
 'use server'
 
-import type { Account, Prisma, User } from '@/generated/prisma/client'
-import { StudyRole } from '@/generated/prisma/enums'
 import { getAccountOrganizationVersions } from '@/db/account'
 import { prismaClient } from '@/db/client.server'
 import { getEmissionFactorWithoutQuality } from '@/db/emissionFactors'
@@ -19,6 +17,8 @@ import {
 } from '@/db/organization'
 import { deleteStudyMemberFromOrganization, getAllowedStudiesByAccountIdAndOrganizationId } from '@/db/study'
 import { getUserApplicationSettings, getUserByEmail, updateAccount } from '@/db/user'
+import type { Account, User } from '@/generated/prisma/client'
+import { StudyRole } from '@/generated/prisma/enums'
 import { getLocale } from '@/i18n/locale'
 import { NOT_AUTHORIZED } from '@/lib/services/permissions/check'
 import { AddMemberCommand } from '@/lib/services/serverFunctions/user.command'
@@ -27,7 +27,6 @@ import { CA_UNIT_VALUES, defaultCAUnit } from '@/utils/number'
 import { withServerResponse } from '@/utils/serverResponse'
 import { isAdmin } from '@/utils/user'
 import { auth, dbActualizedAuth } from '../auth'
-import { UNKNOWN_ERROR } from '../permissions/check'
 import {
   canDeleteMember,
   canDeleteOrganizationVersion,

@@ -1,4 +1,3 @@
-
 import { OrganizationVersionWithOrganization } from '@/db/organization'
 import { getUserApplicationSettings } from '@/db/user'
 import Block from '@/lib/components/base/Block'

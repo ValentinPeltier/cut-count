@@ -9,7 +9,6 @@
  * Run with: npx tsx src/scripts/migrations/link-existing-cncs-to-version.ts
  */
 
-
 import { prismaClient } from '@/db/client.server'
 import { getOrCreateCncVersion } from '@/db/cnc'
 
@@ -54,8 +53,7 @@ const linkExistingCncsToVersion = async () => {
           },
         },
         study: {
-          organizationVersion: {
-                      },
+          organizationVersion: {},
         },
       },
       include: {

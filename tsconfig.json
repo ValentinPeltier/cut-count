@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -18,20 +14,14 @@
     "target": "ES2017",
     "incremental": true,
     "tsBuildInfoFile": ".next/cache/tsbuildinfo.json",
-    "types": [
-      "cypress",
-      "node",
-      "jest"
-    ],
+    "types": ["cypress", "node", "jest"],
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     }
   },
   "include": [
@@ -45,9 +35,5 @@
     ".next/dev/types/**/*.ts",
     ".next/dev/dev/types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "src/publicodes/rules/test",
-    "src/generated"
-  ]
+  "exclude": ["node_modules", "src/publicodes/rules/test", "src/generated"]
 }

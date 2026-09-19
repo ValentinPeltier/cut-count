@@ -37,7 +37,7 @@ export const EditSettingsCommandValidation = z.object({
 
 export type EditSettingsCommand = z.infer<typeof EditSettingsCommandValidation>
 
-export const SignUpCutCommandValidation = z.object({
+export const SignUpCommandValidation = z.object({
   email: z
     .email()
     .trim()
@@ -45,4 +45,4 @@ export const SignUpCutCommandValidation = z.object({
   siretOrCNC: z.string().min(1).max(14).optional(),
 })
 
-export type SignUpCutCommand = z.infer<typeof SignUpCutCommandValidation>
+export type SignUpCommand = z.infer<typeof SignUpCommandValidation>

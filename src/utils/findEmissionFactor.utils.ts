@@ -1,10 +1,10 @@
 import { DEFAULT_FUZZY_OPTIONS } from '@/constants/fuse.constant'
-import { Unit } from '@/generated/prisma/enums'
 import {
   findEmissionFactorByImportedIdForMatch,
   findEmissionFactorsByNameAndUnit,
   findEmissionFactorsByUnit,
 } from '@/db/emissionFactors'
+import { Unit } from '@/generated/prisma/enums'
 import { getEmissionFactorFullName } from '@/utils/emissionFactors'
 import { normalizeStringForSearch } from '@/utils/string'
 import Fuse from 'fuse.js'

@@ -70,12 +70,7 @@ describe('RessourceLinks', () => {
       data: '/api/ressources/methodologie?documentKey=count',
     })
 
-    render(
-      <RessourceLinks
-        title="countMethods"
-        links={[{ title: 'countMethodLink', downloadKey: 'count' }]}
-      />,
-    )
+    render(<RessourceLinks title="countMethods" links={[{ title: 'countMethodLink', downloadKey: 'count' }]} />)
 
     await userEvent.click(screen.getByTestId('ressource-download-button'))
 
@@ -95,12 +90,7 @@ describe('RessourceLinks', () => {
       errorMessage: 'NOT_FOUND',
     })
 
-    render(
-      <RessourceLinks
-        title="countMethods"
-        links={[{ title: 'countMethodLink', downloadKey: 'count' }]}
-      />,
-    )
+    render(<RessourceLinks title="countMethods" links={[{ title: 'countMethodLink', downloadKey: 'count' }]} />)
 
     await userEvent.click(screen.getByTestId('ressource-download-button'))
 

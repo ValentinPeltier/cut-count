@@ -1,5 +1,5 @@
-import type { Prisma } from '@/generated/prisma/client'
 import { getOrCreateCncVersion, upsertCNC } from '@/db/cnc'
+import type { Prisma } from '@/generated/prisma/client'
 import { removeDiacritics } from '@/lib/utils/parsing'
 import { Command } from 'commander'
 import { parse } from 'csv-parse'

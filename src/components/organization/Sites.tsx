@@ -21,17 +21,10 @@ interface Props<T extends SitesCommand> {
   withSelection?: boolean
   columns: ColumnDef<TypeDef>[]
   caUnit?: SiteCAUnit
-    disabled?: boolean
+  disabled?: boolean
 }
 
-const Sites = <T extends SitesCommand>({
-  sites,
-  form,
-  withSelection,
-  columns,
-  caUnit,
-    disabled,
-}: Props<T>) => {
+const Sites = <T extends SitesCommand>({ sites, form, withSelection, columns, caUnit, disabled }: Props<T>) => {
   'use memo'
   const t = useTranslations('organization.sites')
   const tCommon = useTranslations('common.action')

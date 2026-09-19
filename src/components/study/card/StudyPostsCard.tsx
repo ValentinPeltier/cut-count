@@ -1,4 +1,3 @@
-
 import type { FullStudy } from '@/db/study'
 import { Post } from '@/lib/utils/charts'
 import { withInfobulle } from '@/utils/post'
@@ -16,7 +15,7 @@ interface Props {
   studySite: string
   setSite: (site: string) => void
   setGlossary: (glossary: string) => void
-    simplified?: boolean
+  simplified?: boolean
 }
 
 const StudyPostsCard = ({ study, post, studySite, setSite, setGlossary }: Props) => {

@@ -1,4 +1,3 @@
-
 import type { FullStudy } from '@/db/study'
 import AllPostsInfographySimplified from '@/environments/simplified/study/infography/AllPostsInfography'
 import { PublicodesSituationProvider } from '@/lib/publicodes/context'

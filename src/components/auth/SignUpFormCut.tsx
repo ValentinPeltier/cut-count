@@ -10,7 +10,7 @@ import { getEnvRoute } from '@/lib/services/email/utils'
 import { customRich } from '@/lib/utils/customRich'
 import { getAllCNCs } from '@/services/serverFunctions/cnc'
 import { signUpWithSiretOrCNC } from '@/services/serverFunctions/user'
-import { SignUpCutCommand, SignUpCutCommandValidation } from '@/services/serverFunctions/user.command'
+import { SignUpCommand, SignUpCommandValidation } from '@/services/serverFunctions/user.command'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormControl } from '@mui/material'
 import classNames from 'classnames'
@@ -37,8 +37,8 @@ const SignUpFormCut = () => {
 
   const searchParams = useSearchParams()
 
-  const { control, getValues, setValue, handleSubmit } = useForm<SignUpCutCommand>({
-    resolver: zodResolver(SignUpCutCommandValidation),
+  const { control, getValues, setValue, handleSubmit } = useForm<SignUpCommand>({
+    resolver: zodResolver(SignUpCommandValidation),
     mode: 'onBlur',
     reValidateMode: 'onChange',
     defaultValues: {

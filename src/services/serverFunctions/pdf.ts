@@ -1,8 +1,8 @@
 'use server'
 
 import { NOT_AUTHORIZED } from '@/lib/services/permissions/check'
-import { renderUrlToPdf } from '@/services/pdf/renderUrlToPdf'
 import { dbActualizedAuth } from '@/services/auth'
+import { renderUrlToPdf } from '@/services/pdf/renderUrlToPdf'
 import { withServerResponse } from '@/utils/serverResponse'
 import { cookies, headers } from 'next/headers'
 
@@ -14,8 +14,7 @@ const getPdfRenderBaseUrl = async () => {
   const headersList = await headers()
   const host = headersList.get('x-forwarded-host') ?? headersList.get('host')
   if (host) {
-    const proto =
-      headersList.get('x-forwarded-proto') ?? (process.env.NODE_ENV === 'production' ? 'https' : 'http')
+    const proto = headersList.get('x-forwarded-proto') ?? (process.env.NODE_ENV === 'production' ? 'https' : 'http')
     return `${proto}://${host}`
   }
 

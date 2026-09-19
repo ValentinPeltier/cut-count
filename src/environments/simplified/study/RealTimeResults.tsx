@@ -1,5 +1,5 @@
-import { StudyResultUnit } from '@/generated/prisma/client'
 import type { FullStudy } from '@/db/study'
+import { StudyResultUnit } from '@/generated/prisma/client'
 import { usePublicodesResults } from '@/hooks/usePublicodesResults'
 import { Translations } from '@/lib'
 import { Post, STUDY_UNIT_VALUES } from '@/lib/utils/charts'

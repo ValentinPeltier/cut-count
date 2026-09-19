@@ -1,3 +1,10 @@
+// The organization edit page is reached from the navbar "information" link.
+const openOrganizationEdit = () => {
+  cy.visit('/organisations')
+  cy.get('a[href*="/modifier"]', { timeout: 15000 }).first().click()
+  cy.url().should('include', '/modifier')
+}
+
 describe('Edit organization', () => {
   before(() => {
     cy.resetTestDatabase()
@@ -8,59 +15,36 @@ describe('Edit organization', () => {
   })
 
   it('should edit an organization', () => {
-    cy.login('bc-admin-0@yopmail.com')
+    cy.login('cut-env-admin-0@yopmail.com', 'password-0')
 
-    cy.getByTestId('button-menu-my-organization').trigger('mouseover')
-    cy.getByTestId('link-organization').click()
-    cy.getByTestId('edit-organization-button').click({ force: true })
-
-    cy.getByTestId('edit-organization-name').within(() => {
-      cy.get('input').clear()
-      cy.get('input').type('My new name')
-    })
-
-    cy.getByTestId('add-site-button').type('click')
-    cy.getByTestId('edit-site-name').last().type('My new site 0')
-    cy.getByTestId('organization-sites-etp').last().type('10')
-    cy.getByTestId('organization-sites-ca').last().type('1000')
-
-    cy.getByTestId('edit-organization-button').click()
-    cy.wait('@update')
-
-    cy.getByTestId('organization-name').should('includes.text', 'My new name')
-
-    cy.getByTestId('edit-organization-button').click()
-
-    cy.getByTestId('add-site-button').type('click')
-    cy.getByTestId('edit-site-name').last().type('My new site 1')
-    cy.getByTestId('organization-sites-etp').last().type('20')
-    cy.getByTestId('organization-sites-ca').last().type('2000')
-
-    cy.getByTestId('edit-organization-button').click()
-    cy.wait('@update')
-
-    cy.getByTestId('organization-name').should('be.visible')
-    cy.getByTestId('edit-organization-button').click()
+    openOrganizationEdit()
 
     cy.getByTestId('edit-site-name')
       .last()
       .within(() => {
-        cy.get('input').should('have.value', 'My new site 1')
+        cy.get('input').clear()
+        cy.get('input').type('My new site 0')
       })
 
-    cy.getByTestId('organization-sites-etp')
+    cy.getByTestId('organization-sites-postal-code')
       .last()
       .within(() => {
-        cy.get('input').should('have.value', '20')
+        cy.get('input').clear()
+        cy.get('input').type('75002')
       })
 
-    cy.getByTestId('organization-sites-ca')
+    cy.getByTestId('organization-sites-city')
       .last()
       .within(() => {
-        cy.get('input').should('have.value', '2000')
+        cy.get('input').clear()
+        cy.get('input').type('Paris')
       })
 
-    cy.getByTestId('delete-site-button').last().click()
+    cy.getByTestId('edit-organization-button').click()
+    cy.wait('@update')
+
+    openOrganizationEdit()
+
     cy.getByTestId('edit-site-name')
       .last()
       .within(() => {
@@ -69,26 +53,26 @@ describe('Edit organization', () => {
         cy.get('input').type('My new site')
       })
 
-    cy.getByTestId('organization-sites-etp')
+    cy.getByTestId('organization-sites-postal-code')
       .last()
       .within(() => {
-        cy.get('input').should('have.value', '10')
+        cy.get('input').should('have.value', '75002')
         cy.get('input').clear()
-        cy.get('input').type('100')
+        cy.get('input').type('75001')
       })
 
-    cy.getByTestId('organization-sites-ca')
+    cy.getByTestId('organization-sites-city')
       .last()
       .within(() => {
-        cy.get('input').should('have.value', '1000')
+        cy.get('input').should('have.value', 'Paris')
         cy.get('input').clear()
-        cy.get('input').type('10000')
+        cy.get('input').type('Paris 1er')
       })
 
     cy.getByTestId('edit-organization-button').click()
     cy.wait('@update')
 
-    cy.getByTestId('edit-organization-button').click()
+    openOrganizationEdit()
 
     cy.getByTestId('edit-site-name')
       .last()
@@ -96,16 +80,16 @@ describe('Edit organization', () => {
         cy.get('input').should('have.value', 'My new site')
       })
 
-    cy.getByTestId('organization-sites-etp')
+    cy.getByTestId('organization-sites-postal-code')
       .last()
       .within(() => {
-        cy.get('input').should('have.value', '100')
+        cy.get('input').should('have.value', '75001')
       })
 
-    cy.getByTestId('organization-sites-ca')
+    cy.getByTestId('organization-sites-city')
       .last()
       .within(() => {
-        cy.get('input').should('have.value', '10000')
+        cy.get('input').should('have.value', 'Paris 1er')
       })
   })
 })

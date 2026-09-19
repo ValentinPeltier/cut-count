@@ -1,10 +1,10 @@
 'use client'
 
+import CenteredLoader from '@/components/base/CenteredLoader'
 import { FormCheckbox } from '@/components/form/Checkbox'
 import GlobalSites from '@/components/organization/Sites'
 import type { Cnc } from '@/generated/prisma/client'
 import { SiteCAUnit } from '@/generated/prisma/enums'
-import CenteredLoader from '@/components/base/CenteredLoader'
 import { TableActionButton } from '@/lib/components/base/TableActionButton'
 import { FormTextField } from '@/lib/components/form/TextField'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
@@ -26,8 +26,14 @@ interface Props {
 
 const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
   const t = useTranslations('organization.sites')
+  // `columns` must stay referentially stable: TanStack uses each `cell` function as a component type,
+  // so rebuilding the columns re-mounts every cell and inputs lose focus while being typed into.
+  // `useTranslations` returns a new function on each render, hence the ref.
+  const tRef = useRef(t)
+  tRef.current = t
   const { callServerFunction } = useServerFunction()
   const [cncs, setCNCs] = useState<Cnc[] | null>(null)
+  const cncsRequested = useRef(false)
 
   useEffect(() => {
     const fetchCNCs = async () => {
@@ -43,10 +49,11 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
       }
     }
 
-    if (cncs === null) {
+    if (!cncsRequested.current) {
+      cncsRequested.current = true
       fetchCNCs()
     }
-  }, [callServerFunction, cncs])
+  }, [callServerFunction])
 
   // Track original site data to detect manual changes
   const originalSiteDataRef = useRef<
@@ -104,7 +111,7 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
     const columns = [
       {
         id: 'cncId',
-        header: t('cnc'),
+        header: tRef.current('cnc'),
         accessorKey: 'cncId',
         cell: ({ row, getValue }) =>
           !disabled && form ? (
@@ -113,7 +120,7 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
                 <div className="align-center">
                   <FormCheckbox
                     control={form.control}
-                    translation={t}
+                    translation={tRef.current}
                     name={`sites.${row.index}.selected`}
                     data-testid="organization-sites-checkbox"
                   />
@@ -172,7 +179,7 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
                           </li>
                         )}
                         renderInput={(params) => (
-                          <TextField {...params} placeholder={t('cncPlaceholder')} size="small" />
+                          <TextField {...params} placeholder={tRef.current('cncPlaceholder')} size="small" />
                         )}
                       />
                     )
@@ -186,7 +193,7 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
       },
       {
         id: 'name',
-        header: t('namePlaceholder'),
+        header: tRef.current('namePlaceholder'),
         accessorKey: 'name',
         cell: ({ row, getValue }) =>
           row.original.cncId && !disabled && form ? (
@@ -198,7 +205,7 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
                   data-testid="edit-site-name"
                   control={form.control}
                   name={`sites.${row.index}.name`}
-                  placeholder={t('namePlaceholder')}
+                  placeholder={tRef.current('namePlaceholder')}
                   size="small"
                 />
               )}
@@ -209,7 +216,7 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
       },
       {
         id: 'postalCode',
-        header: t('postalCode'),
+        header: tRef.current('postalCode'),
         accessorKey: 'postalCode',
         cell: ({ row, getValue }) =>
           row.original.cncId && !disabled && form ? (
@@ -221,7 +228,7 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
                   data-testid="organization-sites-postal-code"
                   control={form.control}
                   name={`sites.${row.index}.postalCode`}
-                  placeholder={t('postalCodePlaceholder')}
+                  placeholder={tRef.current('postalCodePlaceholder')}
                   size="small"
                 />
               )}
@@ -232,7 +239,7 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
       },
       {
         id: 'city',
-        header: t('city'),
+        header: tRef.current('city'),
         accessorKey: 'city',
         cell: ({ row, getValue }) =>
           row.original.cncId && !disabled && form ? (
@@ -244,7 +251,7 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
                   data-testid="organization-sites-city"
                   control={form.control}
                   name={`sites.${row.index}.city`}
-                  placeholder={t('cityPlaceholder')}
+                  placeholder={tRef.current('cityPlaceholder')}
                   size="small"
                 />
               )}
@@ -277,20 +284,13 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
       })
     }
     return columns
-  }, [t, form, withSelection, disabled, cncs, setCncData])
+  }, [form, withSelection, disabled, cncs, setCncData])
 
   if (cncs === null) {
     return <CenteredLoader />
   }
 
-  return (
-    <GlobalSites
-      sites={sites}
-      columns={columns}
-      form={form}
-      withSelection={withSelection}
-    />
-  )
+  return <GlobalSites sites={sites} columns={columns} form={form} withSelection={withSelection} />
 }
 
 export default Sites

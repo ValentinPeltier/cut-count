@@ -42,7 +42,7 @@ yarn start                # node .next/standalone/server.js
 yarn ts                   # TypeScript check
 yarn lint                 # Prettier + ESLint
 yarn test                 # Jest + Publicodes Vitest
-yarn cypress              # Cypress e2e
+yarn cypress              # starts app on 3001, then Cypress e2e
 yarn db:generate          # Prisma client → src/generated/prisma
 yarn prisma migrate dev   # create/apply migrations
 yarn seed                 # seed database
@@ -72,9 +72,8 @@ yarn db:test:reset          # reset + seed the test database
 yarn test                   # unit + Publicodes
 yarn test:watch
 yarn publicodes:test
-yarn dev:test               # app on port 3001 against the test DB
-yarn cypress
-yarn cypress:gui
+yarn cypress                # starts the app on port 3001, then runs e2e
+yarn cypress:gui            # same, with Cypress UI
 ```
 
 ## Dependency upgrades

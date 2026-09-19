@@ -4,7 +4,6 @@ enum Role {
   GESTIONNAIRE
   COLLABORATOR
   DEFAULT
-
 }
 
 model Account {
@@ -28,7 +27,7 @@ model Account {
   allowedStudies          UserOnStudy[]
   userApplicationSettings UserApplicationSettings?
 
-  status      UserStatus
+  status UserStatus
 
   @@map("accounts")
 }

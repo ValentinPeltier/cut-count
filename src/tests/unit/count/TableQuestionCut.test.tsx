@@ -1,4 +1,5 @@
 import TableQuestion from '@/components/publicodes-form/TableQuestion'
+import type { EvaluatedTableLayout } from '@/publicodes/form/layouts'
 import { render, screen } from '@testing-library/react'
 
 jest.mock('next-intl', () => ({
@@ -29,7 +30,7 @@ describe('TableQuestion with CUT-like layout', () => {
                 { id: 'row.rule.b', label: 'B', element: 'input', type: 'number' },
               ],
             ],
-          } as any
+          } as EvaluatedTableLayout<string>
         }
         onChange={jest.fn()}
       />,

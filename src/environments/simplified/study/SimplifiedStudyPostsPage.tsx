@@ -2,9 +2,9 @@
 
 import Stepper from '@/components/base/Stepper'
 import TabsWithGreenStyling from '@/components/dynamic-form/TabsWithGreenStyling'
-import { SubPost } from '@/generated/prisma/enums'
 import type { FullStudy } from '@/db/study'
 import { CUT_PUBLICODES_SUBPOSTS } from '@/environments/cut/publicodes/subposts'
+import { SubPost } from '@/generated/prisma/enums'
 import Block from '@/lib/components/base/Block'
 import { PublicodesFormProvider } from '@/lib/publicodes/context'
 import { Button } from '@/lib/ui'
@@ -20,7 +20,7 @@ import SaveStatusIndicator from '../study/SaveStatusIndicator'
 import RealTimeResults from './RealTimeResults'
 
 interface Props {
-    post: Post
+  post: Post
   currentSubPost: SubPost | undefined
   study: FullStudy
   studySiteId: string

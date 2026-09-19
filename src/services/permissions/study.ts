@@ -1,19 +1,13 @@
-import type { Prisma, Study, User } from '@/generated/prisma/client'
-import { Level, StudyRole } from '@/generated/prisma/enums'
 import { getAccountById } from '@/db/account'
 import { getOrganizationVersionForRightsCheck } from '@/db/organization'
 import { FullStudy, getStudyById } from '@/db/study'
 import { getAccountByIdWithAllowedStudies, UserWithAllowedStudies } from '@/db/user'
+import type { Prisma, Study, User } from '@/generated/prisma/client'
+import { Level, StudyRole } from '@/generated/prisma/enums'
 import { hasActiveLicence, isInOrgaOrParent } from '@/utils/organization'
-import {
-  getAccountRoleOnStudy,
-  hasEditionRights,
-  hasSufficientLevel,
-  StudyWithRoleFields,
-} from '@/utils/study'
+import { getAccountRoleOnStudy, hasEditionRights, hasSufficientLevel, StudyWithRoleFields } from '@/utils/study'
 import { UserSession } from 'next-auth'
 import { dbActualizedAuth } from '../auth'
-import { getUserActiveAccounts } from '../serverFunctions/user'
 import { isInOrgaOrParentFromId } from './organization'
 import { isAdminOnStudyOrga } from './study.utils'
 

@@ -2,7 +2,6 @@ enum SiteCAUnit {
   U // Unit (1)
   K // Kilo (1000)
   M // Million (1000000)
-
 }
 
 model OrganizationVersion {

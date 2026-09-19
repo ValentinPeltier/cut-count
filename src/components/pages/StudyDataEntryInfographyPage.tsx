@@ -1,7 +1,7 @@
 'use client'
 
-import { StudyRole } from '@/generated/prisma/enums'
 import type { FullStudy } from '@/db/study'
+import { StudyRole } from '@/generated/prisma/enums'
 import Block from '@/lib/components/base/Block'
 import { UserSession } from 'next-auth'
 import { useTranslations } from 'next-intl'
@@ -19,12 +19,7 @@ interface Props {
   organizationVersionId: string | null
 }
 
-const StudyDataEntryInfographyPage = ({
-  study,
-  userRole,
-  canDeleteStudy,
-  organizationVersionId,
-}: Props) => {
+const StudyDataEntryInfographyPage = ({ study, userRole, canDeleteStudy, organizationVersionId }: Props) => {
   const tNav = useTranslations('nav')
   const tStudyNav = useTranslations('study.navigation')
   const { siteId, studySiteId, setSite } = useStudySite(study)

@@ -1,3 +1,5 @@
+import { PUBLICODES_COUNT_VERSION } from '@/constants/versions'
+import { getCutEngine } from '@/environments/cut/publicodes/cut-engine'
 import { studySiteToCutSituation } from '@/environments/cut/publicodes/studySiteToSituation'
 import {
   getFormLayoutsForSubPostCUT,
@@ -6,8 +8,8 @@ import {
   hasPublicodesMapping,
   POST_TO_RULENAME,
 } from '@/environments/cut/publicodes/subPostMapping'
-import { getCutEngine } from '@/environments/cut/publicodes/cut-engine'
-import { PUBLICODES_COUNT_VERSION } from '@/constants/versions'
+import { StudyResultUnit, SubPost } from '@/generated/prisma/enums'
+import { roundTo } from '@/lib/utils/number'
 import { CutPost, subPostsByPostCUT } from '@/services/posts'
 import type { SimplifiedPublicodesConfig } from '@/services/publicodes/simplifiedPublicodesConfig'
 import { computeResultsForAllSitesFromSituations } from '@/services/results/computeSimplifiedResults'
@@ -18,9 +20,6 @@ import {
   loadCountExpectedSubPostResults,
   loadCountSituation,
 } from '@/tests/fixtures/count/loadFixtures'
-import { studySiteToSituation } from '@/services/studySiteToSituation'
-import { StudyResultUnit, SubPost } from '@/generated/prisma/enums'
-import { roundTo } from '@/lib/utils/number'
 import { Situation } from 'publicodes'
 
 const tPostIdentity = (key: string) => key
@@ -36,7 +35,6 @@ const cutConfig: SimplifiedPublicodesConfig<CutPost> = {
 }
 
 describe('Count! results pipeline', () => {
-
   describe('studySiteToCutSituation', () => {
     it('maps study site numeric fields to Publicodes keys', () => {
       expect(
@@ -85,11 +83,7 @@ describe('Count! results pipeline', () => {
     it.each(COUNT_FIXTURE_NAMES)('computes post totals for fixture %s', (fixtureName) => {
       const situation = loadCountSituation(fixtureName) as Situation<string>
       const expected = loadCountExpectedResults(fixtureName)
-      const { aggregated } = computeResultsForAllSitesFromSituations(
-        { site1: situation },
-        cutConfig,
-        tPostIdentity,
-      )
+      const { aggregated } = computeResultsForAllSitesFromSituations({ site1: situation }, cutConfig, tPostIdentity)
 
       for (const post of Object.values(CutPost)) {
         const ruleName = POST_TO_RULENAME[post]
@@ -112,11 +106,7 @@ describe('Count! results pipeline', () => {
       }
       expect(expected.bilan).toBeGreaterThan(0)
 
-      const { aggregated } = computeResultsForAllSitesFromSituations(
-        { site1: situation },
-        cutConfig,
-        tPostIdentity,
-      )
+      const { aggregated } = computeResultsForAllSitesFromSituations({ site1: situation }, cutConfig, tPostIdentity)
       const totalRow = aggregated.find((r) => r.post === 'total')
       expect(roundTo(totalRow!.value, 3)).toBe(roundTo(expected.bilan, 3))
     })
@@ -124,11 +114,7 @@ describe('Count! results pipeline', () => {
     it('rich-all-posts sub-post pipeline matches golden sub-post values', () => {
       const situation = loadCountSituation('rich-all-posts') as Situation<string>
       const expectedSubPosts = loadCountExpectedSubPostResults('rich-all-posts')
-      const { aggregated } = computeResultsForAllSitesFromSituations(
-        { site1: situation },
-        cutConfig,
-        tPostIdentity,
-      )
+      const { aggregated } = computeResultsForAllSitesFromSituations({ site1: situation }, cutConfig, tPostIdentity)
 
       for (const post of Object.values(CutPost)) {
         const postRow = aggregated.find((r) => r.post === post)
@@ -155,16 +141,8 @@ describe('Count! results pipeline', () => {
       const formAnswers = loadCountSituation('rich') as Situation<string>
       const merged = { ...formAnswers, ...studySiteToCutSituation(siteFields) }
 
-      const fromMerged = computeResultsForAllSitesFromSituations(
-        { site1: merged },
-        cutConfig,
-        tPostIdentity,
-      )
-      const fromFormOnly = computeResultsForAllSitesFromSituations(
-        { site1: formAnswers },
-        cutConfig,
-        tPostIdentity,
-      )
+      const fromMerged = computeResultsForAllSitesFromSituations({ site1: merged }, cutConfig, tPostIdentity)
+      const fromFormOnly = computeResultsForAllSitesFromSituations({ site1: formAnswers }, cutConfig, tPostIdentity)
 
       expect(fromMerged.aggregated.find((r) => r.post === 'total')?.value).toBe(
         fromFormOnly.aggregated.find((r) => r.post === 'total')?.value,
@@ -189,11 +167,7 @@ describe('Count! results pipeline', () => {
   describe('getTotalValueFromBaseResults', () => {
     it('converts kgCO2e to study display unit', () => {
       const situation = loadCountSituation('rich') as Situation<string>
-      const { aggregated } = computeResultsForAllSitesFromSituations(
-        { site1: situation },
-        cutConfig,
-        tPostIdentity,
-      )
+      const { aggregated } = computeResultsForAllSitesFromSituations({ site1: situation }, cutConfig, tPostIdentity)
       const totalKg = aggregated.find((r) => r.post === 'total')!.value
       expect(getTotalValueFromBaseResults(aggregated, StudyResultUnit.T)).toBe(totalKg / 1000)
       expect(getTotalValueFromBaseResults(aggregated, StudyResultUnit.K)).toBe(totalKg)

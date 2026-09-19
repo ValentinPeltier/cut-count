@@ -1,4 +1,7 @@
 import { PUBLICODES_COUNT_VERSION, PUBLICODES_ENGINE_VERSION } from '@/constants/versions'
+import type { Prisma } from '@/generated/prisma/client'
+import { PrismaClient } from '@/generated/prisma/client'
+import { Level, StudyResultUnit, StudyRole, UserStatus } from '@/generated/prisma/enums'
 import {
   COUNT_GOLDEN_SITE_ID,
   COUNT_GOLDEN_STUDY_ID,
@@ -6,9 +9,6 @@ import {
   COUNT_GOLDEN_STUDY_SITE_ID,
 } from '@/tests/fixtures/count/constants'
 import { loadCountSituation } from '@/tests/fixtures/count/loadFixtures'
-import { PrismaClient } from '@/generated/prisma/client'
-import { Level, StudyRole, StudyResultUnit, UserStatus } from '@/generated/prisma/enums'
-import type { Prisma } from '@/generated/prisma/client'
 
 const richSituation = loadCountSituation('rich')
 
@@ -98,4 +98,3 @@ export const createCountGoldenStudy = async (prisma: PrismaClient) => {
     },
   })
 }
-

@@ -1,7 +1,7 @@
 import { getRessources } from '@/utils/ressources'
 
-import { Locale } from '@/lib/i18n/config'
 import { Translations } from '@/lib'
+import { Locale } from '@/lib/i18n/config'
 import { getLocale } from 'next-intl/server'
 
 jest.mock('next-intl/server', () => ({

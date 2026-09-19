@@ -6,14 +6,15 @@ import LoadingButton from '@/lib/components/base/LoadingButton'
 import ConsolidatedResultsTable from '@/components/study/results/consolidated/ConsolidatedResultsTable'
 import SelectStudySite from '@/components/study/site/SelectStudySite'
 import TabPanel from '@/components/tabPanel/tabPanel'
-import { SiteCAUnit } from '@/generated/prisma/enums'
 import { EmissionFactorWithParts } from '@/db/emissionFactors'
 import type { FullStudy } from '@/db/study'
 import CarbonIntensitiesCut from '@/environments/cut/study/results/CarbonIntensitiesCut'
+import { SiteCAUnit } from '@/generated/prisma/enums'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
 import { BarChart, PieChart } from '@/lib/ui'
 import { customRich } from '@/lib/utils/customRich'
 import type { BaseResultsByPost } from '@/services/posts'
+import { downloadFile } from '@/lib/utils/download'
 import { generateStudySummaryPDF } from '@/services/serverFunctions/pdf'
 import { downloadStudyResults } from '@/services/study'
 import type { BaseResultsBySite } from '@/types/study.types'
@@ -71,17 +72,7 @@ const AllResults = ({
     setPdfLoading(true)
     await callServerFunction(() => generateStudySummaryPDF(study.id, study.name, study.startDate.getFullYear()), {
       onSuccess: (data) => {
-        const pdfBuffer = new Uint8Array(data.pdfBuffer)
-        const pdfBlob = new Blob([pdfBuffer], { type: data.contentType })
-
-        const url = URL.createObjectURL(pdfBlob)
-        const link = document.createElement('a')
-        link.href = url
-        link.download = data.filename
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-        URL.revokeObjectURL(url)
+        downloadFile([new Uint8Array(data.pdfBuffer)], data.filename, 'pdf')
       },
     })
     setPdfLoading(false)
@@ -102,25 +93,19 @@ const AllResults = ({
       rightComponent={
         <div className="flex gapped align-center">
           <Button
+            data-testid="export-results-xlsx"
             variant="contained"
             color="primary"
             size="large"
             endIcon={<DownloadIcon />}
             onClick={() => {
-              downloadStudyResults(
-                study,
-                tResults,
-                tExport,
-                tOrga,
-                tUnits,
-                computedResults,
-                studySite,
-              )
+              downloadStudyResults(study, tResults, tExport, tOrga, tUnits, computedResults, studySite)
             }}
           >
             {tExportButton('export')}
           </Button>
           <LoadingButton
+            data-testid="download-summary-pdf"
             variant="outlined"
             color="primary"
             size="large"

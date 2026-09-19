@@ -8,8 +8,7 @@ export const METHODOLOGY_DOCUMENT_KEYS = {
 
 export type MethodologyDocumentKey = keyof typeof METHODOLOGY_DOCUMENT_KEYS
 
-export const isMethodologyDocumentKey = (key: string): key is MethodologyDocumentKey =>
-  key in METHODOLOGY_DOCUMENT_KEYS
+export const isMethodologyDocumentKey = (key: string): key is MethodologyDocumentKey => key in METHODOLOGY_DOCUMENT_KEYS
 
 export const getMethodologyDocumentFileName = (documentKey: MethodologyDocumentKey): string =>
   METHODOLOGY_DOCUMENT_KEYS[documentKey]

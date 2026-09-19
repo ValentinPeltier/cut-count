@@ -33,7 +33,7 @@ const NumberWithUnitInput = <RuleName extends string>({
   const isLockedSuggestion = hasSuggestions && isFilteringQuestion
 
   return (
-    <div>
+    <div data-testid={`publicodes-field-${formElement.id}`}>
       {hasSuggestions && (
         <SuggestionChips
           ruleName={formElement.id}

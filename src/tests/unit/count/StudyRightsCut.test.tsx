@@ -1,5 +1,5 @@
-import StudyRightsCut from '@/environments/cut/study/StudyRightsCut'
 import type { FullStudy } from '@/db/study'
+import StudyRightsCut from '@/environments/cut/study/StudyRightsCut'
 import { render, screen, waitFor } from '@testing-library/react'
 
 jest.mock('next-intl', () => ({

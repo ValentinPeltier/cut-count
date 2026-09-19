@@ -1,7 +1,6 @@
 enum UserSource {
   CRON
   TUNISIE
-
 }
 
 enum UserStatus {
@@ -9,7 +8,6 @@ enum UserStatus {
   PENDING_REQUEST
   VALIDATED
   ACTIVE
-
 }
 
 model User {

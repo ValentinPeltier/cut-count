@@ -1,6 +1,6 @@
-import { SiteCAUnit } from '@/generated/prisma/enums'
 import type { FullStudy } from '@/db/study'
 import CarbonIntensitiesCut from '@/environments/cut/study/results/CarbonIntensitiesCut'
+import { SiteCAUnit } from '@/generated/prisma/enums'
 
 interface Props {
   study: FullStudy

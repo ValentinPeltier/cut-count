@@ -1,6 +1,5 @@
-import { studySiteToSituation } from '@/services/studySiteToSituation'
 import * as situationDbModule from '@/db/situation'
-
+import { studySiteToSituation } from '@/services/studySiteToSituation'
 
 jest.mock('@/db/situation', () => ({
   updateSituationFields: jest.fn(),

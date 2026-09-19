@@ -31,7 +31,12 @@ const RadioGroupInput = <RuleName extends string>({
   const flexDirection = formElement.orientation === 'horizontal' ? 'flex-row' : 'flex-col'
 
   return (
-    <FormControl className={classNames(flexDirection, 'm2', 'gapped1')} error={!!errorMessage} disabled={disabled}>
+    <FormControl
+      className={classNames(flexDirection, 'm2', 'gapped1')}
+      error={!!errorMessage}
+      disabled={disabled}
+      data-testid={`publicodes-field-${formElement.id}`}
+    >
       {formElement.options.map((option, index) => (
         <StyledFormControlLabel
           key={`box-${index}`}
@@ -42,6 +47,7 @@ const RadioGroupInput = <RuleName extends string>({
               onBlur={onBlur}
               key={index}
               name={option.label}
+              data-testid={`publicodes-option-${formElement.id}-${option.value}`}
               checked={(formElement.value ?? formElement.defaultValue) === option.value}
               onChange={(e) => onChange(formElement.id, e.target.checked ? option.value : undefined)}
             />

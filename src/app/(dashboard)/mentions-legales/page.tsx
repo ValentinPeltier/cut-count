@@ -1,4 +1,3 @@
-
 import Block from '@/lib/components/base/Block'
 import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'

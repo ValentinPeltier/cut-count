@@ -1,7 +1,7 @@
 'use client'
 
-import { StudyRole } from '@/generated/prisma/enums'
 import { FullStudy } from '@/db/study'
+import { StudyRole } from '@/generated/prisma/enums'
 import { Props as BlockProps } from '@/lib/components/base/Block'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
 import { deleteStudyCommand } from '@/services/serverFunctions/study'

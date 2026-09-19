@@ -1,9 +1,6 @@
 'use server'
 
-import {
-  getMethodologyDownloadApiPath,
-  isMethodologyDocumentKey,
-} from '@/services/ressources/methodologyDocuments'
+import { getMethodologyDownloadApiPath, isMethodologyDocumentKey } from '@/services/ressources/methodologyDocuments'
 import { withServerResponse } from '@/utils/serverResponse'
 import { dbActualizedAuth } from '../auth'
 

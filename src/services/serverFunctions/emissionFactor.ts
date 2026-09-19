@@ -1,6 +1,5 @@
 'use server'
 
-import { EmissionFactorStatus, Import, Unit } from '@/generated/prisma/enums'
 import { getAccountById } from '@/db/account'
 import { prismaClient } from '@/db/client.server'
 import {
@@ -12,7 +11,6 @@ import {
   getAllEmissionFactorsLocations,
   getEmissionFactorById,
   getEmissionFactorDetailsById,
-  getEmissionFactorImportVersionsBC,
   getEmissionFactorImportVersionsCUT,
   getManualEmissionFactors,
   setEmissionFactorUnitAsCustom,
@@ -20,6 +18,7 @@ import {
   type EmissionFactorList,
 } from '@/db/emissionFactors'
 import { getOrganizationVersionByOrganizationId, getOrgVersionWithOrgId } from '@/db/organization'
+import { EmissionFactorStatus, Import, Unit } from '@/generated/prisma/enums'
 import { getLocale } from '@/i18n/locale'
 import { NOT_AUTHORIZED } from '@/lib/services/permissions/check'
 import type { IsSuccess } from '@/lib/utils/serverResponse'
@@ -62,7 +61,7 @@ export const getEmissionFactors = async (
   skip: number,
   take: number | 'ALL',
   filters: FeFilters,
-  
+
   studyId?: string,
 ) =>
   withServerResponse('getEmissionFactors', async () => {

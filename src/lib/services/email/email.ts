@@ -110,28 +110,23 @@ export const sendNewUserOnStudyInvitationEmail = async (
   creatorName: string,
   roleOnStudy: string,
 ) => {
-  return sendEmail(
-    [toEmail],
-    await tSubject('userOnStudyInvitation', { studyName }),
-    'new-user-on-study-invitation',
-    {
-      link: getEnvResetLink('reset-password', token),
-      studyName,
-      studyId,
-      studyLink: `${BASE_URL}/etudes/${studyId}`,
-      organizationName,
+  return sendEmail([toEmail], await tSubject('userOnStudyInvitation', { studyName }), 'new-user-on-study-invitation', {
+    link: getEnvResetLink('reset-password', token),
+    studyName,
+    studyId,
+    studyLink: `${BASE_URL}/etudes/${studyId}`,
+    organizationName,
+    creatorName,
+    role: roleOnStudy,
+    t_welcome: await tBody('newUserOnStudyInvitation.welcome'),
+    t_added: await tBody('newUserOnStudyInvitation.added', {
       creatorName,
       role: roleOnStudy,
-      t_welcome: await tBody('newUserOnStudyInvitation.welcome'),
-      t_added: await tBody('newUserOnStudyInvitation.added', {
-        creatorName,
-        role: roleOnStudy,
-        studyName,
-        organizationName,
-      }),
-      t_access: await tBody('newUserOnStudyInvitation.access'),
-    },
-  )
+      studyName,
+      organizationName,
+    }),
+    t_access: await tBody('newUserOnStudyInvitation.access'),
+  })
 }
 
 export const sendContributorInvitationEmail = async (
@@ -165,22 +160,16 @@ export const sendNewContributorInvitationEmail = async (
   organizationName: string,
   creatorName: string,
 ) => {
-  return sendEmail(
-    [toEmail],
-    await tSubject('contributorInvitation', { studyName }),
-    'new-contributor-invitation',
-    {
-      link: getEnvResetLink('reset-password', token),
-      studyName,
-      studyId,
-      studyLink: `${BASE_URL}/etudes/${studyId}`,
-      organizationName,
-      creatorName,
-      t_welcome: await tBody('newContributorInvitation.welcome'),
-      t_added: await tBody('newContributorInvitation.added', { creatorName, studyName, organizationName }),
-      t_access: await tBody('newContributorInvitation.access'),
-      t_accessPost: await tBody('newContributorInvitation.accessPost'),
-    },
-  )
+  return sendEmail([toEmail], await tSubject('contributorInvitation', { studyName }), 'new-contributor-invitation', {
+    link: getEnvResetLink('reset-password', token),
+    studyName,
+    studyId,
+    studyLink: `${BASE_URL}/etudes/${studyId}`,
+    organizationName,
+    creatorName,
+    t_welcome: await tBody('newContributorInvitation.welcome'),
+    t_added: await tBody('newContributorInvitation.added', { creatorName, studyName, organizationName }),
+    t_access: await tBody('newContributorInvitation.access'),
+    t_accessPost: await tBody('newContributorInvitation.accessPost'),
+  })
 }
-

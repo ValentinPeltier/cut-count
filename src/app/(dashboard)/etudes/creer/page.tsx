@@ -34,14 +34,7 @@ const NewStudy = async ({ user, isCut }: UserSessionProps & StudyCreationProps) 
   const userSettings = await getUserSettings()
   const caUnit = userSettings.success ? userSettings.data?.caUnit || defaultCAUnit : defaultCAUnit
 
-  return (
-    <NewStudyPage
-      organizationVersions={organizationVersions}
-      user={user}
-      accounts={accounts}
-      caUnit={caUnit}
-    />
-  )
+  return <NewStudyPage organizationVersions={organizationVersions} user={user} accounts={accounts} caUnit={caUnit} />
 }
 
 export default withAuth(withStudyCreation(NewStudy))

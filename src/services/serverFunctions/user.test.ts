@@ -1,12 +1,7 @@
 import { Role, UserStatus } from '@/generated/prisma/enums'
 import { expect } from '@jest/globals'
 
-import {
-  addAccount,
-  getAccountByEmail,
-  getAccountById,
-  getAccountFromUserOrganization,
-} from '@/db/account'
+import { addAccount, getAccountByEmail, getAccountById, getAccountFromUserOrganization } from '@/db/account'
 import { findCncByCncCode } from '@/db/cnc'
 import {
   createOrganizationWithVersion,
@@ -70,8 +65,7 @@ const mockGetAccountFromUserOrganization = getAccountFromUserOrganization as jes
 const mockValidateUser = validateUser as jest.Mock
 const mockFindCncByCncCode = findCncByCncCode as jest.Mock
 const mockGetRawOrganizationBySiteCNC = getRawOrganizationBySiteCNC as jest.Mock
-const mockGetOrganizationVersionByOrganizationId =
-  getOrganizationVersionByOrganizationId as jest.Mock
+const mockGetOrganizationVersionByOrganizationId = getOrganizationVersionByOrganizationId as jest.Mock
 const mockCreateOrganizationWithVersion = createOrganizationWithVersion as jest.Mock
 const mockAddSite = addSite as jest.Mock
 const mockGetRawOrganizationBySiret = getRawOrganizationBySiret as jest.Mock

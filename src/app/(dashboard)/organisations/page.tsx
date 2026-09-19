@@ -8,7 +8,11 @@ const Organisation = async ({ user }: UserSessionProps) => {
     return <NotFound />
   }
   const organizationVersions = await getAccountOrganizationVersions(user.accountId)
-  return <OrganizationPage organizationVersion={organizationVersions[0]} user={user} />
+  const organizationVersion = organizationVersions[0]
+  if (!organizationVersion) {
+    return <NotFound />
+  }
+  return <OrganizationPage organizationVersion={organizationVersion} user={user} />
 }
 
 export default withAuth(Organisation)

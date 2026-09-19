@@ -1,8 +1,8 @@
 'use client'
 
 import useStudySite from '@/components/study/site/useStudySite'
-import { SiteCAUnit } from '@/generated/prisma/enums'
 import type { FullStudy } from '@/db/study'
+import { SiteCAUnit } from '@/generated/prisma/enums'
 import { usePublicodesResults } from '@/hooks/usePublicodesResults'
 import Block from '@/lib/components/base/Block'
 import Box from '@/lib/components/base/Box'

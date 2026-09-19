@@ -1,11 +1,11 @@
 import { PUBLICODES_COUNT_VERSION } from '@/constants/versions'
-import { SubPost } from '@/generated/prisma/enums'
 import { getCutEngine } from '@/environments/cut/publicodes/cut-engine'
 import {
   getFormLayoutsForSubPostCUT,
   getPostRuleNameCut,
   getSubPostRuleNameCut,
 } from '@/environments/cut/publicodes/subPostMapping'
+import { SubPost } from '@/generated/prisma/enums'
 import { FormLayout } from '@/publicodes/form/layouts'
 import Engine from 'publicodes'
 import { CutPost, SimplifiedPost, subPostsByPostCUT } from '../posts'

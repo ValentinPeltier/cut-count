@@ -126,11 +126,7 @@ const PDFSummary = ({ study }: Props) => {
             <img src="/logos/cut/CUT.svg" alt="CUT Logo" className="pdf-page-footer-logo" />
             <img src="/logos/cut/ABC.svg" alt="ABC Logo" className="pdf-page-footer-logo" />
             <img src="/logos/cut/CNC.svg" alt="CNC Logo" className="pdf-page-footer-logo" />
-            <img
-              src="/logos/cut/France3_2025_blanc.png"
-              alt="France 2030 Logo"
-              className="pdf-page-footer-logo"
-            />
+            <img src="/logos/cut/France3_2025_blanc.png" alt="France 2030 Logo" className="pdf-page-footer-logo" />
           </div>
         </div>
 

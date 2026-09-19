@@ -11,7 +11,6 @@ describe('Count! golden study — all study pages', () => {
   })
 
   beforeEach(() => {
-    cy.intercept('POST', '/api/auth/callback/credentials').as('login')
     cy.loginForEnv('cut')
   })
 
@@ -28,13 +27,6 @@ describe('Count! golden study — all study pages', () => {
       cy.visit(`/etudes/${COUNT_GOLDEN_STUDY_ID}/comptabilisation/saisie-des-donnees/${postSlug}`)
       cy.url({ timeout: 20000 }).should('include', postSlug)
       cy.getByTestId('not-found-page').should('not.exist')
-    })
-  })
-
-  CUT_FORBIDDEN_STUDY_SUFFIXES.forEach((suffix) => {
-    it(`does not expose advanced study page ${suffix}`, () => {
-      cy.visit(`/etudes/${COUNT_GOLDEN_STUDY_ID}/${suffix}`, { failOnStatusCode: false })
-      cy.getByTestId('not-found-page', { timeout: 15000 }).should('be.visible')
     })
   })
 

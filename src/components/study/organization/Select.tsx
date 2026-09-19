@@ -1,8 +1,8 @@
 'use client'
 
-import { SiteCAUnit } from '@/generated/prisma/enums'
 import { OrganizationWithSites } from '@/db/account'
 import DynamicSites from '@/environments/cut/organization/Sites'
+import { SiteCAUnit } from '@/generated/prisma/enums'
 import Block from '@/lib/components/base/Block'
 import { FormSelect } from '@/lib/components/form/Select'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
@@ -51,12 +51,7 @@ const NextButton = ({ control, onClick, error, hasNoSites }: NextButtonProps) =>
   )
 }
 
-const SelectOrganization = ({
-  organizationVersions,
-  selectOrganizationVersion,
-  form,
-  caUnit,
-}: Props) => {
+const SelectOrganization = ({ organizationVersions, selectOrganizationVersion, form, caUnit }: Props) => {
   const t = useTranslations('study.organization')
   const tOrganizationSites = useTranslations('organization.sites')
   const [error, setError] = useState('')

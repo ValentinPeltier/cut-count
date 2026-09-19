@@ -1,7 +1,5 @@
 'use server'
 
-import { Organization, User } from '@/generated/prisma/client'
-import { Role, UserStatus } from '@/generated/prisma/enums'
 import {
   addAccount,
   changeAccountRole,
@@ -39,6 +37,8 @@ import {
   UserWithAccounts,
   validateUser,
 } from '@/db/user'
+import { Organization, User } from '@/generated/prisma/client'
+import { Role, UserStatus } from '@/generated/prisma/enums'
 import {
   sendActivationEmail,
   sendActivationRequest,

@@ -1,9 +1,10 @@
-export type DownloadFileType = 'xlsx' | 'csv' | 'docx'
+export type DownloadFileType = 'xlsx' | 'csv' | 'docx' | 'pdf'
 
 const downloadMimeTypes: Record<DownloadFileType, string> = {
   xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   csv: 'text/csv;charset=utf-8;',
   docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  pdf: 'application/pdf',
 }
 
 const createAndClickDownloadLink = (blob: Blob, fileName: string) => {
@@ -14,15 +15,16 @@ const createAndClickDownloadLink = (blob: Blob, fileName: string) => {
   document.body.appendChild(anchor)
   anchor.click()
   document.body.removeChild(anchor)
-  URL.revokeObjectURL(url)
+  // Keep the blob URL alive briefly so browsers / e2e stubs can read it after click.
+  setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
 
 export const downloadFile = (
-  fileContent: string[] | ArrayBuffer[],
+  fileContent: string[] | ArrayBuffer[] | Uint8Array[],
   fileName: string,
   fileType: DownloadFileType,
 ): void => {
-  const blob = new Blob(fileContent, { type: downloadMimeTypes[fileType] })
+  const blob = new Blob(fileContent as BlobPart[], { type: downloadMimeTypes[fileType] })
   createAndClickDownloadLink(blob, fileName)
 }
 

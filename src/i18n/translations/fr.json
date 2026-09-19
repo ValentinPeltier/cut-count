@@ -225,6 +225,7 @@
     "new": {
       "title": "Informations sur la nouvelle empreinte",
       "name": "Nom de l'empreinte",
+      "studyDates": "Année de référence de l’empreinte",
       "isPublicTitle": "Visibilité de l'étude",
       "private": "Confidentielle",
       "public": "Partagée à l'équipe",
@@ -249,6 +250,7 @@
         "name": "Empreinte - {orga} {studyStartDate}",
         "yourOrga": "Votre cinéma"
       },
+      "create": "Créer l'étude",
       "siteDeselectionModal": {
         "title": "Attention : Sites avec sources d'émission",
         "description": "Vous tentez de désélectionner des sites qui contiennent des sources d'émission dans l'étude originale.",

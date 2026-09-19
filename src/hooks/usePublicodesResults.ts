@@ -21,10 +21,7 @@ export function usePublicodesResults(study: FullStudy, studySite: string | 'all'
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const config = useMemo(
-    () => getSimplifiedPublicodesConfig(undefined),
-    [study.subPostsConfigVersion],
-  )
+  const config = useMemo(() => getSimplifiedPublicodesConfig(undefined), [study.subPostsConfigVersion])
 
   const studySiteIds = useMemo(() => {
     if (studySite === 'all') {

@@ -1,13 +1,13 @@
 import { getCutEngine } from '@/environments/cut/publicodes/cut-engine'
+import { StudyResultUnit } from '@/generated/prisma/enums'
+import { CutPost, subPostsByPostCUT, type BaseResultsByPost } from '@/services/posts'
+import { computeResultsForAllSitesFromSituations } from '@/services/results/computeSimplifiedResults'
 import {
   aggregateBaseResultsByPost,
   computeTotalForBaseResults,
   getTotalValueFromBaseResults,
 } from '@/services/results/publicodes'
-import { computeResultsForAllSitesFromSituations } from '@/services/results/computeSimplifiedResults'
-import { CutPost, subPostsByPostCUT, type BaseResultsByPost } from '@/services/posts'
 import { loadCountSituation } from '@/tests/fixtures/count/loadFixtures'
-import { StudyResultUnit } from '@/generated/prisma/enums'
 import Engine, { Situation } from 'publicodes'
 
 describe('computeSimplifiedResults edge cases', () => {

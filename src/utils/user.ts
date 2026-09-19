@@ -1,6 +1,6 @@
+import { findAccountSelect } from '@/db/common.select'
 import type { Prisma } from '@/generated/prisma/client'
 import { Role, UserStatus } from '@/generated/prisma/enums'
-import { findAccountSelect } from '@/db/common.select'
 import { CutRoles } from '@/services/roles'
 import { UserSession } from 'next-auth'
 

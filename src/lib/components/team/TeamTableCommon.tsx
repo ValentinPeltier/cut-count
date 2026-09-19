@@ -40,7 +40,7 @@ interface Props {
   canEditSelfRole?: boolean
   setDeletingMember: (value: string) => void
   deletingMember: string
-  }
+}
 
 type DeletionErrorData = {
   id: string
@@ -62,7 +62,7 @@ const TeamTableCommon = ({
   changeRole,
   setDeletingMember,
   deletingMember,
-  }: Props) => {
+}: Props) => {
   const t = useTranslations('team.table')
   const tAction = useTranslations('common.action')
   const tLevel = useTranslations('level')

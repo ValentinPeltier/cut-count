@@ -2,7 +2,6 @@
 
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { Box, BoxProps, Link, Breadcrumbs as MUIBreadcrumbs, styled, Typography } from '@mui/material'
-import { useMemo } from 'react'
 
 interface Props {
   links: { label: string; link: string }[]

@@ -2,9 +2,9 @@ import { KG_CO2E_PREFIX_REGEX } from '@/constants/import'
 import { EmissionFactorBase, SubPost, Unit } from '@/generated/prisma/enums'
 import { LocaleType } from '@/lib/i18n/config'
 import { environmentPostMapping, environmentSubPostsMapping } from '@/services/posts'
+import { EmissionFactorCommandValidation } from '@/services/serverFunctions/emissionFactor.command'
 import { ImportWarning } from '@/types/import.types'
 import { COLUMNS, ImportError, ParsedRow, ParseResult } from '@/types/importEmissionFactors.types'
-import { EmissionFactorCommandValidation } from '@/services/serverFunctions/emissionFactor.command'
 import { ManualEmissionFactorUnitList } from './emissionFactors'
 import { parseExcelSheet } from './excel.utils'
 import {
@@ -35,10 +35,7 @@ function matchBaseLabelFromTranslations(
   )
 }
 
-function matchPostLabelFromTranslations(
-  label: string | undefined | null,
-  locale: LocaleType,
-): string | null {
+function matchPostLabelFromTranslations(label: string | undefined | null, locale: LocaleType): string | null {
   const envPosts = environmentPostMapping
   return matchLabelFromTranslations(label, locale, (bc) =>
     buildLabelMap(
@@ -49,10 +46,7 @@ function matchPostLabelFromTranslations(
   )
 }
 
-function matchSubPostLabelFromTranslations(
-  label: string | undefined | null,
-  locale: LocaleType,
-): SubPost | null {
+function matchSubPostLabelFromTranslations(label: string | undefined | null, locale: LocaleType): SubPost | null {
   const envSubPosts = Object.values(environmentSubPostsMapping).flat()
   return matchLabelFromTranslations(label, locale, (bc) =>
     buildLabelMap(

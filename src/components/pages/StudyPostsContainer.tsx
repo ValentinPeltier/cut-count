@@ -1,7 +1,7 @@
 'use client'
-import { StudyRole, SubPost } from '@/generated/prisma/enums'
 import type { FullStudy } from '@/db/study'
 import SimplifiedStudyPostsPage from '@/environments/simplified/study/SimplifiedStudyPostsPage'
+import { StudyRole, SubPost } from '@/generated/prisma/enums'
 import Block from '@/lib/components/base/Block'
 import GlossaryModal from '@/lib/components/modals/GlossaryModal'
 import { Post } from '@/lib/utils/charts'
@@ -77,12 +77,7 @@ const StudyPostsPageContainer = ({ post, currentSubPost, study }: Props) => {
           simplified
         />
       </Block>
-      <SimplifiedStudyPostsPage
-        currentSubPost={currentSubPost}
-        post={post}
-        study={study}
-        studySiteId={studySiteId}
-      />
+      <SimplifiedStudyPostsPage currentSubPost={currentSubPost} post={post} study={study} studySiteId={studySiteId} />
       {glossary && (
         <GlossaryModal glossary={glossary} label="post-glossary" t={tPost} onClose={() => setGlossary('')}>
           <p>{glossaryDescription}</p>

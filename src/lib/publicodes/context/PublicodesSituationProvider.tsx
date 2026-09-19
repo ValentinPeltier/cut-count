@@ -21,14 +21,14 @@ export interface PublicodesSituationContextValue<RuleName extends string = strin
 const PublicodesSituationContext = createContext<PublicodesSituationContextValue | null>(null)
 
 interface PublicodesSituationProviderProps {
-    studyId: string
+  studyId: string
   studySiteId: string
   subPostsConfigVersion?: string | null
   children: ReactNode
 }
 
 export function PublicodesSituationProvider<RuleName extends string = string>({
-    studyId,
+  studyId,
   studySiteId,
   subPostsConfigVersion,
   children,

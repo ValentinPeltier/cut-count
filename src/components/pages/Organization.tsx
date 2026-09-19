@@ -1,6 +1,5 @@
 'use server'
 
-
 import { OrganizationWithSites } from '@/db/account'
 import { canDeleteOrganizationVersion, canUpdateOrganizationVersion } from '@/services/permissions/organization'
 import { UserSession } from 'next-auth'
@@ -15,7 +14,7 @@ interface Props {
 }
 
 const OrganizationPage = async ({ organizationVersion, user }: Props) => {
-    const tNav = await getTranslations('nav')
+  const tNav = await getTranslations('nav')
   const [canUpdate, canDelete] = await Promise.all([
     canUpdateOrganizationVersion(user, organizationVersion.id),
     canDeleteOrganizationVersion(organizationVersion.id),
@@ -25,10 +24,10 @@ const OrganizationPage = async ({ organizationVersion, user }: Props) => {
     <>
       <Breadcrumbs current={organizationVersion.organization.name} links={[{ label: tNav('home'), link: '/' }]} />
       <div data-testid="organization-page">
-      {false && (
-        <OrganizationInfo organizationVersion={organizationVersion} canUpdate={canUpdate} canDelete={canDelete} />
-      )}
-      <StudiesContainer user={user} organizationVersionId={organizationVersion.id} />
+        {false && (
+          <OrganizationInfo organizationVersion={organizationVersion} canUpdate={canUpdate} canDelete={canDelete} />
+        )}
+        <StudiesContainer user={user} organizationVersionId={organizationVersion.id} />
       </div>
     </>
   )

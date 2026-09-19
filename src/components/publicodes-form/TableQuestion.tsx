@@ -6,7 +6,7 @@ import { Paper, TableContainer } from '@mui/material'
 import { EvaluatedFormElement } from '@publicodes/forms'
 import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { useTranslations } from 'next-intl'
-import { useMemo } from 'react'
+import { useMemo, useRef } from 'react'
 
 interface TableLayoutProps<RuleName extends string> {
   tableLayout: EvaluatedTableLayout<RuleName>
@@ -28,6 +28,17 @@ export default function TableQuestion<RuleName extends string>({
 }: TableLayoutProps<RuleName>) {
   const tLayout = useTranslations('publicodes-layout.table')
   const { getTitleTranslation } = usePublicodesTranslation()
+
+  // `columns` must stay referentially stable: TanStack uses each `cell` function as a component type,
+  // so rebuilding the columns re-mounts every cell and inputs lose focus while being typed into.
+  // `useTranslations` / translation helpers often return a new function on each render, hence the refs.
+  const tLayoutRef = useRef(tLayout)
+  tLayoutRef.current = tLayout
+  const getTitleTranslationRef = useRef(getTitleTranslation)
+  getTitleTranslationRef.current = getTitleTranslation
+  const onChangeRef = useRef(onChange)
+  onChangeRef.current = onChange
+
   const tableData = useMemo<TableRowData<RuleName>[]>(() => {
     return evaluatedRows.map((row, rowIndex) => ({
       id: `row-${rowIndex}`,
@@ -38,7 +49,7 @@ export default function TableQuestion<RuleName extends string>({
   const columns = useMemo<ColumnDef<TableRowData<RuleName>>[]>(() => {
     return headers.map((header, colIndex) => ({
       id: `col-${colIndex}`,
-      header: () => tLayout(header),
+      header: () => tLayoutRef.current(header),
       cell: ({ row }) => {
         const formElement = row.original.elements[colIndex]
         if (!formElement) {
@@ -48,15 +59,15 @@ export default function TableQuestion<RuleName extends string>({
         // TODO: could we have a cleaner way to distinguish between value and inputs ?
         // FIXME: the first column isn't translated for now
         return colIndex === 0 ? (
-          <p>{getTitleTranslation(formElement.id)}</p>
+          <p>{getTitleTranslationRef.current(formElement.id)}</p>
         ) : (
           <div className="w100 justify-center">
-            <InputField formElement={formElement} onChange={onChange} />
+            <InputField formElement={formElement} onChange={onChangeRef.current} />
           </div>
         )
       },
     }))
-  }, [getTitleTranslation, headers, onChange, tLayout])
+  }, [headers])
 
   const table = useReactTable<TableRowData<RuleName>>({
     data: tableData,

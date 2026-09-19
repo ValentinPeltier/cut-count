@@ -283,7 +283,10 @@ export const handleAddingUser = async (creator: UserSession, newUser: AddMemberC
       organizationVersion: { connect: { id: organizationVersionId } },
     })
   } else {
-    if (memberAccountForOrganization.status === UserStatus.ACTIVE && memberAccountForOrganization.organizationVersionId) {
+    if (
+      memberAccountForOrganization.status === UserStatus.ACTIVE &&
+      memberAccountForOrganization.organizationVersionId
+    ) {
       throw new Error(NOT_AUTHORIZED)
     }
 

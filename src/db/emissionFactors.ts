@@ -157,7 +157,7 @@ export type EmissionFactorList = {
 const getDefaultEmissionFactorsCount = async (
   filters: FeFilters,
   locale: LocaleType,
-  
+
   organizationId?: string,
 ): Promise<{ count: number }> => {
   const count = await prismaClient.emissionFactorMetaData.count(
@@ -170,7 +170,7 @@ const getDefaultEmissionFactorsCount = async (
 const getBaseFilterForEmissionFactors = (
   locale: LocaleType,
   filters: FeFilters,
-  
+
   organizationId?: string,
 ) => {
   let importedFromConditionWithoutManual: object = { id: 'no-fe' }
@@ -236,7 +236,7 @@ const getDefaultEmissionFactors = async (
   take: number | 'ALL',
   locale: LocaleType,
   filters: FeFilters,
-  
+
   organizationId?: string,
 ): Promise<EmissionFactorList[]> => {
   const emissionFactorsMetadata = await prismaClient.emissionFactorMetaData.findMany({
@@ -287,7 +287,6 @@ export const getAllEmissionFactors = async (
   take: number | 'ALL',
   locale: LocaleType,
   filters: FeFilters,
-  
 ) => {
   const [defaultEmissionFactors, emissionFactorsCountInfos] = await Promise.all([
     getDefaultEmissionFactors(skip, take, locale, filters, organizationId),

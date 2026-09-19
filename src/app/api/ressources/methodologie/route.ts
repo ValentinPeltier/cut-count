@@ -1,4 +1,3 @@
-
 import { auth } from '@/services/auth'
 import {
   getMethodologyDocumentFileName,

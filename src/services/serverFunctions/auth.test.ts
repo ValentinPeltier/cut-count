@@ -1,4 +1,3 @@
-
 import { getUserByEmailWithSensibleInformations, updateUserPasswordForEmail } from '@/db/user'
 import { expect } from '@jest/globals'
 import jwt from 'jsonwebtoken'

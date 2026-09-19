@@ -1,261 +1,200 @@
-// describe('Authentication', () => {
-//   before(() => {
-//     cy.resetTestDatabase()
-//   })
+describe('Authentication', () => {
+  before(() => {
+    cy.resetTestDatabase()
+  })
 
-//   beforeEach(() => {
-//     cy.intercept('POST', '/api/auth/callback/credentials').as('login')
-//     cy.intercept('POST', '/reset-password/*').as('reset-password')
-//     cy.intercept('GET', '/equipe').as('equipe')
-//   })
+  beforeEach(() => {
+    cy.intercept('POST', '/api/auth/callback/credentials').as('login')
+    cy.intercept('POST', '/reset-password/*').as('reset-password')
+    cy.intercept('GET', '/equipe').as('equipe')
+    cy.clearEmails()
+  })
 
-//   it('does not authenticate with wrong password', () => {
-//     cy.visit('/')
-//     cy.url().should('include', '/login')
+  it('does not authenticate with wrong password', () => {
+    cy.visit('/')
+    cy.url().should('include', '/login')
 
-//     cy.login('bc-collaborator-1@yopmail.com', 'test1')
+    cy.login('cut-env-default-1@yopmail.com', 'test1', { cacheSession: false })
 
-//     cy.visit('/')
-//     cy.url().should('include', '/login')
-//   })
+    cy.visit('/')
+    cy.url().should('include', '/login')
+  })
 
-//   it('does authenticate with correct password', () => {
-//     cy.visit('/')
-//     cy.url().should('include', '/login')
+  it('does authenticate with correct password', () => {
+    cy.visit('/')
+    cy.url().should('include', '/login')
 
-//     cy.login('bc-collaborator-1@yopmail.com', 'password-1')
+    cy.login('cut-env-default-1@yopmail.com', 'password-1', { cacheSession: false })
 
-//     cy.url().should('not.include', '/login')
-//   })
+    cy.url().should('not.include', '/login')
+  })
 
-//   it('does reset password', () => {
-//     cy.visit('/login')
+  it('does reset password', () => {
+    cy.visit('/login')
 
-//     cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
-//       .should('be.visible')
-//       .should('not.be.disabled')
-//       .type('bc-collaborator-1@yopmail.com')
-//     cy.getByTestId('reset-password-link').click()
+    cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
+      .should('be.visible')
+      .should('not.be.disabled')
+      .type('cut-env-default-1@yopmail.com')
+    cy.getByTestId('reset-password-link').click()
 
-//     cy.url().should('include', '/reset-password')
+    cy.url().should('include', '/reset-password')
 
-//     cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input').should(
-//       'have.value',
-//       'bc-collaborator-1@yopmail.com',
-//     )
+    cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input').should(
+      'have.value',
+      'cut-env-default-1@yopmail.com',
+    )
 
-//     cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
-//       .should('be.visible')
-//       .should('not.be.disabled')
-//       .clear()
+    cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
+      .should('be.visible')
+      .should('not.be.disabled')
+      .clear()
 
-//     cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input').type(
-//       'bc-collaborator-2@yopmail.com',
-//     )
+    cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input').type(
+      'cut-env-default-0@yopmail.com',
+    )
 
-//     cy.getByTestId('reset-button').should('be.visible').should('not.be.disabled').click()
+    cy.getByTestId('reset-button').should('be.visible').should('not.be.disabled').click()
 
-//     cy.visit('http://localhost:1080')
-//     cy.origin('http://localhost:1080', () => {
-//       cy.get('.email-item-link')
-//         .first()
-//         .invoke('attr', 'href')
-//         .then((link) => {
-//           const hmtlUrl = `http://localhost:1080${(link as string).replace('#/', '/')}/html`
-//           cy.visit(hmtlUrl)
-//           cy.url().should('include', hmtlUrl)
+    cy.openEmailLink({
+      to: 'cut-env-default-0@yopmail.com',
+      subject: /Mot de passe oublié/,
+    })
 
-//           cy.get('a')
-//             .invoke('attr', 'href')
-//             .then((link) => cy.visit(link as string))
-//         })
-//     })
+    cy.url().should('include', '/reset-password/')
+    cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input')
+      .should('be.visible')
+      .should('not.be.disabled')
+      .type('new-Password-0')
+    cy.get('[data-testid="input-confirm-password"] > .MuiInputBase-root > .MuiInputBase-input')
+      .should('be.visible')
+      .should('not.be.disabled')
+      .type('new-Password-0')
 
-//     cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input').should('have.value', '')
-//     cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input').should('have.value', '')
-//     cy.get('[data-testid="input-confirm-password"] > .MuiInputBase-root > .MuiInputBase-input').should('have.value', '')
-//     cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
-//       .should('be.visible')
-//       .should('not.be.disabled')
-//       .type('bc-collaborator-2@yopmail.com')
-//     cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input')
-//       .should('be.visible')
-//       .should('not.be.disabled')
-//       .type('new-Password-2')
-//     cy.get('[data-testid="input-confirm-password"] > .MuiInputBase-root > .MuiInputBase-input')
-//       .should('be.visible')
-//       .should('not.be.disabled')
-//       .type('new-Password-2')
+    cy.getByTestId('reset-button').should('be.visible').should('not.be.disabled').click()
 
-//     cy.getByTestId('reset-button').should('be.visible').should('not.be.disabled').click()
+    cy.wait('@reset-password')
 
-//     cy.wait('@reset-password')
+    cy.url({ timeout: 8000 }).should('include', '/login')
 
-//     cy.url({ timeout: 8000 }).should('include', '/login')
+    cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
+      .should('be.visible')
+      .should('not.be.disabled')
+      .type('cut-env-default-0@yopmail.com')
+    cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input')
+      .should('be.visible')
+      .should('not.be.disabled')
+      .type('password-0')
+    cy.getByTestId('login-button').should('be.visible').should('not.be.disabled').click()
 
-//     cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
-//       .should('be.visible')
-//       .should('not.be.disabled')
-//       .type('bc-collaborator-2@yopmail.com')
-//     cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input')
-//       .should('be.visible')
-//       .should('not.be.disabled')
-//       .type('password-2')
-//     cy.getByTestId('login-button').should('be.visible').should('not.be.disabled').click()
+    cy.wait('@login')
 
-//     cy.wait('@login')
+    cy.url().should('include', '/login')
 
-//     cy.url().should('include', '/login')
+    cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
+      .should('be.visible')
+      .should('not.be.disabled')
+      .should('have.value', 'cut-env-default-0@yopmail.com')
 
-//     cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
-//       .should('be.visible')
-//       .should('not.be.disabled')
-//       .should('have.value', 'bc-collaborator-2@yopmail.com')
+    cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input')
+      .should('be.visible')
+      .should('not.be.disabled')
+      .clear()
 
-//     cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input')
-//       .should('be.visible')
-//       .should('not.be.disabled')
-//       .clear()
+    cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input').type('new-Password-0')
 
-//     cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input').type('new-Password-2')
+    cy.getByTestId('login-button').should('be.visible').should('not.be.disabled').click()
 
-//     cy.getByTestId('login-button').should('be.visible').should('not.be.disabled').click()
+    cy.wait('@login')
 
-//     cy.wait('@login')
+    cy.url().should('not.include', '/login')
+  })
 
-//     cy.url().should('not.include', '/login')
-//   })
+  it('does not authorize inactive user', () => {
+    cy.visit('/')
 
-//   it('does not authorize inactive user', () => {
-//     cy.visit('/')
+    cy.url().should('include', '/login')
 
-//     cy.url().should('include', '/login')
+    cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
+      .should('be.visible')
+      .should('not.be.disabled')
+      .type('imported@yopmail.com')
+    cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input')
+      .should('be.visible')
+      .should('not.be.disabled')
+      .type('password-1')
+    cy.getByTestId('login-button').should('be.visible').should('not.be.disabled').click()
 
-//     cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
-//       .should('be.visible')
-//       .should('not.be.disabled')
-//       .type('bc-new-1@yopmail.com')
-//     cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input')
-//       .should('be.visible')
-//       .should('not.be.disabled')
-//       .type('password-1')
-//     cy.getByTestId('login-button').should('be.visible').should('not.be.disabled').click()
+    cy.wait('@login')
 
-//     cy.wait('@login')
+    cy.visit('/')
 
-//     cy.visit('/')
+    cy.url().should('include', '/login')
+  })
 
-//     cy.url().should('include', '/login')
-//   })
+  it('does activate account', () => {
+    const email = `cut-pending-activate-${Date.now()}@yopmail.com`
+    cy.signup(email, '1234567891234')
 
-//   it('does activate account', () => {
-//     cy.visit('/')
+    cy.getByTestId('activation-form-message', { timeout: 20000 }).should('be.visible')
+    cy.getByTestId('activation-form-message', { timeout: 20000 })
+      .invoke('text')
+      .should('include', "Une demande d'activation de votre compte a été envoyé à vos collègues")
 
-//     cy.url().should('include', '/login')
-//     cy.login('imported@yopmail.com', 'Password-0')
+    cy.waitForEmail({
+      subject: /Demande d'accès à votre organisation Count/,
+    }).its('subject').should('match', /Demande d'accès à votre organisation Count/)
 
-//     cy.visit('/')
+    cy.visit('/')
+    cy.login('cut-admin-test@yopmail.com', 'password', { cacheSession: false })
+    cy.visit('/equipe')
+    cy.getByTestId('invitations-to-validate').should('be.visible')
+    cy.getByTestId('invitations-to-validate').within(() => {
+      cy.getByTestId('invitation')
+        .filter((_index, el) => Cypress.$(el).text().includes(email))
+        .getByTestId('validate-invitation')
+        .click({ force: true })
+    })
 
-//     cy.url().should('include', '/login')
+    cy.getByTestId('pending-invitation').contains(email).should('be.visible')
 
-//     cy.getByTestId('activation-button').should('be.visible').should('not.be.disabled')
+    cy.logout()
 
-//     cy.getByTestId('activation-button').click({ force: true })
+    cy.url().should('include', '/login')
 
-//     cy.url().should('include', '/activation')
+    cy.openEmailLink({
+      to: email,
+      subject: /Vous avez été invité sur Count/,
+    })
 
-//     cy.getByTestId('activation-email').should('be.visible').should('not.be.disabled')
-//     cy.getByTestId('activation-button').should('be.visible').should('not.be.disabled')
+    cy.url().should('include', '/reset-password/')
+    cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input')
+      .should('be.visible')
+      .should('not.be.disabled')
+      .type('Password-0')
+    cy.get('[data-testid="input-confirm-password"] > .MuiInputBase-root > .MuiInputBase-input')
+      .should('be.visible')
+      .should('not.be.disabled')
+      .type('Password-0')
 
-//     cy.get('[data-testid="activation-email"] input')
-//       .should('be.visible')
-//       .should('not.be.disabled')
-//       .clear()
-//       .type('imported@yopmail.com')
-//       .should('have.value', 'imported@yopmail.com')
-//     cy.getByTestId('activation-button').should('be.visible').should('not.be.disabled').click()
-//     cy.getByTestId('activation-form-message', { timeout: 20000 }).should('be.visible')
-//     cy.getByTestId('activation-form-message', { timeout: 20000 })
-//       .invoke('text')
-//       .should('include', "Une demande d'activation de votre compte a été envoyé à vos collègues")
+    cy.getByTestId('reset-button').should('be.visible').should('not.be.disabled').click()
 
-//     cy.visit('http://localhost:1080')
-//     cy.origin('http://localhost:1080', () => {
-//       cy.get('.email-item-link')
-//         .first()
-//         .within(() => {
-//           cy.get('.title')
-//             .invoke('text')
-//             .should('match', /Demande d'accès à votre organisation BC+/)
-//         })
-//     })
+    cy.wait('@reset-password')
 
-//     cy.visit('/')
-//     cy.login('bc-admin-0@yopmail.com', 'password-0')
-//     cy.wait('@login')
-//     cy.visit('/equipe')
-//     cy.getByTestId('invitations-to-validate').should('be.visible')
-//     cy.getByTestId('invitations-to-validate').within(() => {
-//       cy.getByTestId('invitation')
-//         .filter((_index, el) => Cypress.$(el).text().includes('imported@yopmail.com'))
-//         .getByTestId('validate-invitation')
-//         .click({ force: true })
-//     })
+    cy.url({ timeout: 8000 }).should('include', '/login')
 
-//     cy.getByTestId('pending-invitation').contains('imported@yopmail.com').should('be.visible')
+    cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
+      .should('be.visible')
+      .should('not.be.disabled')
+      .type(email)
+    cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input')
+      .should('be.visible')
+      .should('not.be.disabled')
+      .type('Password-0')
+    cy.getByTestId('login-button').should('be.visible').should('not.be.disabled').click()
 
-//     cy.logout()
+    cy.wait('@login')
 
-//     cy.url().should('include', '/login')
-
-//     cy.visit('http://localhost:1080')
-//     cy.origin('http://localhost:1080', () => {
-//       cy.get('.email-item-link')
-//         .first()
-//         .invoke('attr', 'href')
-//         .then((link) => {
-//           const hmtlUrl = `http://localhost:1080${(link as string).replace('#/', '/')}/html`
-//           cy.visit(hmtlUrl)
-
-//           cy.url().should('include', hmtlUrl)
-
-//           cy.get('a')
-//             .invoke('attr', 'href')
-//             .then((link) => cy.visit(link as string))
-//         })
-//     })
-
-//     cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
-//       .should('be.visible')
-//       .should('not.be.disabled')
-//       .type('imported@yopmail.com')
-//     cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input')
-//       .should('be.visible')
-//       .should('not.be.disabled')
-//       .type('Password-0')
-//     cy.get('[data-testid="input-confirm-password"] > .MuiInputBase-root > .MuiInputBase-input')
-//       .should('be.visible')
-//       .should('not.be.disabled')
-//       .type('Password-0')
-
-//     cy.getByTestId('reset-button').should('be.visible').should('not.be.disabled').click()
-
-//     cy.wait('@reset-password')
-
-//     cy.url({ timeout: 8000 }).should('include', '/login')
-
-//     cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
-//       .should('be.visible')
-//       .should('not.be.disabled')
-//       .type('imported@yopmail.com')
-//     cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input')
-//       .should('be.visible')
-//       .should('not.be.disabled')
-//       .type('Password-0')
-//     cy.getByTestId('login-button').should('be.visible').should('not.be.disabled').click()
-
-//     cy.wait('@login')
-
-//     cy.url().should('not.include', '/login')
-//   })
-// })
+    cy.url().should('not.include', '/login')
+  })
+})

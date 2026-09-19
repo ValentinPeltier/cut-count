@@ -1,21 +1,19 @@
+const STUDY_TO_DELETE_ID = '88c93e88-7c80-4be4-905b-f0bbd2ccc840'
+
 describe('Delete study', () => {
   beforeEach(() => {
     cy.resetTestDatabase()
   })
 
   it('should be able to delete a study', () => {
-    cy.login('bc-admin-0@yopmail.com', 'password-0')
+    cy.login('cut-env-admin-0@yopmail.com', 'password-0')
 
-    cy.getByTestId('study-name-chip')
-      .contains('Study to delete')
-      .scrollIntoView()
-      .parents('[data-testid="study"]')
-      .within(() => {
-        cy.getByTestId('study-link').click()
-      })
+    cy.visit('/organisations')
+    cy.getByTestId('organization-page', { timeout: 15000 }).should('be.visible')
+    cy.getByTestId('study-name-chip').contains('Study to delete').should('be.visible')
 
-    cy.url().should('include', '/comptabilisation/saisie-des-donnees')
-    cy.getByTestId('delete-study').click()
+    cy.visit(`/etudes/${STUDY_TO_DELETE_ID}/comptabilisation/saisie-des-donnees`)
+    cy.getByTestId('delete-study', { timeout: 15000 }).click()
     cy.get('#delete-study-modal-title').should('be.visible')
     cy.get('#delete-study-modal-content').should('be.visible')
 

@@ -27,12 +27,12 @@ const ConsolidatedResultsTable = ({ resultsUnit, data }: Props) => {
       <tbody>
         {data.map((row) => (
           <Fragment key={String(row.post)}>
-            <tr>
+            <tr data-testid="consolidated-results-table-row">
               <td>{row.label}</td>
               <td>{formatNumber((row.value ?? 0) / STUDY_UNIT_VALUES[resultsUnit])}</td>
             </tr>
             {row.children.map((child) => (
-              <tr key={`${row.post}-${String(child.post)}`}>
+              <tr key={`${row.post}-${String(child.post)}`} data-testid="consolidated-results-table-row">
                 <td className={styles.child}>{child.label}</td>
                 <td>{formatNumber((child.value ?? 0) / STUDY_UNIT_VALUES[resultsUnit])}</td>
               </tr>

@@ -1,5 +1,5 @@
-import { Level, Role, StudyResultUnit, StudyRole } from '@/generated/prisma/enums'
 import type { FullStudy } from '@/db/study'
+import { Level, Role, StudyResultUnit, StudyRole } from '@/generated/prisma/enums'
 import { Post, STUDY_UNIT_VALUES } from '@/lib/utils/charts'
 import { formatNumber } from '@/lib/utils/number'
 import { isAdminOnStudyOrga } from '@/services/permissions/study.utils'

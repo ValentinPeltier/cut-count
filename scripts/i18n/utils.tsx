@@ -85,16 +85,12 @@ export async function writeJSONFile(filePath: string, data: Record<string, unkno
 }
 
 export function loadTranslation(locale: Locale, _model: Model): TranslationRecord {
-  return (readJSONFile(
-    url.pathToFileURL(path.resolve(path.join(TRANSLATIONS_DIR, `${locale}.json`))).toString(),
-  ) ?? {}) as TranslationRecord
+  return (readJSONFile(url.pathToFileURL(path.resolve(path.join(TRANSLATIONS_DIR, `${locale}.json`))).toString()) ??
+    {}) as TranslationRecord
 }
 
 export async function saveTranslation(locale: Locale, _model: Model, data: TranslationRecord): Promise<void> {
-  await writeJSONFile(
-    url.pathToFileURL(path.resolve(path.join(TRANSLATIONS_DIR, `${locale}.json`))).toString(),
-    data,
-  )
+  await writeJSONFile(url.pathToFileURL(path.resolve(path.join(TRANSLATIONS_DIR, `${locale}.json`))).toString(), data)
 }
 
 // Helper to check for arguments within script

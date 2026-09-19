@@ -25,13 +25,15 @@
     "publicodes:watch": "cd src/publicodes/rules && publicodes compile --watch",
     "publicodes:test": "yarn publicodes:compile && cd src/publicodes/rules && vitest run --reporter=tree --config vitest.config.ts",
     "publicodes:translate": "yarn publicodes:compile && yarn tsx scripts/i18n/generate-translation-file.tsx -m cut",
-    "cypress": "dotenv -e .env.test -e .env -- cypress run",
-    "cypress:gui": "dotenv -e .env.test -e .env -- cypress open",
+    "cypress:run": "dotenv -e .env.test -e .env -- cypress run",
+    "cypress:open": "dotenv -e .env.test -e .env -- cypress open",
+    "cypress": "start-server-and-test 'yarn dev:test' http://127.0.0.1:3001/login 'yarn cypress:run'",
+    "cypress:gui": "start-server-and-test 'yarn dev:test' http://127.0.0.1:3001/login 'yarn cypress:open'",
     "prisma": "prisma",
     "seed": "dotenv -e .env -- env NODE_ENV=development tsx prisma/seed/index.ts",
     "db:generate": "rm -rf src/generated/prisma && prisma generate",
     "db:test:reset": "dotenv -e .env.test -e .env -- prisma migrate reset --force && dotenv -e .env.test -e .env -- tsx prisma/seed/index.ts",
-    "db:test:seed": "dotenv -e .env.test -e .env -- tsx prisma/seed/index.ts"
+    "db:test:seed": "dotenv -e .env.test -e .env -- prisma migrate deploy && dotenv -e .env.test -e .env -- tsx prisma/seed/index.ts"
   },
   "prisma": {
     "seed": "dotenv -e .env -- env NODE_ENV=development tsx prisma/seed/index.ts"
@@ -125,6 +127,7 @@
     "prettier": "^3.9.8",
     "prettier-plugin-organize-imports": "^4.3.0",
     "prettier-plugin-prisma": "^5.0.0",
+    "start-server-and-test": "^3.0.12",
     "ts-jest": "^29.4.12",
     "typescript": "^6.0.3",
     "vitest": "^4.1.11",

@@ -1,7 +1,7 @@
 'use client'
 
-import { StudyRole } from '@/generated/prisma/enums'
 import type { FullStudy } from '@/db/study'
+import { StudyRole } from '@/generated/prisma/enums'
 import { Table as BaseTable, HelpIcon } from '@/lib/components'
 import Block from '@/lib/components/base/Block'
 import { TableActionButton } from '@/lib/components/base/TableActionButton'

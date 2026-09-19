@@ -1,9 +1,9 @@
 'use client'
 
 import { FormAutocomplete } from '@/components/form/Autocomplete'
-import { StudyRole } from '@/generated/prisma/enums'
 import { getOrganizationVersionAccounts } from '@/db/organization'
 import type { FullStudy } from '@/db/study'
+import { StudyRole } from '@/generated/prisma/enums'
 import Form from '@/lib/components/base/Form'
 import LoadingButton from '@/lib/components/base/LoadingButton'
 import { FormSelect } from '@/lib/components/form/Select'

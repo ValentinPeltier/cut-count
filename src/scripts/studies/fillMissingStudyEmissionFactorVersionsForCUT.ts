@@ -15,8 +15,7 @@ const fillMissingStudyEmissionFactorVersionsForCUT = async () => {
 
     const cutStudies = await prismaClient.study.findMany({
       where: {
-        organizationVersion: {
-                  },
+        organizationVersion: {},
       },
       select: {
         id: true,

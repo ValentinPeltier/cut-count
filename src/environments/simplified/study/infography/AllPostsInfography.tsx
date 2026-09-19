@@ -1,5 +1,5 @@
-import type { FullStudy } from '@/db/study'
 import CenteredLoader from '@/components/base/CenteredLoader'
+import type { FullStudy } from '@/db/study'
 import { usePublicodesSituation } from '@/lib/publicodes/context'
 import type { BaseResultsByPost } from '@/services/posts'
 import { getQuestionProgressBySubPost, StatsResult } from '@/services/publicodes/questionProgress'

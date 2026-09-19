@@ -1,8 +1,8 @@
 import { FullStudy, getStudyById } from '@/db/study'
 import NotFound from '@/lib/components/pages/NotFound'
 import { LocaleType } from '@/lib/i18n/config'
-import { hasReadAccessOnStudy } from '@/services/permissions/study'
 import { dbActualizedAuth } from '@/services/auth'
+import { hasReadAccessOnStudy } from '@/services/permissions/study'
 import { getLocale } from 'next-intl/server'
 import React from 'react'
 

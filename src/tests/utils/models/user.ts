@@ -14,7 +14,7 @@ const mockedAccount = {
     id: mockedOrganizationVersionId,
     organizationId: mockedOrganizationId,
   },
-    role: Role.ADMIN,
+  role: Role.ADMIN,
   status: UserStatus.ACTIVE,
   feedbackDate: null,
 }
@@ -38,7 +38,7 @@ export const mockedSession = {
   email: mockedUser.email,
   accountId: mockedAccountId,
   organizationId: mockedOrganizationId,
-    role: mockedAccount.role,
+  role: mockedAccount.role,
   userId: mockedUserId,
   organizationVersionId: mockedOrganizationVersionId,
   id: mockedAccountId,
@@ -49,7 +49,7 @@ export const mockedSession = {
     email: mockedUser.email,
     accountId: mockedAccountId,
     organizationId: mockedOrganizationId,
-        needsAccountSelection: false,
+    needsAccountSelection: false,
   },
 }
 
@@ -65,7 +65,7 @@ export const getMockedAuthUser = (props?: Partial<UserSession>): UserSession => 
   organizationVersionId: mockedDbAccount.organizationVersionId,
   organizationId: mockedDbAccount.organizationVersion.organizationId,
   role: mockedDbAccount.role,
-    ...mockedDbAccount.user,
+  ...mockedDbAccount.user,
   ...props,
 })
 

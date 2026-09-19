@@ -18,7 +18,7 @@ interface PublicodesFormContextValue<RuleName extends string = string>
   extends PublicodesSituationContextValue<RuleName>, PublicodesAutoSaveContextValue<RuleName> {}
 
 interface PublicodesFormProviderProps {
-    studyId: string
+  studyId: string
   studySiteId: string
   subPostsConfigVersion?: string | null
   syncIntervalMs?: number
@@ -26,7 +26,7 @@ interface PublicodesFormProviderProps {
 }
 
 export function PublicodesFormProvider({
-    studyId,
+  studyId,
   studySiteId,
   subPostsConfigVersion,
   syncIntervalMs,

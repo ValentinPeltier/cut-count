@@ -18,8 +18,9 @@ const TextInput = <RuleName extends string>({ formElement, onChange, disabled }:
 
   return (
     <TextField
+      data-testid={`publicodes-field-${formElement.id}`}
       className={styles.inputWrapper}
-      value={localValue}
+      value={localValue ?? ''}
       onFocus={handleFocus}
       onChange={(event) => {
         handleValueChange(event.target.value === '' ? null : event.target.value)

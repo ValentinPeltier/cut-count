@@ -1,6 +1,6 @@
-import { Level, Role, UserStatus } from '@/generated/prisma/enums'
 import { getAccountById } from '@/db/account'
 import { getUserByEmailWithSensibleInformations } from '@/db/user'
+import { Level, Role, UserStatus } from '@/generated/prisma/enums'
 import { DAY } from '@/lib/utils/time'
 import { AccountWithUser } from '@/types/account.types'
 import bcrypt from 'bcryptjs'

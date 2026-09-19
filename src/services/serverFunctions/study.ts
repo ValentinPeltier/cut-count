@@ -1,7 +1,5 @@
 'use server'
 
-import type { Prisma } from '@/generated/prisma/client'
-import { Role, StudyResultUnit, StudyRole, UserStatus } from '@/generated/prisma/enums'
 import {
   addAccount,
   getAccountByEmail,
@@ -41,6 +39,8 @@ import {
   updateAccount,
   UserWithAccounts,
 } from '@/db/user'
+import type { Prisma } from '@/generated/prisma/client'
+import { Role, StudyResultUnit, StudyRole, UserStatus } from '@/generated/prisma/enums'
 import { NOT_AUTHORIZED } from '@/lib/services/permissions/check'
 import { StudySiteFields, studySiteToSituation } from '@/services/studySiteToSituation'
 import { AccountWithUser } from '@/types/account.types'
@@ -713,7 +713,7 @@ export const findStudiesWithSites = async (siteIds: string[]) =>
             organizationVersion: {
               id: studySite.study.organizationVersion.id,
               parentId: studySite.study.organizationVersion.parentId,
-                          },
+            },
             allowedUsers: studySite.study.allowedUsers.map((allowedUser) => ({
               role: StudyRole.Reader,
               account: { id: allowedUser.accountId, user: { email: '' } },

@@ -2,20 +2,17 @@ enum Level {
   Initial
   Standard
   Advanced
-
 }
 
 enum StudyRole {
   Validator
   Editor
   Reader
-
 }
 
 enum StudyResultUnit {
   K // kg (1)
   T // t (1000)
-
 }
 
 enum DayOfWeek {
@@ -26,7 +23,6 @@ enum DayOfWeek {
   Friday
   Saturday
   Sunday
-
 }
 
 model OpeningHours {

@@ -25,14 +25,6 @@ export const CUT_PUBLIC_PAGES: { path: string; testId: string }[] = [
 export const CUT_GOLDEN_STUDY_PATHS = [
   'cadrage',
   'cadrage/ajouter',
-  'cadrage/ajouter-contributeur',
-  'perimetre',
   'comptabilisation/saisie-des-donnees',
   'comptabilisation/resultats',
 ] as const
-
-/** BC-only routes that must not be available to CUT users. */
-export const CUT_FORBIDDEN_PAGES = ['/facteurs-d-emission', '/actualites', '/mes-empreintes'] as const
-
-/** Study features not available on CUT simplified studies. */
-export const CUT_FORBIDDEN_STUDY_SUFFIXES = ['trajectoires', 'actions', 'actions-de-mobilisation'] as const
