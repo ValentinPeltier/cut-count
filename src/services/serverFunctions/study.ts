@@ -442,7 +442,7 @@ export const changeStudyCinema = async (studySiteId: string, cncId: string, data
         enhancedUpdateData.distanceToParis = calculatedDistanceToParis
       }
 
-      Object.assign(enhancedUpdateData, mapCncToStudySite(cncData, currentSite))
+      Object.assign(enhancedUpdateData, mapCncToStudySite(cncData, { ...currentSite, ...updateData }))
     }
 
     const finalUpdateData = enhancedUpdateData
