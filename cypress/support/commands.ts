@@ -135,7 +135,8 @@ Cypress.Commands.add(
         }
         if (Date.now() - started > timeout) {
           throw new Error(
-            `Timed out waiting for MailDev email${matcher.to ? ` to ${matcher.to}` : ''}${matcher.subject ? ` with subject ${matcher.subject}` : ''
+            `Timed out waiting for MailDev email${matcher.to ? ` to ${matcher.to}` : ''}${
+              matcher.subject ? ` with subject ${matcher.subject}` : ''
             }`,
           )
         }
