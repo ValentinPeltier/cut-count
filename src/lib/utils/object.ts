@@ -1,0 +1,40 @@
+export const isObject = <T extends Record<string, unknown>>(value: unknown): value is T => {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+export const doesKeyExist = (object: unknown, key: string): boolean => {
+  if (!isObject<Record<string, unknown>>(object)) {
+    return false
+  }
+
+  return Object.prototype.hasOwnProperty.call(object, key)
+}
+
+const FORBIDDEN_MERGE_KEYS = new Set(['__proto__', 'prototype', 'constructor'])
+
+export const mergeObjects = <T extends Record<string, unknown>>(target: T, ...sources: Partial<T>[]): T => {
+  const mutableTarget = target as Record<string, unknown>
+
+  for (const source of sources) {
+    if (!isObject(source)) {
+      continue
+    }
+    for (const [key, value] of Object.entries(source)) {
+      if (FORBIDDEN_MERGE_KEYS.has(key)) {
+        continue
+      }
+
+      if (isObject(value)) {
+        if (!isObject(mutableTarget[key])) {
+          mutableTarget[key] = {}
+        }
+        mergeObjects(mutableTarget[key] as Record<string, unknown>, value as Record<string, unknown>)
+      } else {
+        if (value !== undefined) {
+          mutableTarget[key] = value
+        }
+      }
+    }
+  }
+  return target
+}

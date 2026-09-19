@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-around;
+  height: 8rem;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.image {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+}

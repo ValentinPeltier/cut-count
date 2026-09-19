@@ -10,6 +10,12 @@
       "options": {
         "singleQuote": false
       }
+    },
+    {
+      "files": ["**/*.publicodes"],
+      "options": {
+        "parser": "yaml"
+      }
     }
   ],
   "printWidth": 120,

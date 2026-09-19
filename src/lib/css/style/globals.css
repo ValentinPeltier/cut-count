@@ -1,0 +1,254 @@
+@font-face {
+  font-family: 'Gilroy-Bold';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 800;
+  src:
+    local('Gilroy-Bold'),
+    url('https://fonts.cdnfonts.com/s/16219/Gilroy-Bold.woff') format('woff');
+}
+@font-face {
+  font-family: 'Gilroy-Heavy';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 700;
+  src:
+    local('Gilroy-Heavy'),
+    url('https://fonts.cdnfonts.com/s/16219/Gilroy-Heavy.woff') format('woff');
+}
+@font-face {
+  font-family: 'Gilroy-Light';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 300;
+  src:
+    local('Gilroy-Light'),
+    url('https://fonts.cdnfonts.com/s/16219/Gilroy-Light.woff') format('woff');
+}
+@font-face {
+  font-family: 'Gilroy-Medium';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 500;
+  src:
+    local('Gilroy-Medium'),
+    url('https://fonts.cdnfonts.com/s/16219/Gilroy-Medium.woff') format('woff');
+}
+@font-face {
+  font-family: 'Gilroy-Regular';
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  src:
+    local('Gilroy-Regular'),
+    url('https://fonts.cdnfonts.com/s/16219/Gilroy-Regular.woff') format('woff');
+}
+
+* {
+  font-family: 'Gilroy-Regular', sans-serif;
+}
+
+body {
+  height: 100vh;
+  line-height: 1.25;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.title-h1,
+h1 {
+  font-size: 2.5rem;
+  line-height: 3.25rem;
+  font-weight: 800;
+}
+
+.title-h2,
+h2 {
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 2.75rem;
+}
+
+.title-h3,
+h3 {
+  font-size: 1.75rem;
+  line-height: 2.25rem;
+}
+
+.title-h4,
+h4 {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.title-h5,
+h5 {
+  font-size: 1.375rem;
+  line-height: 1.75rem;
+}
+
+.title-h6,
+h6 {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.main-container {
+  max-width: 85rem;
+  padding: 0 1.5rem;
+  margin: auto;
+  background-color: transparent;
+}
+
+.MuiInputBase-root {
+  background-color: white !important;
+}
+
+caption {
+  font-size: 1.75rem;
+  line-height: 2.25rem;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  box-shadow: 0px 3px 1px 0px rgba(0, 0, 0, 0.04);
+  border: var(--border);
+  border-radius: 0.25rem;
+
+  thead {
+    tr {
+      background-color: white;
+    }
+  }
+
+  tbody {
+    tr {
+      &:nth-child(even) {
+        background: white;
+      }
+
+      &:nth-child(odd) {
+        background: var(--mui-palette-primary-light);
+      }
+    }
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: 0.5rem;
+  }
+
+  th {
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  tr:first-child th:first-child {
+    border-top-left-radius: 0.25rem;
+  }
+
+  tr:first-child th:last-child {
+    border-top-right-radius: 0.25rem;
+  }
+
+  tr:last-child td:first-child {
+    border-bottom-left-radius: 0.25rem;
+  }
+
+  tr:last-child td:last-child {
+    border-bottom-right-radius: 0.25rem;
+  }
+}
+
+.block {
+  display: block;
+}
+
+.noSpacing {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.error {
+  font-size: inherit;
+  color: var(--error-100);
+}
+
+.warning {
+  color: var(--warning);
+}
+
+.inputLabel {
+  color: black !important;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.bold {
+  font-size: inherit;
+  font-weight: bold;
+}
+
+.italic {
+  font-size: inherit;
+  font-style: italic;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.userWarning {
+  color: var(--error-50);
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.cardContainer {
+  gap: 1rem;
+  padding-right: 3rem;
+  padding-left: 3rem;
+
+  &.selected {
+    border-color: var(--primary-500);
+  }
+
+  &.disabled {
+    background-color: var(--grayscale-100);
+  }
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.fit-content {
+  width: fit-content;
+}
+
+.green-ghgp {
+  color: 'var(--mui-palette-ghgp-main)';
+}
+
+.purple-ghgp {
+  color: 'var(--mui-palette-ghgp-complementary)';
+}
+
+.font-inherit {
+  font-size: inherit;
+}

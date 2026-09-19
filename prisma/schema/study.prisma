@@ -1,0 +1,137 @@
+enum Level {
+  Initial
+  Standard
+  Advanced
+}
+
+enum StudyRole {
+  Validator
+  Editor
+  Reader
+}
+
+enum StudyResultUnit {
+  K // kg (1)
+  T // t (1000)
+}
+
+enum DayOfWeek {
+  Monday
+  Tuesday
+  Wednesday
+  Thursday
+  Friday
+  Saturday
+  Sunday
+}
+
+model OpeningHours {
+  id          String    @id @default(uuid())
+  studySite   StudySite @relation(fields: [studySiteId], references: [id])
+  studySiteId String    @map("study_site_id")
+
+  isHoliday Boolean   @default(false) @map("is_holiday")
+  day       DayOfWeek
+  openHour  String?   @map("open_hour")
+  closeHour String?   @map("close_hour")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("opening_hours")
+}
+
+model Study {
+  id      String  @id @default(uuid())
+  oldBCId String? @map("old_bc_id")
+
+  createdById String  @map("created_by_account_id")
+  createdBy   Account @relation(fields: [createdById], references: [id])
+
+  name                  String
+  isPublic              Boolean         @map("is_public")
+  startDate             DateTime        @map("start_date") @db.Date
+  endDate               DateTime        @map("end_date") @db.Date
+  realizationStartDate  DateTime?       @map("realization_start_date") @db.Date
+  realizationEndDate    DateTime?       @map("realization_end_date") @db.Date
+  level                 Level
+  simplified            Boolean         @default(true)
+  subPostsConfigVersion String?         @map("sub_posts_config_version")
+  resultsUnit           StudyResultUnit @default(T) @map("results_unit")
+
+  organizationVersion   OrganizationVersion @relation(fields: [organizationVersionId], references: [id])
+  organizationVersionId String              @map("organization_version_id")
+
+  allowedUsers UserOnStudy[]
+  sites        StudySite[]
+
+  emissionFactorVersions StudyEmissionFactorVersion[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("studies")
+}
+
+model UserOnStudy {
+  study     Study   @relation(fields: [studyId], references: [id])
+  studyId   String  @map("study_id")
+  account   Account @relation(fields: [accountId], references: [id])
+  accountId String  @map("account_id")
+
+  role StudyRole
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@id([studyId, accountId])
+  @@map("users_on_study")
+}
+
+model StudyEmissionFactorVersion {
+  id String @id @default(uuid())
+
+  studyId String @map("study_id")
+  study   Study  @relation(fields: [studyId], references: [id])
+
+  importVersionId String                      @map("import_version_id")
+  importVersion   EmissionFactorImportVersion @relation(fields: [importVersionId], references: [id])
+
+  source Import
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@unique([studyId, source])
+  @@map("study_emission_factor_versions")
+}
+
+model StudySite {
+  id String @id @default(uuid())
+
+  studyId String @map("study_id")
+  study   Study  @relation(fields: [studyId], references: [id])
+
+  siteId String @map("site_id")
+  site   Site   @relation(fields: [siteId], references: [id])
+
+  cncVersionId String?     @map("cnc_version_id")
+  cncVersion   CncVersion? @relation(fields: [cncVersionId], references: [id])
+
+  etp Int
+  ca  Float
+
+  numberOfSessions Int?           @map("number_of_sessions")
+  numberOfTickets  Int?           @map("number_of_tickets")
+  numberOfOpenDays Int?           @map("number_of_openDays")
+  distanceToParis  Int?           @map("distance_to_paris")
+  openingHours     OpeningHours[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  situation Situation?
+
+  @@unique([studyId, siteId])
+  @@map("study_sites")
+}

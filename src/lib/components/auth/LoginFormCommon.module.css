@@ -1,0 +1,15 @@
+.link {
+  text-align: right;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  font-size: 1rem;
+  color: #2c303a;
+  font-weight: 600;
+}
+
+.bottomLink a {
+  color: #2c303a;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}

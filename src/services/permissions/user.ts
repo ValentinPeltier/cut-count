@@ -1,0 +1,71 @@
+import type { Prisma } from '@/generated/prisma/client'
+import { Role, UserStatus } from '@/generated/prisma/enums'
+import { canBeUntrainedRole } from '@/lib/utils/user'
+import { AccountWithUser } from '@/types/account.types'
+import { canEditMemberRole } from '@/utils/user'
+import { UserSession } from 'next-auth'
+
+export const canEditSelfRole = (userRole: Role) => userRole === Role.ADMIN
+
+export const canAddMember = (
+  user: UserSession,
+  _member: Pick<Prisma.AccountCreateInput, 'role'>,
+  organizationVersionId: string | null,
+) => {
+  if (!organizationVersionId) {
+    return false
+  }
+
+  if (!canEditMemberRole(user)) {
+    return false
+  }
+
+  if (organizationVersionId !== user.organizationVersionId) {
+    return false
+  }
+  return true
+}
+
+export const canDeleteMember = (user: UserSession, member: AccountWithUser | null) => {
+  if (!member) {
+    return false
+  }
+
+  if (user.organizationVersionId !== member.organizationVersionId) {
+    return false
+  }
+
+  if (!canEditMemberRole(user)) {
+    return false
+  }
+
+  if (member.status === UserStatus.ACTIVE) {
+    return false
+  }
+
+  return true
+}
+
+export const canChangeRole = (user: UserSession, member: AccountWithUser | null, newRole: Role) => {
+  if (!member) {
+    return false
+  }
+
+  if (user.accountId === member.id && !canEditSelfRole(user.role)) {
+    return false
+  }
+
+  if (!canEditMemberRole(user)) {
+    return false
+  }
+
+  if (user.organizationVersionId !== member.organizationVersionId) {
+    return false
+  }
+
+  if (!member.user.level && !canBeUntrainedRole(newRole)) {
+    return false
+  }
+
+  return true
+}

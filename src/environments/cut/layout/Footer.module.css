@@ -1,0 +1,16 @@
+.container {
+  bottom: 0;
+  width: 100%;
+  min-height: 150px;
+  padding: 1rem 0;
+
+  @media screen and (max-width: 75rem) {
+    flex-wrap: wrap;
+  }
+}
+
+.cutLogo {
+  width: auto;
+  height: auto;
+  max-width: 150px;
+}

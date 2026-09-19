@@ -1,212 +1,89 @@
-# Bilan Carbone — Monorepo
+# Count!
 
-Ce monorepo contient les applications et packages partagés du projet Bilan Carbone.
-This monorepo contains apps and shared packages for Bilan Carbone & MEP Pro
+Cinema carbon-footprint app for Association Bilan Carbone. Single Next.js 16 application (no Yarn workspaces, no Turbo).
+
+## Stack
+
+- Node 26.x, Yarn 1.22
+- Next.js 16 App Router, React 19, Turbopack, `output: 'standalone'`
+- next-auth v4, next-intl (French)
+- PostgreSQL 17 + Prisma 7 (`@prisma/adapter-pg`)
+- Publicodes rules under `src/publicodes/`
+- Jest (unit) + Cypress 15 (e2e) + Vitest (Publicodes)
 
 ## Get started
 
 ### Prerequisites
 
-- Node.js = 24.18.0
+- Node.js 26.9.x
 - Yarn 1.22
-- Docker et Docker Compose
+- Docker and Docker Compose
 
-### Setup Steps
-
-Execute these commands from the **root directory**
-
-### 1. Install dependencies
+### Setup
 
 ```bash
 yarn install
-```
-
-### 2. Variables d'environnement
-
-Create a `.env` copied from `apps/bilan-carbone/.env.dist` and create a `.env.test` copied from `apps/bilan-carbone/.env.test.dist`.
-Do the same in db-common folder.
-
-```bash
-cp apps/bilan-carbone/.env.dist apps/bilan-carbone/.env
-cp apps/bilan-carbone/.env.dist.test apps/bilan-carbone/.env.test
-cp packages/db-common/.env.dist packages/db-common/.env
-```
-
-### 3. Start the database
-
-```bash
-cd apps/bilan-carbone && docker-compose up -d && cd ../..
-```
-
-### 4. Set up the database with Prisma
-
-```bash
-yarn prisma migrate dev
-```
-
-Or in production :
-
-```bash
-yarn prisma migrate deploy
-```
-
-### 5. Seed the database (cannot use the yarn prisma shortcut)
-
-```bash
-yarn workspace bilan-carbone prisma db seed
-```
-
-OR use the shortcut:
-
-```bash
-yarn seed
-```
-
-### 6. Generated prisma client
-
-```bash
-yarn prisma generate
-```
-
-### 7. Run the development serve
-
-```bash
+cp .env.example .env
+cp .env.test.example .env.test
+docker-compose up -d
+yarn db migrate deploy
+yarn db:seed
+yarn rules:compile
 yarn dev
 ```
 
-The application will be available at [http://localhost:3000](http://localhost:3000)
+The app is available at [http://localhost:3000](http://localhost:3000).
 
-## Commands by workspace
-
-### bilan-carbone application
+## Commands
 
 ```bash
-# Development
-yarn workspace bilan-carbone dev
-
-# Build
-yarn workspace bilan-carbone build
-
-# Unit tests
-yarn workspace bilan-carbone test
-
-# Cypress e2e tests
-yarn workspace bilan-carbone cypress
-
-# Reset test database
-yarn workspace bilan-carbone db:test:reset
+yarn dev                  # Next.js dev server (port 3000)
+yarn build                # production build + standalone asset copy
+yarn start                # node .next/standalone/server.js
+yarn typecheck            # TypeScript check
+yarn lint                 # Prettier + ESLint
+yarn lint:fix            # auto-fix Prettier + ESLint
+yarn test                 # unit + rules + e2e
+yarn test:unit            # unit tests only
+yarn test:e2e             # starts app on 3001, then runs e2e
+yarn db:generate          # Prisma client → src/generated/prisma
+yarn db migrate dev       # create/apply migrations
+yarn db:seed              # seed database
+yarn rules:compile        # compile Count Publicodes YAML
+yarn rules:watch
+yarn rules:translate
+yarn db:test:reset        # reset + seed the test database
 ```
-
-### Database (db-common)
-
-````bash
-# Create a new migration
-yarn prisma migrate dev
-
-# Reset the database
-yarn prisma migrate reset
-
-# Apply migrations
-yarn prisma migrate deploy
-
-# Check migration status
-yarn prisma migrate status
-
-# Generate Prisma client
-yarn prisma generate
-
-# Prisma Studio
-yarn prisma studio
-
----
 
 ## Import scripts
 
-These scripts must be run from apps/bilan-carbone:
+Run from the repo root:
 
 ```bash
-cd apps/bilan-carbone
+yarn script src/scripts/FE/importFEFromBase.ts -n ${versionNumber} -f ${pathToCSVFile} -b ${base}
+yarn script src/scripts/cut/cnc/add.ts -f ${pathToCSVFile}
+```
 
-# Importer les facteurs d'émissions NegaOctet
-npx tsx src/scripts/negaOctet/getEmissionFactors.ts -n ${versionNumber} -f ${pathToCSVFile}
-
-# Importer les facteurs d'émissions Légifrance
-npx tsx src/scripts/legifrance/getEmissionFactors.ts -n ${versionNumber} -f ${pathToCSVFile}
-
-# Importer les facteurs d'émissions Base Empreinte
-npx tsx src/scripts/baseEmpreinte/getEmissionFactors.ts -n ${versionNumberBaseEmpreinte}
-
-# Créer les règles BEGES
-npx tsx src/scripts/exportRules/beges.ts
-
-# Importer les actualités
-npx tsx src/scripts/actuality/add.ts -f ${pathToCSVFile}
-
-# Importer les données CNC
-npx tsx src/scripts/cnc/add.ts -f ${pathToCSVFile}
-
-# Supprimer les réponses d'une question
-npx tsx src/scripts/questions/deleteAnswersWithCleanup.ts -q "question-intern-id-here"
-
-# Importer les données Secten
-npx tsx src/scripts/secten/importSectenData.ts -y ${versionYear} -f ${pathToCSVFile}
-````
-
----
+See `src/scripts/` for additional importers.
 
 ## Tests
 
-### Run Unit tests
+`.env.test` overlays `.env`: test DB (Postgres 5433), `NODE_ENV`, and ports 3001. Copy `.env.example` → `.env` and `.env.test.example` → `.env.test` first.
 
 ```bash
-yarn workspace bilan-carbone test
-
-# Watch mode
-yarn workspace bilan-carbone test:watch
+yarn db:test:reset          # reset + seed the test database
+yarn test                   # unit + rules + e2e
+yarn test:unit
+yarn test:unit:watch
+yarn test:rules
+yarn test:e2e               # starts the app on port 3001, then runs e2e
+yarn test:e2e:gui           # same, with the e2e UI
 ```
 
-## Deploy on Scalingo
-
-Migrations are automatically applied via the Procfile on each deployment
-
-## Dependency Upgrades
-
-### Upgrades
-
-To upgrade packages to the latest version, run the following command:
+## Dependency upgrades
 
 ```bash
 yarn upgrade-interactive --latest
-```
-
-It's also possible to force upgrade all packages to the latest version, but that will include potential breaking changes:
-
-```bash
-yarn upgrade --latest
-```
-
-To list possible upgrades, run the following command:
-
-```bash
 yarn outdated
-```
-
-### Vulnerabilities
-
-To check for vulnerabilities, run the following command:
-
-```bash
-yarn audit
-```
-
-Then, try the upgade command to choose the packages to upgrade or manually upgrade the dependencies:
-
-```bash
-yarn upgrade-interactive --latest
-```
-
-Then, run the following command to check if the vulnerabilities are fixed:
-
-```bash
 yarn audit
 ```

@@ -1,0 +1,2181 @@
+{
+  "common": {
+    "error": "Une erreur est survenue. Si le problème persiste, contactez le support.",
+    "yes": "Oui",
+    "no": "Non",
+    "next": "Suivant",
+    "all": "Tous",
+    "none": "Aucun",
+    "subPosts": "Sous postes",
+    "moreInfo": "En savoir plus",
+    "noStudies": "Aucune étude trouvée. Vous n'avez pas les droits pour en créer une, veuillez contacter un de vos administrateurs.",
+    "action": {
+      "edit": "Modifier",
+      "delete": "Supprimer",
+      "add": "Ajouter",
+      "duplicate": "Dupliquer",
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "start": "Démarrer",
+      "close": "Fermer",
+      "selectAll": "Tout sélectionner",
+      "unselectAll": "Tout désélectionner"
+    },
+    "questions": {
+      "glossary": {
+        "title": "Informations supplémentaires sur la question",
+        "close": "Fermer"
+      }
+    },
+    "label": {
+      "start": "Début",
+      "end": "Fin"
+    },
+    "typeToConfirm": "Tapez \"{name}\" pour confirmer"
+  },
+  "saveStatus": {
+    "syncedFromOtherUser": "Données mises à jour par un·e autre utilisateur·ice"
+  },
+  "signup": {
+    "email": "Email",
+    "emailPlaceholder": "Email utilisé lors de votre formation",
+    "emailRequired": "Veuillez entrer un email",
+    "validate": "Valider",
+    "Request sent": "Une demande d'activation de votre compte a été envoyé à vos collègues",
+    "Email sent": "Vous allez recevoir un mail pour finaliser l'activation de votre compte.",
+    "Not authorized": "Cet email est déjà inscrit avec un compte CUT ou il y a eu un soucis lors de sa création. N'hésitez pas à consulter <link>la FAQ</link> ou à contacter <support>le support</support> si vous pensez qu'il s'agit d'une erreur.",
+    "support": "Un problème est survenu. Réessayez. Si cela ne fonctionne pas, contactez notre support",
+    "validation": {
+      "email": "Veuillez entrer un email",
+      "siretOrCNC": "Veuillez entrer un numéro CNC (recommandé) ou Siret"
+    },
+    "description": "Créez un compte sur CUT en entrant votre email ainsi qu'un numéro CNC (recommandé) ou Siret",
+    "siretOrCNC": "Numéro CNC (recommandé) ou Siret",
+    "siretOrCNCPlaceholder": "Votre numéro CNC (recommandé) ou Siret",
+    "siretOrCNCRequired": "Veuillez entrer un numéro CNC (recommandé) ou Siret",
+    "clear": "Supprimer la valeur",
+    "Unknown CNC": "Ce code CNC n'est pas reconnu. Veuillez vérifier votre saisie ou contacter le support si vous pensez qu'il s'agit d'une erreur.",
+    "Unknown SIRET or CNC": "Ce Siret ou code CNC n'est pas reconnu. Veuillez vérifier votre saisie ou contacter le support si vous pensez qu'il s'agit d'une erreur.",
+    "No recipient": "Impossible d'envoyer la demande : aucun administrateur actif trouvé pour cette organisation. Contactez <support>le support</support> si vous pensez qu'il s'agit d'une erreur."
+  },
+  "navigation": {
+    "home": "Accueil",
+    "logout": "Se déconnecter",
+    "team": "Mes Collaborateur·rices",
+    "help": "Aide",
+    "profile": "Profil",
+    "organizations": "Mes Empreintes",
+    "information": "Mes Cinémas",
+    "selectAccount": "Sélection du compte"
+  },
+  "study": {
+    "results": {
+      "chartTypes": {
+        "table": "Tableau",
+        "bar": "Diagramme en barres",
+        "pie": "Diagramme circulaire",
+        "ratio": "Intensités carbone"
+      },
+      "type": "Type",
+      "format": "Format",
+      "post": "Poste",
+      "subPost": "Sous-poste",
+      "value": "Valeur ({unit})",
+      "tag": "Tag",
+      "download": "Télécharger",
+      "downloadResults": "Résultats",
+      "downloadReport": "Télécharger le rapport",
+      "reportName": "{studyName} - Rapport Bilan Carbone®",
+      "downloadPDF": "Télécharger la fiche récapitulative",
+      "downloadingPDF": "Téléchargement (au moins 15 secondes)...",
+      "emissions": "Émissions",
+      "uncertainty": "Incertitude",
+      "emissionSources": "Nombre de sources d'émission",
+      "bilanCarbone": "Bilan Carbone®",
+      "beges": "Bilan GES Règlementaire",
+      "ghgp": "GHG Protocol",
+      "withDependencies": "Avec le sous-poste 'Utilisation en dépendance'",
+      "withoutDependencies": "Sans le sous-poste 'Utilisation en dépendance'",
+      "dependencyIntensity": "Intensités carbone en dépendance",
+      "responsibilityIntensity": "Intensités carbone en responsabilité",
+      "monetaryRatio": "Ratios monétaires",
+      "monetaryRatioEmissions": "d'émissions issues de ratios monétaires",
+      "nonSpeMonetaryRatioEmissions": "issues de ratios monétaires non spécifiques",
+      "ofWhich": "dont",
+      "coming": "à venir",
+      "confidenceIntervalTitle": "Intervalle de confiance à 95%",
+      "units": {
+        "K": "kgCO₂e",
+        "T": "tCO₂e"
+      },
+      "tagGlossary": "Double compte sur les graphiques par tags",
+      "tagGlossaryDescription": "Les sources d'émission peuvent avoir plusieurs tags, celles ci sont donc sur ce graphique comptabilisé dans chacun des tags. Il est donc normal que vous ayez ici un total plus grand que sur votre étude",
+      "info": "Cette empreinte carbone simplifiée vise à estimer les émissions de gaz à effet de serre de votre activité, et par conséquent votre contribution au dérèglement climatique ainsi que vos potentielles dépendance aux énergies fossiles qui sont des vulnérabilités. \n\nL'Union Européenne s'est engagée, en ratifiant l'Accord de Paris, à la neutralité carbone d'ici 2050. Pour contribuer à cet objectif, votre cinéma devrait réduire son impact de 5% par an. \n\nNous vous invitons donc à refaire cette empreinte carbone simplifiée l'année prochaine pour vérifier que vous êtes sur la bonne trajectoire !",
+      "difference": {
+        "button": "Explication des différences entre le Bilan Carbone® et l'export {type}",
+        "modalTitle": "Explication de la différence entre les résultats",
+        "dependanceTitle": "Utilisation en dépendance",
+        "dependanceGHGTitle": "Utilisation en dépendance",
+        "wasteTitle": "Traitement des déchets",
+        "missingCaractTitle": "Certaines caractérisations sont manquantes",
+        "immobilisationTitle": "Prise en compte des immobilisations",
+        "otherEmissionsAmontTitle": "Prise en compte d'autres émissions amont",
+        "otherEmissionsAvalTitle": "Prise en compte d'autres émissions aval - Déplacements des visiteurs et des clients",
+        "otherGasTitle": "GES non comptabilisés dans le GHG Protocol",
+        "marketBasedTitle": "Les émissions sont différentes en <green>\"location-based\"</green> et en <purple>\"market-based\"</purple>",
+        "fabricationTitle": "Fabrication des véhicules",
+        "tableHeaders": {
+          "emissionSource": "Source d'émission",
+          "post": "Sous-poste",
+          "bilanCarbone": "Bilan Carbone®",
+          "beges": "BEGES-R",
+          "ghgp": "GHG Protocol",
+          "difference": "Différence"
+        },
+        "dependance": "Le Bilan GES règlementaire n'intègre pas le sous-poste \"Utilisation en dépendance\", car la notion de dépendance n'est pas abordée dans cette méthode.",
+        "dependanceGHG": "Le GHG Protocol n'intègre pas le sous-poste \"Utilisation en dépendance\", car la notion de dépendance n'est pas abordée dans cette méthode.",
+        "goToSubPost": "Aller au sous-poste",
+        "waste": "Le Bilan GES règlementaire intègre l'ensemble des émissions dues au recyclage des déchets dans le bilan de l'émetteur des déchets, tandis que le Bilan Carbone® ne fait porter sur l'émetteur des déchets que le poids de la collecte et du transport des déchets. Ainsi, les facteurs d'émission ayant pour valeur 41 kgCO₂e/t au sein de l'outil sont ceux utilisés pour le Bilan Carbone®, tandis que les valeurs intégrant la régénération des matériaux (le processus de recyclage, pour les facteur d'émission \"Recyclage\" ou \"Fin de vie moyenne\") sont utilisés pour le BEGES-R. Le facteur d'émission affiché sur le BC+ est uniquement celui utilisé pour le Bilan Carbone®, mais les calculs de l'export BEGES-R se font bien avec les facteurs d'émission liés au recyclage ou à la fin de vie moyenne de l'ADEME. Voici les sources d'émissions liées à ce sujet : ",
+        "missingCaract1": "Les sources d'émissions non caractérisées ne sont pas comptabilisées au sein du {type}, ce qui entraine des différences indues avec le Bilan Carbone® dans le cas où vous auriez choisi de visualiser les sources d'émissions non validées.",
+        "missingCaract2": "Vous n'avez pas renseigné les caractérisations pour toutes les sources d'émission de votre étude. Merci d'éditer et ajouter la caractérisation pour les sources d'émission suivantes : ",
+        "immobilisation1": "Le GHG Protocol prend en compte l'ensemble des émissions liées à la construction d'un bien l'année de son acquisition. Le Bilan Carbone®, lui, amortit les émissions sur plusieurs années, ce qui explique une partie des différences entre ces deux formats.",
+        "otherEmissionsAval": "La prise en compte des déplacements des visiteurs ou des clients de l'organisation est facultative au sein du GHG Protocol. Si ces émissions sont néanmoins calculées et ne sont pas opérées, elles ne seront pas comptabilisées au sein de cet export, car il n'existe pas de poste adapté dans lequel les restituer.",
+        "otherEmissionsAmont": "Certaines émissions ne sont pas prises en compte au sein du GHG Protocol, notamment si les activités associées ne sont pas opérées par l'organisation. C'est par exemple le cas de l'amont de la production et des pertes en lignes de l'électricité. Dans le Bilan GES réglementaire, celles-ci sont bien comptabilisées dans le poste 6.1 qui est dédié aux autres émissions indirectes, mais comme il n'existe pas d'équivalent de ce poste au sein du GHG Protocol, ces émissions ne sont pas prises en compte.",
+        "otherGas1": "Seuls les GES faisant partie du Protocole de Kyoto (CO₂, CH₄, N₂O, HFC, PFC, SF₆) sont comptabilisés au sein du GHG Protocol. Les émissions liées aux autres GES (traînées de condensation, NF3, autres GES de climatisation ou de procédés) sont donc comptabilisées au sein du Bilan Carbone®, mais pas au sein du GHG Protocol.",
+        "marketBased": "Une partie des différences entre le GHG Protocol en market-based et le Bilan Carbone® provient simplement de la différence de résultats entre les méthodes <green>location-based</green> et <purple>market-based</purple>.",
+        "fabrication": "Vous avez utilisé des facteurs d'émission utilisant les distances (passager.km, ...) pour des véhicules opérés. Les émissions liées à la fabrication de ces véhicules ne sont pas prises en compte dans le GHG Protocol. Veuillez utiliser le poste Immobilisations pour les émissions de fabrication des véhicules acquis l'année du bilan.",
+        "additionalMissing": "+ {count, plural,  =1 {1 autre source} other {# autres sources}} d'émission",
+        "unexplainedDifference": "Certaines différences ne peuvent être expliquées pour votre étude et peuvent être liées à des problèmes de calcul de l'outil. Si vous le pouvez, merci de nous contacter à l'adresse <support>support</support>."
+      },
+      "noData": "Aucune donnée à afficher",
+      "uncertainties": {
+        "title": "Analyse des incertitudes",
+        "gaugeTitle": "Jauge d'incertitude qualitative",
+        "uncertainPostsTitle": "Postes ayant les plus grandes incertitudes",
+        "veryWeak": "Très faible",
+        "veryStrong": "Très forte",
+        "perPost": "Incertitudes, par poste",
+        "perEmission": "Incertitudes, par source d'émission"
+      },
+      "analysis": "Analyse des émissions",
+      "total": "Total des émissions",
+      "intensities": {
+        "budget": "budget",
+        "etp": "salarié",
+        "volunteer": "bénévole",
+        "beneficiary": "bénéficiaire",
+        "screen": "écran",
+        "entrie": "entrée",
+        "superficy": "m²",
+        "session": "séance",
+        "movie": "film",
+        "chair": "fauteuil",
+        "ca": "k€"
+      },
+      "table": "Tableau",
+      "barChart": "Histogramme",
+      "pieChart": "Camembert",
+      "showSubPosts": "Afficher les sous-postes",
+      "showSubTags": "Grouper par famille de tags",
+      "tagPieChartTitle": "Émissions, par tag ({unit})",
+      "consolidatedChartTitle": "Émissions, par poste ({unit})",
+      "other": "Sans tag",
+      "prioritaryZone": "Zone d'action prioritaire pour l'amélioration de la collecte",
+      "nonPrioritaryZone": "Zone non prioritaire",
+      "postEmissionPerNumberOfSources": "Émissions par poste en fonction du nombre de sources d'émission",
+      "ges": "Émissions de GES par poste ({unit})",
+      "gesTag": "Émissions de GES par tag ({unit})",
+      "glossary": {
+        "title": "Glossaire",
+        "more": "Plus d'informations",
+        "uncertaintyPerPost": "Uncertitude par poste",
+        "uncertaintyPerPostDescription": "Attention, la taille des cercles sur ce graphique est proportionnelle au nombre de sources d'émission qui ont étés renseignées au sein du poste, et non pas au total des émissions du poste (qui peut lui s'observer sur l'axe des abscisses). Cela permet de visualiser sur quels postes le travail a été le plus approfondi, et d'apprécier si cela est pertinent en fonction de l'importance des émissions associées, car il est généralement plus pertinent d'aller travailler dans le détail sur les postes d'émissions les plus importants. Les graphiques suivants permettent également de visualiser cet effet.",
+        "uncertaintyPerPostDescription2": "Par ailleurs, plus le nombre de sources d'émission est important au sein d'un poste, moins l'incertitude de ce poste sera grande. Cela est dû au fait que deux incertitudes se compensent, car il n'est généralement pas certain que l'erreur soit faite dans le même sens. Pour donner un exemple concret, lorsque l'on mesure deux cordes, il est possible de surestimer la longueur de la première, et de sous-estimer celle de la seconde. Par conséquent, l'incertitude sur la longueur de la somme des deux cordes sera inférieure à la somme des deux incertitudes prises séparément."
+      },
+      "resultsWord": "Rapport Bilan Carbone®",
+      "simplifiedFeedback": "Bravo ! Vous venez de réaliser l'empreinte carbone simplifiée de votre cinéma. C'est une excellente initiation à la comptabilité carbone ! <br></br><br></br>L'Union Européenne s'est engagée, en ratifiant l'Accord de Paris, à la neutralité carbone d'ici 2050. Pour contribuer à cet objectif, votre cinéma devrait réduire son impact de 5% par an. L'empreinte carbone simplifiée que vous venez d'obtenir peut déjà vous permettre de mieux comprendre comment réduire votre impact, en identifiant vos activités les plus émissives.<br></br><br></br>Nous vous invitons à refaire cette empreinte carbone simplifiée l'année prochaine pour vérifier que vous êtes sur la bonne trajectoire, ou, mieux encore, à établir un véritable Bilan Carbone® afin de gagner en précision dans l'estimation de vos émissions et établir un véritable plan de transition ! Pour commencer, rien de plus simple, il vous suffit de <formation>vous former</formation> à la méthode, ou de nous contacter à l'adresse <email>count@cut-collectif.fr</email>, ou encore de prendre contact avec un autre <prestataire>prestataire Bilan Carbone®</prestataire>."
+    },
+    "questions": {
+      "actions": "Actions",
+      "add": "Ajouter",
+      "next": "Sous-poste suivant",
+      "previous": "Sous-poste précédent",
+      "finish": "Terminer"
+    },
+    "infography": {
+      "form": {
+        "backToInfography": "Afficher les postes"
+      }
+    },
+    "create": "Ajouter une empreinte",
+    "deleteStudy": "Supprimer l'étude",
+    "myCollaborations": "Mes collaborations",
+    "myStudies": "Mes empreintes",
+    "createFirstStudy": "Créer ma première empreinte",
+    "seeResults": "Voir les résultats",
+    "firstStudyMessage": "Il est temps de vous lancer ! Nous vous invitons à créer votre premier Bilan Carbone®.",
+    "see": "Voir mon empreinte",
+    "navigation": {
+      "framing": "Données générales",
+      "dataEntry": "Saisie des données",
+      "results": "Résultats",
+      "menu": "Ouvrir le menu de navigation de l'étude",
+      "title": "Mon Empreinte"
+    },
+    "new": {
+      "title": "Informations sur la nouvelle empreinte",
+      "name": "Nom de l'empreinte",
+      "studyDates": "Année de référence de l’empreinte",
+      "isPublicTitle": "Visibilité de l'étude",
+      "private": "Confidentielle",
+      "public": "Partagée à l'équipe",
+      "numberOfSessions": "Nombre de séances",
+      "numberOfTickets": "Nombre d'entrées",
+      "numberOfProgrammedFilms": "Nombre de films programmés",
+      "numberOfOpenDays": "Nombre de jours d'ouverture",
+      "clear": "Supprimer la valeur",
+      "days": {
+        "Monday": "Lundi",
+        "Tuesday": "Mardi",
+        "Wednesday": "Mercredi",
+        "Thursday": "Jeudi",
+        "Friday": "Vendredi",
+        "Saturday": "Samedi",
+        "Sunday": "Dimanche",
+        "from": "de",
+        "to": "à",
+        "DifferentHoursHoliday": "Horaires différents pendant les vacances scolaires"
+      },
+      "suggestion": {
+        "name": "Empreinte - {orga} {studyStartDate}",
+        "yourOrga": "Votre cinéma"
+      },
+      "create": "Créer l'étude",
+      "siteDeselectionModal": {
+        "title": "Attention : Sites avec sources d'émission",
+        "description": "Vous tentez de désélectionner des sites qui contiennent des sources d'émission dans l'étude originale.",
+        "affectedSites": "Sites affectés",
+        "sourcesCount": "{count, plural, =1 {1 source d'émission} other {# sources d'émission}}",
+        "confirmation": "Êtes-vous sûr de vouloir continuer ?",
+        "cancel": "Annuler",
+        "proceed": "Continuer sans ces sources"
+      },
+      "glossary": {
+        "title": "Glossaire",
+        "validatorEmail": "Email du ou de la validateur·rice",
+        "validatorEmailDescription": "Pour chaque Bilan Carbone®, un ou plusieurs validateur·rices peuvent être définis. Ceux-ci ont la responsabilité de valider les sources d'émission lorsque celles-ci auront été renseignées par les contributeur·rices et éditeur·rices de l'étude. Par défaut, seules les émissions validées apparaissent au sein de vos résultats, mais vous pouvez changer ce comportement via le menu \"Paramètres\".",
+        "studyDates": "Année de référence de l’empreinte",
+        "studyDatesDescription": "Veuillez renseigner la période de référence sur laquelle porte votre empreinte carbone simplifiée. Idéalement, la période de référence doit-être de douze mois.",
+        "realizationDates": "Date de la réalisation de l'étude",
+        "realizationDatesDescription": "Il s'agit de la période sur laquelle vous allez travailler sur la réalisation l'étude : Remplir ses sources d'émission, réaliser les exports, ... Ces dates ne sont pas obligatoires et vous pouvez toujours accéder à l'étude en dehors de la période renseignée.",
+        "type": "Niveau de maturité du Bilan Carbone®",
+        "typeDescription": "La nouvelle version de la méthode Bilan Carbone® introduit trois niveaux de maturité pour les Bilan Carbone® des organisations. Pour plus de détails, nous vous invitons à consulter <link>cette page</link>.",
+        "visibility": "Visibilité de l'étude",
+        "visibilityDescription": "Choisissez si votre étude doit être partagé à votre équipe, c'est à dire accessible à tous vos collègues renseigné sur la page Mon organisation > Mon équipe, ou confidentielle, c'est à dire uniquement accessible aux personnes que vous rajouterez dans la page cadrage de votre étude. Les administrateurs de votre organisation ont accès à toutes les études qu'elles soient partagées à votre équipe ou confidentielles.",
+        "exports": "Exports",
+        "exportsDescription": "Les résultats sont par défaut restitués au format Bilan Carbone®, mais il est possible d'obtenir les résultats sous les formats demandés par plusieurs autres méthodes de comptabilité carbone, comme le Bilan GES règlementaire, qui est la méthode règlementaire française.",
+        "control": "Mode de contrôle des exports",
+        "controlDescription": "Le mode de contrôle est une donnée demandée par certaines méthodes de comptabilité carbone, comme le Bilan GES règlementaire ou le GHG Protocol. Pour obtenir les résultats sous les formats demandés par ces méthodes, vous devrez caractériser les différentes sources d'émission lors de votre saisie, ce qui déterminera dans quelle catégories existantes au sein de ces méthodes (l'équivalent des postes et sous-postes au sein de la méthode Bilan Carbone®) les émissions vont se ventiler. Le mode de contrôle s'applique bien à tous les exports que vous avez sélectionnés. En fonction du mode de contrôle sélectionné, les caractérisations disponibles pour les différentes sources d'émission varient. Pour plus de détail sur les modes de contrôle, nous vous invitons à consulter les guides méthodologiques des méthodes en question. Nous vous recommandons vivement d'utiliser le mode de contrôle \"Contrôle Opérationnel\", qui est de loin le plus courant.",
+        "duplicationOptions": "Options de duplication",
+        "duplicationOptionsDescription": "Lors de la duplication d'une étude, vous pouvez choisir d'inviter les mêmes membres d'équipe et contributeurs de l'étude originale dans la nouvelle. Cela permet de maintenir la continuité de la collaboration."
+      },
+      "error": {
+        "default": "Une erreur s'est produite ...",
+        "noActiveVersion_BaseEmpreinte": "Aucune version active de Base Empreinte. Veuillez contacter le support."
+      },
+      "goToDataEntry": "Passer à la saisie des données",
+      "cncInfo": "Si vous avez renseigné le numéro CNC de votre cinéma, les données ci-dessous sont pré-remplies avec les informations de {year}. Vous pouvez les modifier si elles ne sont pas à jour."
+    },
+    "organization": {
+      "site": "Cinéma",
+      "allSites": "Tous les cinémas",
+      "allSitesOnly": "Cette page est globale à tous les sites de l'étude",
+      "allSitesOnlyTransitionPlan": "Cette page est globale à tous les sites de l'étude pour le moment",
+      "title": "Quelle organisation est concernée par l'étude ?",
+      "select": "Organisation",
+      "validation": {
+        "sites": "Veuillez selectionner au moins un cinéma concerné par l'étude",
+        "etpCa": "Veuillez rentrer un ETP et un CA strictement positif pour chacun des sites selectionnés"
+      }
+    },
+    "role": {
+      "Validator": "Validateur·rice",
+      "Editor": "Éditeur·rice",
+      "Reader": "Lecteur·rice",
+      "Contributor": "Contributeur·rice",
+      "guide": "Guide des rôles",
+      "introduction": "Depuis cette page, vous pouvez gérer les membres de votre équipe impliqués dans ce Bilan Carbone®. Dans tous les cas, les administrateur·rices de votre organisation ont accès à toutes vos études en tant que validateur·rice. Si votre étude est partagée à votre équipe, les membres de votre organisation (collaborateur·rices, gestionnaires) y ont automatiquement accès en lecture. Vous pouvez également ajouter des personnes externes à votre organisation via ce menu.",
+      "Validator_description": "A tous les droits sur l'étude et peut valider les sources d'émission qui ont été renseignées par les validateur·rices, éditeur·rices et contributeur·rices.",
+      "Editor_description": "A tous les droits sur l'étude à l'exception de la validation des sources d'émission.",
+      "Reader_description": "Peut uniquement accéder en lecture à l'étude et exporter les informations de celle-ci.",
+      "saved": "Nouveau rôle sauvegardé"
+    },
+    "title": "Étude",
+    "rights": {
+      "title": "Données générales de l'étude : {name}",
+      "general": "Général",
+      "new": {
+        "title": "Ajouter une personne sur l'étude : {name}",
+        "email": "Email",
+        "role": "Rôle",
+        "create": "Ajouter la personne",
+        "clear": "Supprimer la valeur",
+        "Already in study": "Cette personne a déjà accès à l'étude.",
+        "Not authorized": "Action non autorisée. N'hésitez pas à consulter la FAQ ou à contacter le support si vous pensez qu'il s'agit d'une erreur.",
+        "validation": {
+          "email": "Veuillez utiliser un email valide",
+          "emailRequired": "Veuillez entrer un email",
+          "role": "Veuillez sélectionner un droit",
+          "name": "Veuillez entrer un nom"
+        },
+        "dialog": {
+          "title": "Êtes-vous sûr de vouloir ajouter cette personne à votre étude ?",
+          "otherOrganization": "<warning>Elle ne fait pas partie de votre organisation.</warning> Cette personne aura alors accès aux données de votre étude ainsi qu'aux facteurs d'émissions manuels de votre entreprise.",
+          "rightsWarning": "Si elle ne réunit pas les conditions nécessaires pour l'ajouter avec ce rôle, vous ne pourrez donc lui donner un accès qu'à cette étude avec les droits de LECTURE ou de contribution. Un mail lui sera envoyé pour lui donner accès à l'étude.",
+          "accept": "Oui",
+          "decline": "Non"
+        }
+      },
+      "table": {
+        "email": "Email",
+        "role": "Rôle",
+        "title": "Gestion de l'équipe",
+        "newRightLink": "Ajouter une personne à l'étude",
+        "deleting": {
+          "title": "Confirmation",
+          "confirmation": "Êtes vous sûr de vouloir supprimer {email} des membres de cette étude ?",
+          "yes": "Oui",
+          "no": "Non",
+          "Not authorized": "Vous n'avez pas les droits pour effectuer cette action"
+        }
+      }
+    },
+    "pdf": {
+      "loading": "Chargement des données...",
+      "title": "Empreinte carbone simplifiée {year}",
+      "cinemas": {
+        "list": "Portant sur les cinémas suivants"
+      },
+      "results": {
+        "all": "Résultats - Tous cinémas",
+        "site": "Résultats - {site}"
+      },
+      "charts": {
+        "all": "Graphiques - Tous cinémas",
+        "site": "Graphiques - {site}",
+        "allEmissions": "Émissions dues aux activités de l'ensemble des cinémas, en tCO₂e",
+        "siteEmissions": "Émissions dues aux activités du cinéma {site}, en tCO₂e"
+      },
+      "labels": {
+        "cinemas": "Cinémas",
+        "screens": "Écrans",
+        "entries": "Entrées",
+        "sessions": "Séances"
+      },
+      "ratios": {
+        "all": "Intensités carbone - Tous cinémas",
+        "site": "Intensités carbone - {site}"
+      },
+      "additionalInfo": "Informations complémentaires"
+    },
+    "export": {
+      "export": "Exporter mes résultats"
+    },
+    "delete": {
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "delete": "Supprimer l'étude",
+      "content": "Êtes vous sur de vouloir supprimer cette étude ? <warning>Toutes ses données seront supprimées définitivement et seront impossible à récupérées.</warning> Si c'est bien le cas, merci d'écrire le nom de l'étude dans le champs ci-dessous :",
+      "name": "Nom de l'étude",
+      "Not authorized": "Vous n'avez pas les droits pour effectuer cette action",
+      "title": "Suppression d'une étude",
+      "wrongName": "Le nom de l'étude ne correspond pas"
+    },
+    "createFirstSimplifiedStudy": "Créer ma première Empreinte",
+    "firstSimplifiedStudyMessage": "Il est temps de vous lancer ! Nous vous invitons à créer votre première Empreinte."
+  },
+  "locale": {
+    "en": "English",
+    "fr": "Français",
+    "es": "Español",
+    "el": "ελληνικά",
+    "hr": "hrvatski",
+    "hu": "magyar",
+    "it": "Italiano",
+    "ro": "Română",
+    "selector": "Langue du site"
+  },
+  "login": {
+    "welcome": "Bienvenue sur",
+    "form": {
+      "activate": "Créer mon compte",
+      "firstConnection": "Première connexion ?",
+      "alreadyRegistered": "Déjà un compte ?",
+      "resetTitle": "Vous avez demandé de créer ou réinitialiser votre mot de passe. Rentrez les informations demandées ci-dessous pour confirmer votre création de compte ou réinitialisation de mot de passe.",
+      "login": "Se connecter",
+      "email": "Email",
+      "emailPlaceholder": "Renseignez votre adresse email",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "Renseignez votre mot de passe",
+      "confirmPassword": "Confirmer le mot de passe",
+      "hidePassword": "Cacher le mot de passe",
+      "showPassword": "Montrer le mot de passe",
+      "notMatching": "Les mots de passe ne correspondent pas",
+      "passwordLength": "Le mot de passe doit avoir au moins 8 caractères",
+      "passwordUppercase": "Le mot de passe doit avoir au moins une majuscule",
+      "passwordLowercase": "Le mot de passe doit avoir au moins une minuscule",
+      "passwordSpecialChar": "Le mot de passe doit avoir au moins un caractère spécial",
+      "passwordDigit": "Le mot de passe doit avoir au moins un chiffre",
+      "forgotPassword": "Mot de passe oublié ?",
+      "reset": "Confirmer",
+      "error": "Veuillez verifier votre email et votre mot de passe",
+      "expired": "Ce lien de réinitialisation de mot de passe a expiré",
+      "backToHome": "Retour à l'accueil",
+      "resetError": "Certaines informations ne sont pas bonnes. Si vous pensez avoir tout rempli correctement, contactez nous.",
+      "emailRequired": "Veuillez entrer un email",
+      "emailAndPasswordRequired": "Veuillez entrer un email et un mot de passe",
+      "emailSent": "Si votre email est correct, vous allez recevoir un mail pour réinitialiser votre mot de passe",
+      "validated": "Votre mot de passe a été réinitialisé",
+      "validation": {
+        "email": "Veuillez entrer un email",
+        "password": "Veuillez entrer un mot de passe"
+      }
+    },
+    "subtext": "Le premier calculateur d'impact écologique dédié aux salles de cinéma.",
+    "explanation": "Cet outil a été développé par l'association <b>CUT ! Cinéma Uni pour la Transition,</b> en coopération avec <b><abcAssociation>l'ABC, association pour la Transition bas carbone.</abcAssociation></b>",
+    "question": "Une question ? Lisez la <faq>FAQ</faq> ou <support>contactez-nous</support> !",
+    "cineo": "Outil développé grâce aux Bilans Carbone® de Cineo",
+    "explanation2": "Opération soutenue par l'État dans le cadre du dispositif « Soutenir les alternatives vertes 2 » de France 2030, opéré par la Banque des territoires (Caisse des Dépôts)"
+  },
+  "spinner": {
+    "loading": "Chargement"
+  },
+  "error": {
+    "Not authorized": "Vous n'avez pas les droits pour effectuer cette action",
+    "Not found": "La ressource demandée n'a pas été trouvée",
+    "Server error": "Une erreur serveur est survenue, veuillez contacter le support",
+    "default": "Une erreur s'est produite, veuillez reessayer. Si le problème persiste, contactez le support.",
+    "error": "Une erreur s'est produite...",
+    "contactSupport": "Un problème est survenu. Essayez de revenir sur <link>la page d'accueil</link>. <p>Si cela ne fonctionne pas, contactez notre support à <m></m> ou essayez de vous <logout>reconnecter</logout>.</p>",
+    "duplicateScopeCombination": "Un objectif avec le même périmètre (sites, tags, sous-postes) et la même année cible existe déjà pour cette trajectoire"
+  },
+  "email": {
+    "subject": {
+      "resetPassword": "Mot de passe oublié",
+      "newUser": "Vous avez été invité sur Count",
+      "addedActiveUser": "Vous avez été invité sur un nouvel environnement Count",
+      "activation": "Vous avez activé votre compte sur Count",
+      "activationRequest": "Demande d'accès à votre organisation Count",
+      "userOnStudyInvitation": "Ajout sur l'étude {studyName}",
+      "contributorInvitation": "Demande de contribution sur l'étude {studyName}"
+    },
+    "body": {
+      "hello": "Bonjour,",
+      "helloName": "Bonjour {name},",
+      "thisLink": "ce lien",
+      "goodDay": "Bonne journée,",
+      "regards": "Cordialement,",
+      "team": "L'équipe BC+",
+      "faqContent": "En cas de question vous pouvez consulter",
+      "faqLinkText": "notre FAQ",
+      "faqOrEmail": "ou nous envoyer un email à",
+      "resetPassword": {
+        "content": "Vous avez fait une demande de réinitialisation de mot de passe. Voici le lien pour la réinitialisation :",
+        "notYou": "Si vous n'avez pas fait la demande, vous pourrez ignorer ce mail, votre mot de passe restera inchangé."
+      },
+      "activateAccount": {
+        "content": "Bienvenue sur le BC+ ! Vous avez fait une demande d'activation de votre compte. Pour finaliser celle-ci, veuillez cliquer sur"
+      },
+      "activateAccountFromReset": {
+        "content": "Bienvenue sur le BC+ ! Vous avez fait une demande de réinitialisation de mot de passe mais votre compte n'est pas encore activé. Si vous souhaitez finaliser l'activation de celui-ci, veuillez cliquer sur"
+      },
+      "activationRequest": {
+        "content": "Vous avez une demande d'accès au compte BC+ de votre organisation de la part de {userToActivate} (mail: {emailToActivate}). Vous pouvez retrouver les demandes d'accès dans votre compte dans la page \"Mon organisation > Mon équipe\". En acceptant sa demande d'accès, vous lui définirez un rôle sur votre organisation. Il aura alors accès suivant son rôle aux informations et actions correspondantes de votre compte. Si vous refusez, il n'aura pas accès au compte de votre organisation."
+      },
+      "addedActiveUser": {
+        "added": "Vous avez été ajouté par {creatorName} à l'organisation {orga} et avez donc à présent accès à l'environnement {newEnv} {envInfo}",
+        "alreadyHadAccess": "Vous aviez déjà accès {oldEnvs} sur notre outil. Vous pouvez donc vous connecter à ce nouvel environnement avec votre mot de passe habituel sur",
+        "loginInfo": "En vous connectant, l'application vous demandera dorénavant à quel environnement vous souhaitez accéder. Vous pourrez changer d'environnement à n'importe quel moment via un nouveau bouton sur le bandeau principal de l'outil.",
+        "envInfoCUT": "sur lequel vous pourrez réaliser l'empreinte carbone simplifiée de votre cinéma."
+      },
+      "contributorInvitation": {
+        "added": "Vous avez été ajouté par {creatorName} en tant que contributeur sur l'étude {studyName} pour l'organisation {organizationName}.",
+        "access": "Afin de contributer, vous pouvez vous connecter sur le BC+ comme habituellement sur",
+        "accessContributionSpace": ", et vous pouvez retrouver cette étude dans l'espace contribution sur la page d'accueil."
+      },
+      "newContributorInvitation": {
+        "welcome": "Bienvenue sur le BC+ !",
+        "added": "Vous avez été ajouté par {creatorName} en tant que contributeur sur l'étude {studyName} pour l'organisation {organizationName} sur le BC+.",
+        "access": "Afin de contributer, vous pouvez finaliser la création de votre compte sur",
+        "accessPost": ". Vous pourrez ensuite contributer à l'étude sur l'outil."
+      },
+      "newUserOnStudyInvitation": {
+        "welcome": "Bienvenue sur le BC+ !",
+        "added": "Vous avez été ajouté par {creatorName} en tant que {role} sur l'étude {studyName} pour l'organisation {organizationName} sur le BC+.",
+        "access": "Pour avoir accès à l'étude, vous pouvez finaliser la création de votre compte sur"
+      },
+      "newUser": {
+        "added": "Bienvenue sur le BC+ ! Vous avez été ajouté par {creatorName}.",
+        "access": "Pour avoir accès à l'application, vous pouvez finaliser la création de votre compte sur"
+      },
+      "userOnStudyInvitation": {
+        "added": "Vous avez été ajouté par {creatorName} en tant que {role} sur l'étude {studyName} pour l'organisation {organizationName}.",
+        "access": "Pour avoir accès à l'étude, vous pouvez vous connecter sur le BC+ comme habituellement sur"
+      }
+    }
+  },
+  "nav": {
+    "backToHome": "Retour à l'accueil",
+    "home": "Accueil",
+    "notFound": "Page non trouvée",
+    "edit": "Modifier",
+    "team": "Équipe",
+    "newStudy": "Ajouter une nouvelle étude",
+    "newStudyRight": "Ajouter une personne",
+    "studyRights": "Cadrage"
+  },
+  "team": {
+    "pending": "Invitations en attentes",
+    "invitationDate": "Invitation envoyé le",
+    "toValidate": "Invitations à valider",
+    "addedDate": "Ajouté le",
+    "delete": "Supprimer l'utilisateur·rice",
+    "resend": "Renvoyer l'invitation",
+    "table": {
+      "title": "Mon équipe",
+      "newUser": "Inviter un·e utilisateur·rice",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "email": "Email",
+      "level": "Formation",
+      "role": "Rôle",
+      "action": " ",
+      "deleteMember": "Supprimer le·a membre",
+      "userDeletion": "Suppression d'un·e utilisateur·rice",
+      "userDeletionDescription": "Êtes vous sur de vouloir supprimer cet·te utilisateur·rice ? Il n'aura plus accès au compte de votre organisation, mais aura toujours accès aux études pour lesquelles il a été invité par d'autres organisations.",
+      "necessaryAdmin": "La suppression de cet administrateur est impossible. Il est le seul validateur·rice des études suivantes : "
+    }
+  },
+  "level": {
+    "Initial": "Initial",
+    "Standard": "Standard",
+    "Advanced": "Avancé",
+    "noLevel": "Non formé·e"
+  },
+  "role": {
+    "ADMIN": "Administrateur·rice",
+    "ADMIN_description": "Un administrateur·rice possède tous les droits sur le compte de l'organisation ainsi que sur l'ensemble des études pour son organisation (qu'elles soient partagées à l'équipe ou confidentielles).",
+    "guide": "Guide des rôles",
+    "saved": "Nouveau rôle sauvegardé",
+    "Not authorized": "Vous n'avez pas les droits pour effectuer cette action",
+    "More than one": "Il doit y avoir au moins un·e administrateur·rice dans l'organisation",
+    "DEFAULT": "Collaborateur·rice",
+    "ADMIN_description_CR": "Un·e administrateur·rice possède tous les droits sur le compte et les études (qu'elles soient partagées à votre équipe ou confidentielles) de l'organisation ou de ses clients. Il est impossible de changer le rôle d'un·e administrateur·rice sur une étude de son organisation ou d'un de ses clients.",
+    "DEFAULT_description": "Un collaborateur·rice peut modifier des études. Il n'a pas accès aux paramètres de l'organisation.",
+    "DEFAULT_description_CR": "Un membre de l'organisation n'a aucun droit spécifique ni sur l'organisation, ni sur l'équipe, ni sur les clients, ni sur les Bilan Carbone® réalisés. Il est par défaut lecteur sur tous les Bilans Carbone® partagés avec l'équipe de son organisation et de ses clients"
+  },
+  "newMember": {
+    "title": "Inviter un·e utilisateur·rice",
+    "email": "Email",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "role": "Rôle",
+    "create": "Inviter l'utilisateur·rice",
+    "addedMember": "L'utilisateur·rice a bien été ajouté à votre organisation"
+  },
+  "home": {
+    "userToValidate": "Un·e utilisateur·rice a été ajouté à votre organisation car il vient d'être formé à la méthode Bilan Carbone®. Rendez-vous dans <link>la page de votre équipe</link> pour valider son compte",
+    "title": "Calculer votre empreinte carbone simplifiée vous permettra de :",
+    "info": {
+      "0": "Comprendre la mesure d’impact de votre établissement",
+      "1": "Identifier les priorités d’action",
+      "2": "À long terme, et via un travail plus approfondi, construire une trajectoire de réduction"
+    },
+    "navigation": {
+      "collaborators": {
+        "title": "Mes Collaborateur·rices",
+        "message": "Retrouvez ici la liste des personnes autorisées à intervenir sur vos différentes empreintes carbone"
+      },
+      "footprints": {
+        "title": "Mes Empreintes",
+        "message": "Créer votre première empreinte ici. Vous pourrez ensuite consulter vos empreintes ou en créer de nouvelles à tout moment."
+      },
+      "sites": {
+        "title": "Mes Cinémas",
+        "message": "Retrouvez ici la liste des établissements rattachés à votre compte"
+      }
+    },
+    "alert": {
+      "info": "Le calculateur Count vous permet d’estimer l’impact sur le climat de votre activité. Il s’agit avant tout d’un outil de sensibilisation. Il ne s'agit pas d'une démarche de transition bas carbone mais d'une empreinte carbone simplifiée — au sens du <link>Guide de communication autour de la comptabilité carbone</link> — centrée sur les principaux postes d’émissions liés à l’activité des salles de cinéma."
+    }
+  },
+  "exports": {
+    "title": "Exports :",
+    "exportFilename": "resultats_etude_{studyName}",
+    "env_specific_export": "Empreinte carbone simplifiée",
+    "simplified": {
+      "metadata": {
+        "organization": "Organisation",
+        "site": "Site",
+        "startDate": "Date de début",
+        "endDate": "Date de fin"
+      }
+    },
+    "bc": {
+      "title": "Export au format Bilan Carbone®",
+      "disclaimerExcel1": "Attention, les résultats que vous obtenez ici sont uniquement issus de l'empreinte carbone simplifiée Count, et ne doivent en aucun cas être utilisés comme des résultats Bilan Carbone®.",
+      "disclaimerExcel2": "La démarche que vous avez suivi via l'outil Count n'est PAS une démarche Bilan Carbone®, même si les résultats obtenus peuvent déjà vous permettre de mieux comprendre comment réduire votre impact, en identifiant vos activités les plus émissives.",
+      "disclaimerExcel3": "En revanche, cette empreinte carbone simplifiée est le premier pas vers une démarche plus complète comme le Bilan Carbone® !",
+      "disclaimerExcel4": "Pour les années suivantes, vous pouvez ainsi soit renouveler votre mesure d'empreinte carbone simplifiée avec l'outil Count, soit réaliser un Bilan Carbone®.",
+      "disclaimerExcel5": "Un Bilan Carbone® suit une méthodologie bien précise, et doit répondre à un certain nombre de critères objectifs. Par exemple, au cours d'un Bilan Carbone®, la direction doit être engagée, les différentes parties prenantes de l'organisation doivent être mobilisées, des incertitudes doivent être calculées et associées aux émissions, et surtout, un plan de transition solide doit être construit pour engager l'organisation dans une transition bas carbone."
+    }
+  },
+  "ressources": {
+    "title": "Ressources",
+    "description": "Le calculateur d’impact COUNT est homologué par l’ABC. Il a été construit sur la base de différentes sources de facteurs d’émission (Base Empreinte de l’ADEME, EcoInvent, Boavizta, CNC notamment). D’autres facteurs d’émission ont été spécifiquement construits dans le cadre de la construction de l’outil par Resilio.<br></br>Les hypothèses de calcul ont été construites à partir de :<br></br> - 15 bilans carbones complets réalisés en association avec le groupement de cinémas CINEO<br></br> - Multiples entretiens avec des parties prenantes de la salle de cinéma (fournisseurs, intégrateurs, exploitants indépendants, circuits d’exploitation etc.)<br></br> - Visites de salles de cinéma aux typologies diverses",
+    "france2030": "Dans le cadre du Plan France 2030, le dispositif « Alternatives Vertes 2 », doté de 25 M€ sur 3 vagues, et opéré par la Banque des territoires (groupe Caisse des Dépôts) en lien avec le ministère de la Culture, le ministère de la Transition écologique, et le Secrétariat général pour l’investissement, vise à accélérer la transition écologique des entreprises culturelles afin d’en faire un secteur de référence en matière de responsabilité environnementale. Sur les 51 candidatures reçues pour la première vague d’« Alternatives Vertes 2 », 13 projets ont été sélectionnés dont le projet porté par CUT ! Le jury a notamment salué la forte ambition collective au service de la transition écologique du cinéma et de l’audiovisuel du projet, embrassant toute la chaîne de valeur du cinéma, avec le parrainage de personnalités charismatiques de la filière.",
+    "enSavoirPlusBilan": "Pour aller plus loin que le calcul d'empreinte simplifiée proposé par Count :",
+    "methodeBilanCarbone": "Guide méthodologique du Bilan Carbone®",
+    "countMethods": "Pour en savoir plus sur les méthodologies de Count :",
+    "countMethodLink": "Méthodologie Count",
+    "resilioMethodLink": "Méthodologie Resilio",
+    "questionMethodo": "En cas de question méthodologique :",
+    "openCarbonPractice": "Open Carbon Practice",
+    "contacterViaFormulaire": "Écrire directement à {supportEmail}",
+    "questionTechnique": "En cas de question technique ou de besoin d'un support informatique :",
+    "lireLaFAQ": "Lire la FAQ",
+    "ecrireMail": "Écrire directement à {supportEmail}"
+  },
+  "legalNotices": {
+    "profile": "Retour au profil",
+    "introduction": "Conformément aux dispositions des articles 6-III et 19 de la loi pour la Confiance dans l'Économie Numérique, nous vous informons que ce site est édité par :",
+    "publisher": {
+      "title": "Association pour la transition Bas Carbone",
+      "type": "Association loi 1901 à but non lucratif",
+      "siret": "SIRET : 538 170 093 00032",
+      "office": "Bureaux : 41 rue Beauregard – 75002 Paris – France",
+      "phone": "Téléphone : 09 81 10 27 93",
+      "mail": "Mail : contact@associationcount.fr",
+      "vat": "N° d'identification à la TVA : FR 96 53 81 70 093"
+    },
+    "provider": {
+      "title": "Hébergeur",
+      "details": "Scalingo - 9 Rue de la Krutenau, 67000 Strasbourg"
+    },
+    "websiteOwner": {
+      "title": "Propriétaire du site",
+      "description": "Le présent site est la propriété de l'Association pour la transition bas carbone. Le contenu éditorial, textes, images composant le site web sont la propriété de l'Association pour la transition bas carbone. Toute représentation totale ou partielle de ce site, par quelques procédés que ce soient, sans autorisation préalable de l'Association pour la transition bas carbone, est interdite et constituerait une contrefaçon sanctionnée par les articles L335-2 et suivants du Code de la propriété intellectuelle. Tous les noms de produits ou de sociétés mentionnés dans le site web sont les marques de leurs titulaires.",
+      "editorInChief": "Responsable de publication : Anna Creti"
+    },
+    "intellectualProperty": {
+      "title": "Propriété intellectuelle et copyright",
+      "description1": "L'ensemble des éléments du site (textes, documents…) sont, sauf dispositions contraires, la propriété intellectuelle exclusive de l'Association pour la transition bas carbone. Par conséquent, toute reproduction, représentation, transmission, diffusion, partielle ou totale, est interdite selon les termes de l'article L. 122-4 du CPI sous réserve des exceptions prévues à l'article L. 122-5 du CPI. Toute utilisation de données figurant sur ce site nécessite une autorisation préalable et expresse. A défaut, le délit de contrefaçon constitué est sanctionné sur le fondement des articles L. 335-2 et suivants du CPI.",
+      "description2": "Pour toute exploitation autorisée de tout ou partie du contenu du site, faire figurer le nom de l'auteur, ses qualités, l'année de publication et la source."
+    },
+    "hypertextLinks": {
+      "title": "Liens hypertextes",
+      "description": "L'éditeur ne saurait engager sa responsabilité sur le contenu des informations figurant sur les pages auxquelles les liens hypertextes du présent site renvoient."
+    },
+    "accessRights": {
+      "title": "Droits d'accès",
+      "description": "Conformément au Règlement (UE) 2016/679 relatif à la protection des données à caractère personnel, vous disposez sur vos données des droit d'accès, droit de rectification et du droit d'opposition."
+    },
+    "trademark": {
+      "title": "La marque Bilan Carbone®",
+      "description1": "La marque Bilan Carbone® est une marque déposée en France depuis le 2 décembre 2003, enregistrée sous le numéro 3260464. Tous droits de reproduction ou d'utilisation sont réservés s'agissant des représentations iconographiques et photographiques de la marque. La reproduction à des fins de diffusion ou d'exploitation de tout ou partie de la marque Bilan Carbone® n'est possible qu'avec l'autorisation expresse de l'Association pour la transition Bas Carbone. Le cas échéant, aucune modification de forme qui détournerait le sens et l'image Bilan Carbone® ne pourra être apportée. Un lien devra être établi vers l'Association pour la transition Bas Carbone."
+    }
+  },
+  "profile": {
+    "title": "Mon profil",
+    "legalNotices": "Mentions légales",
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "cancelUpdate": "Annuler",
+    "update": "Mettre à jour",
+    "updating": "Mise à jour",
+    "version": "Version du BC+ : "
+  },
+  "settings": {
+    "title": "Mes paramètres d'application",
+    "validate": "Sauvegarder",
+    "validatedEmissionSourcesOnly": "Prendre en compte les émissions non validées dans les Bilans Carbone®",
+    "yes": "Oui",
+    "no": "Non",
+    "glossary": {
+      "title": "Glossaire",
+      "exports": "Prendre en compte les émissions non validées",
+      "exportsDescription": "Au sein d'un Bilan Carbone®, vous pouvez choisir d'afficher toutes les émissions que vous avez renseignées, ou bien uniquement celles qui ont été validées par un·e validateur·rice.",
+      "caUnits": "Unité des chiffres d'affaire",
+      "caUnitsDescription": "Précisez l'unité que vous souhaitez utiliser pour les chiffres d'affaire."
+    },
+    "caUnit": {
+      "label": "Unité des chiffres d'affaire des sites",
+      "U": "€",
+      "K": "k€",
+      "M": "M€"
+    }
+  },
+  "emissionFactors": {
+    "importModal": {
+      "title": "Import de facteurs d'émission",
+      "success": "Facteurs d'émission importés avec succès",
+      "previewTitle": "{count, plural, one {# facteur détecté} other {# facteurs détectés}}",
+      "previewPostsAndSubPosts": "Poste(s) et sous-poste(s)",
+      "templateFileName": "modele-facteurs-emission.xlsx",
+      "allPostsAndSubPosts": "Tous les postes/tous les sous-postes",
+      "sheetName": "Facteurs d'émission",
+      "templatePostsHeader": "Poste(s) et sous-poste(s) * [format: Poste : SousPoste1 | SousPoste2 || Poste2 : SousPoste3] ou \"Tous les postes/tous les sous-postes\". Si cette colonne est laissée vierge, l'outil considère par défaut que le facteur d'émission doit être présent dans tous les postes et sous-postes.",
+      "templateBaseHeader": "Approche scope 2 (requis si sous poste Électricité inclus) : Location-based ou Market-based",
+      "examplePrefix": "Exemple :",
+      "exampleName": "Abricot, dénoyauté, cru",
+      "exampleAttribute": "Le fret est considéré comme ayant eu lieu à température ambiante",
+      "exampleSource": "Agribalyse® 3.1",
+      "exampleLocation": "France continentale",
+      "examplePostsAndSubPosts": "Intrants biens et matières : Nourriture, repas, boissons | Autres intrants || Utilisation et dépendance : Utilisation en responsabilité",
+      "examplePostsAndSubPostsComment": "Exemple multi-postes (plusieurs postes et sous-postes)"
+    },
+    "post": {
+      "total": "Total",
+      "allPost": "Tous les postes",
+      "allSubPost": "Tous les sous postes",
+      "clear": "Supprimer la valeur",
+      "Energies": "Énergie",
+      "AutresEmissionsNonEnergetiques": "Autres émissions directes",
+      "IntrantsBiensEtMatieres": "Intrants biens et matières",
+      "IntrantsServices": "Intrants services",
+      "DechetsDirects": "Déchets directs",
+      "Fret": "Fret",
+      "Deplacements": "Déplacements",
+      "Immobilisations": "Immobilisations",
+      "UtilisationEtDependance": "Utilisation et dépendance",
+      "FinDeVie": "Fin de vie",
+      "Fonctionnement": "Fonctionnement",
+      "MobiliteSpectateurs": "Mobilité spectateurs",
+      "TourneesAvantPremieres": "Tournées avant-premières",
+      "SallesEtCabines": "Salles et cabines",
+      "ConfiseriesEtBoissons": "Confiseries et boissons",
+      "Dechets": "Déchets",
+      "BilletterieEtCommunication": "Billetterie et communication",
+      "CombustiblesFossiles": "Combustibles fossiles",
+      "CombustiblesOrganiques": "Combustibles organiques",
+      "ReseauxDeChaleurEtDeVapeur": "Réseaux de chaleur et de vapeur",
+      "ReseauxDeFroid": "Réseaux de froid",
+      "Electricite": "Électricité",
+      "Agriculture": "Agriculture",
+      "EmissionsLieesAuChangementDAffectationDesSolsCas": "Émissions liées au changement d'affectation des sols (CAS)",
+      "EmissionsLieesALaProductionDeFroid": "Émissions liées à la production de froid",
+      "EmissionsLieesAuxProcedesIndustriels": "Émissions liées aux procédés industriels",
+      "MetauxPlastiquesEtVerre": "Métaux, plastiques et verre",
+      "PapiersCartons": "Papiers cartons",
+      "MateriauxDeConstruction": "Matériaux de construction",
+      "ProduitsChimiquesEtHydrogene": "Produits chimiques et hydrogène",
+      "NourritureRepasBoissons": "Nourriture, repas, boissons",
+      "MatiereDestineeAuxEmballages": "Matière destinée aux emballages",
+      "AutresIntrants": "Autres intrants",
+      "BiensEtMatieresEnApprocheMonetaire": "Biens et matières en approche monétaire",
+      "AchatsDeServices": "Achats de services",
+      "UsagesNumeriques": "Usages numeriques",
+      "ServicesEnApprocheMonetaire": "Services en approche monétaire",
+      "DechetsDEmballagesEtPlastiques": "Déchets d'emballages et plastiques",
+      "DechetsOrganiques": "Déchets organiques",
+      "DechetsOrduresMenageres": "Déchets ordures menagères",
+      "DechetsDangereux": "Déchets dangereux",
+      "DechetsBatiments": "Déchets matériaux",
+      "DechetsFuitesOuEmissionsNonEnergetiques": "Fuites ou émissions non énergétiques",
+      "EauxUsees": "Eaux usées",
+      "AutresDechets": "Autres déchets",
+      "FretEntrant": "Fret entrant",
+      "FretInterne": "Fret interne",
+      "FretSortant": "Fret sortant",
+      "DeplacementsDomicileTravail": "Déplacements domicile travail",
+      "DeplacementsProfessionnels": "Déplacements professionnels",
+      "DeplacementsVisiteurs": "Déplacements visiteurs",
+      "Batiments": "Bâtiments",
+      "AutresInfrastructures": "Autres infrastructures",
+      "Equipements": "Équipements",
+      "Informatique": "Informatique",
+      "EquipementsDesSalaries": "Équipements des salariés",
+      "ParcInformatiqueDesSalaries": "Parc informatique des salariés",
+      "EquipementsDesBenevoles": "Équipements des bénévoles",
+      "ParcInformatiqueDesBenevoles": "Parc informatique des bénévoles",
+      "Evenement": "Évènements",
+      "EvenementSimplified": "Évènements",
+      "EnergieSimplified": "Énergie",
+      "UtilisationEnResponsabilite": "Utilisation en responsabilité",
+      "UtilisationEnDependance": "Utilisation en dépendance",
+      "InvestissementsFinanciersRealises": "Investissements financiers réalisés",
+      "ConsommationDEnergieEnFinDeVie": "Consommation d'énergie en fin de vie",
+      "TraitementDesDechetsEnFinDeVie": "Traitement des déchets en fin de vie",
+      "FuitesOuEmissionsNonEnergetiques": "Fuites ou émissions non énergétiques en fin de vie",
+      "TraitementDesEmballagesEnFinDeVie": "Traitement des emballages en fin de vie",
+      "Batiment": "Bâtiment",
+      "Equipe": "Équipe",
+      "Energie": "Énergie",
+      "ActivitesDeBureau": "Activités de bureau",
+      "EquipesRecues": "Équipes reçues",
+      "MaterielTechnique": "Matériel technique",
+      "AutreMateriel": "Autre matériel",
+      "Achats": "Achats",
+      "Electromenager": "Électroménager",
+      "DechetsOrdinaires": "Déchets ordinaires",
+      "DechetsExceptionnels": "Déchets exceptionnels",
+      "MaterielDistributeurs": "Matériel distributeurs",
+      "MaterielCinema": "Matériel cinéma",
+      "CommunicationDigitale": "Communication digitale",
+      "CaissesEtBornes": "Caisses et bornes",
+      "IntrantsBiensEtServices": "Intrants biens et services",
+      "IntrantsBiensEtMatieresTilt": "Intrants biens et matières",
+      "Alimentation": "Alimentation",
+      "RepasPrisParLesSalaries": "Repas pris par les salariés",
+      "RepasPrisParLesBenevoles": "Repas pris par les bénévoles",
+      "RepasPrisParLesBeneficiaires": "Repas pris par les bénéficiaires",
+      "EquipementsEtImmobilisations": "Équipements et immobilisations",
+      "DeplacementsDePersonne": "Déplacements de personnes",
+      "DeplacementsDomicileTravailSalaries": "Déplacements domicile association des salariés",
+      "DeplacementsDomicileTravailBenevoles": "Déplacements domicile association des bénévoles",
+      "DeplacementsDansLeCadreDUneMissionAssociativeSalaries": "Déplacements dans le cadre d'une mission associative des salariés",
+      "DeplacementsDansLeCadreDUneMissionAssociativeBenevoles": "Déplacements dans le cadre d'une mission associative des bénévoles",
+      "DeplacementsDesBeneficiaires": "Déplacements des bénéficiaires",
+      "DeplacementsFabricationDesVehicules": "Fabrication des véhicules",
+      "TransportDeMarchandises": "Transport de marchandises",
+      "Entrant": "Entrant",
+      "Sortant": "Sortant",
+      "Interne": "Interne",
+      "TransportFabricationDesVehicules": "Fabrication des véhicules",
+      "LocauxEtInfrastructures": "Locaux et infrastructures",
+      "ConstructionDesLocaux": "Construction des locaux",
+      "FroidEtClim": "Froid et climatisation",
+      "AutresEmissions": "Autres émissions",
+      "ActivitesAgricoles": "Activités agricoles",
+      "ActivitesIndustrielles": "Activités industrielles",
+      "UtilisationEtFinDeVie": "Utilisation et fin de vie",
+      "Utilisation": "Utilisation",
+      "UtilisationEnResponsabiliteConsommationDeBiens": "Utilisation en responsabilité - Consommation de biens",
+      "UtilisationEnResponsabiliteConsommationNumerique": "Utilisation en responsabilité - Consommation numérique",
+      "UtilisationEnResponsabiliteConsommationDEnergie": "Utilisation en responsabilité - Consommation d'énergie",
+      "UtilisationEnResponsabiliteFuitesEtAutresConsommations": "Utilisation en responsabilité - Fuites et autres consommations",
+      "UtilisationEnDependanceConsommationDeBiens": "Utilisation en dépendance - Consommation de biens",
+      "UtilisationEnDependanceConsommationNumerique": "Utilisation en dépendance - Consommation numérique",
+      "UtilisationEnDependanceConsommationDEnergie": "Utilisation en dépendance - Consommation d'énergie",
+      "UtilisationEnDependanceFuitesEtAutresConsommations": "Utilisation en dépendance - Fuites et autres consommations",
+      "Teletravail": "Télétravail",
+      "TeletravailSalaries": "Télétravail des salariés",
+      "TeletravailBenevoles": "Télétravail des bénévoles",
+      "LocauxSimplified": "Locaux",
+      "DechetsSimplified": "Déchets",
+      "FroidEtClimSimplified": "Froid et climatisation",
+      "DeplacementsDePersonneSimplified": "Déplacements de personnes",
+      "TransportDeMarchandisesSimplified": "Transport de marchandises",
+      "IntrantsBiensEtMatieresTiltSimplified": "Intrants biens et matières",
+      "AlimentationSimplified": "Alimentation",
+      "ServiceEtNumeriqueSimplified": "Service & numérique",
+      "EquipementsEtImmobilisationsSimplified": "Équipements et immobilisations",
+      "UtilisationSimplified": "Utilisation",
+      "FinDeVieSimplified": "Fin de vie",
+      "TeletravailSimplified": "Télétravail",
+      "DeplacementsBenevoles": "Déplacements de bénévoles",
+      "BienMatieres": "Biens & matières",
+      "ConsommationsEnergieUtilisationProduits": "Consommations d'énergie pour l'utilisation des produits vendus ou fournis aux bénéficiaires",
+      "TeletravailSalariesBenevoles": "Télétravail des salariés et bénévoles",
+      "FinDeVieProduitsVendusFournisBeneficiaires": "Fin de vie des produits vendus ou fournis aux bénéficiaires",
+      "DechetsEmisParLOrganisation": "Déchets émis par l'organisation",
+      "glossary": "Glossaire",
+      "glossaryDescription": {
+        "DechetsDirects": "Ce poste recouvre l'ensemble des émissions liées à la gestion des déchets produits (collecte et traitement) au sein de l'organisation. Il est divisé en différents sous-postes qui recouvrent chacun une catégorie de déchets.",
+        "IntrantsBiensEtMatieres": "Ce poste recouvre les émissions liées aux différents flux de biens et de matières qui entrent dans l'organisation. Il est divisé en différents sous-postes qui recouvrent chacun une catégorie de matériaux.",
+        "Immobilisations": "L'ensemble des émissions liées à l'achat ou la location longue durée de biens durables (faisant l'objet d'un amortissement comptable par l'organisation).",
+        "FinDeVie": "Ce poste recouvre l'ensemble des émissions liées à la future fin de vie des produits qui ont été vendus au sein du périmètre temporel.",
+        "DeplacementsDomicileTravail": "Déplacements domicile-travail des collaborateur.ices présent.es au sein de l'organisation, y compris intérimaires, sous-traitants et contractuels.",
+        "DeplacementsProfessionnels": "Déplacements professionnels des collaborateur.ices dans le cadre de leur activité professionnelle, que l'organisation soit propriétaire ou non du moyen de transport, et que le déplacement ait lieu ou non pendant les heures ouvrées.",
+        "DeplacementsVisiteurs": "Clients, usagers, bénéficiaires...",
+        "IntrantsServices": "Ce poste recouvre les services reçus par l'organisation et ses usages numériques. Les services sont souvent pris en compte soit via les informations GES transmises par les prestataires de l'organisation, soit via des facteurs d'émissions en ratios monétaires.",
+        "Energies": "Ce poste regroupe les consommations énergétiques de sources dites « fixes » : locaux, machines, etc. Dans un Bilan Carbone®, les émissions associées aux consommations d'énergie des biens ou locaux <b>utilisés</b> par l'organisation sont à prendre en compte, qu'elle soit propriétaire ou locataire. La consommation d'énergie des véhicules ou autres sources « mobiles » (combustibles fossiles, combustibles organiques, électricité) ne sont normalement pas à prendre en compte dans le poste Énergie, mais dans les postes Fret et Déplacements.",
+        "CombustiblesFossiles": "Pour le chauffage, les procéés industriels, la production d'électricité ou de vapeur.",
+        "CombustiblesOrganiques": "Pour le chauffage, les procéés industriels, la production d'électricité ou de vapeur.",
+        "ReseauxDeChaleurEtDeVapeur": "Pour le chauffage et les procédés industriels.",
+        "ReseauxDeFroid": "Pour le chauffage et les procédés industriels.",
+        "Electricite": "Pour le chauffage, les usages de routine, les procédés industriels et la production d'électricité en propre.",
+        "Agriculture": "Fermentation entérique des ruminants, déjections d'élevage, usage des engrais azotés, ...",
+        "EmissionsLieesAuChangementDAffectationDesSolsCas": "Imperméabilisation des sols, ...",
+        "EmissionsLieesALaProductionDeFroid": "Fuites de fluides réfrigérants.",
+        "EmissionsLieesAuxProcedesIndustriels": "Production de ciment, émissions de process dans l'industrie des semiconducteurs, ...",
+        "FretInterne": "Dans le cas où les points de départ et d'arrivée feraient partie du périmètre organisationnel.",
+        "ServicesEnApprocheMonetaire": "Différents services reçus, comptabilisés via des facteurs d'émission en ratios monétaires.",
+        "MatiereDestineeAuxEmballages": "Afin de pouvoir faire porter des actions du plan de transition sur les emballages, un sous-poste est dédié à la matière destinée à ces emballages est disponible.",
+        "BiensEtMatieresEnApprocheMonetaire": "Un sous-poste est également dédié aux matières pour lesquelles des facteurs d'émission en ratios monétaires sont utilisés.",
+        "UtilisationEnResponsabilite": "Des produits vendus par l'organisation au sein du périmètre temporel considéré sur l'ensemble de leur durée de vie, dont l'organisation est directement responsable ([en italisque] pour un fabriquant de plateau-repas servi dans un avion, l'utilisation en responsabilité correspond à l'énergie utilisée pour refroidir et réchauffer le plateau-repas).",
+        "UtilisationEnDependance": "Des produits vendus par l'organisation au sein du périmètre temporel considéré sur l'ensemble de leur durée de vie, dont l'organisation n'est pas directement reponsable mais que sont activité contribue à émettre ([en italique] Pour un fabriquant de plateau-repas servi dans un avion, l'utilisation en dépendance correspond aux émissions du vol complet)."
+      },
+      "questions": {
+        "numberOfYears": "Nombre d'années",
+        "bonbons": "Bonbons - Nombre (sachets de {value}g)",
+        "chips": "Chips - Nombre (sachets de {value}g)",
+        "Electromenager": "Pour chacun de ces équipements électroménagers, veuillez renseigner :",
+        "FretCadence": "Fret - Cadence (fois/mois)",
+        "FretPoids moyen": "Fret - Poids moyen (kg)",
+        "FretProvenance": "Où est basé votre principal fournisseur ?",
+        "Refrigerateurs": "Réfrigérateurs",
+        "Congelateurs": "Congélateurs",
+        "Warmers": "Warmers",
+        "Distributeurs": "Distributeurs snacks / boisson"
+      }
+    },
+    "create": {
+      "title": "Ajouter un facteur d'émission",
+      "create": "Ajouter le facteur d'émission",
+      "update": "Mettre à jour",
+      "cancel": "Annuler",
+      "name": "Nom",
+      "namePlaceholder": "Abricot, dénoyauté, cru",
+      "attribute": "Détails",
+      "attributePlaceholder": "Le fret est considéré comme ayant lieu à température ambiante. Matériau utilisé pour les emballages : PEBD.",
+      "location": "Localisation",
+      "unit": "Unité",
+      "customUnit": "Unité personnalisée",
+      "customUnitPlaceholder": "Votre unité personnalisée",
+      "monetaryUnit": "Unité monétaire",
+      "isMonetary": "Unité monétaire (Oui/Non)",
+      "source": "Source",
+      "sourcePlaceholder": "Agribalyse® 3.1",
+      "detailedGES": "Décomposition des GES",
+      "multiple": "Facteur d'émission désagrégé",
+      "subPartsCount": "Nombre de composantes",
+      "partType": "Type de composante",
+      "yes": "Oui",
+      "no": "Non",
+      "totalCo2": "Émission totale de CO₂ (en kgCO₂e)",
+      "co2f": "CO₂f (en kgCO₂e)",
+      "ch4f": "CH₄f (en kgCO₂e)",
+      "ch4b": "CH₄b (en kgCO₂e)",
+      "n2o": "N₂O (en kgCO₂e)",
+      "co2b": "CO₂b (en kgCO₂e)",
+      "sf6": "SF₆ (en kgCO₂e)",
+      "hfc": "HFC (en kgCO₂e)",
+      "pfc": "PFC (en kgCO₂e)",
+      "otherGES": "Autres gaz (en kgCO₂e)",
+      "part": "Composante",
+      "post": "Poste",
+      "posts": "Postes",
+      "missingPost": "Veuillez selectionner un poste",
+      "subPost": "Sous Poste",
+      "comment": "Commentaires",
+      "clear": "Supprimer la valeur",
+      "addedDate": "Date d'ajout",
+      "base": "Approche pour le scope 2 (GHG Protocol)",
+      "baseModal": {
+        "title": "Information pour les exports GHG-P",
+        "description": "Vous devez indiquer ici si votre FE s'applique dans le cadre de la méthode <b><green>location-based</green></b>, ou dans le cas de la méthode <b><purple>market-based</purple></b>. Cette distinction ne s'appliquera que si votre FE est utilisé au sein du sous-poste Électricité du poste Énergie. Pour rappel :",
+        "location": "La méthode <b><green>location-based</green></b> est basée sur l'utilisation de facteurs d'émission représentant le mix électrique moyen sur des périmètres géographiques et temporels définis. En France, les facteurs d'émission utilisés sont typiquement de la forme \"Mix moyen - Année concernée - France\".",
+        "market": "La méthode <purple><b>market-based</b></purple> est basée sur l'utilisation de facteurs d'émission représentatif de l'électricité produite par les producteurs d'électricité auxquels l'organisation est contractuellement liée via des achats de Garanties d'Origine (GOs) Garanties d'Origine (GOs) ou de Renewable Energy Certificates (RECs) aux États-Unis, des Power Purchase Agreement (PPAs, VPPAs), etc. Toute l'électricité non couverte pas les contrats mentionnés doit alors être prise en compte via les facteurs d'émission concernant les mix résiduels, c'est-à-dire les facteurs d'émission des mix électriques dont a été retirée tout l'électricité faisant l'objet des contrats mentionnés.",
+        "conclusion": "<b>Le Bilan Carbone® et le Bilan GES réglementaire n'autorisent que la méthode <green>location-based</green></b>, l'ISO 14064-1 autorise l'usage des deux méthodes, tandis que le GHG Protocol exige une double comptabilisation de l'électricité consommée, d'une part en <green>location-based</green> et d'autre part en <purple>market-based</purple>."
+      },
+      "glossary": {
+        "title": "Glossaire",
+        "detailedGES": "Décomposition des GES",
+        "detailedGESDescription": "Si vous connaissez la part d'émission due aux différents GES pour votre facteur d'émission, vous pouvez la renseigner via cette fonctionnalité. La méthode Bilan Carbone® n'utilise pas cette décomposition, car connaître la répartition des émissions sur les différents GES complexifie les résultats sans apporter d'informations utiles à la construction du plan de transition. Cette décomposition des émissions sur les différents GES sert en revanche dans le cas où vous souhaitez obtenir les différents exports proposés par le BC+.",
+        "multiple": "Facteur d'émission désagrégé",
+        "multipleDescription": {
+          "introduction": "Certains facteurs d'émission possèdent des composantes, c'est-à-dire qu'ils sont constitués de différents émissions dues à des activités différentes. Par exemple, les facteurs d'émission pour l'électricité en France sont classiquement découpés en trois composantes :",
+          "upstream": "<b>L'amont</b>, qui tient compte des émissions liées à la construction des infrastructures de production de l'électricité et de son transport sur le réseau.",
+          "combustion": "<b>La combustion à la centrale</b>, qui tient compte des émissions liées à la production de l'électricité en elle-même (combustion de charbon, ...).",
+          "loss": "<b>Les pertes</b>, qui tiennent compte de la déperdition sous forme de chaleur lors du transport de l'électricité sur le réseau.",
+          "conclusion": "Cette désagrégation n'est pas utilisée au sein de la méthode Bilan Carbone®, mais permet de ventiler les émissions des différentes composantes au sein des catégories pour les exports (pour le Bilan GES règlementaire, en reprenant le même exemple, et si la source d'émission est \"Opérée\", les émissions \"amont\", \"combustion à la centrale\" et \"pertes\" sont respectivement ventilées au sein des catégories 4.1, 1.2, 4.1). <b>Nous vous recommandons très fortement de ne pas utiliser cette fonctionnalité si vous ne maîtrisez pas les affectations au sein du Bilan GES règlementaire.</b>"
+        },
+        "post": "Poste",
+        "post_studyContributorDescription": "Vous devez choisir le ou les postes et sous-postes au sein duquel votre facteur d'émission sera sélectionnable.",
+        "post_emissionFactorDescription": "Vous devez choisir le ou les postes et sous-postes au sein duquel le contributeur·rice pourra intervenir."
+      },
+      "validation": {
+        "name": "Veuillez renseigner un nom",
+        "nameMaxLength": "64 caractères maximum",
+        "source": "Veuillez renseigner une source",
+        "subPost": "Veuillez selectionner un sous poste",
+        "co2f": "Valeur positive uniquement",
+        "ch4b": "Valeur positive uniquement",
+        "ch4f": "Valeur positive uniquement",
+        "n2o": "Valeur positive uniquement",
+        "sf6": "Valeur positive uniquement",
+        "hfc": "Valeur positive uniquement",
+        "pfc": "Valeur positive uniquement",
+        "otherGES": "Valeur positive uniquement",
+        "totalCo2": "Veuillez renseigner une émission totale",
+        "type": "Veuillez renseigner un type de poste",
+        "unit": "Veuillez renseigner une unité"
+      }
+    },
+    "table": {
+      "subTitle": "Vous pouvez parcourir l'ensemble des facteurs d'émission disponibles, et en créer de nouveaux",
+      "Valid": "Valide",
+      "Archived": "Archivé",
+      "selectLine": "Selectionner ce facteur d'émission",
+      "all": "Toutes",
+      "BaseEmpreinte": "Base Empreinte®",
+      "NegaOctet": "NegaOctet",
+      "Legifrance": "Légifrance",
+      "AIB": "AIB",
+      "GIEC": "GIEC",
+      "displayArchived": "Afficher les facteurs archivés",
+      "goTo": "Aller à la page",
+      "items": "Élements par page",
+      "noLocation": "Non précisée",
+      "location": "Localisation",
+      "locationSearch": "Rechercher par localisation",
+      "locationSearchPlaceholder": "ex : Europe",
+      "unitSearch": "Rechercher par unité",
+      "unitSearchPlaceholder": "ex: kg",
+      "base": "Approche scope 2",
+      "Manual": "Manuelle",
+      "edit": "Éditer le facteur d'émissions",
+      "delete": "Supprimer facteur d'émissions",
+      "name": "Libellé",
+      "none": "Aucune",
+      "no": "Non",
+      "per": "par",
+      "page": "Page {page} sur {total}",
+      "quality": "Qualité",
+      "search": "Rechercher par libellé",
+      "searchPlaceholder": "ex : Acier",
+      "showing": "Affichage de {number} lignes sur {total}",
+      "source": "Source",
+      "sources": "Sources",
+      "units": "Unités",
+      "subPosts": "Sous postes",
+      "status": "Statut",
+      "value": "Valeur",
+      "yes": "Oui",
+      "displayFilters": "Afficher les filters",
+      "hideFilters": "Cacher les filters",
+      "importedFrom": {
+        "baseEmpreinte": "Logo de la Base Empreinte",
+        "legifrance": "Logo de Légifrance",
+        "negaOctet": "Logo de NegaOctet",
+        "aib": "Logo de l'Association of Issuing Bodies",
+        "giec": "logo du GIEC",
+        "manual": "Manuel"
+      },
+      "post": "Postes",
+      "co2f": "CO₂f :",
+      "ch4f": "CH₄f :",
+      "ch4b": "CH₄b :",
+      "n2o": "N₂O :",
+      "co2b": "CO₂b :",
+      "sf6": "SF₆ :",
+      "hfc": "HFC :",
+      "pfc": "PFC :",
+      "otherGES": "Autres gaz :",
+      "qualityRating": "Qualité globale du facteur d'émission",
+      "reliability": "Fiabilité :",
+      "technicalRepresentativeness": "Représentativité technique :",
+      "geographicRepresentativeness": "Représentativité géographique :",
+      "temporalRepresentativeness": "Représentativité temporelle :",
+      "completeness": "Complétude :",
+      "comment": "Autres informations : ",
+      "GESDecomposition": "Décomposition des GES : ",
+      "factorParts": "Composantes du facteur d'émission : ",
+      "wasteModalContent": "Les FE dédiés au recyclage des déchets (ou à la fin de vie moyenne lorsque celle-ci inclut du recyclage) utilisent une valeur de 41 kgCO₂e/t au lieu de la valeur que leur attribue la Base Empreinte®. Cette valeur correspond à la collecte, au transport et à l'exploitation du stockage des métaux sur la Base Empreinte®, et <b>exclut donc la régénération de la matière</b> qui constitue la majorité des émissions liées au recyclage. Ce fonctionnement est choisit pour ne pas pénaliser le recyclage, qui est néanmoins pris en compte dans les intrants au sein du Bilan Carbone® (un intrant issu d'une matière recyclée émettant généralement moins qu'un intrant neuf). Dans le cadre du Bilan GES Règlementaire, c'est bien la valeur de la Base Empreinte® qui sera utilisée dans votre export. Une modale explicitant les éventuelles différences entre Bilan Carbone® et Bilan GES Règlementaire sera disponible en haut à gauche de cet export. Pour plus de détail, nous vous invitons à consulter l' <link1>annexe 1</link1> de la méthode Bilan Carbone® ou <link2>les pages concernant les déchets</link2> du Plan Carbone Général.",
+      "wasteModalTitle": "Différence de valeurs FE recyclage"
+    },
+    "base": {
+      "LocationBased": "Location-based",
+      "MarketBased": "Market-based",
+      "difference": {
+        "warning": "Attention, vos kWh en market-based ne sont pas égaux à ceux en location-based.",
+        "explanation": "Explication",
+        "title": "Attention - Le nombre de kWh pris en compte diffère entre la méthode <green>location-based</green> et la méthode <purple>market-based</purple>",
+        "description": "Le GHG Protocol exige que vous ayez une double comptabilisation de l'électricité consommée, <b>d'une part via la méthode <green>location-based (location-based method, LBM)</green> et d'autre part en <purple>market-based (market-based method, MBM)</purple></b>. Pour cela il vous suffit de comptabiliser deux fois vos kWh d'énergie consommés, une fois via des facteurs d'émission dédiés au <b><green>location-based</green></b>, et une seconde fois via des facteurs d'émission dédiés au <b><purple>market-based</purple></b>. Vous devez comptabiliser <b>le même nombre de kWh dans les deux méthodes</b>."
+      }
+    }
+  },
+  "units": {
+    "selectAll": "Tout sélectionner",
+    "unSelectAll": "Tout désélectionner",
+    "": "Aucune unité",
+    "A4_SHEET_100": "{count, plural, =0 {100 feuilles A4} one {100 feuille A4} other {100 feuilles A4}}",
+    "KM_100": "{count, plural, =0 {100km} one {100km} other {100km}}",
+    "ACTIVE": "{count, plural, =0 {actif} one {actif} other {actifs}}",
+    "APPAREL": "{count, plural, =0 {appareil} one {appareil} other {appareils}}",
+    "RACE_KM": "{count, plural, =0 {course.km} one {course.km} other {course.km}}",
+    "CAR": "{count, plural, =0 {voiture} one {voiture} other {voitures}}",
+    "EURO_SPENT": "{count, plural, =0 {euro dépensé} one {euro dépensé} other {euros dépensés}}",
+    "EQUIPEMENT": "équipement",
+    "FRANC_CFP": "{count, plural, =0 {Franc CFP} one {Franc CFP} other {Francs CFP}}",
+    "GJ_PCI": "GJ PCI",
+    "GJ_PCS": "GJ PCS",
+    "HA": "ha",
+    "HA_YEAR": "ha.an",
+    "HA_CLEMENTINE": "ha de clémentines",
+    "HOUR": "{count, plural, =0 {heure} one {heure} other {heures}}",
+    "KEURO": "{count, plural, =0 {keuro} one {keuro} other {keuros}}",
+    "KEURO_2019_HT": "{count, plural, =0 {keuro (2019) HT} one {keuro (2019) HT} other {keuros (2019) HT}}",
+    "KEURO_2020_HT": "{count, plural, =0 {keuro (2020) HT} one {keuro (2020) HT} other {keuros (2020) HT}}",
+    "KEURO_2021_HT": "{count, plural, =0 {keuro (2021) HT} one {keuro (2021) HT} other {keuros (2021) HT}}",
+    "KEURO_2022_HT": "{count, plural, =0 {keuro (2022) HT} one {keuro (2022) HT} other {keuros (2022) HT}}",
+    "KEURO_2023_HT": "{count, plural, =0 {keuro (2023) HT} one {keuro (2023) HT} other {keuros (2023) HT}}",
+    "KG": "kg",
+    "KG_BIOGNC": "kg",
+    "KG_NITROGEN_SPREAD": "kg d'azote épandu",
+    "KG_DCO_REMOVED": "kg DCO éliminée",
+    "KG_BIOWASTE": "kg de biodéchet",
+    "KG_SOFT_WHEAT_15": "kg de blé tendre à 15% d'humidité",
+    "KG_TREATED_LEATHER": "kg de cuir traité",
+    "KG_FABA_BEAN_15": "kg de féverole à 15% d'humidité",
+    "KG_GREEN_COFFEE_BEANS_NO_PULP": "kg de grains de café vert sans pulpe",
+    "KG_RAPESEED_9": "kg de grains de colza à 9% d'humidité",
+    "KG_WOOL": "kg de laine",
+    "KG_MILK": "kg de lait",
+    "KG_CORN_28": "kg de maïs grain à 28% d'humidité",
+    "KG_ACTIVE_MATERIAL": "kg de matière activ}",
+    "KG_RAW_MATERIAL": "kg de matière brute",
+    "KG_RAW_MATERIAL_12": "kg de matière brute (12% humidité)",
+    "KG_RAW_MATERIAL_15": "kg de matière brute (15% humidité)",
+    "KG_RAW_MATERIAL_74": "kg de matière brute (74% humidité)",
+    "KG_RAW_MATERIAL_80": "kg de matière brute (80% humidité)",
+    "KG_RAW_MATERIAL_9": "kg de matière brute (9% humidité)",
+    "KG_RAW_MATERIAL_16_SUGAR": "kg de matière brute (16% sucre)",
+    "KG_RAW_MATERIAL_NO_PULP": "kg de matière brute (sans pulpe)",
+    "KG_DRY_MATTER": "kg de matière sèche",
+    "KG_NET_WEIGHT": "kg de poids net",
+    "KG_LIVE_WEIGHT": "kg de poids vif",
+    "KG_LIVE_WEIGHT_CAT_0": "kg de poids vif (cat 0)",
+    "KG_LIVE_WEIGHT_CAT_1": "kg de poids vif (cat 1)",
+    "KG_LIVE_WEIGHT_CAT_2": "kg de poids vif (cat 2)",
+    "KG_LIVE_WEIGHT_CAT_3": "kg de poids vif (cat 3)",
+    "KG_SPRING_PEAS_15": "kg de pois de printemps à 15% d'humidité",
+    "KG_POTATO_80": "kg de pomme de terre à 80% d'humidité",
+    "KG_STARCH_POTATO_74": "kg de pomme de terre fécule à 74%",
+    "KG_TRITICALE_15": "kg de triticale à 15% d'humidité",
+    "KG_NET_COMMERCIALLY_VIABLE_MEAT": "kg de viande net commercialisable",
+    "KG_PASTURED_GRASS_80": "kg d'herbe pâturée à 80%",
+    "KG_INGREDIENT_EXIT_STORE_NET_WEIGHT": "kg d'ingrédient sortie magasin (poids net)",
+    "KG_INGREDIENT_EXIT_STORE_NET_WEIGHT_GR": "kg ingrédient sortie magasin (poids net gr)",
+    "KG_INGREDIENT_EXIT_STORE_NET_WEIGHT_GRAINS": "kg ingrédient sortie magasin (poids net grains)",
+    "KG_INGESTED_INGREDIENT": "kg d'ingrédient ingéré",
+    "KG_EGG": "kg d'oeufs",
+    "KG_EGG_CAT_0": "kg d'oeuf (cat 0)",
+    "KG_EGG_CAT_1": "kg d'oeuf (cat 1)",
+    "KG_EGG_CAT_2": "kg d'oeuf (cat 2)",
+    "KG_EGG_CAT_3": "kg d'oeuf (cat 3)",
+    "KG_BREWING_BARLEY_15": "kg d'orge de brasserie à 15% d'humidité",
+    "KG_FEED_BARLEY_15": "kg d'orge fourragère à 15% d'humidité",
+    "KGH2": "kgH2",
+    "KG_MILK_LIQUID": "kg lait",
+    "KG_NTK": "kg NTK",
+    "KG_PER_KM": "kg / km",
+    "KG_PER_CAR_KM": "kg / voiture.km",
+    "KG_PER_KM_CAR": "kg / km (voiture)",
+    "KG_PER_KM_PASSENGER": "kg / km (passager)",
+    "KG_PER_PASSENGER_KM": "kg / passager.km",
+    "KG_PER_TON_KM": "kg / tonne.km",
+    "KG_N": "kg de N",
+    "KM": "km",
+    "KM_PER_JOURNEY": "km / voyage",
+    "KM_PERSON": "km.personne",
+    "KNOTS": "{count, plural, =0 {noeuds} one {noeud} other {noeuds}}",
+    "KWH": "kWh",
+    "KWH_PCI": "kWh PCI",
+    "KWH_PCS": "kWh PCS",
+    "KWH_ELEC_TON": "kWh elec / tonne",
+    "KWH_PER_KM": "kWh / km",
+    "KWH_PER_PASSENGER_KM": "kWh / passager.km",
+    "KWH_THERM_TON": "kWh therm / tonne",
+    "KWH_PCI_TON": "kWh PCI / tonne",
+    "KW_PER_YEAR_ELECTRIC_POWER": "kW.an",
+    "LITER": "{count, plural, =0 {Litre} one {Litre} other {Litres}}",
+    "LITER_LIQUID": "{count, plural, =0 {Litre de liquide} one {Litre de liquide} other {Litres de liquide}}",
+    "LITER_PER_ERRAND_KM": "{count, plural, =0 {Litre / course.km} one {Litre / course.km} other {Litres / course.km}}",
+    "LITER_PER_KM": "{count, plural, =0 {Litre / km} one {Litre / km} other {Litres / km}}",
+    "LITER_PER_M3_KM": "{count, plural, =0 {Litre / m³.km} one {Litre / m³.km} other {Litres / m³.km}}",
+    "LITER_PER_PASSENGER_KM": "{count, plural, =0 {Litre / passager.km} one {Litre / passager.km} other {Litres / passager.km}}",
+    "LITER_PER_TON_KM": "{count, plural, =0 {Litre / tonne.km} one {Litre / tonne.km} other {Litres / tonne.km}}",
+    "POUND": "{count, plural, =0 {livre} one {livre} other {livres}}",
+    "METER": "m",
+    "M2_SHON": "m² SHON",
+    "M3": "m³",
+    "M3_KM": "m³.km",
+    "M3_N": "m³ (n)",
+    "METER_ROAD": "m de route",
+    "MJ_PCI": "MJ PCI",
+    "ML": "mL",
+    "M2": "m²",
+    "M2_WALL": "m² de paroi",
+    "M2_FLOOR": "m² de sol",
+    "M2_ROOF": "m² de toiture",
+    "PASSENGERS": "{count, plural, =0 {passagers} one {passager} other {passagers}}",
+    "PASSENGER_KM": "passager.km",
+    "PEQ_KM": "peq.km",
+    "PERSON_MONTH": "personne.mois",
+    "UNIT_PIECE_SHRUB_POT": "{count, plural, =0 {pièce (arbuste en pot)} one {pièce (arbuste en pot)} other {pièces (arbuste en pot)}}",
+    "UNIT_PIECE_SHRUB_POT_3L": "{count, plural, =0 {pièce (arb pote 3L)} one {pièce (arb pote 3L)} other {pièces (arb pote 3L)}}",
+    "UNIT_PIECE_GRAFT": "{count, plural, =0 {pièce (greffon)} one {pièce (greffon)} other {pièces (greffon)}}",
+    "UNIT_PIECE_STEM": "{count, plural, =0 {pièce (tige)} one {pièce (tige)} other {pièces (tige)}}",
+    "PORTION": "{count, plural, =0 {portion} one {portion} other {portions}}",
+    "MEAL": "repas",
+    "T": "t",
+    "TEAM": "{count, plural, =0 {équipe} one {équipe} other {équipes}}",
+    "TEP": "tep",
+    "TEP_PCI": "tep PCI",
+    "TEP_PCS": "tep PCS",
+    "TEU_KM": "EVP.km",
+    "TON_KM": "t.km",
+    "TON": "{count, plural, =0 {tonne} one {tonne} other {tonnes}}",
+    "TON_WITH_BONES": "{count, plural, =0 {tonne avec os} one {tonne avec os} other {tonnes avec os}}",
+    "TON_RAW": "{count, plural, =0 {tonne brute} one {tonne brute} other {tonnes brutes}}",
+    "TON_COLLECTED": "{count, plural, =0 {tonne collectée} one {tonne collectée} other {tonnes collectées}}",
+    "TON_CLINKER": "{count, plural, =0 {tonne de clinker} one {tonne de clinker} other {tonnes de clinker}}",
+    "TON_WASTE": "{count, plural, =0 {tonne de déchets} one {tonne de déchets} other {tonnes de déchets}}",
+    "TON_GAZOLINE_PER_DAY": "{count, plural, =0 {tonne de fioul / jour} one {tonne de fioul / jour} other {tonnes de fioul / jour}}",
+    "TON_K2O": "{count, plural, =0 {tonne de K2O} one {tonne de K2O} other {tonnes de K2O}}",
+    "TON_DRY_MATTER": "{count, plural, =0 {tonne de matière sèche} one {tonne de matière sèche} other {tonnes de matière sèche}}",
+    "TON_N": "{count, plural, =0 {tonne de N} one {tonne de N} other {tonnes de N}}",
+    "TON_P2O5": "{count, plural, =0 {tonne de P2O5} one {tonne de P2O5} other {tonnes de P2O5}}",
+    "TON_VIABLE_MEAT": "{count, plural, =0 {tonne de viande nette commercialisable} one {tonne de viande nette commercialisable} other {tonnes de viande nette commercialisable}}",
+    "TON_KM_PRODUCED": "{count, plural, =0 {tonne.km} one {tonne.km} other {tonne.km}}",
+    "TON_PRODUCTED": "{count, plural, =0 {tonne produite} one {tonne produite} other {tonnes produites}}",
+    "TON_PROCESSED": "{count, plural, =0 {tonne traitée} one {tonne traitée} other {tonnes traitées}}",
+    "UNIT": "{count, plural, =0 {unité} one {unité} other {unités}}",
+    "UNITLESS": "sans unité",
+    "IMPORTED_UNIT_PIECE_SHRUB_POT": "{count, plural, =0 {unité importée (arb en pot)} one {unité importée (arb en pot)} other {unités importées (arb en pot)}}",
+    "VEHICLE_YEAR": "véhicule.an",
+    "VEHICLE_KM": "véhicule.km",
+    "CAR_KM": "voiture.km",
+    "PERCENT": "%",
+    "GJ_PER_TON": "GJ / tonne",
+    "TON_KM_PER_PERSON_YEAR": "tonne.km / habitant.an",
+    "TON_KM_ROAD_PER_PERSON_YEAR": "(tonne.km route) / (habitant.an)",
+    "KG_GAZOLINE_PER_KM": "kg fioul / km",
+    "KG_GAZOLINE_PER_TON_KM": "kg fioul / tonne.km",
+    "KG_FLUID": "kg de fluide",
+    "KWH_PER_HOME_YEAR": "kWh / ménage.an",
+    "KM_PER_PERSON_YEAR": "km / personne.an",
+    "KGN_PER_HA": "kgN / ha",
+    "KWH_PER_M2_YEAR": "kWh / m².an",
+    "KWH_PER_TON_KM": "kWh / tonne.km",
+    "GWH": "GWh",
+    "KG_FLUID_PER_KW_FRIDGE": "kg fluide / kW frigo",
+    "KG_FLUID_PER_m2": "kg fluide / m²",
+    "KG_FLUID_PER_EQUIPMENT": "kg fluide / équipement",
+    "KG_FLUID_PER_STORAGE_M3": "kg fluide / m³ stockage",
+    "KWH_PER_HOUSING_YEAR": "kWh / logement.an",
+    "PERCENT_APPARTMENTS": "% appartements",
+    "PERCENT_HOUSES": "% maisons",
+    "DAY": "{count, plural, =0 {jours} one {jour} other {jours}}",
+    "LITER_PER_HA": "Litre / ha",
+    "MJ_PER_HA": "MJ / ha",
+    "KWH_PER_PERSON_FLOOR_YEAR": "kWh / (habitant.étage.an)",
+    "PLANT": "{count, plural, =0 {plant} one {plant} other {plants}}",
+    "KG_PER_m3": "kg / m³",
+    "KGDBO": "kgDBO",
+    "KGDBO_PER_M3": "kgDBO / m³",
+    "KG_H2_PER_100KM": "kgH2/100km",
+    "GO": "Go",
+    "REQUEST": "{count, plural, =0 {requête} one {requête} other {requêtes}}",
+    "MAIL": "{count, plural, =0 {mail} one {mail} other {mails}}",
+    "EURO": "Euro (€)",
+    "DOLLAR": "Dollar ($)",
+    "JPY": "Yen (¥)",
+    "CNY": "Yuan (¥)",
+    "YEAR": "{count, plural, =0 {Année} one {Année} other {Années}}",
+    "CUSTOM": "Personnalisée",
+    "MAX_TONNAGE": "tonnage max"
+  },
+  "organization": {
+    "create": "Nouvelle Organisation",
+    "modify": "Modifier",
+    "myOrganization": "Organisation",
+    "myOrganizations": "Mes clients actuels",
+    "seeLess": "Voir moins",
+    "seeMore": "Voir plus",
+    "name": "Nom : ",
+    "title": "Organisation",
+    "form": {
+      "editTitle": "Modifier mes cinémas",
+      "edit": "Valider la modification",
+      "name": "Nom de l'organisation",
+      "title": "Informations sur la nouvelle organisation"
+    },
+    "sites": {
+      "title": "Sur quels cinémas doit porter l'empreinte ?",
+      "noSites": "Il n'y a pas de cinémas configurés sur l'organisation",
+      "name": "Nom",
+      "namePlaceholder": "Nom du cinéma",
+      "postalCode": "Code postal",
+      "postalCodePlaceholder": "Code postal",
+      "city": "Ville",
+      "cityPlaceholder": "Ville",
+      "add": "Ajouter un cinéma",
+      "cnc": "Numéro CNC",
+      "cncPlaceholder": "Numéro CNC",
+      "glossary": {
+        "title": "Glossaire",
+        "etp": "Nombre d'Équivalent Temps Plein",
+        "etpDescription": "Ces données seront à terme utilisées pour calculer des intensités carbone (kgCO₂e/ETP).",
+        "ca": "Chiffre d'Affaire ({unit})",
+        "caDescription": "Ces données seront à terme utilisées pour calculer des intensités carbone (kgCO₂e/{unit} CA)."
+      }
+    },
+    "studySites": {
+      "title": "Vous ne pouvez pas supprimer ces sites",
+      "description": "Des études existent avec les sites suivants. <warning>Vous devez d'abord les supprimer des études concernées avant de pouvoir les supprimer de votre organisation.</warning>",
+      "existingSite": "<name></name> : <link></link>",
+      "existingUnauthorizedSite": "{name} : {count, plural,  =1 {1 étude à laquelle} other {#  études auxquelles}} vous n'avez pas accès"
+    },
+    "delete": {
+      "button": "Supprimer l'organisation",
+      "title": "Êtes-vous sûr de vouloir supprimer ce client ?",
+      "content": "Êtes vous sur de vouloir supprimer ce·tte client·e ? <warning>Toutes ses données et études seront supprimées définitivement et seront impossible à récupérées.</warning> Si c'est bien le cas, merci d'écrire le nom de l'organisation dans le champs ci-dessous:",
+      "name": "Nom du client",
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "Not authorized": "Vous n'avez pas les droits pour effectuer cette action",
+      "wrongName": "Le nom du client ne correspond pas",
+      "unexpectedAssociations": "Un évènement inattendu est survenu lors de la suppression de ce client. Veuillez contacter le support."
+    }
+  },
+  "quality": {
+    "1": "Très mauvaise",
+    "2": "Mauvaise",
+    "3": "Moyenne",
+    "4": "Bonne",
+    "5": "Très bonne"
+  },
+  "table": {
+    "page": "Page {page} sur {total}",
+    "goTo": "Aller à la page",
+    "items": "Élements par page"
+  },
+  "validation": {
+    "required": "Veuillez renseigner ce champ",
+    "invalidEnum": "Veuillez sélectionner une valeur valide",
+    "invalidEmail": "Veuillez saisir une adresse email valide",
+    "invalidDate": "Veuillez saisir une date valide",
+    "invalidNumber": "Veuillez saisir un nombre valide",
+    "invalidPostalCode": "Veuillez saisir un code postal valide",
+    "invalidPhone": "Veuillez saisir un numéro de téléphone valide",
+    "invalidString": "Veuillez renseigner ce champ",
+    "endDateBeforeStartDate": "La date de fin doit etre supérieure à la date de début",
+    "noSiteSelected": "Veuillez sélectionner au moins un site",
+    "siretInvalid": "Le SIRET doit contenir exactement 14 chiffres",
+    "nameMaxLength": "Le nom ne peut pas dépasser 64 caractères",
+    "subPostRequired": "Veuillez sélectionner au moins un sous-poste",
+    "objectiveIncomplete": "Veuillez renseigner tous les champs de l'objectif",
+    "atLeastOneObjective": "Veuillez ajouter au moins un objectif",
+    "positiveNumber": "Veuillez saisir un nombre positif",
+    "tooSmall": "Veuillez saisir une valeur plus grande",
+    "tooBig": "Veuillez saisir une valeur plus petite",
+    "studyYearMustBeBeforeCurrent": "L'année de l'étude doit être antérieure à l'année de l'étude actuelle",
+    "studyYearMustBeAfterLinkedStudies": "Impossible de renseigner une date antérieure à celles de vos études liées sur votre plan de transition",
+    "studyIsLinkedInTransitionPlan": "Cette étude est liée dans le plan de transition de l'étude « {studyName} ». La nouvelle date doit être antérieure à celle de cette étude.",
+    "maxTwoDecimals": "Le taux de réduction doit avoir au maximum 2 décimales",
+    "startYearMustBeBeforeTargetYear": "L'année de début doit être antérieure à l'année cible",
+    "yearMustBeAfterReferenceYear": "L'année doit être postérieure à l'année de référence de la trajectoire",
+    "referenceYearMustBeBeforeObjectiveTargetYear": "L'année de référence doit être strictement antérieure à l'année cible des objectifs globaux",
+    "referenceYearMustBeBeforeSubObjectiveStartYear": "L'année de référence doit être inférieure ou égale à l'année de début des sous-objectifs",
+    "referenceYearMustBeBeforeOrEqualToStudyYear": "L'année de référence doit être inférieure ou égale à l'année de l'étude",
+    "sectorPercentagesTotalExceeds100": "Le total des pourcentages ne peut pas dépasser 100%",
+    "sectorPercentagesRequired": "Les pourcentages des secteurs sont requis",
+    "scopeRequired": "Veuillez sélectionner au moins un site, tag ou sous-poste",
+    "atLeastOneValidObjective": "Veuillez ajouter au moins un objectif valide avec année de début, année cible et taux de réduction"
+  },
+  "documentationUrl": {
+    "maturity": "https://www.bilancarbone-methode.com/1-cadrage-de-la-demarche/1.1-definir-son-niveau-de-maturite-bilan-carbone-r"
+  },
+  "publicodes-rules": {
+    "général": {
+      "nombre séances": {
+        "question": "Nombre de séances"
+      },
+      "nombre entrées": {
+        "question": "Nombre d'entrées"
+      },
+      "nombre de jours ouverture": {
+        "question": "Nombre de jours d'ouverture"
+      },
+      "nombre de films programmés": {
+        "question": "Nombre de films programmés"
+      },
+      "distance depuis paris": {
+        "question": "Distance depuis Paris"
+      },
+      "nombre écrans": {
+        "question": "Nombre d'écrans / salles"
+      }
+    },
+    "tournées avant premières": {
+      "équipes reçues": {
+        "nombre équipes": {
+          "question": "Combien d'équipes de films avez-vous reçues en 2025 ?"
+        }
+      }
+    },
+    "salles et cabines": {
+      "autre matériel": {
+        "lunettes 3D": {
+          "nombre": {
+            "question": "De combien de lunettes 3D disposez-vous ?"
+          }
+        }
+      },
+      "matériel technique": {
+        "salles": {
+          "titre": "Salles",
+          "question": "Décrivez les différentes salles du cinéma"
+        },
+        "salle": {
+          "nom": {
+            "question": "Nom de la salle"
+          },
+          "projecteur": {
+            "année achat": {
+              "question": "Année d'acquisition projecteur"
+            },
+            "type": {
+              "titre": "Type de projecteur",
+              "question": "Projecteurs",
+              "options": {
+                "xénon": "Projecteur xénon",
+                "laser": "Projecteur laser"
+              }
+            }
+          },
+          "écran": {
+            "année achat": {
+              "question": "Année d'acquisition écran"
+            },
+            "surface écran": {
+              "question": "Surface de l'écran"
+            },
+            "type": {
+              "titre": "Type d'écran",
+              "question": "Écrans",
+              "options": {
+                "écran 2D": "Écran 2D",
+                "écran 3D": "Écran 3D"
+              }
+            }
+          },
+          "fauteuils": {
+            "année achat": {
+              "question": "Année d'acquisition fauteuils"
+            },
+            "nombre": {
+              "question": "Nombre de fauteuils"
+            },
+            "type": {
+              "titre": "Type de fauteuils",
+              "question": "Fauteuils",
+              "options": {
+                "fauteuils classiques": "Fauteuils classiques",
+                "fauteuils 4DX": "Fauteuils 4DX"
+              }
+            }
+          },
+          "système son": {
+            "année achat": {
+              "question": "Année d'acquisition système de son"
+            },
+            "type": {
+              "titre": "Type de système son",
+              "question": "Systèmes son",
+              "options": {
+                "stéréo": "Son Stéréo",
+                "dolby 51": "Dolby 5.1",
+                "dolby 71": "Dolby 7.1",
+                "dolby atmos": "Dolby Atmos",
+                "imax": "IMAX",
+                "auro 3dIce": "Auro 3D / Ice",
+                "dtsx": "DTS : X"
+              }
+            }
+          }
+        },
+        "cloud": {
+          "stockage": {
+            "question": "Combien de données stockez-vous dans un cloud externe ?"
+          }
+        },
+        "disques durs": {
+          "nombre": {
+            "question": "De combien de disques durs disposez-vous ?"
+          }
+        },
+        "films": {
+          "nombre films dématérialisés": {
+            "description": "Vous pouvez par défaut renseigner 90% des films programmés totaux (ce nombre de films est disponible dans vos données générales), qui est la valeur moyenne issue des Bilans Carbone® qui ont étés réalisés sur plusieurs cinémas français. Si vous détenez une information plus précise pour votre cinéma, nous vous invitons à l'utiliser plutôt que la valeur par défaut.",
+            "question": "Combien de films avez-vous reçu en dématérialisé cette année ?"
+          }
+        }
+      }
+    },
+    "mobilité spectateurs": {
+      "résultat précis": {
+        "empreinte": {
+          "RER et transilien": {
+            "titre": "RER et transilien",
+            "distance": {
+              "question": "Distance (km)"
+            }
+          },
+          "métro ou tram": {
+            "titre": "Métro, tramway",
+            "distance": {
+              "question": "Distance (km)"
+            }
+          },
+          "bus": {
+            "titre": "Bus",
+            "distance": {
+              "question": "Distance (km)"
+            }
+          },
+          "vélo électrique": {
+            "titre": "Vélo électrique",
+            "distance": {
+              "question": "Distance (km)"
+            }
+          },
+          "vélo classique": {
+            "titre": "Vélo classique",
+            "distance": {
+              "question": "Distance (km)"
+            }
+          },
+          "marche": {
+            "titre": "Marche",
+            "distance": {
+              "question": "Distance (km)"
+            }
+          },
+          "voiture diesel": {
+            "titre": "Voiture diesel",
+            "distance": {
+              "question": "Distance (km)"
+            }
+          },
+          "voiture essence": {
+            "titre": "Voiture essence",
+            "distance": {
+              "question": "Distance (km)"
+            }
+          },
+          "voiture hybride": {
+            "titre": "Voiture hybride",
+            "distance": {
+              "question": "Distance (km)"
+            }
+          },
+          "voiture électrique": {
+            "titre": "Voiture électrique",
+            "distance": {
+              "question": "Distance (km)"
+            }
+          },
+          "moto": {
+            "titre": "Moto",
+            "distance": {
+              "question": "Distance (km)"
+            }
+          },
+          "scooter": {
+            "titre": "Scooter",
+            "distance": {
+              "question": "Distance (km)"
+            }
+          },
+          "trottinette électrique": {
+            "titre": "Trottinette électrique",
+            "distance": {
+              "question": "Distance (km)"
+            }
+          }
+        }
+      },
+      "résultat estimé": {
+        "proximité spectateurs": {
+          "question": "Vos spectateurs sont-ils majoritairement des habitants \"locaux\", c'est à dire résidant à l'année dans les environs ou attirez-vous aussi une part non négligeable de spectateurs de passage dans la région (touristes notamment)",
+          "options": {
+            "zone très touristique": "Le cinéma est situé dans une zone touristique et 80% ou + des spectateurs ne résident pas à proximité du cinéma à l'année.",
+            "zone moyennement touristique": "Le cinéma est situé dans une ville de destination de week-end et / ou station balnéaire attirant environ 25% de spectateurs \"non-locaux\".",
+            "majoritairement locaux": "Le cinéma accueille majoritairement des spectateurs locaux"
+          }
+        },
+        "profil établissement": {
+          "question": "Si vous souhaitez vous identifier à des profils de cinéma comparable, de quel type de cinéma votre établissement se rapproche le plus",
+          "options": {
+            "distances courtes": "Les spectateurs parcourent des distances très courtes pour venir au cinéma (moins de 10km aller-retour). Très peu viennent en voiture (- de 10%) et la grande majorité des spectateurs vient à pied ou en transports en commun.",
+            "distances moyennes": "Les spectateurs parcourent autour de 10 km aller-retour pour se rendre\nau cinéma. Il s'agit essentiellement d'un public de proximité venant en\ngrande partie en voiture. Autour de 25% d'entre eux viennent à pied.",
+            "distances longues": "Les spectateurs parcourent autour de 20-25 km aller-retour pour se\nrendre au cinéma. Il s'agit essentiellement d'un public de proximité\nvenant en grande partie en voiture. Autour de 25% d'entre eux viennent\nà pied.",
+            "majoritairement en voiture": "Plus de 80% des spectateurs viennent en voiture. Pas ou peu viennent en\ntransports en commun, peu viennent à pied. La distance moyenne\nparcourue est autour de 15 km aller-retour.",
+            "uniquement accessible en voiture": "Le cinéma n'est accessible qu'en voiture."
+          }
+        }
+      },
+      "précision": {
+        "question": "Avez-vous déjà réalisé une enquête mobilité spectateurs ?",
+        "options": {
+          "résultat précis": "Oui et je peux entrer les résultats",
+          "besoin": "Non mais je voudrais le faire pour estimer l'impact du cinéma",
+          "estimation": "Non mais je préfère m'identifier dans des profils de cinéma comparables"
+        }
+      },
+      "mobilité spectateurs": {
+        "contact": {
+          "question": "Si vous souhaitez réaliser une enquête mobilité spectateur, vous pouvez nous envoyer un mail pour récupérer un modèle d'enquête qui vous permettra de remplir d'ici quelques semaines les informations demandées"
+        }
+      }
+    },
+    "fonctionnement": {
+      "équipe": {
+        "collaborateurs": {
+          "titre": "Collaborateurs",
+          "question": "Quel est le rythme de travail des collaborateurs du cinéma ?"
+        },
+        "collaborateur type": {
+          "nom": {
+            "question": "Libellé"
+          },
+          "nombre de jours par semaine": {
+            "question": "Nombre de jours / semaine"
+          },
+          "transport": {
+            "distance": {
+              "question": "Distance domicile travail (aller-retour)"
+            },
+            "moyen de transport": {
+              "question": "Moyen de transport",
+              "options": {
+                "RER et transilien": "RER et transilien",
+                "métro ou tram": "Métro ou tram",
+                "bus": "Bus",
+                "vélo électrique": "Vélo électrique",
+                "vélo classique": "Vélo classique",
+                "marche": "Marche",
+                "voiture diesel": "Voiture diesel",
+                "voiture essence": "Voiture essence",
+                "voiture hybride": "Voiture hybride",
+                "voiture électrique": "Voiture électrique",
+                "moto": "Moto",
+                "scooter": "Scooter",
+                "trottinette électrique": "Trottinette électrique"
+              }
+            }
+          }
+        }
+      },
+      "énergie": {
+        "électricité": {
+          "consommation": {
+            "question": "Combien de kWh d'électricité ont étés consommés par le cinéma cette année ?"
+          }
+        },
+        "gaz": {
+          "consommation": {
+            "question": "Combien de m³ de gaz ont étés consommés par le cinéma cette année ?"
+          }
+        },
+        "fioul": {
+          "consommation": {
+            "question": "Combien de litres de fioul ont étés consommés par le cinéma cette année ?"
+          }
+        },
+        "réseau de chaleur": {
+          "consommation": {
+            "question": "Combien de KWh issus de réseau de chaleur ont été consommés par le cinéma cette année ?"
+          }
+        },
+        "réseau de froid": {
+          "consommation": {
+            "question": "Combien de KWh issus de réseau de froid ont été consommés par le cinéma cette année ?"
+          }
+        },
+        "granulés": {
+          "consommation": {
+            "question": "Combien de kWh issus de la combustion de granulés de bois ont étés consommés par le cinéma cette année ?"
+          }
+        },
+        "est équipé climatisation": {
+          "question": "Votre cinéma est-il équipé de la climatisation ?"
+        },
+        "groupes électrogènes": {
+          "consommation": {
+            "question": "Quelle est votre consommation annuelle de diesel ?"
+          }
+        },
+        "équipement groupes électrogènes": {
+          "question": "Le cinéma dispose-t-il d’un ou plusieurs groupes électrogènes ?",
+          "options": {
+            "utilisation régulière": "Oui et je l’utilise plusieurs fois par an",
+            "équipé sans utilisation": "Oui mais je ne l'utilise pas",
+            "aucun": "Non"
+          }
+        }
+      },
+      "déplacements pro": {
+        "déplacements": {
+          "titre": "Déplacements",
+          "description": "Les déplacements professionnels de vos collaborateurs sont tous les déplacements autres que les déplacements domicile-travail, effectués dans le cadre du travail. Ceux-ci incluent par exemple les déplacements pour se rendre à des congrès, conventions, festivals, prévisionnages, etc.",
+          "question": "Décrivez les déplacements professionnels de vos collaborateurs"
+        },
+        "déplacement type": {
+          "nom": {
+            "question": "Déplacement"
+          },
+          "nombre participants": {
+            "question": "Nombre de participants"
+          },
+          "nombre occurences": {
+            "question": "Nombre d'occurrences"
+          },
+          "nombre de nuitées": {
+            "question": "Nombre de nuitées"
+          },
+          "transport": {
+            "distance": {
+              "question": "Distance \"aller-retour\""
+            },
+            "moyen de transport": {
+              "question": "Moyen de transport",
+              "options": {
+                "RER et transilien": "RER et transilien",
+                "métro ou tram": "Métro ou tram",
+                "bus": "Bus",
+                "vélo électrique": "Vélo électrique",
+                "voiture diesel": "Voiture diesel",
+                "voiture essence": "Voiture essence",
+                "voiture hybride": "Voiture hybride",
+                "voiture électrique": "Voiture électrique",
+                "moto": "Moto",
+                "scooter": "Scooter",
+                "trottinette électrique": "Trottinette électrique",
+                "TGV": "TGV",
+                "avion": "Avion"
+              }
+            }
+          },
+          "type hébergement": {
+            "question": "Type d'hébergement",
+            "options": {
+              "appartement": "Appartement",
+              "hotel 1 étoile": "Hôtel 1*",
+              "hotel 2 étoiles": "Hôtel 2*",
+              "hotel 3 étoiles": "Hôtel 3*",
+              "hotel 4 étoiles": "Hôtel 4*",
+              "hotel 5 étoiles": "Hôtel 5*"
+            }
+          }
+        }
+      },
+      "bâtiment": {
+        "construction": {
+          "année de construction": {
+            "question": "Quand le bâtiment a-t-il été construit ?"
+          },
+          "surface": {
+            "question": "Quelle est la surface plancher du cinéma ? (La somme des surfaces des différents niveaux)"
+          }
+        },
+        "rénovation": {
+          "type": {
+            "rénovation totale": {
+              "question": "Rénovation totale (hors agrandissement)"
+            },
+            "extension": {
+              "question": "Agrandissement - extension"
+            },
+            "autres travaux importants": {
+              "question": "Autres travaux importants (par ex : changement moquette, ravalement,peinture etc)"
+            },
+            "aucun": {
+              "question": "Je n'ai pas réalisé ces rénovations durant les dix dernières années"
+            }
+          },
+          "empreinte travaux": {
+            "montant": {
+              "question": "Dans le cas d'une rénovation durant ces 10 dernières années, quel est le montant des dépenses liées à ces travaux de rénovation ?"
+            }
+          },
+          "empreinte extension": {
+            "surface": {
+              "question": "Dans le cas d'un agrandissement durant ces 10 dernières années, quelle est la surface supplémentaire ajoutée ?"
+            }
+          }
+        },
+        "autre activité": {
+          "surface": {
+            "question": "Quelle est la surface totale du bâtiment (cinéma inclus) ?"
+          }
+        },
+        "est partagé": {
+          "question": "Le bâtiment est-il partagé avec une autre activité ?"
+        },
+        "parking": {
+          "nombre de places": {
+            "question": "Si oui, de combien de places ?"
+          }
+        },
+        "parking présent": {
+          "question": "Le cinéma dispose-t-il d’un parking ?"
+        }
+      },
+      "activités de bureau": {
+        "petites fournitures": {
+          "montant": {
+            "question": "Quel montant avez-vous dépensé en petites fournitures de bureau ? (Exemples: crayon, cartouche d’encre, papier hors programme, cahier, etc.)"
+          }
+        },
+        "services": {
+          "montant": {
+            "description": "Les services incluent par exemple les dépenses de ménage, sécurité, comptabilité, frais bancaires, etc. Vous pouvez utiliser une valeur par défaut pour cette réponse (25286€) qui est issue des Bilans Carbone® qui ont étés réalisés sur plusieurs cinémas français. Si vous détenez une information plus précise pour votre cinéma, nous vous invitons à l'utiliser plutôt que la valeur par défaut.",
+            "question": "Quel montant avez-vous dépensé en services ?"
+          }
+        },
+        "informatique": {
+          "titre": "Informatique",
+          "description": "Si l'équipement concerné est acheté, merci de ne pas remplir le champ \"Durée de location\". Si l'équipement concerné est loué de manière ponctuelle, merci de ne pas remplir le champ \"Date d'achat\". Si vous louez un équipement pour de longues durées ou de manière continue, nous vous recommandons de le considérer comme acheté (à la date de la première année de location).",
+          "question": "Pour chacun de ces équipements informatiques, veuillez indiquer leur nombre et leur date d'achat ou durée de location",
+          "appareil": {
+            "nombre": {
+              "question": "Nombre d'appareils"
+            },
+            "année achat": {
+              "question": "Année d'achat des appareils"
+            },
+            "durée location": {
+              "question": "Durée de location des appareils (jours à l'année)"
+            }
+          },
+          "équipement": {
+            "titre": "Type d'équipement informatique",
+            "question": "Type d'équipement informatique",
+            "options": {
+              "ordinateurs fixes": "Ordinateurs fixes",
+              "ordinateurs portables": "Ordinateurs portables",
+              "photocopieurs": "Photocopieurs",
+              "imprimantes": "Imprimantes",
+              "téléphones fixes": "Téléphones fixes",
+              "téléphones portables": "Téléphones portables",
+              "tablettes": "Tablettes"
+            }
+          }
+        }
+      }
+    },
+    "déchets": {
+      "ordinaires": {
+        "ordures ménagères": {
+          "titre": "Ordures ménagères (déchets non triés / sans filière)",
+          "nombre bennes": {
+            "question": "Nombre de bennes"
+          },
+          "taille benne": {
+            "description": "Capacité d'une benne à ordures ménagères.",
+            "question": "Taille de la benne"
+          },
+          "fréquence ramassage": {
+            "description": "Fréquence de ramassage des ordures ménagères par semaine.",
+            "question": "Fréquence de ramassage"
+          }
+        },
+        "emballages et papier": {
+          "titre": "Emballages et papier (plastique, métal, papier et carton)",
+          "nombre bennes": {
+            "question": "Nombre de bennes"
+          },
+          "taille benne": {
+            "description": "Capacité d'une benne à ordures ménagères.",
+            "question": "Taille de la benne"
+          },
+          "fréquence ramassage": {
+            "description": "Fréquence de ramassage des ordures ménagères par semaine.",
+            "question": "Fréquence de ramassage"
+          }
+        },
+        "biodéchets": {
+          "titre": "Biodéchets (restes alimentaires)",
+          "nombre bennes": {
+            "question": "Nombre de bennes"
+          },
+          "taille benne": {
+            "description": "Capacité d'une benne à ordures ménagères.",
+            "question": "Taille de la benne"
+          },
+          "fréquence ramassage": {
+            "description": "Fréquence de ramassage des ordures ménagères par semaine.",
+            "question": "Fréquence de ramassage"
+          }
+        },
+        "verre": {
+          "titre": "Déchets verre",
+          "nombre bennes": {
+            "question": "Nombre de bennes"
+          },
+          "taille benne": {
+            "description": "Capacité d'une benne à ordures ménagères.",
+            "question": "Taille de la benne"
+          },
+          "fréquence ramassage": {
+            "description": "Fréquence de ramassage des ordures ménagères par semaine.",
+            "question": "Fréquence de ramassage"
+          }
+        }
+      },
+      "exceptionnels": {
+        "lampe xenon": {
+          "nombre": {
+            "titre": "Nombre de lampes",
+            "question": "Quelle quantité de lampes Xenon avez vous jeté cette année ?"
+          }
+        },
+        "matériel technique": {
+          "quantité": {
+            "question": "Quelle quantité de matériel technique avez vous jeté cette année ?"
+          }
+        }
+      }
+    },
+    "confiseries et boissons": {
+      "électroménager": {
+        "appareil": {
+          "nb appareils": {
+            "question": "Nombre d'appareils"
+          },
+          "année achat": {
+            "question": "Année d'achat des appareils"
+          },
+          "durée location": {
+            "question": "Durée de location des appareils (jours à l'année)"
+          }
+        },
+        "réfrigérateurs": {
+          "titre": "Réfrigérateurs",
+          "nombre": {
+            "question": "Nombre de réfrigérateurs"
+          },
+          "durée location": {
+            "question": "Durée de location des réfrigérateurs (jours à l'année)"
+          },
+          "année achat": {
+            "question": "Année d'achat des réfrigérateurs"
+          }
+        },
+        "congélateurs": {
+          "titre": "Congélateurs",
+          "nombre": {
+            "question": "Nombre de congélateurs"
+          },
+          "durée location": {
+            "question": "Durée de location des congélateurs (jours à l'année)"
+          },
+          "année achat": {
+            "question": "Année d'achat des congélateurs"
+          }
+        },
+        "warmers": {
+          "titre": "Warmers",
+          "nombre": {
+            "question": "Nombre de warmers"
+          },
+          "durée location": {
+            "question": "Durée de location des warmers (jours à l'année)"
+          },
+          "année achat": {
+            "question": "Année d'achat des warmers"
+          }
+        },
+        "distributeurs": {
+          "titre": "Distributeurs snack et boissons",
+          "nombre": {
+            "question": "Nombre de distributeurs snack et boissons"
+          },
+          "durée location": {
+            "question": "Durée de location des distributeurs snack et boissons (jours à l'année)"
+          },
+          "année achat": {
+            "question": "Année d'achat des distributeurs snack et boissons"
+          }
+        }
+      },
+      "fret": {
+        "distance": {
+          "question": "Quelle est la distance entre votre cinéma et votre principal fournisseur ?"
+        }
+      },
+      "achats": {
+        "vente sur place": {
+          "titre": "Vente sur place",
+          "question": "Vendez-vous des boissons et des confiseries ?"
+        },
+        "achat type": {
+          "question": "Selon vous, en moyenne, un spectateur achète :",
+          "options": {
+            "un peu": "Un peu de confiseries et de boissons (~30g)",
+            "standard": "Une part standard de confiseries et de boissons (~120g)",
+            "significatif": "Une part significative de confiseries et de boissons (~200g)"
+          }
+        }
+      }
+    },
+    "billetterie et communication": {
+      "matériel distributeurs": {
+        "affiches": {
+          "affiches 120x160": {
+            "titre": "Affiches 120x160",
+            "nombre": {
+              "question": "Quantité"
+            }
+          },
+          "affiches 40x60": {
+            "titre": "Affiches 40x60",
+            "nombre": {
+              "question": "Quantité"
+            }
+          }
+        },
+        "PLV": {
+          "PLV comptoir": {
+            "titre": "PLV comptoir",
+            "nombre": {
+              "question": "Quantité"
+            }
+          },
+          "PLV grand format": {
+            "titre": "PLV grand format",
+            "nombre": {
+              "question": "Quantité"
+            }
+          }
+        }
+      },
+      "matériel cinéma": {
+        "production": {
+          "programme": {
+            "titre": "Programme",
+            "nombre": {
+              "question": "Quantité"
+            }
+          },
+          "affiches": {
+            "titre": "Affiches",
+            "nombre": {
+              "question": "Quantité"
+            }
+          },
+          "flyers": {
+            "titre": "Flyers",
+            "nombre": {
+              "question": "Quantité"
+            }
+          }
+        }
+      },
+      "communication digitale": {
+        "newsletters": {
+          "nombre": {
+            "question": "Combien de newsletters ont été envoyées cette annnée ?"
+          },
+          "destinataires": {
+            "question": "En moyenne, à combien de personnes sont adressées ces newsletters ?"
+          }
+        },
+        "affichage dynamique": {
+          "nombre": {
+            "question": "Combien de caissons d’affichage dynamique sont présents dans le cinéma ?"
+          }
+        },
+        "écrans": {
+          "nombre": {
+            "question": "Combien d’écrans se trouvent dans les espaces de circulation ?"
+          }
+        },
+        "affichage extérieur": {
+          "surface": {
+            "question": "Si le cinéma dispose d'un affichage extérieur, quelle est sa surface ?"
+          }
+        }
+      },
+      "caisses et bornes": {
+        "caisses libre service": {
+          "nombre": {
+            "question": "De combien de bornes de caisse libre-service dispose le cinéma ?"
+          }
+        },
+        "caisse classique": {
+          "nombre": {
+            "question": "De combien de systèmes de caisse classique dispose le cinéma ?"
+          }
+        }
+      }
+    }
+  },
+  "publicodes-units": {
+    "séance": "séance",
+    "entrée": "entrée",
+    "jour": "jour",
+    "film": "film",
+    "km": "km",
+    "écran": "écran",
+    "équipe": "équipe",
+    "unité": "unité",
+    "kgCO2e": "kgCO₂e",
+    "m2": "m²",
+    "Go": "Go",
+    "jour/semaine": "jour/semaine",
+    "km/jour": "km/jour",
+    "kWh": "kWh",
+    "m3": "m³",
+    "litre": "litre",
+    "kg": "kg",
+    "nuitée": "nuitée",
+    "€": "€",
+    "place": "place",
+    "benne/ramassage": "benne/ramassage",
+    "l/benne": "l/benne",
+    "ramassage/semaine": "ramassage/semaine",
+    "unité/semaine": "unité/semaine",
+    "unité/mois": "unité/mois",
+    "newsletter/personne": "newsletter/personne",
+    "personne": "personne"
+  },
+  "publicodes-layout": {
+    "table": {
+      "MobiliteSpectateurs": {
+        "question": "Si vous avez réalisé une enquête, quelles sont les distances parcourues au total sur l'année pour chacun des modes de transport suivants :",
+        "moyenTransport": "Mode de transport",
+        "distance": "Distance (km)"
+      },
+      "Electromenager": {
+        "question": "Pour les différents équipements informatiques utilisés, veuillez indiquer leur nombre et leur date d'achat ou durée de location :",
+        "typeEquipement": "Type d'électroménagers",
+        "nombre": "Nombre",
+        "dateAchat": "Date d'achat",
+        "dureeLocation": "Durée de location (à l'année)"
+      },
+      "DechetsOrdinaires": {
+        "question": "Renseignez ici les quantités de déchets générés chaque semaine",
+        "typeDechet": "Type de déchets",
+        "nbBennes": "Nombre de bennes",
+        "tailleBennes": "Taille des bennes",
+        "frequenceRamassage": "Fréquence de ramassage (par semaine)"
+      },
+      "MaterielDistributeursAffiches": {
+        "question": "Quelle quantité de matériel distributeurs recevez-vous en moyenne par semaine ?",
+        "typeMateriel": "Type de matériel",
+        "quantite": "Quantité"
+      },
+      "MaterielDistributeursPLV": {
+        "question": "Quelle quantité de matériel distributeurs recevez-vous en moyenne par semaine ?",
+        "typeMateriel": "Type de matériel",
+        "quantite": "Quantité"
+      },
+      "MaterielCinema": {
+        "question": "Quelle quantité de matériel produisez-vous chaque mois ?",
+        "typeMateriel": "Type de matériel",
+        "quantite": "Quantité"
+      }
+    },
+    "group": {
+      "BatimentRenovation": {
+        "question": "Parmi les rénovations suivantes, lesquelles avez-vous réalisées durant les dix dernières années ?"
+      }
+    }
+  }
+}

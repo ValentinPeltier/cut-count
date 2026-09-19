@@ -1,0 +1,20 @@
+{
+  "Fonctionnement.Batiment": 0,
+  "Fonctionnement.Equipe": 0,
+  "Fonctionnement.DeplacementsProfessionnels": 0,
+  "Fonctionnement.Energie": 0,
+  "Fonctionnement.ActivitesDeBureau": 0,
+  "MobiliteSpectateurs.MobiliteSpectateurs": 0,
+  "TourneesAvantPremieres.EquipesRecues": 0,
+  "SallesEtCabines.MaterielTechnique": 0,
+  "SallesEtCabines.AutreMateriel": 0,
+  "ConfiseriesEtBoissons.Achats": 0,
+  "ConfiseriesEtBoissons.Fret": 0,
+  "ConfiseriesEtBoissons.Electromenager": 0,
+  "Dechets.DechetsOrdinaires": 0,
+  "Dechets.DechetsExceptionnels": 0,
+  "BilletterieEtCommunication.MaterielDistributeurs": 0,
+  "BilletterieEtCommunication.MaterielCinema": 0,
+  "BilletterieEtCommunication.CommunicationDigitale": 0,
+  "BilletterieEtCommunication.CaissesEtBornes": 0
+}

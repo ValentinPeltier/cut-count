@@ -1,0 +1,139 @@
+'use client'
+
+import { OrganizationVersionWithOrganization } from '@/db/organization'
+import DynamicSites from '@/environments/cut/organization/Sites'
+import { SiteCAUnit } from '@/generated/prisma/enums'
+import Form from '@/lib/components/base/Form'
+import LoadingButton from '@/lib/components/base/LoadingButton'
+import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
+import Modal from '@/lib/components/modals/Modal'
+import { customRich } from '@/lib/utils/customRich'
+import type { IsSuccess } from '@/lib/utils/serverResponse'
+import { updateOrganizationCommand } from '@/services/serverFunctions/organization'
+import {
+  UpdateOrganizationCommand,
+  UpdateOrganizationCommandValidation,
+} from '@/services/serverFunctions/organization.command'
+import { findStudiesWithSites } from '@/services/serverFunctions/study'
+import { SitesCommand } from '@/services/serverFunctions/study.command'
+import { handleWarningText } from '@/utils/components'
+import { CA_UNIT_VALUES, displayCA } from '@/utils/number'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useTranslations } from 'next-intl'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useForm, UseFormReturn } from 'react-hook-form'
+
+interface Props {
+  organizationVersion: OrganizationVersionWithOrganization
+  caUnit: SiteCAUnit
+  disabled?: boolean
+}
+
+type StudiesWithSites = IsSuccess<AsyncReturnType<typeof findStudiesWithSites>>
+
+const emptySitesOnError = { authorizedStudySites: [], unauthorizedStudySites: [] }
+
+const EditOrganizationForm = ({ organizationVersion, caUnit, disabled = false }: Props) => {
+  const router = useRouter()
+  const t = useTranslations('organization.form')
+  const tStudySites = useTranslations('organization.studySites')
+  const tAction = useTranslations('common.action')
+
+  const [sitesOnError, setSitesOnError] = useState<StudiesWithSites>(emptySitesOnError)
+  const { callServerFunction } = useServerFunction()
+
+  const form = useForm<UpdateOrganizationCommand>({
+    resolver: zodResolver(UpdateOrganizationCommandValidation),
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
+    defaultValues: {
+      organizationVersionId: organizationVersion.id,
+      name: organizationVersion.organization.name,
+      sites: organizationVersion.organization.sites.map((site) => ({
+        ...site,
+        ca: site.ca ? displayCA(site.ca, CA_UNIT_VALUES[caUnit]) : 0,
+        postalCode: site.postalCode ?? '',
+        city: site.city ?? '',
+        cncId: site.cncId ?? '',
+        cncCode: site.cnc?.cncCode || '',
+      })),
+    },
+  })
+
+  const onSubmit = async (command: UpdateOrganizationCommand) => {
+    setSitesOnError(emptySitesOnError)
+    const deletedSiteIds = organizationVersion.organization.sites
+      .filter((site) => !command.sites.find((s) => s.id === site.id))
+      .map((site) => site.id)
+    const deletedSitesOnStudies = await findStudiesWithSites(deletedSiteIds)
+    if (
+      deletedSitesOnStudies.success &&
+      (deletedSitesOnStudies.data.authorizedStudySites.length > 0 ||
+        deletedSitesOnStudies.data.unauthorizedStudySites.length > 0)
+    ) {
+      setSitesOnError(deletedSitesOnStudies.data)
+    } else {
+      await callServerFunction(() => updateOrganizationCommand(command), {
+        onSuccess: () => {
+          router.push(`/organisations/${organizationVersion.id}`)
+        },
+      })
+    }
+  }
+
+  // eslint-disable-next-line react-hooks/incompatible-library
+  const sites = form.watch('sites')
+  return (
+    <Form onSubmit={form.handleSubmit(onSubmit)}>
+      <DynamicSites
+        disabled={disabled}
+        sites={sites}
+        form={form as unknown as UseFormReturn<SitesCommand>}
+        caUnit={caUnit}
+      />
+      {!disabled && (
+        <LoadingButton type="submit" loading={form.formState.isSubmitting} data-testid="edit-organization-button">
+          {t('edit')}
+        </LoadingButton>
+      )}
+      <Modal
+        open={!!sitesOnError.authorizedStudySites.length || !!sitesOnError.unauthorizedStudySites.length}
+        label="delete-site-with-studies"
+        title={t('title')}
+        onClose={() => setSitesOnError(emptySitesOnError)}
+        actions={[
+          { actionType: 'button', onClick: () => setSitesOnError(emptySitesOnError), children: tAction('close') },
+        ]}
+      >
+        <div id="delete-site-with-studies-modal-description" className="flex-col">
+          {handleWarningText(tStudySites, 'description')}
+          <ul>
+            {sitesOnError &&
+              sitesOnError.authorizedStudySites.map((studySite) => (
+                <li key={studySite.id}>
+                  {customRich(tStudySites, 'existingSite', {
+                    name: () =>
+                      `${studySite.site.name}${studySite.study.organizationVersion.isCR ? ` (${studySite.site.organization.name})` : ''}`,
+                    link: () => <Link href={`/etudes/${studySite.studyId}/cadrage`}>{studySite.study.name}</Link>,
+                  })}
+                </li>
+              ))}
+            {sitesOnError &&
+              sitesOnError.unauthorizedStudySites.map((studySite) => (
+                <li key={studySite.site.name}>
+                  {tStudySites('existingUnauthorizedSite', {
+                    name: `${studySite.site.name}${studySite.study.organizationVersion.isCR ? ` (${studySite.site.organization.name})` : ''}`,
+                    count: studySite.count,
+                  })}
+                </li>
+              ))}
+          </ul>
+        </div>
+      </Modal>
+    </Form>
+  )
+}
+
+export default EditOrganizationForm

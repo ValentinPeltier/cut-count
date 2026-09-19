@@ -1,7 +1,0 @@
-intrants-services:
-  titre: Intrants services
-  formule:
-    somme:
-      - numérique
-      - approche monétaire
-  par défaut: 0

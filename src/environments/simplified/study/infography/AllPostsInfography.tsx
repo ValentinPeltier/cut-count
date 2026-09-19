@@ -1,0 +1,103 @@
+/* eslint-disable react-compiler/react-compiler */
+import CenteredLoader from '@/components/base/CenteredLoader'
+import type { FullStudy } from '@/db/study'
+import { usePublicodesSituation } from '@/lib/publicodes/context'
+import type { BaseResultsByPost } from '@/services/posts'
+import { getQuestionProgressBySubPost, StatsResult } from '@/services/publicodes/questionProgress'
+import { computeBaseResultsByPostFromEngine } from '@/services/results/publicodes'
+import { getEmissionValueString } from '@/utils/study'
+import { styled } from '@mui/material'
+import { useTranslations } from 'next-intl'
+import { useMemo } from 'react'
+import { SimplifiedPostInfography } from './SimplifiedPostInfography'
+
+interface Props {
+  study: FullStudy
+}
+
+const StyledGrid = styled('div')({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(3, 1fr)',
+  gridTemplateRows: 'repeat(3, 8.75rem)', // Fixed height allows overflow of subpost menu
+  gap: '0.75rem',
+  width: '100%',
+  paddingBottom: '12rem',
+})
+
+const AllPostsInfography = ({ study }: Props) => {
+  const tUnits = useTranslations('study.results.units')
+  const tPost = useTranslations('emissionFactors.post')
+  const { engine, situation, listLayoutSituations, config, isLoading } = usePublicodesSituation()
+
+  const { questionProgress, publicodesResults } = useMemo<{
+    questionProgress: StatsResult
+    publicodesResults: BaseResultsByPost[]
+  }>(() => {
+    if (!situation || !config) {
+      return {
+        questionProgress: {},
+        publicodesResults: [],
+      }
+    }
+
+    return {
+      questionProgress: getQuestionProgressBySubPost(
+        engine,
+        listLayoutSituations,
+        config.subPostsByPost,
+        config.getFormLayout,
+      ),
+      publicodesResults: computeBaseResultsByPostFromEngine(
+        engine,
+        config.posts,
+        config.subPostsByPost,
+        tPost,
+        config.getPostRuleName,
+        config.getSubPostRuleName,
+      ),
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [engine, situation, config, tPost])
+
+  const renderedInfographies = useMemo(() => {
+    if (!config) {
+      return []
+    }
+
+    return config.posts.map((post) => {
+      const subPostStats = questionProgress[post] ?? {}
+      let allAnswered = 0
+      let allTotal = 0
+      for (const stats of Object.values(subPostStats)) {
+        allAnswered += stats?.answered ?? 0
+        allTotal += stats?.total ?? 0
+      }
+
+      const completionRate = allTotal > 0 ? (allAnswered / allTotal) * 100 : 0
+      const unit = tUnits(study.resultsUnit)
+      const postResult = publicodesResults.find((d) => d.post === post)
+      const emissionValue = getEmissionValueString(postResult?.value, study.resultsUnit, unit)
+
+      return (
+        <SimplifiedPostInfography
+          key={post}
+          mainPost={post}
+          emissionValue={emissionValue}
+          percent={completionRate}
+          post={post}
+          studyId={study.id}
+          subPosts={config.subPostsByPost[post] ?? null}
+          questionStats={questionProgress[post] ?? {}}
+        />
+      )
+    })
+  }, [questionProgress, tUnits, study.resultsUnit, study.id, publicodesResults, config])
+
+  if (!config || isLoading) {
+    return <CenteredLoader />
+  }
+
+  return <StyledGrid>{renderedInfographies}</StyledGrid>
+}
+
+export default AllPostsInfography

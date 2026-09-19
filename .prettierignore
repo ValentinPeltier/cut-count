@@ -2,3 +2,5 @@
 **/publicodes-build/**
 .next/
 next-env.d.ts
+**/*.publicodes
+src/generated/**
