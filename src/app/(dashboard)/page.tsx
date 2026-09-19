@@ -1,5 +1,5 @@
-import StudiesContainer from '@/components/study/StudiesContainer'
 import withAuth, { UserSessionProps } from '@/components/hoc/withAuth'
+import StudiesContainer from '@/components/study/StudiesContainer'
 import Block from '@/lib/components/base/Block'
 import dynamic from 'next/dynamic'
 

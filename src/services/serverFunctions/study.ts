@@ -862,8 +862,7 @@ export const getStudyOrganizationMembers = async (studyId: string) =>
     }
     if (
       !study.organizationVersion ||
-      (study.organizationVersion.id !== userOrganizationId &&
-        study.organizationVersion.parentId !== userOrganizationId)
+      (study.organizationVersion.id !== userOrganizationId && study.organizationVersion.parentId !== userOrganizationId)
     ) {
       throw new Error(NOT_AUTHORIZED)
     }

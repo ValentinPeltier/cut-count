@@ -1,9 +1,9 @@
 import Block from '@/lib/components/base/Block'
 import LinkButton from '@/lib/components/base/LinkButton'
 import { Alert, Typography } from '@mui/material'
+import { UserSession } from 'next-auth'
 import { getTranslations } from 'next-intl/server'
 import StudiesContainer from '../study/StudiesContainer'
-import { UserSession } from 'next-auth'
 
 interface Props {
   user: UserSession

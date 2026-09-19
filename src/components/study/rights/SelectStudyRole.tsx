@@ -46,18 +46,13 @@ const SelectStudyRole = ({ user, rowUser, study, currentRole, userRole }: Props)
    * - current role is Validator and user is not Validator and (user is not admin OR user is not part of the study's organization)
    * - user has readerOnly attribute (calculated by back-end if : user has no account or user does not match the study's level)
    */
-  const isStudyOrgaAdmin = study.organizationVersion
-    ? isAdminOnStudyOrga(user, study.organizationVersion)
-    : false
+  const isStudyOrgaAdmin = study.organizationVersion ? isAdminOnStudyOrga(user, study.organizationVersion) : false
   const isStudyOwner = study.ownerAccountId === user.accountId
 
   const isDisabled = useMemo(
     () =>
       user.email === rowUser.user.email ||
-      (currentRole === StudyRole.Validator &&
-        userRole !== StudyRole.Validator &&
-        !isStudyOrgaAdmin &&
-        !isStudyOwner) ||
+      (currentRole === StudyRole.Validator && userRole !== StudyRole.Validator && !isStudyOrgaAdmin && !isStudyOwner) ||
       rowUser.readerOnly,
     [currentRole, isStudyOrgaAdmin, isStudyOwner, rowUser, user, userRole],
   )

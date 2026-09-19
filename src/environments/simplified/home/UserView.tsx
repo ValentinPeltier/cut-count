@@ -44,10 +44,7 @@ const UserView = async ({ account }: Props) => {
             )}
           </Box>
           <Box className="flex align-center">
-            <Link
-              href={hasOrganization ? '/organisations' : '/register'}
-              className={styles.startButtonLink}
-            >
+            <Link href={hasOrganization ? '/organisations' : '/register'} className={styles.startButtonLink}>
               <Box className={classNames('flex-cc px2 py1', styles.startButton)} component="button">
                 <Typography variant="h6" className={styles.startButtonText}>
                   {hasOrganization ? tAction('start') : t('noOrganization.cta')}

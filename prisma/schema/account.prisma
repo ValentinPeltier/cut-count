@@ -20,9 +20,9 @@ model Account {
 
   role Role
 
-  createdStudies          Study[] @relation("StudyCreator")
-  ownedStudies            Study[] @relation("StudyOwner")
-  ownedSites              Site[]  @relation("SiteOwner")
+  createdStudies          Study[]                  @relation("StudyCreator")
+  ownedStudies            Study[]                  @relation("StudyOwner")
+  ownedSites              Site[]                   @relation("SiteOwner")
   allowedStudies          UserOnStudy[]
   userApplicationSettings UserApplicationSettings?
 

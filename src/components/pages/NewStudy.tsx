@@ -65,14 +65,14 @@ const NewStudyPage = ({
             },
           ]
         : (defaultOrganizationVersion ?? organizationVersions[0])?.organization.sites.map((site) => ({
-          ...site,
-          ca: site.ca ? displayCA(site.ca, CA_UNIT_VALUES[caUnit]) : 0,
-          selected: false,
-          postalCode: site.postalCode ?? '',
-          city: site.city ?? '',
-          cncId: site.cncId ?? '',
-          cncCode: site.cnc?.cncCode || '',
-        })) || [],
+            ...site,
+            ca: site.ca ? displayCA(site.ca, CA_UNIT_VALUES[caUnit]) : 0,
+            selected: false,
+            postalCode: site.postalCode ?? '',
+            city: site.city ?? '',
+            cncId: site.cncId ?? '',
+            cncCode: site.cnc?.cncCode || '',
+          })) || [],
       exports: [],
     },
   })

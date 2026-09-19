@@ -36,6 +36,7 @@ export const OrganizationVersionWithOrganizationSelect = {
           postalCode: true,
           city: true,
           address: true,
+          ownerAccountId: true,
           cncId: true,
           cnc: {
             select: {

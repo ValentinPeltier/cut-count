@@ -83,9 +83,7 @@ const StudiesContainer = async ({ user, organizationVersionId, isCR, simplified 
 
   const canCreateStudy = await canCreateAStudy(user, simplified)
   const activeLicence =
-    organizationVersion != null
-      ? hasActiveLicence(organizationVersion)
-      : canCreateStudy && !user.organizationVersionId
+    organizationVersion != null ? hasActiveLicence(organizationVersion) : canCreateStudy && !user.organizationVersionId
 
   const displaySimplifiedStudies = showSeparateSimplifiedList
   const hasStudies = studies.length > 0

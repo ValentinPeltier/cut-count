@@ -1,13 +1,13 @@
 import { getAccountById, getAccountFromUserOrganization } from '@/db/account'
+import { getOrganizationVersionForRightsCheck } from '@/db/organization'
 import { changeStatus, getUserByEmail, organizationVersionActiveAccountsCount, validateUser } from '@/db/user'
 import { UserStatus } from '@/generated/prisma/enums'
-import { EMAIL_SENT } from '@/lib/services/permissions/check'
-import { getOrganizationVersionForRightsCheck } from '@/db/organization'
 import { sendActivationEmail, sendActivationRequest } from '@/lib/services/email/email'
+import { EMAIL_SENT } from '@/lib/services/permissions/check'
 import { updateUserResetToken } from '@/lib/services/serverFunctions/user'
 import { REQUEST_SENT } from '@/services/permissions/check'
-import { expect } from '@jest/globals'
 import { AccountWithUser } from '@/types/account.types'
+import { expect } from '@jest/globals'
 
 jest.mock('@/services/auth', () => ({
   auth: jest.fn(),

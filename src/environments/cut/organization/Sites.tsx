@@ -201,11 +201,7 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
         cell: ({ row, getValue }) => {
           if (!disabled && form) {
             if (withSelection) {
-              return row.original.cncId ? (
-                <div className="align-center">{getValue<string>()}</div>
-              ) : (
-                getValue<string>()
-              )
+              return row.original.cncId ? <div className="align-center">{getValue<string>()}</div> : getValue<string>()
             }
             return (
               <FormTextField
@@ -228,11 +224,7 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
         cell: ({ row, getValue }) => {
           if (!disabled && form) {
             if (withSelection) {
-              return row.original.cncId ? (
-                <div className="align-center">{getValue<string>()}</div>
-              ) : (
-                getValue<string>()
-              )
+              return row.original.cncId ? <div className="align-center">{getValue<string>()}</div> : getValue<string>()
             }
             return (
               <FormTextField
@@ -255,11 +247,7 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
         cell: ({ row, getValue }) => {
           if (!disabled && form) {
             if (withSelection) {
-              return row.original.cncId ? (
-                <div className="align-center">{getValue<string>()}</div>
-              ) : (
-                getValue<string>()
-              )
+              return row.original.cncId ? <div className="align-center">{getValue<string>()}</div> : getValue<string>()
             }
             return (
               <FormTextField
