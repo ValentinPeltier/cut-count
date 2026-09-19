@@ -46,11 +46,9 @@ const AllResults = ({
   studySite,
   totalValue,
   computedResults,
-  computedResultsBySite,
   totalValueWithoutDep = totalValue,
   caUnit = SiteCAUnit.K,
   chartOrder = defaultChartOrder,
-  emissionFactorsWithPart = [],
   showSubLevel = false,
 }: Props) => {
   const [tabValue, setTabValue] = useState(0)
@@ -61,16 +59,11 @@ const AllResults = ({
   }
 
   const tOrga = useTranslations('study.organization')
-  const tPost = useTranslations('emissionFactors.post')
   const tResults = useTranslations('study.results')
   const tExport = useTranslations('exports')
-  const tQuality = useTranslations('quality')
-  const tBeges = useTranslations('beges')
-  const tGHGP = useTranslations('ghgp')
   const tUnits = useTranslations('study.results.units')
   const tExportButton = useTranslations('study.export')
   const tStudyNav = useTranslations('study.navigation')
-  const tBase = useTranslations('emissionFactors.base')
 
   const { callServerFunction } = useServerFunction()
 
@@ -116,19 +109,10 @@ const AllResults = ({
             onClick={() => {
               downloadStudyResults(
                 study,
-                [],
-                [],
-                emissionFactorsWithPart,
                 tResults,
                 tExport,
-                tPost,
                 tOrga,
-                tQuality,
-                tBeges,
-                tGHGP,
                 tUnits,
-                tBase,
-                computedResultsBySite,
                 computedResults,
                 studySite,
               )

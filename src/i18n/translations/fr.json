@@ -1,54 +1,25 @@
 {
   "common": {
-    "colon": " :",
     "error": "Une erreur est survenue. Si le problème persiste, contactez le support.",
     "yes": "Oui",
     "no": "Non",
-    "previous": "Précédent",
     "next": "Suivant",
     "all": "Tous",
-    "allSites": "Tous les sites",
-    "allSubPosts": "Tous les sous-postes",
-    "allPosts": "Tous les postes",
-    "allTags": "Tous les tags",
-    "xSites": "{count} sites",
-    "xSubPosts": "{count} sous-postes",
-    "xTags": "{count} tags",
     "none": "Aucun",
-    "unknown": "Inconnu",
     "subPosts": "Sous postes",
-    "onDate": "le",
-    "by": "par",
-    "scope": "Périmètre",
-    "sites": "Sites",
-    "tags": "Tags",
-    "noTagsAvailable": "Aucun tag disponible",
-    "posts": "Postes",
-    "selectedPlural": "sélectionnés",
     "moreInfo": "En savoir plus",
-    "mandatory": "* obligatoire",
-    "and": "et",
-    "year": "Année",
     "noStudies": "Aucune étude trouvée. Vous n'avez pas les droits pour en créer une, veuillez contacter un de vos administrateurs.",
     "action": {
-      "create": "Créer",
       "edit": "Modifier",
       "delete": "Supprimer",
       "add": "Ajouter",
       "duplicate": "Dupliquer",
-      "save": "Enregistrer",
       "cancel": "Annuler",
       "confirm": "Confirmer",
-      "update": "Mettre à jour",
       "start": "Démarrer",
       "close": "Fermer",
-      "approve": "Approuver",
       "selectAll": "Tout sélectionner",
-      "unselectAll": "Tout désélectionner",
-      "back": "Retour",
-      "import": "Importer",
-      "export": "Exporter",
-      "continue": "Continuer"
+      "unselectAll": "Tout désélectionner"
     },
     "questions": {
       "glossary": {
@@ -58,29 +29,11 @@
     },
     "label": {
       "start": "Début",
-      "end": "Fin",
-      "sites": "Sites",
-      "date": "Date",
-      "startYear": "Année de début",
-      "targetYear": "Année cible",
-      "line": "Ligne {line}",
-      "labelName": "Libellé",
-      "source": "Source",
-      "unit": "Unité",
-      "emissionsKg": "Émissions (kgCO₂e)"
+      "end": "Fin"
     },
-    "notAuthorized": "Action non authorisée",
-    "Not authorized": "Vous n'avez pas les droits pour effectuer cette action",
-    "typeToConfirm": "Tapez \"{name}\" pour confirmer",
-    "perPerson": "par personne",
-    "carbonIntensities": "Intensités carbone"
+    "typeToConfirm": "Tapez \"{name}\" pour confirmer"
   },
   "saveStatus": {
-    "saving": "Sauvegarde des réponses en cours...",
-    "saved": "Réponses sauvegardées",
-    "error": "Erreur de sauvegarde des réponses",
-    "ready": "Prêt à sauvegarder",
-    "at": "à",
     "syncedFromOtherUser": "Données mises à jour par un·e autre utilisateur·ice"
   },
   "signup": {
@@ -107,73 +60,13 @@
   "navigation": {
     "home": "Accueil",
     "logout": "Se déconnecter",
-    "comments": "Commentaires",
     "admin": "Admin",
     "team": "Mes Collaborateur·rices",
-    "campaigns": "Campagnes",
-    "factors": "Facteurs d'émission",
-    "fe": "FE",
     "help": "Aide",
     "profile": "Profil",
-    "study": "Étude",
-    "organization": "Mes Collaborateur·rices",
-    "transition": "Transition BC+",
-    "methodology": "Méthodologie",
     "organizations": "Mes Empreintes",
-    "footprints": "Mes Empreintes",
-    "settings": "Paramètres",
     "information": "Mes Cinémas",
-    "formation": "Formation",
     "selectAccount": "Sélection du compte"
-  },
-  "country": {
-    "ALBANIA": "Albanie",
-    "ANDORRA": "Andorre",
-    "AUSTRIA": "Autriche",
-    "BELARUS": "Biélorussie",
-    "BELGIUM": "Belgique",
-    "BOSNIA_AND_HERZEGOVINA": "Bosnie-Herzégovine",
-    "BULGARIA": "Bulgarie",
-    "CROATIA": "Croatie",
-    "CYPRUS": "Chypre",
-    "CZECH_REPUBLIC": "République tchèque",
-    "DENMARK": "Danemark",
-    "ESTONIA": "Estonie",
-    "FINLAND": "Finlande",
-    "FRANCE": "France",
-    "GERMANY": "Allemagne",
-    "GREECE": "Grèce",
-    "HUNGARY": "Hongrie",
-    "ICELAND": "Islande",
-    "IRELAND": "Irlande",
-    "ITALY": "Italie",
-    "KOSOVO": "Kosovo",
-    "LATVIA": "Lettonie",
-    "LIECHTENSTEIN": "Liechtenstein",
-    "LITHUANIA": "Lituanie",
-    "LUXEMBOURG": "Luxembourg",
-    "MALTA": "Malte",
-    "MOLDOVA": "Moldavie",
-    "MONACO": "Monaco",
-    "MONTENEGRO": "Monténégro",
-    "NETHERLANDS": "Pays-Bas",
-    "NORTH_MACEDONIA": "Macédoine du Nord",
-    "NORWAY": "Norvège",
-    "POLAND": "Pologne",
-    "PORTUGAL": "Portugal",
-    "ROMANIA": "Roumanie",
-    "RUSSIA": "Russie",
-    "SAN_MARINO": "Saint-Marin",
-    "SERBIA": "Serbie",
-    "SLOVAKIA": "Slovaquie",
-    "SLOVENIA": "Slovénie",
-    "SPAIN": "Espagne",
-    "SWEDEN": "Suède",
-    "SWITZERLAND": "Suisse",
-    "UKRAINE": "Ukraine",
-    "UNITED_KINGDOM": "Royaume-Uni",
-    "VATICAN_CITY": "Cité du Vatican",
-    "OTHER": "Autre"
   },
   "study": {
     "results": {
@@ -305,23 +198,9 @@
     "questions": {
       "actions": "Actions",
       "add": "Ajouter",
-      "error": "Erreur lors de la mise à jour du champs",
       "next": "Sous-poste suivant",
       "previous": "Sous-poste précédent",
-      "numberOfYears": "Nombre d'années",
-      "format": {
-        "text": "Texte",
-        "postalCode": "Code postal",
-        "phone": "Téléphone",
-        "year": "Année",
-        "hour": "Heure",
-        "number": "Nombre"
-      },
-      "errorLoadingQuestions": "Erreur lors du chargement des questions",
-      "retry": "Réessayer",
-      "finish": "Terminer",
-      "noQuestions": "Aucune question trouvée pour ce sous-poste",
-      "autoSaveError": "Certaines réponses n'ont pas pu être sauvegardées automatiquement. Veuillez vérifier votre connexion et réessayer."
+      "finish": "Terminer"
     },
     "infography": {
       "form": {
@@ -329,77 +208,30 @@
       }
     },
     "create": "Ajouter une empreinte",
-    "duplicate": "Dupliquer l'étude",
-    "duplicateEnvironment": "Dupliquer l'étude dans un autre environnement",
     "deleteStudy": "Supprimer l'étude",
-    "duplicateCopy": " - Copie",
-    "duplicateDialog": {
-      "title": "Duplication de l'étude",
-      "description": "Souhaitez-vous dupliquer cette étude ? Vous serez redirigé vers la page de création d'une étude, tous les champs seront pré-remplis avec les informations de l'étude que vous serez en mesure d'éditer, et une fois la création validée, toute l'étude et ses sources d'émissions seront dupliquées. Les documents attachés à l'étude originale ne seront pas dupliqués. Attention, après la duplication, les sources d'émission de la nouvelle étude créée devront être validées à nouveau afin d'apparaître dans les résultats. <br></br>Les études sont indépendantes après la duplication, toute modification faite dans l'une ne se reflètera pas dans l'autre.",
-      "duplicatedDescription": "Vous étude a été dupliquée. Vous pouvez la retrouver dans votre environnement {environment}.",
-      "otherEnvironnment": "Souhaitez vous dupliquer cette étude sur votre environnement {environment} ? Toutes les informations vont être copiées dans la nouvelle étude.",
-      "cancel": "Annuler",
-      "confirm": "Dupliquer",
-      "selectEnvironment": "Selectionner l'environnement cible"
-    },
     "myCollaborations": "Mes collaborations",
     "myStudies": "Mes empreintes",
     "createFirstStudy": "Créer ma première empreinte",
     "seeResults": "Voir les résultats",
     "firstStudyMessage": "Il est temps de vous lancer ! Nous vous invitons à créer votre premier Bilan Carbone®.",
-    "validatedSources": "<data>{validated} / {total}</data> Questions répondues",
     "see": "Voir mon empreinte",
-    "information": "Informations",
-    "validatedOnly": "Sources d'émission validées",
-    "validatedOnlyDescription": "Pour chaque empreinte, un ou plusieurs validateur·rices peuvent être définis. Ceux-ci ont la responsabilité de valider les sources d'émission lorsque celles-ci auront été renseignées par les contributeur·rices et éditeur·rices de l'étude. Par défaut, seules les émissions validées apparaissent au sein de vos résultats, mais vous pouvez changer ce comportement via le menu \"Paramètres\".",
-    "withDependenciesDescription": "La nouvelle méthode Bilan Carbone® introduit le concept de responsabilité et de dépendance. Il est fortement recommandé de restituer les résultats du Bilan Carbone® avec et sans le sous-poste \"Utilisation en dépendance\", car l'organisation n'est généralement pas en mesure d'agir aisément sur ce sous-poste. En revanche, celui-ci reste capital pour comprendre les risques auxquels sont soumis l'organisation, notamment si elle est dépendante de secteurs ou d'activités très carbonés. Le résultat final à retenir doit inclure la dépendance. Pour plus d'information sur ces nouveaux concepts, nous vous invitons à consulter <link>cette page</link>.",
-    "monetaryRatioDescription": "Il est fortement déconseillé d'utiliser des facteurs d'émission en ratio monétaire lorsqu'une alternative est possible. Vous pouvez trouver plus d'information sur la <monetaryLink>méthodologie de l'ABC</monetaryLink>.",
-    "selectSite": "Avant de remplir les données, choisissez un cinéma",
     "navigation": {
-      "homepage": "Accueil",
       "framing": "Données générales",
-      "scope": "Périmètre",
-      "accounting": "Comptabilisation",
       "dataEntry": "Saisie des données",
       "results": "Résultats",
-      "transitionPlan": "Plan de transition",
       "menu": "Ouvrir le menu de navigation de l'étude",
-      "coming": "à venir",
-      "organizations": "Mes cinémas",
-      "team": "Mes Collaborateur·rices",
-      "informationDefinition": "Définition des informations",
-      "dataAccounting": "Comptabilisation des données",
-      "trajectories": "Trajectoires et objectifs",
-      "initialization": "Initialisation",
-      "objectives": "Objectifs de réduction",
-      "actionPlan": "Plan d'action",
-      "commingSoon": "À venir",
-      "engagement": "Mobilisation",
-      "carriedActions": "Synthèse de la mobilisation",
       "title": "Mon Empreinte"
     },
     "new": {
       "title": "Informations sur la nouvelle empreinte",
       "name": "Nom de l'empreinte",
-      "validator": "Email du ou de la validateur·rice",
-      "studyDates": "Année de référence de l’empreinte",
-      "realizationDates": "Dates de la réalisation de l'étude",
-      "level": "Niveau de maturité du Bilan Carbone®",
-      "exports": "Exports",
-      "control": "Mode de contrôle des exports",
-      "CapitalShare": "Part de capital",
-      "Financial": "Financier",
-      "Operational": "Opérationnel",
       "isPublicTitle": "Visibilité de l'étude",
       "private": "Confidentielle",
       "public": "Partagée à l'équipe",
-      "resultsUnit": "Unité des resultats de l'étude",
       "numberOfSessions": "Nombre de séances",
       "numberOfTickets": "Nombre d'entrées",
       "numberOfProgrammedFilms": "Nombre de films programmés",
       "numberOfOpenDays": "Nombre de jours d'ouverture",
-      "openingHours": "Horaires d'ouverture",
-      "openingHoursHoliday": "Horaires d'ouverture pendant les vacances scolaires",
       "clear": "Supprimer la valeur",
       "days": {
         "Monday": "Lundi",
@@ -417,17 +249,11 @@
         "name": "Empreinte - {orga} {studyStartDate}",
         "yourOrga": "Votre cinéma"
       },
-      "create": "Créer l'étude",
-      "duplicate": "Dupliquer l'étude",
-      "duplicationOptions": "Options de duplication",
-      "inviteTeam": "Inviter la même équipe",
-      "inviteContributors": "Inviter les mêmes contributeurs",
       "siteDeselectionModal": {
         "title": "Attention : Sites avec sources d'émission",
         "description": "Vous tentez de désélectionner des sites qui contiennent des sources d'émission dans l'étude originale.",
         "affectedSites": "Sites affectés",
         "sourcesCount": "{count, plural, =1 {1 source d'émission} other {# sources d'émission}}",
-        "totalSources": "{count, plural, =1 {Au total, 1 source d'émission ne sera pas dupliquée.} other {Au total, # sources d'émission ne seront pas dupliquées.}}",
         "confirmation": "Êtes-vous sûr de vouloir continuer ?",
         "cancel": "Annuler",
         "proceed": "Continuer sans ces sources"
@@ -451,55 +277,19 @@
         "duplicationOptions": "Options de duplication",
         "duplicationOptionsDescription": "Lors de la duplication d'une étude, vous pouvez choisir d'inviter les mêmes membres d'équipe et contributeurs de l'étude originale dans la nouvelle. Cela permet de maintenir la continuité de la collaboration."
       },
-      "validation": {
-        "name": "Veuillez renseigner un nom",
-        "validator": "Veuillez selectionner un·e validateur·rice",
-        "startDate": "Veuillez selectionner une date de debut d'étude",
-        "endDate": "Veuillez selectionner une date de fin d'étude",
-        "endDateBeforStartDate": "La date de fin doit etre superieur à la date de début",
-        "level": "Veuillez selectionner le type de Bilan Carbone®",
-        "invalidNumber": "Veuillez saisir une valeur valide"
-      },
       "error": {
         "default": "Une erreur s'est produite ...",
         "noActiveVersion_BaseEmpreinte": "Aucune version active de Base Empreinte. Veuillez contacter le support."
       },
-      "coming": "à venir",
-      "info": {
-        "date": "Les estimations sont généralement faites sur une période de 12 mois"
-      },
       "goToDataEntry": "Passer à la saisie des données",
       "cncInfo": "Si vous avez renseigné le numéro CNC de votre cinéma, les données ci-dessous sont pré-remplies avec les informations de {year}. Vous pouvez les modifier si elles ne sont pas à jour."
-    },
-    "post": {
-      "displayInfography": "Voir les différents postes",
-      "hideInfography": "Cacher les différents postes",
-      "emissionSource": "{count, plural, =0 {Pas de source d'emission} =1 {1 source d'émission} other {# sources d'émission}}",
-      "contributors": "{count, plural, =1 {1 contributeur·rice} other {# contibuteur·rices}}",
-      "contributorsList": "{count, plural, =1 {Contributeur·rice :} other {Contributeur·rices :}}",
-      "label": "Libellé de la source d'émission",
-      "search": "Rechercher par libellé, valeurs, unités, ...",
-      "new": "Donnez un titre à votre nouvelle source d'émission",
-      "add": "Ajouter",
-      "filters": "Filtres",
-      "sort": "Trier par",
-      "activityData": "Donnée d'activité",
-      "emissionFactor": "Facteur d'émission",
-      "emissions": "Émissions",
-      "uncertainty": "Incertitude (Alpha, %)",
-      "asc": "Ascendant",
-      "desc": "Descendant"
     },
     "organization": {
       "site": "Cinéma",
       "allSites": "Tous les cinémas",
       "allSitesOnly": "Cette page est globale à tous les sites de l'étude",
       "allSitesOnlyTransitionPlan": "Cette page est globale à tous les sites de l'étude pour le moment",
-      "noSites": "Il n'y a pas de cinémas configurés sur l'organisation",
-      "addSite": "Créer un cinéma",
       "title": "Quelle organisation est concernée par l'étude ?",
-      "sites": "Les cinémas de l'organisation",
-      "next": "Suivant",
       "select": "Organisation",
       "validation": {
         "sites": "Veuillez selectionner au moins un cinéma concerné par l'étude",
@@ -522,7 +312,6 @@
     "rights": {
       "title": "Données générales de l'étude : {name}",
       "general": "Général",
-      "edit": "Renommer l'étude",
       "new": {
         "title": "Ajouter une personne sur l'étude : {name}",
         "email": "Email",
@@ -545,48 +334,7 @@
           "decline": "Non"
         }
       },
-      "newContributor": {
-        "titleEdit": "Modifier un·e contributeur·rice sur l'étude : {name}",
-        "title": "Ajouter un·e contributeur·rice sur l'étude : {name}",
-        "email": "Email",
-        "firstName": "Prénom",
-        "lastName": "Nom",
-        "post": "Poste",
-        "subPost": "Sous poste",
-        "create": "Ajouter la personne",
-        "edit": "Modifier les droits",
-        "Already in study": "Cette personne a déjà accès à l'étude.",
-        "Not authorized": "Action non autorisée. N'hésitez pas à consulter la FAQ ou à contacter le support si vous pensez qu'il s'agit d'une erreur.",
-        "validation": {
-          "email": "Veuillez renseigner un email valide",
-          "post": "Veuillez selectionner un poste"
-        }
-      },
-      "contributorsTable": {
-        "actions": " ",
-        "delete": "Supprimer le contributeur·rice",
-        "email": "Email",
-        "post": "Poste",
-        "subPosts": "Sous postes",
-        "title": "Contributeur·rices",
-        "newContributorLink": "Ajouter un·e contributeur·rice",
-        "andXOthers": "et {count, plural, =1 {1 autre} other {# autres}}",
-        "deleting": {
-          "title": "Confirmation",
-          "confirmation": "Êtes vous sûr de vouloir supprimer {email} des contributeur·rices de cette étude ?",
-          "confirmationPost": "Êtes vous sûr de vouloir supprimer l'accès de {email} au poste {post} ?",
-          "yes": "Oui",
-          "no": "Non",
-          "Not authorized": "Vous n'avez pas les droits pour effectuer cette action"
-        },
-        "role": {
-          "information": "Informations",
-          "description": "Vous pouvez ici gérer les contributeur·rices de votre étude. Ceux-ci auront accès à certains postes et sous postes (que vous pouvez définir) et pourront remplir certaines informations pour des sources d'émission que vous aurez déjà créées dans l'étude. Pour plus d'information sur l'interface des contributeur·rices, n'hésitez pas à aller voir notre <link>FAQ</link>"
-        }
-      },
       "table": {
-        "actions": " ",
-        "delete": "Supprimer le·a membre",
         "email": "Email",
         "role": "Rôle",
         "title": "Gestion de l'équipe",
@@ -598,123 +346,7 @@
           "no": "Non",
           "Not authorized": "Vous n'avez pas les droits pour effectuer cette action"
         }
-      },
-      "versions": {
-        "list": "Versions des facteurs d'emissions de l'étude",
-        "upgradeSource": "Mettre à jour",
-        "Not authorized": "Vous n'avez pas les droits pour effectuer cette action",
-        "latest": "Vous utilisez déjà la dernière version de {name}",
-        "title": "Êtes vous sûr de vouloir mettre à jour la source {name} ?",
-        "unchanged": "Les résultats de l'étude seront inchangés",
-        "updated": "Les facteurs d'émission suivants ont été mis à jour",
-        "wastedUpdated": "Les facteurs marqués ne seront différents que pour les exports BEGES. Vous pouvez trouver une explication dans la page \"Résultats\" de votre étude",
-        "deleted": "Les facteurs d'émission suivants ont été supprimés",
-        "deletionDetails": "Les sources d'émissions associées n'auront plus de facteur d'émissions et seront dévalidées",
-        "confirm": "Confirmer",
-        "cancel": "Annuler"
       }
-    },
-    "perimeter": {
-      "general": "Général",
-      "studyDates": "Périmètre temporel de l'étude",
-      "realizationDates": "Dates de la réalisation de l'étude",
-      "dates": "Du {startDate} au {endDate}",
-      "realizationFrom": "Étude réalisée à partir du {date}",
-      "realizationUntil": "Étude réalisée jusqu'au {date}",
-      "realizedDates": "Étude réalisée du {startDate} au {endDate}",
-      "title": "Périmètre de l'étude : {name}",
-      "save": "Modifier",
-      "editSites": "Modifier la liste de cinémas",
-      "cancelEditSites": "Annuler la modification",
-      "validSites": "Valider les changements",
-      "validSitesToRecalculate": "Valider les changements (recalcul des émissions)",
-      "siteDataChangeModal": {
-        "title": "Changement impactant les résultats existants",
-        "description": "La modification que vous venez d'apporter va affecter les calculs d'émissions existantes.",
-        "affectedCalculations": "Cela va recalculer les émissions pour les questions suivantes :",
-        "confirmation": "Êtes-vous sûr de vouloir continuer ?",
-        "cancel": "Annuler",
-        "proceed": "Confirmer les changements"
-      },
-      "exports": "Exports",
-      "control": "Mode de contrôle des exports",
-      "emissionSourceTagFamily": "Famille",
-      "emissionSourceTags": "Tags",
-      "emissionSourceTagLabel": "Libellé",
-      "preset": "Pré-set",
-      "preset_numerique": "Numérique",
-      "color": "Couleur",
-      "emissionSourceTagsPlaceholder": "Votre tag",
-      "createEmissionSourceTag": "Créer mon tag",
-      "editTagTitle": "Modifier le tag",
-      "updateTag": "Confirmer",
-      "cancel": "Annuler",
-      "validate": "Valider",
-      "deleteDialog": {
-        "accept": "Oui",
-        "decline": "Non",
-        "delete": "Supprimer",
-        "description": "{count, plural, =1 {Il contient} other {Certains contiennent}} des sources d'emission. <warning>Toutes les données renseignées seront definitivement perdues.</warning>",
-        "title": "Êtes-vous sûr de vouloir supprimer {count, plural, =1 {ce cinéma} other {ces cinémas}} ?"
-      },
-      "controlModeWarning": {
-        "title": "Changement de mode de contrôle",
-        "description": "Vous êtes sur le point de changer le mode de contrôle de {currentMode} vers {newMode}. <warning>Cette action supprimera la majorité des caractérisations existantes et dévalidera les sources d'émission associées</warning>, car elles ne correspondent plus au nouveau mode de contrôle. Voulez-vous continuer ?",
-        "continue": "Continuer",
-        "cancel": "Annuler"
-      },
-      "exportActivationWarning": {
-        "title": "Activation de l'export {type}",
-        "description": "Vous êtes sur le point d'activer l'export {type} règlementaire. Lorsque cet export est activé, vous devez renseigner des champs supplémentaires ({fields}) dans certaines sources d'émissions. En conséquence, <warning>l'activation de cet export dévalidera les sources d'émission concernées</warning>. Voulez-vous continuer ?",
-        "finalClientDescription": "Le GHG Protocol distingue entre l'utilisation d'un produit vendu par le client final ou par un intermédiaire. Les deux caractérisations sont désormais disponibles au sein du poste Utilisation. Par défaut, toutes vos sources d'émission ont été affectées à une utilisation par un client final.",
-        "continue": "Continuer",
-        "cancel": "Annuler"
-      },
-      "exportDeactivationWarning": {
-        "title": "Désactivation de l'export {type}",
-        "description": "Vous êtes sur le point de désactiver l'export {type} règlementaire. <warning>La désactivation de cet export entraînera la perte de données renseignées dans certaines sources d'émission ({fields}) {additionnalInfos}</warning>. Voulez-vous continuer ?",
-        "continue": "Continuer",
-        "cancel": "Annuler",
-        "ghgpDeactivationAdditionnalInfos": "et les facteurs d'émission en market based seront supprimées des sources d'émissions concernées"
-      },
-      "family": {
-        "title": "Famille de tags",
-        "add": "Ajouter un nouveau tag dans une famille",
-        "name": "Libellé",
-        "edit": "Renommer la famille",
-        "delete": "Supprimer la famille",
-        "deleteContent": "Voulez vous vraiment supprimer la famille de tags \"{name}\" ? <error>Tous ses tags associés seront supprimés de façon permanente.</error>",
-        "new": "Ajouter une famille de tag",
-        "content": "Quel nom voulez vous donner à cette famille ?",
-        "cancel": "Annuler",
-        "confirm": "Confirmer",
-        "glossary": "Famille de tags",
-        "glossaryDescription": "Les tags et familles de tags servent à identifier vos sources d'émissions dans le but d'agréger vos résultats en fonction de ces tags par la suite. Les tags similaires devraient être renseignés dans une même famille. <br></br>Créer vos tags et familles de tags pour les associer à des sources d'émissions au sein de la page \"Saisie des données\", avant d'en visualiser les émissions dans la page \"Résultats\". Pour éviter les doubles-comptes, il n'est pas possible de visualiser les émissions de deux familles de tags simultanément. <br></br>Par exemple, prenons deux familles de tags : \"Produits vendus\" et \"Publics ciblés\". Ces deux familles et leurs tags respectifs vous permettrons de visualiser la répartition des émissions de votre organisation en fonction des produits vendus, et des publics ciblés.",
-        "allTags": "Tous les tags"
-      },
-      "duplicate": {
-        "title": "Dupliquer le site {name} et ses sources d'émissions",
-        "description": "Vous pouvez dupliquer un site et/ou ses sources d'émissions sur un ou plusieurs sites de votre étude. Les sources d'émissions seront dupliquées. Les informations des sites (ETP, CA) ne seront modifiés que sur l'étude et non dans vos informations générales.",
-        "selectInfoTitle": "Choix des informations à dupliquer",
-        "emissionSources": "Sources d'émissions",
-        "selectSitesTitle": "Choix du ou des sites sur lesquels faire la duplication",
-        "selectAll": "Tout sélectionner",
-        "deselectAll": "Tout désélectionner",
-        "selectSitesLabel": "Sites de destination",
-        "selectSitesPlaceholder": "Sélectionnez les sites",
-        "noOtherSites": "Aucun autre site disponible dans cette étude",
-        "createSitesTitle": "Créer des sites et y dupliquer les informations",
-        "createSitesDescription": "Vous pouvez également créer de nouveaux sites et y dupliquer les informations. Ceux-ci seront apparaitront dans vos informations générales. Merci d'indiquer le nombre de sites à créer sur lesquels seront dupliquées les informations que vous avez sélectionnées.",
-        "numberOfSitesToCreate": "Nombre de sites à créer",
-        "cancel": "Annuler",
-        "sitesChanges": {
-          "title": "Modification de l'organisation",
-          "description": "Vous avez modifié certaines informations liées aux sites de cette étude. Souhaitez-vous répercuter ces modifications sur les informations de l'organisation ? <error>Ces changements ne seront pas répercutés sur vos autres études.</error>",
-          "no": "Non",
-          "replicate": "Modifier l'organisation globale"
-        }
-      },
-      "information": "Pour plus d'information sur cette section, vous pouvez vous référer à cette documentation : <link></link>"
     },
     "pdf": {
       "loading": "Chargement des données...",
@@ -745,141 +377,7 @@
       "additionalInfo": "Informations complémentaires"
     },
     "export": {
-      "activityDataComment": "Commentaire de la donnée d'activité",
-      "activityDataQuality": "Qualité de la donnée d'activité",
-      "activityDataUnit": "Unité de la donnée d'activité",
-      "activityDataValue": "Valeur de la donnée d'activité",
-      "date": "Date butoire",
-      "download": "Sources d'émission - CSV",
-      "downloadExcel": "Sources d'émission - Excel",
-      "emissionName": "Nom du FE (facteur d'émission)",
-      "emissionQuality": "Qualité du FE",
-      "emissionSource": "Source du FE",
-      "emissionBase": "base du FE",
-      "emissionUnit": "Unité du FE",
-      "emissionValue": "Valeur du FE",
-      "no": "Non",
-      "noFactor": "Aucun facteur d'émission",
-      "post": "Poste",
-      "quality": "Qualité",
-      "site": "Site",
-      "sourceCharacterization": "Caractérisation de la source d'émission",
-      "sourceDuration": "Durée (années)",
-      "sourceDeprecation": "Durée d'amortissement (années)",
-      "sourceName": "Nom de la source d'émission",
-      "sourceConstructionYear": "Année d'acquisition",
-      "sourceQuality": "Qualité de la source d'émission",
-      "sourceSurface": "Surface (ha)",
-      "sourceUnit": "Unité de la source d'émission",
-      "sourceValue": "Valeur de la source d'émission",
-      "sourceTag": "Tag de la source d'émission",
-      "subPost": "Sous poste",
-      "total": "Total",
-      "uncertainty": "Incertitude",
-      "validation": "Validation de la source d'émission",
-      "yes": "Oui",
       "export": "Exporter mes résultats"
-    },
-    "importEmissionSourcesModal": {
-      "title": "Import de sources d'émission",
-      "previewTitle": "{count, plural, =1 {1 source d'émission à importer} other {# sources d'émission à importer}}",
-      "success": "Sources d'émission importées avec succès",
-      "columnSite": "Site *",
-      "columnPost": "Poste (1)",
-      "columnSubPost": "Sous-poste *",
-      "columnName": "Nom *",
-      "columnEmissionFactor": "Facteur d'émission",
-      "columnValue": "Valeur",
-      "columnType": "Type",
-      "columnCaracterisation": "Caractérisation",
-      "columnTag": "Tag",
-      "columnSource": "Source et date de la donnée collectée",
-      "columnQuality": "Qualité",
-      "columnComment": "Hypothèses DA",
-      "sheetName": "Sources d'émission",
-      "templateFileName": "modele-sources-emission.xlsx",
-      "exportFileName": "sources-emission-export.xlsx",
-      "exportFileNameCsv": "sources-emission-export.csv",
-      "exportExcel": "Exporter en Excel",
-      "exportCsv": "Exporter en CSV",
-      "exampleSite": "Paris",
-      "examplePrefix": "Exemple :",
-      "exampleName": "Acier",
-      "exampleEmissionFactor": "Acier ou fer blanc",
-      "exampleSource": "Bons de commande",
-      "columnFeComment": "FE souhaité/Hypothèses faites",
-      "columnConstructionYear": "Année d'acquisition",
-      "groupBcSpecific": "Données spécifiques au BC+",
-      "columnValidation": "Validation (Oui/Non)",
-      "columnCalculatedValue": "Valeur calculée (1)",
-      "columnCalculatedUnit": "Unité de la valeur calculée (1)",
-      "columnCalculatedUncertainty": "Incertitude calculée (1)",
-      "exportOrganization": "Nom de l'organisation concernée par le bilan",
-      "exportDate": "Date du bilan",
-      "groupActivityData": "Donnée d'activité",
-      "groupEmissionFactor": "Facteur d'émission",
-      "columnUnit": "Unité",
-      "columnDepreciationPeriod": "Durée d'amortissement",
-      "columnGlobalUncertainty": "Incertitude globale (1)",
-      "columnReliability": "Fiabilité",
-      "columnTechnicalRepresentativeness": "Représentativité technique",
-      "columnGeographicRepresentativeness": "Représentativité géographique",
-      "columnTemporalRepresentativeness": "Représentativité temporelle",
-      "columnCompleteness": "Complétude",
-      "columnEmissionFactorId": "ID (Base empreinte uniquement)",
-      "columnEmissionFactorName": "Nom",
-      "columnEmissionFactorValue": "Valeur",
-      "columnEmissionFactorUnit": "Unité",
-      "columnEmissionFactorLocalization": "Localisation",
-      "columnEfSource": "Source (1)",
-      "columnEfType": "Type (1)",
-      "columnFeGlobalUncertainty": "Incertitude globale (1)",
-      "columnFeReliability": "Fiabilité (1)",
-      "columnFeTechnicalRepresentativeness": "Représentativité technique (1)",
-      "columnFeGeographicRepresentativeness": "Représentativité géographique (1)",
-      "columnFeTemporalRepresentativeness": "Représentativité temporelle (1)",
-      "columnFeCompleteness": "Complétude (1)",
-      "efTypeBDD": "FE issu d'une base de données",
-      "efTypeOrga": "FE ajouté par l'utilisateur",
-      "efTypeMonetaryNonSpecific": "Ratio monétaire non spécifique",
-      "efTypeMonetarySpecific": "Ratio monétaire spécifique",
-      "templateInfoLine1": "La ligne d'exemple présente dans ce template d'import ne sera pas importée dans le BC+. Les colonnes dont les en-têtes présentent des astérisques (*) doivent obligatoirement être complétées.",
-      "templateInfoLine2": "Par ailleurs, les qualités des colonnes M à Q seront utilisées préférentiellement à la qualité globale colonne L si toutes les colonnes sont complétées. La qualité globale sera alors recalculée dans l'outil.",
-      "templateInfoLine3": "(1) Ces colonnes sont conservées pour que vous puissiez exporter toutes les données d'une étude et la réimporter, mais ne sont pas utilisées lors de l'import,",
-      "templateInfoLine4": "car les données sont déjà présentes dans l'outil pour ce qui concerne le facteur d'émission, soit parce que l'outil recalcule le reste des valeurs (émissions, etc)."
-    },
-    "flow": {
-      "loading": "Chargement du document...",
-      "add": "Ajouter une cartographie des flux",
-      "documentNotFound": "Document non trouvé",
-      "download": "Télécharger le flux",
-      "flows": "Cartographies des flux",
-      "information": "Information",
-      "documentSelector": "Cartographie à afficher",
-      "invalidFileType": "Type de fichier non supporté",
-      "newFlow": "Ajouter une cartographie des flux",
-      "noDocument": "Aucune cartographie des flux à afficher",
-      "notAuthorized": "Action non authorisée",
-      "removeDocument": "Supprimer la cartographie",
-      "Not authorized": "Vous n'avez pas les droits pour effectuer cette action",
-      "info": "Vous pouvez télécharger un exemple de cartographie des flux pour vous aider à construire la vôtre. Par la suite, si vous souhaitez soumettre votre propre cartographie des flux pour aider d'autres organisations en leur fournissant une base de travail, merci de la soumettre à <mail>methodologie@abc-transitionbascarbone.fr</mail>",
-      "downloadSample": "Télécharger un exemple"
-    },
-    "dependencyMatrix": {
-      "loading": "Chargement du document...",
-      "add": "Ajouter une matrice",
-      "documentNotFound": "Document non trouvé",
-      "download": "Télécharger la matrice",
-      "dependencyMatrices": "Matrices de risque et de dépendance",
-      "information": "Information",
-      "documentSelector": "Matrice de risque et de dépendance à afficher",
-      "invalidFileType": "Type de fichier non supporté",
-      "noDocument": "Aucune matrice de risque et de dépendance à afficher",
-      "notAuthorized": "Action non authorisée",
-      "removeDocument": "Supprimer la matrice de risque et de dépendance",
-      "Not authorized": "Vous n'avez pas les droits pour effectuer cette action",
-      "info": "Vous pouvez télécharger un exemple de matrice de risque et de dépendance pour vous aider à construire la vôtre. Par la suite, si vous souhaitez soumettre votre propre matrice de risque et de dépendance pour aider d'autres organisations en leur fournissant une base de travail, merci de la soumettre à <mail>methodologie@abc-transitionbascarbone.fr</mail>",
-      "downloadSample": "Télécharger un exemple"
     },
     "delete": {
       "cancel": "Annuler",
@@ -891,556 +389,8 @@
       "title": "Suppression d'une étude",
       "wrongName": "Le nom de l'étude ne correspond pas"
     },
-    "transitionPlan": {
-      "notInitialized": "Le plan de transition de cette étude n'a pas encore été initialisé.",
-      "validatorRequired": "Un validateur ou éditeur de l'étude doit s'en charger.",
-      "startButton": "Démarrer mon plan de transition",
-      "emptyState": {
-        "title": "Plan de Transition",
-        "subtitle": "Définissez les trajectoires de réduction des émissions de votre organisation et suivez vos actions dans le temps."
-      },
-      "modal": {
-        "title": "Choisir un plan de transition",
-        "description": "Bienvenue dans le plan de transition de votre étude. Vous pouvez choisir de réutiliser un plan de transition existant ou d'en définir un nouveau.",
-        "createNew": "Créer un nouveau plan de transition",
-        "createNewDescription": "Démarrer un nouveau plan de transition à partir de zéro",
-        "reuseExisting": "Réutiliser un plan de transition existant",
-        "reuseExistingDescription": "Réutiliser un plan de transition existant pour cette étude. Celui-ci sera dupliqué, tout changement fait ici n'impactera pas celui fait dans la précédente étude.",
-        "noAvailablePlans": "Aucun plan de transition disponible dans cette organisation",
-        "cancel": "Annuler",
-        "confirm": "Confirmer",
-        "selectPlaceholder": "Sélectionnez un plan de transition existant",
-        "studyPrefix": "Étude :"
-      },
-      "onboarding": {
-        "badge": "Prise en main",
-        "learnMore": "En savoir plus",
-        "hideDetails": "Masquer les détails"
-      },
-      "initialization": {
-        "title": "Initialisation de votre plan de transition",
-        "onboarding": {
-          "title": "Préparer votre plan de transition",
-          "description": "La construction du plan de transition implique les sous-étapes suivantes : <br></br><br></br> 1 - Visualiser les <b>objectifs et trajectoires de référence</b> dont l'ambition à l'échelle planétaire est celle de l'Accord de Paris. <br></br> 2 - Sélectionner une <b>trajectoire de décarbonation descendante ou « top-down »</b>, c'est-à-dire la trajectoire théorique que votre organisation devrait suivre. <br></br> 3 - Construire votre <b>plan d'action</b>. <br></br> 4 - Estimer l'impact prévisionnel de la mise en oeuvre de votre plan d'action, en calculant son <b>potentiel de réduction</b>, pour construire votre <b>trajectoire de décarbonation ascendante ou « bottom-up »</b>. <br></br> 5 - Vérifier la cohérence : la <b>trajectoire bottom-up issue de votre plan d'action justifie la crédibilité de votre trajectoire top-down</b> à plus ou moins long terme selon votre niveau de maturité. <br></br><br></br> Cette page vous permet de visualiser les trajectoires de référence issues de <b>Stratégie Nationale Bas Carbone</b> (SNBC) et de la <b>Science-Based Target initiative</b> (SBTi). Pour cela, vous pouvez paramétrer votre organisation en renseignant vos éventuels bilans passés et en répartissant vos émissions par secteur d'activité de la SNBC.",
-          "detailedInfo": "Deux trajectoires de référence, la SNBC et SBTi, vous sont proposées au bas de cette page. Vous pouvez visualiser la trajectoire de décarbonation que devrait suivre votre organisation selon l'une et l'autre. Ces trajectoires répondent à une <b>logique scientifique robuste</b>, mais elles résultent également de <b>choix socio-économiques</b> (définition des besoins, variation de la demande et de l’offre, orientations politiques, rentabilité, etc.). <br></br><br></br> La SNBC étant déclinée selon les grands secteurs d'activité de l'économie française, vous pouvez sélectionner le secteur qui vous correspond le mieux, ou découper vos émissions sur les différents secteurs. L'outil applique alors les trajectoires sectorielles sur les émissions choisies, et <b>combine ensuite l'ensemble en une trajectoire SNBC pour votre organisation</b>. Si ces secteurs ne conviennent pas à votre activité, il convient d’utiliser la trajectoire générale. Si vous découpez vos émissions sur les différents secteurs, vous pouvez évidemment garder une part d'émissions affectées à la trajectoire générale. Plus d'informations sur la SNBC sont disponibles <link1>ici</link1>. <br></br><br></br> SBTi fournit une trajectoire visant à limiter le réchauffement climatique à <b>1,5°C</b>, et une seconde visant à le limiter <b>bien en dessous de 2°C</b>. Vous devez également choisir laquelle de ces deux trajectoires vous souhaitez visualiser. Plus d'informations sur SBTi sont disponibles <link2>ici</link2>. <br></br><br></br> Les trajectoires de référence ont deux but distincts : <br></br> - <b>Atteindre la <link4>neutralité carbone</link4></b> à l'échelle planétaire à un certain horizon temporel <br></br> - <b>Conserver un certain <link3>budget carbone</link3></b> <br></br> Si vos émissions réelles ne suivent pas la trajectoire choisie, le budget carbone initialement alloué sera dépassé. Il faut alors recalculer la trajectoire à suivre pour réduire d’autant plus et <b>contrebalancer ce dépassement, que l'on appelle « overshoot »</b>. Dans l'outil, la trajectoire est recalculée automatiquement dès que vos émissions réelles sur l'année dépassent les émissions attendues d'au moins 5%.  À chaque nouveau bilan réalisé, vos trajectoires se mettront à jour et vous indiqueront quelles réductions restent à réaliser."
-        },
-        "createButton": "Créer ma première trajectoire top-down",
-        "skipOnboarding": "Passer l'onboarding",
-        "stepLinkStudy": {
-          "title": "Bilans Carbone® passés",
-          "description": "Cette fonctionnalité sert à reconstruire l'historique de vos émissions, idéalement à partir de votre année de référence. Vous pouvez renseigner des Bilans Carbone® issus du BC+ ou d'outils tiers. Ces données alimenteront vos graphiques et trajectoires de réduction.",
-          "glossaryTitle": "Bilans Carbone® passés",
-          "glossaryDescription": "",
-          "linkStudyButton": "Lier un Bilan Carbone®"
-        },
-        "stepSectorAllocation": {
-          "title": "Répartition sectorielle",
-          "description": "Indiquez la part de vos émissions relevant des secteurs de la SNBC. L'outil appliquera les trajectoires sectorielles de la SNBC sur les émissions choisies et les combinera pour obtenir la trajectoire SNBC de votre organisation. Si ces secteurs ne conviennent pas à votre activité, il convient d'utiliser la trajectoire générale (il suffit de n'indiquer aucune émission sectorielle).",
-          "glossaryTitle": "Répartition sectorielle SNBC",
-          "glossaryDescription": "La SNBC définit des objectifs de réduction différenciés par secteur (énergie, industrie, bâtiments, transports…). En renseignant la part de vos émissions dans chaque secteur, la plateforme calcule une trajectoire SNBC pondérée, représentative de votre mix d'activités."
-        },
-        "stepSelectReferenceTrajectories": {
-          "title": "Trajectoires de référence",
-          "description": "Choisissez les trajectoires de référence à afficher sur votre graphique : la Stratégie Nationale Bas Carbone (SNBC) et/ou la Science-Based Target initiative (SBTi). Ces trajectoires servent de repères pour construire votre propre trajectoire top-down.",
-          "glossaryTitle": "Trajectoires de référence",
-          "glossaryDescription": "La SNBC (Stratégie Nationale Bas-Carbone) est la trajectoire officielle française de réduction des émissions. Les trajectoires SBTi (Science Based Targets initiative) sont des standards internationaux alignés sur les objectifs de l'Accord de Paris."
-        },
-        "stepVisualization": {
-          "title": "Visualisation des trajectoires",
-          "description": "Visualisez les trajectoires de référence appliquées à votre organisation. Ce graphique sera enrichi au fil du temps avec vos propres trajectoires de réduction.",
-          "glossaryTitle": "Graphique des trajectoires",
-          "glossaryDescription": "Ce graphique représente l'évolution des émissions de votre organisation dans le temps, en regard des trajectoires de référence. L'axe vertical indique les émissions totales, l'axe horizontal représente les années."
-        },
-        "sectorBlock": {
-          "title": "Répartition sectorielle SNBC",
-          "description": "Indiquez la part de vos émissions relevant des secteurs de la SNBC. Cela permettra de combiner les trajectoires sectorielles de la SNBC pour obtenir votre trajectoire SNBC.",
-          "snbcSectorialName": "Votre trajectoire SNBC",
-          "update": "Sauvegarder les modifications"
-        }
-      },
-      "trajectories": {
-        "title": "Trajectoires et objectifs",
-        "tableTitle": "Liste des trajectoires et objectifs",
-        "snbcButton": "Trajectoire SNBC",
-        "sbtiButton": "Trajectoires SBTi",
-        "customButton": "Je choisis ma trajectoire",
-        "customSubtitle": "Reprenez une trajectoire existante ou créez votre propre trajectoire de réduction pour commencer à construire votre plan de transition",
-        "myTrajectories": "Mes trajectoires",
-        "addTrajectory": "Ajouter une trajectoire de réduction",
-        "selectTrajectories": "Sélectionnez vos trajectoires",
-        "delete": {
-          "title": "Suppression du plan de transition",
-          "description": "Souhaitez-vous vraiment supprimer votre plan de transition ? Toutes les données de votre plan de transition seront supprimées. Cela n'impactera pas les études et plans de transition liées.",
-          "confirm": "Supprimer",
-          "cancel": "Annuler"
-        },
-        "snbcCard": {
-          "title": "Trajectoires SNBC",
-          "description": "La Stratégie Nationale Bas-Carbone (SNBC) est la feuille de route de la France pour lutter contre le changement climatique. Elle définit une trajectoire de réduction des émissions de gaz à effet de serre jusqu’à 2050 et fixe des objectifs à horizon 2030.",
-          "methodLabel": "Méthodes",
-          "general": "Générale",
-          "energy": "Énergie",
-          "industry": "Industrie",
-          "waste": "Déchets",
-          "buildings": "Bâtiments",
-          "agriculture": "Agriculture",
-          "transportation": "Transports",
-          "placeholder": "Aucune trajectoire sélectionnée",
-          "sectenUpdateButton": "Mise à jour des sectens disponibles",
-          "sectenUpdateModal": {
-            "title": "Mise à jour des valeurs secten",
-            "description": "Une nouvelle version des valeurs secten est disponible. Vous pouvez mettre à jour ces valeurs pour qu'elles s'appliquent sur vos trajectoires. Voici les modifications :"
-          }
-        },
-        "sbtiCard": {
-          "title": "Trajectoires SBTi",
-          "description": "La Science Based Targets Initiative définit deux trajectoires visant à limiter le réchauffement climatique à 1,5°C (SBTi 1.5°C) ou \"Well below 2 degrees\" (SBTi WB2C).",
-          "methodLabel": "Méthodes",
-          "optionSNBC": "SNBC",
-          "option15": "SBTi 1,5°C",
-          "optionWB2C": "SBTi WB2C",
-          "placeholder": "Aucune trajectoire sélectionnée"
-        },
-        "graph": {
-          "title": "Visualisation des trajectoires de réduction",
-          "subtitle": "Visualisez les trajectoires de référence appliquées à votre organisation. Ce graphique sera enrichi au fil du temps avec vos propres trajectoires de réduction.",
-          "trajectory15": "SBTi 1,5°C",
-          "trajectoryWB2C": "SBTi WB2C",
-          "trajectorySNBC": "SNBC",
-          "actionBasedTrajectory": "Trajectoire bottom-up",
-          "yAxisLabel": "Émissions",
-          "unvalidatedSourcesWarning": "{count, plural, =1 {Une source d'émissions n'est pas validée dans l'étude actuelle et n'est donc pas prise en compte dans le calcul des trajectoires.} other {{count} sources d'émissions ne sont pas validées dans l'étude actuelle et ne sont donc pas prises en compte dans le calcul des trajectoires.}}",
-          "unvalidatedSourcesLinkedStudiesWarning": "{count, plural, =1 {Une source d'émissions n'est pas validée dans l' étude passée suivante :} other {{count} sources d'émissions ne sont pas validées dans les études passées suivantes :}}",
-          "unvalidatedSourcesLinkedStudyCount": " ({count, plural, =1 {1 source non validée} other {{count} sources non validées}})",
-          "noEmissionSourcesWarning": "Aucune source d'émission n'est supérieure à 0. Les trajectoires ne peuvent pas être calculées.",
-          "noEmissionSourcesDisabledButton": "Aucune source d'émission n'est supérieure à 0. Veuillez renseigner au moins une source d'émission avant de créer une trajectoire personnalisée.",
-          "yearRangeLabel": "Période de visualisation",
-          "sbtiSnbc": "Trajectoires SBTI/SNBC",
-          "custom": "Mes trajectoires personnalisées",
-          "legendFilter": "Filtrer les trajectoires",
-          "previousTrajectories": "Référence ({year})",
-          "currentTrajectories": "Actuelle ({year})",
-          "failedTrajectories": "Les trajectoire suivantes ne peuvent pas s'afficher correctement dans le futur car vous avez déjà consommé l'ensemble du budget carbone prévu par celles-ci :",
-          "estimatedPast": "Passé estimé",
-          "glossary": {
-            "title": "Reconstruction des émissions passées sur le BC+",
-            "description": "Les émissions historiques affichées sont : <br></br> - Soit issues de vos Bilan Carbone® passées, que vous avez renseignées dans la page « Initialisation » <br></br> - Soit reconstituées à partir des inventaires nationaux français pour les années qui précèdent votre premier bilan. En l'absence d'informations, l'outil suppose donc que votre organisation s'est décarbonée au même rythme que la France."
-          },
-          "overshootTrajectoryGlossary": {
-            "title": "Trajectoire corrigée",
-            "description": "Votre organisation ne s'est pas décarbonée au rythme requis initialement par cette trajectoire. En conséquence, celle-ci a été <b>corrigée pour respecter le <link>budget carbone</link> qui vous était initialement alloué</b>. Vous aurez alors deux affichages : <br></br> - <b>La trajectoire dans son état initial</b>, avec le taux de réduction annuel de référence <br></br> - <b>La trajectoire corrigée</b> pour l'année en cours, avec le taux de réduction annuel corrigé <br></br><br></br> La trajectoire qui résulte de cette correction est <b>plus ambitieuse</b> : à vous de choisir si vous vous y conformez ou si vous en construisez une nouvelle. Notez que si vous décidez aujourd'hui de suivre une trajectoire dont l'année de référence est ancienne, il est tout à fait normal que vous soyez en deça de ses attendus. La correction des trajectoires ne se déclenche que lorsqu'un écart <b> de plus de 5% entre les attendus et le Bilan Carbone® est constaté</b>."
-          }
-        },
-        "linkedStudies": {
-          "linked": "Études liées",
-          "add": "Ajouter",
-          "save": "Enregistrer",
-          "linkStudy": "Lier une étude",
-          "editStudy": "Modifier l'étude",
-          "source": "Source",
-          "study": "Étude concernée",
-          "oldStudy": "Études BC+",
-          "externalStudy": "Étude venant d'une autre plateforme",
-          "name": "Nom",
-          "namePlaceholder": "Veuillez renseigner un nom",
-          "date": "Année",
-          "totalCo2": "Emissions totales",
-          "totalCo2Placeholder": "256",
-          "yearAlreadySet": "Une étude est déjà configurée pour cette année",
-          "studyYearMustBeBeforeCurrent": "L'année de l'étude doit être antérieure à l'année de l'étude actuelle",
-          "Not authorized": "Vous n'avez pas les droits pour effectuer cette action",
-          "noAvailableStudies": "Aucune étude passée disponible",
-          "information": "Informations",
-          "table": {
-            "name": "Nom",
-            "year": "Année",
-            "type": "Type",
-            "typeLinked": "Étude existante",
-            "typeExternal": "Étude externe",
-            "emissions": "Émissions",
-            "see": "Voir",
-            "delete": "Supprimer"
-          },
-          "deleteModal": {
-            "title": "Supprimer l'étude liée",
-            "message": "Êtes-vous sûr de vouloir supprimer cette étude liée ? Cette action est irréversible.",
-            "confirm": "Supprimer",
-            "cancel": "Annuler"
-          },
-          "validation": {
-            "required": "Champs requis"
-          }
-        },
-        "onboarding": {
-          "title": "Créez vos trajectoires top-down et détaillez vos objectifs de réduction",
-          "description": "La construction du plan de transition implique les sous-étapes suivantes : <br></br><br></br> 1 - Visualiser les <b>objectifs et trajectoires de référence</b> dont l'ambition à l'échelle planétaire est celle de l'Accord de Paris. <br></br> 2 - Sélectionner une <b>trajectoire de décarbonation descendante ou « top-down »</b>, c'est-à-dire la trajectoire théorique que votre organisation devrait suivre. <br></br> 3 - Construire votre <b>plan d'action</b>. <br></br> 4 - Estimer l'impact prévisionnel de la mise en oeuvre de votre plan d'action, en calculant son <b>potentiel de réduction</b>, pour construire votre <b>trajectoire de décarbonation ascendante ou « bottom-up »</b>. <br></br> 5 - Vérifier la cohérence : la <b>trajectoire bottom-up issue de votre plan d'action justifie la crédibilité de votre trajectoire top-down</b> à plus ou moins long terme selon votre niveau de maturité. <br></br><br></br> Cette page vous permet de créer <b>vos propres trajectoires top-down</b>, soit en vous basant sur les trajectoires de références, soit en créant vos propres objectifs. Vous pouvez ensuite <b>détailler ces trajectoires en ajoutant des sous-objectifs</b> portants sur vos différents sites, postes ou tags.",
-          "detailedInfo": ""
-        }
-      },
-      "trajectoryModal": {
-        "title": "Je choisis ma trajectoire et les objectifs associés",
-        "addTitle": "Ajouter une trajectoire",
-        "editTitle": "Modifier ma trajectoire",
-        "submit": "Valider",
-        "save": "Enregistrer",
-        "cancel": "Annuler",
-        "success": "Vous avez créé votre première trajectoire !",
-        "successSubtitle": "Pour modifier votre trajectoire et les objectifs associés vous pouvez aller dans la rubrique <link>Mes objectifs de réduction</link>.",
-        "steps": {
-          "chooseTrajectory": "Choix de ma trajectoire",
-          "defineObjectives": "Définition de mes objectifs de réduction"
-        },
-        "subtitle": "Suivez une des trajectoires de référence ou créez votre propre trajectoire de réduction en approche descendante, ou top-down, pour commencer à construire votre plan de transition",
-        "sbti": {
-          "title": "SBTi",
-          "subtitle": "Je suis un des trajectoires SBTi",
-          "benefit1": "Pour viser une cohérence et une reconnaissance <strong>à l'échelle internationale</strong>",
-          "benefit2": "Pour viser un <strong>niveau de maturité Standard</strong>",
-          "benefit3": "Pour m'aligner avec une <b>limitation du réchauffement climatique à 1,5°C ou 2°C</b>"
-        },
-        "snbc": {
-          "title": "SNBC",
-          "subtitle": "Je suis une des trajectoires SNBC",
-          "benefit1": "Pour viser une cohérence à <b>l'échelle nationale</b>",
-          "benefit2": "Pour viser un <b>niveau de maturité Initial</b>",
-          "benefit3": "Pour comprendre les <b>attentes réglementaires françaises</b>"
-        },
-        "custom": {
-          "title": "PERSONNALISÉE",
-          "subtitle": "Je suis ma propre trajectoire",
-          "benefit1": "Pour adapter l'ensemble des objectifs à <b>ma situation</b>",
-          "benefit2": "Pour <b>détailler des objectifs intermédiaires</b>, par poste, par site, ...",
-          "benefit3": "Pour <b>réutiliser une trajectoire déjà validée</b> au sein de mon organisation"
-        },
-        "sbtiType": {
-          "15": "Alignée 1,5°C",
-          "title": "Type de trajectoire SBTi",
-          "wb2c": "WB2C (Well below 2 degrees)"
-        },
-        "snbcType": {
-          "title": "Type de trajectoire SNBC",
-          "generale": "Générale",
-          "sectorielle": "Sectorielle"
-        },
-        "sectorAllocation": {
-          "title": "Allocation par secteur",
-          "description": "Pourcentage d'émissions attribué à chaque secteur. Pour mettre à jour ces valeurs, veuillez vous rendre sur la page d'initialisation du plan de transition."
-        },
-        "sectors": {
-          "energy": "Énergie",
-          "industry": "Industrie",
-          "waste": "Déchets",
-          "buildings": "Bâtiments",
-          "agriculture": "Agriculture",
-          "transportation": "Transport",
-          "remainingGeneral": "Émissions générales restantes",
-          "errorOverLimit": "Le total des pourcentages ne peut pas dépasser 100%",
-          "placeholder": "0-100"
-        },
-        "selectedTrajectory": {
-          "SBTI_15": "Je suis une des trajectoires SBTi",
-          "SBTI_WB2C": "Je suis une des trajectoires SBTi",
-          "SNBC_GENERAL": "Je suis une des trajectoires SNBC",
-          "SNBC_SECTORAL": "Je suis une des trajectoires SNBC",
-          "CUSTOM": "Je suis ma propre trajectoire"
-        },
-        "siteFilterWarning": "{count, plural, =1 {Vous avez sélectionné le site {siteNames} mais les trajectoires doivent être définies sur l'ensemble de l'organisation.} other {Vous avez sélectionné les sites {siteNames} mais les trajectoires doivent être définies sur l'ensemble de l'organisation.}} Votre trajectoire sera donc définie pour tous les sites. Vous pourrez ensuite définir des sous objectifs par sites, postes, sous postes ou tags.",
-        "name": "Nom de ma trajectoire",
-        "namePlaceholder": "Donner un nom à ma trajectoire",
-        "description": "Description de ma trajectoire",
-        "descriptionPlaceholder": "Décrivez votre trajectoire",
-        "referenceYear": "Année de référence",
-        "objectives": {
-          "title": "Objectifs de réduction",
-          "sbtiDescription": "Ces objectifs de réduction sont liés à la trajectoire de référence SBTi et sont prédéfinis. Vous pourrez ajouter des objectifs intermédiaires dans la rubrique \"Mes objectifs de réduction\".",
-          "snbcDescription": "Ces objectifs de réduction sont liés à la trajectoire de référence SNBC et sont prédéfinis. Vous pourrez ajouter des objectifs intermédiaires dans la rubrique \"Mes objectifs de réduction\".",
-          "global": "OBJECTIF GLOBAL",
-          "horizon2030": "Horizon 2030",
-          "horizon2050": "Horizon 2050",
-          "year": "Année de l'objectif",
-          "yearPlaceholder": "Choisir une année",
-          "reductionRate": "Pourcentage de réduction annuel",
-          "reductionRatePlaceholder": "Donnez un % de réduction (ex: 2.5)",
-          "referenceRate": "Taux de réduction annuel de référence",
-          "correctedRate": "Taux de réduction annuel corrigé",
-          "overshootInfo": "Taux ajusté pour compenser l'overshoot",
-          "name": "Nom",
-          "namePlaceholder": "Donner un nom à mon sous-objectif"
-        },
-        "validation": {
-          "required": "Champs requis",
-          "objectiveBothRequired": "L'année et le taux de réduction sont tous les deux requis",
-          "atLeastOneObjective": "Au moins un objectif complet est requis pour les trajectoires personnalisées"
-        },
-        "glossary": {
-          "title": "Glossaire",
-          "referenceYear": "Année de référence",
-          "referenceYearDescription": "L'année de référence correspond à l'année de départ de votre trajectoire de réduction. Cette année sert de point de départ pour calculer les objectifs de réduction. Pour les trajectoires SBTi et SNBC, l'année de référence est prédéfinie et ne peut pas être modifiée. Pour les trajectoires personnalisées, vous pouvez choisir librement cette année.",
-          "referenceYearMethod": "Année de référence {method}",
-          "referenceYearMethodDescription": "Vous ne pouvez pas modifier la date de référence pour une trajectoire de type {method} car celle-ci est dictée par ce standard.",
-          "referenceYearMethodLink": "Pour plus d'informations, cliquez ici.",
-          "correctedRate": "Calcul du taux corrigé",
-          "correctedRateDescription": "Si vous choisissez une trajectoire dont l'année de référence est ancienne, il se peut que votre organisation n'ait pas respecté la trajectoire jusqu'à présent. Cela occasionne un <b>dépassement du <link>budget carbone</link> qui vous était initialement alloué</b>, que l'on appelle overshoot. <br></br><br></br> Dans ce cas de figure, la trajectoire est <b>corrigée pour conserver le budget carbone qui vous était initialement alloué</b>, et un taux de réduction annuel corrigé est alors appliqué. Vous aurez alors deux affichages : <br></br> - <b>La trajectoire dans son état initial</b>, avec le taux de réduction annuel de référence <br></br> - <b>La trajectoire corrigée</b> pour l'année en cours, avec le taux de réduction annuel corrigé"
-        }
-      },
-      "scope": {
-        "scopeSelection": "Sélection du périmètre"
-      },
-      "objectiveModal": {
-        "title": "Ajouter des sous-objectifs à la trajectoire : ",
-        "editTitle": "Modifier le sous-objectif de la trajectoire : ",
-        "cancel": "Annuler",
-        "submit": "Ajouter les sous-objectifs",
-        "update": "Mettre à jour le sous-objectif",
-        "scopeSelection": "Sélection du périmètre",
-        "objectives": "Sous-objectifs",
-        "sites": "Sites",
-        "tags": "Tags",
-        "subPosts": "Sous-postes"
-      },
-      "conversionWarning": {
-        "title": "Conversion du type de trajectoire",
-        "warningTitle": "Cette action convertira votre trajectoire en type PERSONNALISÉ.",
-        "message": "L'ajout d'un objectif spécifique à la trajectoire \"{trajectoryName}\" de type {trajectoryType} la convertira automatiquement en trajectoire de type PERSONNALISÉ. Cette action est irréversible.",
-        "explanation": "Une fois convertie, la trajectoire conservera les objectifs par défaut déjà définis mais ne suivra plus les règles spécifiques aux trajectoires de type {trajectoryType}.",
-        "moreExplanationSNBC": "La date de référence de votre trajectoire ne sera plus 1990 comme pour la SNBC mais sera à la date de votre première étude recensée sur cet outil, soit {oldestStudyDate}. Vous pourrez modifier l'année de référence ultérieurement en modifiant la trajectoire.",
-        "cancel": "Annuler",
-        "confirm": "Continuer"
-      },
-      "objectives": {
-        "title": "Objectifs de réduction",
-        "custom": "Personnalisée",
-        "snbcGeneral": "SNBC Générale",
-        "snbcSectoral": "SNBC Sectorielle",
-        "defaultSnbcSectoral": "Trajectoire de référence",
-        "objectiveNumber": "Objectif {number}",
-        "defaultSnbcTooltip": "Cette trajectoire est liée aux données rentrées lors de l'initialisation du plan de transition et ne peut être modifiée ou supprimée",
-        "search": "Cherchez une trajectoire",
-        "add": "Ajouter une trajectoire",
-        "table": {
-          "name": "Nom",
-          "type": "Type",
-          "startYear": "Année de départ",
-          "targetYear": "Année cible",
-          "rates": "Taux de réduction annuel : référence/corrigé",
-          "ratesWithFilters": "(avec filtres)",
-          "ratesGlossary": {
-            "title": "Taux de réduction de référence et taux de réduction corrigé",
-            "description": "Les taux affichés ici sont toujours calculés entre l'année de référence et l'année cible. Le premier taux est définit lors de la création de la trajectoire (ou calculé à partir des différents taux définis à la création), tandis que le second correspond à la réduction annuelle que vous devez aujourd'hui suivre pour respecter cette trajectoire tout en <b>conservant le <link>budget carbone</link> qui vous était initialement alloué</b>. <br></br> Si un seul taux est présent, cela signifie que vous êtes pour le moment aligné avec la trajectoire correspondante et que vous respectez le budget carbone qui vous est alloué."
-          },
-          "referenceYear": "Année de référence",
-          "actions": "Actions",
-          "period": "Période",
-          "defaultObjectives": "Objectifs par défaut",
-          "subObjectives": "Sous-objectifs",
-          "addSubObjective": "Ajouter un sous-objectif",
-          "noSubObjectives": "Aucun sous-objectif pour le moment"
-        },
-        "cancel": "Annuler",
-        "deleteTrajectory": {
-          "title": "Supprimer la trajectoire",
-          "message": "Êtes-vous sûr de vouloir supprimer cette trajectoire ? Cette action supprimera également tous les objectifs associés."
-        },
-        "deleteObjective": {
-          "title": "Supprimer l'objectif",
-          "message": "Êtes-vous sûr de vouloir supprimer cet objectif ?"
-        },
-        "onboarding": {
-          "title": "Ajoutez des trajectoires alternatives ou détaillez vos objectifs de réduction",
-          "description": "Vous avez déjà créé une trajectoire de référence mais vous souhaitez en ajouter d'autres afin de tester différentes hypothèses et différents niveaux d'ambition ? Ici, vous pouvez créer de nouvelles trajectoires, ou ajouter des objectifs intermédiaire pour faire un suivi plus fin et ne pas perdre de vue l'objectif final !",
-          "detailedInfo": "Lorsque vous renseignez votre première trajectoire top-down, les objectifs associés, à horizon 2030 et 2050, seront renseignés au sein de ce tableau. Vous pouvez ensuite détailler ces objectifs en renseignant des objectifs intermédiaires supplémentaires, qui peuvent porter soit sur tous les postes et tous les sites du Bilan Carbone® (auquel cas les réductions seront calculées automatiquement pour maintenir une cohérence avec les objectifs 2030 et 2050), soit sur certains postes et sites en particulier. Vous pouvez également renseigner la croissance prévisionnelle de votre chiffre d'affaire, afin d'obtenir les réductions annuelles tenant compte de cette croissance. Enfin, vous pouvez ajouter d'autres trajectoires top-down, notamment dans le but de visualiser différentes trajectoires sur la page précédente avant de choisir celle que vous suivrez."
-        },
-        "glossary": {
-          "label": "Glossaire"
-        }
-      },
-      "actions": {
-        "title": "Plan d'action",
-        "search": "Cherchez votre action ici",
-        "add": "Ajouter une action",
-        "table": {
-          "sectionTitle": "Liste des actions",
-          "enabled": "Activée",
-          "enabledGlossaryIconLabel": "Activation et désactivation de mes actions",
-          "enabledGlossaryTitle": "Activation et désactivation de mes actions",
-          "enabledGlossaryDescription": "Les réductions liées aux actions que vous avez activées sont prises en compte sur la visualisation des trajectoires de réduction, dans votre trajectoire bottom-up. Les réductions liées aux actions désactivées ne seront pas visibles. Activer ou désactiver des actions vous permet ainsi <b>d'envisager différents scénarios pour atteindre vos objectifs de réduction</b>.",
-          "title": "Titre",
-          "priority": "Priorité",
-          "actionType": "Type d'action",
-          "implementation": "Mise en oeuvre",
-          "potential": "Potentiel de réduction <br></br>(Avec filtres)",
-          "owner": "Responsable",
-          "allOwners": "Tous les responsables",
-          "noOwner": "Sans responsable",
-          "budget": "Budget",
-          "errorChangingEnabled": "Erreur lors du changement de statut de l'action",
-          "relevance": "Niveaux de pertinence",
-          "scope": "Périmètre",
-          "sites": "Sites",
-          "posts": "Postes",
-          "tags": "Tags"
-        },
-        "addModal": {
-          "add": "Ajouter une action",
-          "update": "Mettre à jour",
-          "subTitle": "Afin d'ajouter une action à votre plan d'actions, vous devez remplir les informations obligatoires",
-          "optionalSubtitle": "Vous devrez finaliser le remplissage de ces champs",
-          "previous": "Précédent",
-          "next": "Suivant",
-          "clear": "Supprimer la valeur",
-          "title": "Intitulé de l'action",
-          "titlePlaceholder": "Donnez un titre à votre action",
-          "subSteps": "Sous-étapes",
-          "stepTitlePlaceholder": "Décrivez votre sous-étape",
-          "detailedDescription": "Description détaillée de l'action et de l'implication des parties prenantes",
-          "detailedDescriptionPlaceholder": "Description détaillée",
-          "potentialDeduction": "Potentiel de réduction d'émissions",
-          "potentialDeductionPlaceholder": "Sélectionnez une option",
-          "reductionValue": "Valeur",
-          "reductionDetails": "Détails et hypothèses sur le potentiel de réduction de l'action",
-          "reductionDetailsPlaceholder": "Décrivez les détails et hypothèses",
-          "reductionStartYear": "Début de la mise en oeuvre de l'action",
-          "reductionEndYear": "Fin de la mise en oeuvre de l'action",
-          "owner": "Responsable de l'action",
-          "ownerPlaceholder": "Donnez le nom de la personne qui pilote l'action",
-          "necessaryBudget": "Budget necessaire à sa mise en place (k€)",
-          "necessaryBudgetPlaceholder": "Indiquez le budget",
-          "necesssaryRessources": "Autres ressources necessaire à sa mise en place (humaines, financières, matérielles, ...)",
-          "necesssaryRessourcesPlaceholder": "Indiquez les ressources",
-          "indicator": "Description des indicateurs",
-          "indicatorTooltipTitle": "Fonctionnalité en cours de développement",
-          "indicatorTooltipLabel": "Information sur les indicateurs",
-          "indicatorTooltipDescription": "Une fonctionnalité de suivi des actions arrive ! Vous pouvez déjà lister vos indicateurs et vous pourrez les quantifier et les suivre une fois la fonctionnalité sortie.",
-          "addIndicator": "Ajouter un indicateur",
-          "removeIndicator": "Retirer l'indicateur",
-          "noIndicators": "Aucun indicateur pour le moment",
-          "implementation": "De mise en oeuvre",
-          "followUp": "De suivi",
-          "performance": "De performance",
-          "indicatorDescriptionPlaceholder": "Description",
-          "indicatorGoalPlaceholder": "Objectif",
-          "facilitatorsAndObstacles": "Facilitateurs et freins potentiels à l'action",
-          "additionalInformation": "Informations supplémentaires",
-          "nature": "Nature de l'action",
-          "category": " Catégories de l'action",
-          "relevance": "Pour les actions d'atténuation indiquez le niveau de pertinence de l'action",
-          "steps": {
-            "step1": "Informations principales",
-            "step2": "Catégorisation",
-            "step3": "Détails et responsabilité"
-          },
-          "Not authorized": "Vous n'avez pas les droits pour effectuer cette action",
-          "validation": {
-            "required": "Champs requis",
-            "email": "Format d'email non valide"
-          }
-        },
-        "potentialDeduction": {
-          "Quality": "Qualitative",
-          "Quantity": "Quantitative",
-          "EmissionSources": "Sources d'émissions (à venir)"
-        },
-        "nature": {
-          "Physical": "Physique",
-          "Reglementary": "Réglementaire",
-          "Organisational": "Organisationnelle",
-          "Behavioural": "Comportementale"
-        },
-        "category": {
-          "Immediate": "Immédiate",
-          "Strategic": "Stratégique",
-          "Priority": "Prioritaire",
-          "Improvement": "Amélioration de la démarche",
-          "Adaptation": "Adaptation"
-        },
-        "relevance": {
-          "Offsetting": "Compensation (Priorité 6/6)",
-          "Sequestration": "Séquestration (Priorité 5/6)",
-          "Avoidance": "Évitement (Priorité 3/6)",
-          "AvoidanceFinancing": "Financement d'évitement (Priorité 4/6)",
-          "ReductionOutsideOrganisationValueChain": "Réduction hors de la chaîne de valeur de l'organisation (Priorité 2/6)",
-          "ReductionWithinOrganisationValueChain": "Réduction dans la chaîne de valeur de l'organisation (Priorité 1/6)",
-          "ReductionWithinOrganisationCoreBusiness": "Réduction dans le coeur d'activité de l'organisation (Priorité 1/6)",
-          "glossaryTitle": "Niveaux de pertinence d'une action",
-          "information": "Information sur les niveaux de pertinence",
-          "learnMore": "Pour plus d'information, nous vous invitons à consulter <link>cette page</link>."
-        },
-        "onboarding": {
-          "title": "Construisez un plan d'action afin d'atteindre vos objectifs",
-          "description": "La construction du plan de transition implique les sous-étapes suivantes : <br></br><br></br> 1 - Visualiser les <b>objectifs et trajectoires de référence</b> dont l'ambition à l'échelle planétaire est celle de l'Accord de Paris. <br></br> 2 - Sélectionner une <b>trajectoire de décarbonation descendante ou « top-down »</b>, c'est-à-dire la trajectoire théorique que votre organisation devrait suivre. <br></br> 3 - Construire votre <b>plan d'action</b>. <br></br> 4 - Estimer l'impact prévisionnel de la mise en oeuvre de votre plan d'action, en calculant son <b>potentiel de réduction</b>, pour construire votre <b>trajectoire de décarbonation ascendante ou « bottom-up »</b>. <br></br> 5 - Vérifier la cohérence : la <b>trajectoire bottom-up issue de votre plan d'action justifie la crédibilité de votre trajectoire top-down</b> à plus ou moins long terme selon votre niveau de maturité. <br></br><br></br> Cette page vous permet de <b>créer votre plan d'action et d'estimer son impact prévisionnel</b>, aboutissant à une trajectoire bottom-up. Vous pouvez ensuite vérifier <b>la cohérence entre vos trajectoires top-down et bottom-up</b>.",
-          "detailedInfo": "Cette page vous permet de construire votre plan d'action, <b>en renseignant différentes actions et en les caractérisant</b>. Ces fiches actions reprennent l'ensemble des informations définies au sein de la méthode Bilan Carbone®. Toutes ces informations doivent être renseignées au sein d'un Bilan Carbone®, mais il est possible d'en remplir certaines ultérieurement, dans le but de <b>tester différentes combinaisons d'actions avant de les sélectionner définitivement</b>. Un bouton de bascule dans la première colonne du tableau vous permet ainsi d'activer ou de désactiver les actions renseignées, afin de voir si la <b>trajectoire bottom-up résultante est cohérente avec votre trajectoire top-down</b>. <br></br><br></br> Une fois les actions pertinentes sélectionnées, vous pouvez compléter les informations manquantes, afin de mieux <b>caractériser l'action, lui attribuer un budget, renseigner des étapes de mises en oeuvre, et des indicateurs</b> qui vous permettront par la suite de piloter la mise en oeuvre, le suivi et les performances de vos actions."
-        },
-        "deleteModal": {
-          "title": "Supprimer l'action",
-          "message": "Êtes-vous sûr de vouloir supprimer cette action de manière définitive ?",
-          "confirm": "Supprimer"
-        }
-      }
-    },
-    "engagementActions": {
-      "title": "Actions de mobilisation",
-      "export": "Exporter en CSV",
-      "filters": {
-        "search": "Recherche",
-        "searchPlaceholder": "Par nom, description..."
-      },
-      "table": {
-        "name": "Nom",
-        "description": "Description",
-        "steps": "Étape",
-        "target": "Cibles",
-        "phase": "Phase",
-        "sites": "Sites",
-        "date": "Date"
-      },
-      "modal": {
-        "add": "Ajouter une action",
-        "update": "Modifier une action",
-        "clear": "Supprimer la valeur",
-        "name": "Nom",
-        "namePlaceholder": "Donnez un nom à votre action",
-        "description": "Description (nombres de participants, format, déroulé, etc)",
-        "descriptionPlaceholder": "Décrivez votre action",
-        "steps": "Étape de la démarche concernée",
-        "stepsPlaceholder": "Choississez les étapes de votre action",
-        "target": "Cibles",
-        "phase": "Phase de mobilisation",
-        "sites": "Sites",
-        "date": "Date",
-        "validate": "Valider",
-        "allSites": "Tous les sites",
-        "addCustomTarget": "Ajouter une cible personnalisée"
-      },
-      "targets": {
-        "TEAM_PROJECT": "Équipe projet",
-        "DIRECTION": "Direction",
-        "OTHER_INTERNAL_COLLABORATORS": "Autres collaborateurs internes",
-        "FURNISHERS": "Fournisseurs",
-        "CLIENTS": "Clients",
-        "PARTNERS": "Partenaires",
-        "OTHERS_EXTERNAL": "Autres partenaires externes"
-      },
-      "steps": {
-        "AT_LAUNCH_OF_APPROACH": "Au lancement et cadrage du Bilan Carbone",
-        "AT_LAUNCH_OF_DATA_COLLECTION": "Au lancement de la collecte des données",
-        "FOR_GES_PROFILE_CONSTRUCTION": "Pour la construction du profil GES",
-        "FOR_TRANSITION_PLAN_CONSTRUCTION": "Pour la construction du plan de transition",
-        "IN_SUMMARY_OF_APPROACH": "En synthèse de la démarche",
-        "FOR_APPROACH_EVALUATION": "Pour l'évaluation de la démarche"
-      },
-      "phases": {
-        "AwarnessAndOutreach": "Mobilisation et sensibilisation",
-        "Empowerment": "Responsabilisation",
-        "CoConstruction": "Co-construction",
-        "FeedbackAndCommunication": "Retours et communication"
-      }
-    },
-    "contributor": {
-      "noData": "Pas de sources d'émissions pour le moment, il faut qu'un éditeur de l'étude en ajoute pour que vous puissiez les compléter"
-    },
     "createFirstSimplifiedStudy": "Créer ma première Empreinte",
-    "firstSimplifiedStudyMessage": "Il est temps de vous lancer ! Nous vous invitons à créer votre première Empreinte.",
-    "lastStudyTitle": "Dernière empreinte en date"
+    "firstSimplifiedStudyMessage": "Il est temps de vous lancer ! Nous vous invitons à créer votre première Empreinte."
   },
   "locale": {
     "en": "English",
@@ -1516,8 +466,7 @@
       "activationRequest": "Demande d'accès à votre organisation Count",
       "userOnStudyInvitation": "Ajout sur l'étude {studyName}",
       "contributorInvitation": "Demande de contribution sur l'étude {studyName}",
-      "addedUsersByFile": "Autorisation pour l'ajout d'utilisateurs",
-      "campaignCreatedByCollaborator": "Nouvelle campagne lancée sur Mon Impact Pro"
+      "addedUsersByFile": "Autorisation pour l'ajout d'utilisateurs"
     },
     "body": {
       "hello": "Bonjour,",
@@ -1546,11 +495,7 @@
         "added": "Vous avez été ajouté par {creatorName} à l'organisation {orga} et avez donc à présent accès à l'environnement {newEnv} {envInfo}",
         "alreadyHadAccess": "Vous aviez déjà accès {oldEnvs} sur notre outil. Vous pouvez donc vous connecter à ce nouvel environnement avec votre mot de passe habituel sur",
         "loginInfo": "En vous connectant, l'application vous demandera dorénavant à quel environnement vous souhaitez accéder. Vous pourrez changer d'environnement à n'importe quel moment via un nouveau bouton sur le bandeau principal de l'outil.",
-        "envInfoBC": "sur lequel vous pourrez donc réaliser ou participer à la réalisation d'un ou plusieurs Bilan Carbone®.",
-        "envInfoCUT": "sur lequel vous pourrez réaliser l'empreinte carbone simplifiée de votre cinéma.",
-        "envInfoDefault": ".",
-        "oldEnvsSingle": "à l'environnement {envName}",
-        "oldEnvsMultiple": "aux environnements {envNames}"
+        "envInfoCUT": "sur lequel vous pourrez réaliser l'empreinte carbone simplifiée de votre cinéma."
       },
       "contributorInvitation": {
         "added": "Vous avez été ajouté par {creatorName} en tant que contributeur sur l'étude {studyName} pour l'organisation {organizationName}.",
@@ -1575,11 +520,6 @@
       "userOnStudyInvitation": {
         "added": "Vous avez été ajouté par {creatorName} en tant que {role} sur l'étude {studyName} pour l'organisation {organizationName}.",
         "access": "Pour avoir accès à l'étude, vous pouvez vous connecter sur le BC+ comme habituellement sur"
-      },
-      "campaignCreatedByCollaborator": {
-        "intro": "{creatorName} a lancé une nouvelle campagne sur Mon Impact Pro pour l'organisation {organizationName} :",
-        "outro": "Vous pouvez consulter et coordonner ces campagnes sur",
-        "organizationFallback": "votre organisation"
       }
     }
   },
@@ -1587,18 +527,11 @@
     "backToHome": "Retour à l'accueil",
     "home": "Accueil",
     "notFound": "Page non trouvée",
-    "organization": "Organisation",
     "edit": "Modifier",
     "team": "Équipe",
-    "emissionFactors": "Facteurs d'émission",
-    "newOrganization": "Ajouter une nouvelle organisation",
     "newStudy": "Ajouter une nouvelle étude",
-    "studyPerimeter": "Périmètre",
-    "newStudyContributor": "Ajouter un·e contributeur·rice",
-    "editStudyContributor": "Modifier un·e contributeur·rice",
     "newStudyRight": "Ajouter une personne",
-    "studyRights": "Cadrage",
-    "actualities": "Actualités"
+    "studyRights": "Cadrage"
   },
   "team": {
     "pending": "Invitations en attentes",
@@ -1653,16 +586,7 @@
     "firstName": "Prénom",
     "lastName": "Nom",
     "role": "Rôle",
-    "level": "Formation",
     "create": "Inviter l'utilisateur·rice",
-    "Not authorized": "Impossible d'inviter cette utilisateur·rice. Veuillez contacter le <link>support</link> pour plus d'informations.",
-    "validation": {
-      "email": "Veuillez renseigner un email valide",
-      "firstName": "Veuillez renseigner un prénom",
-      "lastName": "Veuillez renseigner un nom",
-      "level": "Veuillez renseigner un niveau de formation",
-      "role": "Veuillez renseigner un rôle"
-    },
     "addedMember": "L'utilisateur·rice a bien été ajouté à votre organisation"
   },
   "home": {
@@ -1672,13 +596,6 @@
       "0": "Comprendre la mesure d’impact de votre établissement",
       "1": "Identifier les priorités d’action",
       "2": "À long terme, et via un travail plus approfondi, construire une trajectoire de réduction"
-    },
-    "message": {
-      "0": "Faire votre bilan d'impact vous permettra de :",
-      "1": "Comprendre la mesure d'impact de votre établissement",
-      "2": "Identifier les priorités d'action",
-      "3": "Construire une trajectoire de réduction",
-      "core": "Bienvenue sur COUNT le premier calculateur d'impact écologique dédié aux salles de cinéma.\nCet outil a été développé par l'association CUT ! Cinéma Uni pour la transition, en coopération avec l'ABC, association pour la transition bas carbone\nOpération soutenue par l'État dans le cadre du dispositif « Soutenir les alternatives vertes 2 » de France 2030, opéré par la Banque des territoires (Caisse des Dépôts)\nCUT bénéficie du soutien du CNC"
     },
     "navigation": {
       "collaborators": {
@@ -1701,10 +618,6 @@
   "exports": {
     "title": "Exports :",
     "exportFilename": "resultats_etude_{studyName}",
-    "consolidated": "Bilan Carbone®",
-    "Beges": "Bilan GES Réglementaire",
-    "GHGP": "GHG Protocol",
-    "ISO14069": "ISO 14069",
     "env_specific_export": "Empreinte carbone simplifiée",
     "simplified": {
       "metadata": {
@@ -1716,164 +629,17 @@
     },
     "bc": {
       "title": "Export au format Bilan Carbone®",
-      "category": "Catégorie Bilan Carbone®",
-      "emissions": "Émissions (tCO₂e)",
       "disclaimerExcel1": "Attention, les résultats que vous obtenez ici sont uniquement issus de l'empreinte carbone simplifiée Count, et ne doivent en aucun cas être utilisés comme des résultats Bilan Carbone®.",
       "disclaimerExcel2": "La démarche que vous avez suivi via l'outil Count n'est PAS une démarche Bilan Carbone®, même si les résultats obtenus peuvent déjà vous permettre de mieux comprendre comment réduire votre impact, en identifiant vos activités les plus émissives.",
       "disclaimerExcel3": "En revanche, cette empreinte carbone simplifiée est le premier pas vers une démarche plus complète comme le Bilan Carbone® !",
       "disclaimerExcel4": "Pour les années suivantes, vous pouvez ainsi soit renouveler votre mesure d'empreinte carbone simplifiée avec l'outil Count, soit réaliser un Bilan Carbone®.",
-      "disclaimerExcel5": "Un Bilan Carbone® suit une méthodologie bien précise, et doit répondre à un certain nombre de critères objectifs. Par exemple, au cours d'un Bilan Carbone®, la direction doit être engagée, les différentes parties prenantes de l'organisation doivent être mobilisées, des incertitudes doivent être calculées et associées aux émissions, et surtout, un plan de transition solide doit être construit pour engager l'organisation dans une transition bas carbone.",
-      "disclaimerExcel6": "Si vous souhaitez vous lancer dans un Bilan Carbone® dans les années qui viennent, tout commence par se faire former à la méthode, ou par nous contacter à l'adresse count@cut-collectif.fr, ou par se faire accompagner par un prestataire Bilan Carbone® !"
-    },
-    "glossary": {
-      "GHGP": {
-        "title": "Export au format GHG-Protocol",
-        "warning": "Attention, pour que votre export soit conforme au GHG-Protocol, il faudra :",
-        "item1": "Que vous ayez pris en compte l'incinération des déchets dans les émissions liées aux réseaux de chaleur utilisés.",
-        "item2": "Qu'au sein du poste Immobilisations, vous ayez correctement renseigné si le bien concerné a été construit l'année du bilan.",
-        "item3": "Que vous ayez une double comptabilisation de l'électricité consommée, d'une part en <b><green>location-based (location-based method, LBM)</green></b> et d'autre part en <b><purple>market-based (market-based method, MBM)</purple></b>. Pour cela il vous suffit de <b>comptabiliser deux fois vos kWh d'énergie consommés</b>, <green>une fois via des facteurs d'émission dédiés au <b>location-based</b></green>, et <purple>une seconde fois via des facteurs d'émission dédiés au <b>market-based</b></purple>. Pour rappel :<ul><li>La méthode <b><green>location-based</green></b> est basée sur l'utilisation de facteurs d'émission représentant le mix électrique moyen sur des périmètres géographiques et temporels définis. En France, les facteurs d'émission utilisés sont typiquement de la forme \"Mix moyen - Année concernée - France\".</li><li>La méthode <b><purple>market-based</purple></b> est basée sur l'utilisation de facteurs d'émission représentatif de l'électricité produite par les producteurs d'électricité auxquels l'organisation est contractuellement liée via des achats de Garanties d'Origine (GOs) ou de Renewable Energy Certificates (RECs) aux États-Unis, des Power Purchase Agreement (PPAs, VPPAs), etc. Toute l'électricité non couverte pas les contrats mentionnés doit alors être prise en compte via les facteurs d'émission concernant les mix résiduels, c'est-à-dire les facteurs d'émission des mix électriques dont a été retirée tout l'électricité faisant l'objet des contrats mentionnés.</li></ul>",
-        "item4": "La partie fabrication des véhicules n'est par défaut pas prise en compte dans le GHG Protocol pour les postes Déplacements et Fret. Vous devez donc la renseigner dans le poste Immobilisations, uniquement si le véhicule a été fabriqué au cours de l'année considérée.",
-        "conclusion": "<b>Il convient par ailleurs que l'utilisateur maîtrise l'ensemble des spécificités méthodologiques liées au GHG-Protocol afin de générer un export qui réponde aux exigences de cette méthode.</b>"
-      }
+      "disclaimerExcel5": "Un Bilan Carbone® suit une méthodologie bien précise, et doit répondre à un certain nombre de critères objectifs. Par exemple, au cours d'un Bilan Carbone®, la direction doit être engagée, les différentes parties prenantes de l'organisation doivent être mobilisées, des incertitudes doivent être calculées et associées aux émissions, et surtout, un plan de transition solide doit être construit pour engager l'organisation dans une transition bas carbone."
     }
-  },
-  "categorisations": {
-    "all": "Toutes les categorisations",
-    "Operated": "Opéré",
-    "NotOperated": "Non opéré",
-    "OperatedProcedeed": "Opéré, procédé",
-    "OperatedFugitive": "Opéré, fugitive",
-    "OperatedCAS": "Opéré, CAS",
-    "NotOperatedSupported": "Non opéré, supporté",
-    "NotOperatedNotSupported": "Non opéré, non supporté",
-    "Rented": "Mis en location",
-    "FinalClient": "Utilisé par le client final",
-    "Held": "Détenu",
-    "NotHeldSimpleRent": "Non détenu location simple",
-    "NotHeldOther": "Non détenu, autre",
-    "HeldProcedeed": "Détenue, procédés",
-    "HeldFugitive": "Détenue, fugitives",
-    "HeldCAS": "Détenue, CAS",
-    "NotHeldSupported": "Non détenu, supporté",
-    "NotHeldNotSupported": "Non détenue, non supporté",
-    "UsedByIntermediary": "Utilisé par un intermédiaire"
-  },
-  "beges": {
-    "rule": "Règle",
-    "subTotal": "Sous-total",
-    "category": {
-      "1": "Émissions directes de GES",
-      "2": "Émissions indirectes associées à l'énergie",
-      "3": "Émissions indirectes associées au transport",
-      "4": "Émissions indirectes associées aux produits achetés",
-      "5": "Émissions indirectes associées aux produits vendus",
-      "6": "Autres émissions indirectes",
-      "title": "Catégorie"
-    },
-    "post": {
-      "1": {
-        "1": "Émissions directes des sources fixes de combustion",
-        "2": "Émissions directes des sources mobiles de combustion",
-        "3": "Émissions directes des procédés hors énergie",
-        "4": "Émissions directes fugitives",
-        "5": "Émissions issues de la biomasse (sols et forêts)"
-      },
-      "2": {
-        "1": "Émissions indirectes liées à la consommation d'électricité",
-        "2": "Émissions indirectes liées à la consommation de vapeur, chaleur ou froid"
-      },
-      "3": {
-        "1": "Transport de marchandises amont",
-        "2": "Transport de marchandises aval",
-        "3": "Déplacements domicile travail",
-        "4": "Transports de visiteurs et des clients",
-        "5": "Déplacements professionnels"
-      },
-      "4": {
-        "1": "Achats de biens",
-        "2": "Immobilisations de biens",
-        "3": "Gestion des déchets",
-        "4": "Actifs en leasing amont",
-        "5": "Achats de services"
-      },
-      "5": {
-        "1": "Utilisation des produits vendus",
-        "2": "Actifs en leasing aval",
-        "3": "Fin de vie",
-        "4": "Investissements"
-      },
-      "6": {
-        "1": "Autres émissions indirectes"
-      },
-      "title": "Poste d'émission"
-    },
-    "other": "Autres gaz",
-    "total": "Total",
-    "uncertainty": "Incertitude",
-    "ges": "Émissions de GES ({unit})"
-  },
-  "ghgp": {
-    "rule": "Règle",
-    "subTotal": "Sous-total",
-    "category": {
-      "1": "Scope 1",
-      "2": "Scope 2",
-      "3": "Scope 3 amont",
-      "4": "Scope 3 aval",
-      "title": "Catégorie"
-    },
-    "post": {
-      "1": {
-        "1": "Émissions directes des sources fixes de combustion",
-        "2": "Émissions directes des sources mobiles de combustion",
-        "3": "Émissions directes des procédés",
-        "4": "Émissions directes fugitives"
-      },
-      "2": {
-        "1": "Émissions indirectes liées à la consommation",
-        "2": "Émissions indirectes liées à la consommation de vapeur"
-      },
-      "3": {
-        "1": "Produits et services achetés",
-        "2": "Bien immobilisés",
-        "3": "Émissions liées aux combustions et à l'énergie (non inclus dans le scope 1 ou le scope 2)",
-        "4": "Transport de marchandise amont et distribution",
-        "5": "Déchets générés",
-        "6": "Déplacements professionnels",
-        "7": "Déplacements domicile travail",
-        "8": "Actifs en leasing amont",
-        "other": "Autres émissions indirectes amont"
-      },
-      "4": {
-        "10": "Transformation des produits vendus",
-        "11": "Utilisation des produits vendus",
-        "12": "Fin de vie des produits vendus",
-        "13": "Actifs en leasing aval",
-        "14": "Franchises",
-        "15": "Investissements",
-        "09": "Transport de marchandise aval et distribution",
-        "other": "Autres émissions indirectes aval"
-      },
-      "title": "Poste d'émission"
-    },
-    "other": "Autres gaz",
-    "total": "Total",
-    "uncertainty": "Incertitude",
-    "ges": "Émissions de GES ({unit})"
-  },
-  "actuality": {
-    "title": "Les actualités de COUNT",
-    "allActualities": "Voir toutes les actualités",
-    "noItems": "Aucune actualité pour le moment",
-    "seeLess": "Voir moins",
-    "seeMore": "Voir plus"
   },
   "ressources": {
     "title": "Ressources",
     "description": "Le calculateur d’impact COUNT est homologué par l’ABC. Il a été construit sur la base de différentes sources de facteurs d’émission (Base Empreinte de l’ADEME, EcoInvent, Boavizta, CNC notamment). D’autres facteurs d’émission ont été spécifiquement construits dans le cadre de la construction de l’outil par Resilio.<br></br>Les hypothèses de calcul ont été construites à partir de :<br></br> - 15 bilans carbones complets réalisés en association avec le groupement de cinémas CINEO<br></br> - Multiples entretiens avec des parties prenantes de la salle de cinéma (fournisseurs, intégrateurs, exploitants indépendants, circuits d’exploitation etc.)<br></br> - Visites de salles de cinéma aux typologies diverses",
     "france2030": "Dans le cadre du Plan France 2030, le dispositif « Alternatives Vertes 2 », doté de 25 M€ sur 3 vagues, et opéré par la Banque des territoires (groupe Caisse des Dépôts) en lien avec le ministère de la Culture, le ministère de la Transition écologique, et le Secrétariat général pour l’investissement, vise à accélérer la transition écologique des entreprises culturelles afin d’en faire un secteur de référence en matière de responsabilité environnementale. Sur les 51 candidatures reçues pour la première vague d’« Alternatives Vertes 2 », 13 projets ont été sélectionnés dont le projet porté par CUT ! Le jury a notamment salué la forte ambition collective au service de la transition écologique du cinéma et de l’audiovisuel du projet, embrassant toute la chaîne de valeur du cinéma, avec le parrainage de personnalités charismatiques de la filière.",
-    "methodeAssociative": "Pour toutes les questions sur la méthode associative :",
-    "sphereAssociative": "Sphère associative",
     "enSavoirPlusBilan": "Pour aller plus loin que le calcul d'empreinte simplifiée proposé par Count :",
     "methodeBilanCarbone": "Guide méthodologique du Bilan Carbone®",
     "countMethods": "Pour en savoir plus sur les méthodologies de Count :",
@@ -1925,28 +691,6 @@
       "description1": "La marque Bilan Carbone® est une marque déposée en France depuis le 2 décembre 2003, enregistrée sous le numéro 3260464. Tous droits de reproduction ou d'utilisation sont réservés s'agissant des représentations iconographiques et photographiques de la marque. La reproduction à des fins de diffusion ou d'exploitation de tout ou partie de la marque Bilan Carbone® n'est possible qu'avec l'autorisation expresse de l'Association pour la transition Bas Carbone. Le cas échéant, aucune modification de forme qui détournerait le sens et l'image Bilan Carbone® ne pourra être apportée. Un lien devra être établi vers l'Association pour la transition Bas Carbone."
     }
   },
-  "activation": {
-    "description": "Merci d'utiliser le même e-mail que vous avez utilisé lors de votre adhésion à l'Association pour la Transition Bas Carbone",
-    "email": "Email",
-    "emailPlaceholder": "Email utilisée lors de votre formation",
-    "emailRequired": "Veuillez entrer un email",
-    "validate": "Valider",
-    "Not authorized": "Vous n'êtes pas adhérent ou pas formé. N'hésitez pas à consulter <link>la FAQ</link> ou à contacter <support>le support</support> si vous pensez qu'il s'agit d'une erreur.",
-    "Request sent": "Une demande d'activation de votre compte a été envoyé à vos collègues",
-    "Email sent": "Vous allez recevoir un mail pour finaliser l'activation de votre compte.",
-    "No recipient": "Problème lors de l'envoie du mail, merci de contacter le <support>support</support>",
-    "validation": {
-      "email": "Veuillez entrer un email"
-    }
-  },
-  "footer": {
-    "message": {
-      "0": "",
-      "1": "",
-      "2": "",
-      "3": ""
-    }
-  },
   "profile": {
     "title": "Mon profil",
     "legalNotices": "Mentions légales",
@@ -1955,11 +699,7 @@
     "cancelUpdate": "Annuler",
     "update": "Mettre à jour",
     "updating": "Mise à jour",
-    "version": "Version du BC+ : ",
-    "validation": {
-      "firstName": "1 caractère minimum",
-      "lastName": "1 caractère minimum"
-    }
+    "version": "Version du BC+ : "
   },
   "settings": {
     "title": "Mes paramètres d'application",
@@ -1983,68 +723,9 @@
   },
   "admin": {
     "title": "Administration du BC+",
-    "csvOnly": "Seuls les fichiers CSV sont acceptés",
     "uploadButton": "Importer un fichier CSV d'utilisateur·rices"
   },
-  "importFileModal": {
-    "downloadTemplate": "Télécharger le modèle d'import",
-    "dropzone": "Glissez-déposez votre fichier ici, ou cliquez pour sélectionner",
-    "dropzoneActive": "Relâchez le fichier ici",
-    "acceptedFormats": "Formats acceptés : .xlsx, .xls",
-    "errorTitle": "Erreurs détectées",
-    "warningTitle": "Avertissements",
-    "confirmAnyway": "Continuer quand même",
-    "previewWarning": "Vérifiez les données ci-dessous avant de confirmer l'import.",
-    "warningEfNotFound": "Facteur d'émission non trouvé pour \"{searched}\"",
-    "warningEfReplacedBy": "Il sera remplacé par",
-    "warningEfLeftEmpty": "Il sera laissé vide",
-    "warningEfAmbiguous": "Plusieurs facteurs d'émission correspondent à ce nom :",
-    "warningValidationSkipped": "La source importée ne sera pas validée car les champs requis ne sont pas tous remplis",
-    "warningUnitMissingPrefix": "Unité \"{foundUnit}\" non trouvée — \"{resolvedValue}\" sera utilisée",
-    "tooManyFiles": "Veuillez importer un seul fichier à la fois",
-    "invalidFileType": "Le fichier n'est pas un fichier Excel valide",
-    "emptyFile": "Le fichier est vide",
-    "emptyHeader": "Le fichier ne contient pas les bons en-têtes. Veuillez utiliser le modèle d'import.",
-    "missingName": "Le libellé est manquant",
-    "missingSource": "Source manquante",
-    "invalidUnit": "Unité invalide : \"{value}\"",
-    "invalidTotalCo2": "Émissions totales invalides (doit être un nombre ≥ 0)",
-    "invalidReliability": "Fiabilité invalide : \"{value}\"",
-    "invalidTechnicalRepresentativeness": "Représentativité technologique invalide : \"{value}\"",
-    "invalidGeographicRepresentativeness": "Représentativité géographique invalide : \"{value}\"",
-    "invalidTemporalRepresentativeness": "Représentativité temporelle invalide : \"{value}\"",
-    "invalidCompleteness": "Complétude invalide : \"{value}\"",
-    "missingPostsAndSubPosts": "Poste(s) et sous-poste(s) manquants",
-    "invalidPost": "Poste invalide : \"{value}\"",
-    "invalidSubPost": "Sous-poste invalide : \"{value}\"",
-    "missingSubPosts": "Sous-poste(s) manquant(s) pour le poste \"{value}\"",
-    "invalidBase": "Approche scope 2 (GHG Protocol) invalide pour le sous-poste Électricité : \"{value}\". Valeurs acceptées : Location-based, Market-based",
-    "incompatibleSubPosts": "Sous-poste(s) incompatible(s) avec leur poste : {value}",
-    "validationError": "Erreur de validation sur le champ \"{value}\"",
-    "noRows": "Le fichier ne contient aucune donnée à importer",
-    "missingSite": "Le site est manquant",
-    "missingSubPost": "Le sous-poste est manquant",
-    "invalidType": "Type invalide : {value}",
-    "invalidCaracterisation": "Caractérisation invalide : \"{value}\"",
-    "invalidQuality": "Qualité invalide : {value}",
-    "invalidValue": "Valeur numérique invalide : {value}",
-    "siteNotFound": "Site non trouvé dans l'étude : {value}",
-    "emissionFactorNotFound": "Facteur d'émission non trouvé : {value}",
-    "invalidEmissionFactorValue": "Valeur du facteur d'émission invalide : {value}",
-    "missingEmissionFactorName": "Nom du facteur d'émission manquant",
-    "missingEmissionFactorValue": "Valeur du facteur d'émission manquante",
-    "missingEmissionFactorUnit": "Unité du facteur d'émission manquante",
-    "warningEfMissing": "Aucun facteur d'émission renseigné pour \"{sourceName}\"",
-    "warningEfMissingUnit": "Facteur d'émission \"{searched}\" non trouvé — unité manquante",
-    "warningTagNotFound": "Tag \"{tagName}\" non trouvé dans l'étude — il sera ignoré",
-    "ambiguousTitle": "Plusieurs facteurs d'émission correspondent pour les sources suivantes. Sélectionnez celui à utiliser :",
-    "ambiguousSearched": "Recherché : \"{name}\"",
-    "ambiguousTooMany": "Trop de facteurs d'émission correspondent à cette saisie. Affinez le nom dans le fichier pour réduire les résultats. Cette source sera importée sans facteur d'émission.",
-    "leaveEmpty": "Laisser vide"
-  },
   "emissionFactors": {
-    "manualSectionLabel": "Gérez vos FEs manuels",
-    "exportFileName": "emission-factors-export.xlsx",
     "importModal": {
       "title": "Import de facteurs d'émission",
       "success": "Facteurs d'émission importés avec succès",
@@ -2332,8 +1013,6 @@
         "unit": "Veuillez renseigner une unité"
       }
     },
-    "title": "Facteurs d'émission",
-    "loading": "Chargement des facteurs d'émission",
     "table": {
       "subTitle": "Vous pouvez parcourir l'ensemble des facteurs d'émission disponibles, et en créer de nouveaux",
       "Valid": "Valide",
@@ -2406,35 +1085,6 @@
       "wasteModalContent": "Les FE dédiés au recyclage des déchets (ou à la fin de vie moyenne lorsque celle-ci inclut du recyclage) utilisent une valeur de 41 kgCO₂e/t au lieu de la valeur que leur attribue la Base Empreinte®. Cette valeur correspond à la collecte, au transport et à l'exploitation du stockage des métaux sur la Base Empreinte®, et <b>exclut donc la régénération de la matière</b> qui constitue la majorité des émissions liées au recyclage. Ce fonctionnement est choisit pour ne pas pénaliser le recyclage, qui est néanmoins pris en compte dans les intrants au sein du Bilan Carbone® (un intrant issu d'une matière recyclée émettant généralement moins qu'un intrant neuf). Dans le cadre du Bilan GES Règlementaire, c'est bien la valeur de la Base Empreinte® qui sera utilisée dans votre export. Une modale explicitant les éventuelles différences entre Bilan Carbone® et Bilan GES Règlementaire sera disponible en haut à gauche de cet export. Pour plus de détail, nous vous invitons à consulter l' <link1>annexe 1</link1> de la méthode Bilan Carbone® ou <link2>les pages concernant les déchets</link2> du Plan Carbone Général.",
       "wasteModalTitle": "Différence de valeurs FE recyclage"
     },
-    "edit": {
-      "title": "Modifier le facteur d'émissions ({name})",
-      "modal": {
-        "confirm-edition": "Êtes-vous sûrs de vouloir modifier ce facteur d'émission ?",
-        "confirm-deletion": "Êtes-vous sûrs de vouloir supprimer ce facteur d'émission ?",
-        "title": "Modifier un facteur d'émission",
-        "description": "<warning>Si vous avez utilisé ce facteur d'émissions dans certaines études, le champ dédié au facteur d'émission deviendra vide et les sources d'émission liées seront dévalidées.</warning> Vous pouvez modifier le facteur d'émission au lieu de le supprimer, ou en créer un nouveau sans supprimer l'ancien."
-      }
-    },
-    "type": {
-      "CarburantAmontCombustion": "Carburant (amont/combustion)",
-      "Amont": "Amont",
-      "Intrants": "Intrants",
-      "Combustion": "Combustion",
-      "TransportEtDistribution": "Transport et distribution",
-      "Energie": "Energie",
-      "Fabrication": "Fabrication",
-      "Traitement": "Traitement",
-      "Collecte": "Collecte",
-      "Autre": "Autre",
-      "Amortissement": "Amortissement",
-      "Incineration": "Incineration",
-      "EmissionsFugitives": "Emissions fugitives",
-      "Fuites": "Fuites",
-      "Transport": "Transport",
-      "CombustionALaCentrale": "Combustion à la centrale",
-      "AutresEmissionsLieesALaConsommationDElectriciteBarrage": "Autres émissions liées à la consommation d?électricité (barrage?)",
-      "Pertes": "Pertes"
-    },
     "base": {
       "LocationBased": "Location-based",
       "MarketBased": "Market-based",
@@ -2444,23 +1094,7 @@
         "title": "Attention - Le nombre de kWh pris en compte diffère entre la méthode <green>location-based</green> et la méthode <purple>market-based</purple>",
         "description": "Le GHG Protocol exige que vous ayez une double comptabilisation de l'électricité consommée, <b>d'une part via la méthode <green>location-based (location-based method, LBM)</green> et d'autre part en <purple>market-based (market-based method, MBM)</purple></b>. Pour cela il vous suffit de comptabiliser deux fois vos kWh d'énergie consommés, une fois via des facteurs d'émission dédiés au <b><green>location-based</green></b>, et une seconde fois via des facteurs d'émission dédiés au <b><purple>market-based</purple></b>. Vous devez comptabiliser <b>le même nombre de kWh dans les deux méthodes</b>."
       }
-    },
-    "missingQualities": {
-      "title": "Ajout de la qualité pour les facteurs d'émission manuels",
-      "body": "Bonjour, d'après nos informations, vous aviez ajouté des facteurs d'émissions manuellement lorsqu'il était encore impossible de renseigner leur incertitude. Par défaut, pour ces facteurs d'émissions, les qualités sont considérées comme étant \"Très bonne\", ce qui correspond à une incertitude nulle sur le facteur d'émission. Ce bug étant dorénavant résolu, nous vous recommandons fortement de mettre à jour les facteurs d'émissions concernés qui sont les suivants :",
-      "correct": "Corriger"
-    },
-    "forbidden": "Vous devez d'abord compléter vos données générales"
-  },
-  "environment": {
-    "BC": "BC+ 2.0",
-    "CUT": "Count",
-    "TILT": "Tilt",
-    "CLICKSON": "ClicksOn"
-  },
-  "source": {
-    "CRON": "Cron",
-    "TUNISIE": "Tunisie"
+    }
   },
   "units": {
     "selectAll": "Tout sélectionner",
@@ -2663,38 +1297,22 @@
     "seeMore": "Voir plus",
     "name": "Nom : ",
     "title": "Organisation",
-    "createFirstClient": "Créer mon premier·ère client·e",
-    "firstClientMessage": "Nous vous invitons à créer votre premier·ère client·e puis à créer votre premier Bilan Carbone®",
     "form": {
-      "create": "Créer l'organisation",
       "editTitle": "Modifier mes cinémas",
       "edit": "Valider la modification",
       "name": "Nom de l'organisation",
-      "title": "Informations sur la nouvelle organisation",
-      "Unknown error": "Une erreur inconnue s'est produite. Veuillez contacter le support"
+      "title": "Informations sur la nouvelle organisation"
     },
     "sites": {
       "title": "Sur quels cinémas doit porter l'empreinte ?",
       "noSites": "Il n'y a pas de cinémas configurés sur l'organisation",
       "name": "Nom",
       "namePlaceholder": "Nom du cinéma",
-      "etp": "Nombre d'Équivalents Temps Plein",
-      "etpPlaceholder": "Entrez votre nombre d'ETP pour ce cinéma ici",
-      "ca": "Chiffre d'affaire ({unit})",
-      "caPlaceholder": "Entrez votre CA pour ce cinéma en {unit} ici",
       "postalCode": "Code postal",
       "postalCodePlaceholder": "Code postal",
       "city": "Ville",
       "cityPlaceholder": "Ville",
-      "volunteerNumber": "Nombre de bénévoles",
-      "volunteerNumberPlaceholder": "Entrez le nombre de bénévoles pour ce site ici",
-      "beneficiaryNumber": "Nombre de bénéficiaires",
-      "beneficiaryNumberPlaceholder": "Entrez le nombre de bénéficiaires pour ce site ici",
-      "actions": "Actions",
-      "delete": "Supprimer",
-      "duplicate": "Dupliquer",
       "add": "Ajouter un cinéma",
-      "update": "Modifier la liste",
       "cnc": "Numéro CNC",
       "cncPlaceholder": "Numéro CNC",
       "glossary": {
@@ -2703,11 +1321,6 @@
         "etpDescription": "Ces données seront à terme utilisées pour calculer des intensités carbone (kgCO₂e/ETP).",
         "ca": "Chiffre d'Affaire ({unit})",
         "caDescription": "Ces données seront à terme utilisées pour calculer des intensités carbone (kgCO₂e/{unit} CA)."
-      },
-      "validation": {
-        "name": "Veuillez renseigner un nom",
-        "etp": "Veuillez renseigner un nombre d'employés",
-        "ca": "Veuillez renseigner un chiffre d'affaire"
       }
     },
     "studySites": {
@@ -2715,16 +1328,6 @@
       "description": "Des études existent avec les sites suivants. <warning>Vous devez d'abord les supprimer des études concernées avant de pouvoir les supprimer de votre organisation.</warning>",
       "existingSite": "<name></name> : <link></link>",
       "existingUnauthorizedSite": "{name} : {count, plural,  =1 {1 étude à laquelle} other {#  études auxquelles}} vous n'avez pas accès"
-    },
-    "card": {
-      "method": "Consulter la méthodologie Bilan Carbone®",
-      "myOrganization": "Mes cinémas",
-      "myClient": "Mon client",
-      "update": "Modifier mes informations",
-      "updateClient": "Modifier mon client",
-      "renewUpcoming": "Votre adhésion {currentYear} touche bientôt à sa fin, pensez à la renouveler pour continuer à utiliser les services en {nextYear}. Sans adhésion à jour, seul l'accès en lecture reste disponible pour vos études sur le BC+.",
-      "renew": "Votre adhésion a expiré, pensez à la renouveler pour continuer à utiliser les services en {currentYear}. Sans adhésion à jour, seul l'accès en lecture reste disponible pour vos études sur le BC+.",
-      "renewLink": "Renouveler"
     },
     "delete": {
       "button": "Supprimer l'organisation",
@@ -2738,211 +1341,12 @@
       "unexpectedAssociations": "Un évènement inattendu est survenu lors de la suppression de ce client. Veuillez contacter le support."
     }
   },
-  "emissionSource": {
-    "in": "en ",
-    "emissionSource": "Donnée d'activité :",
-    "emissionFactor": "Facteur d'émission :",
-    "clear": "Supprimer la valeur",
-    "advancedSearch": "Recherche avancée",
-    "noResults": "Rechercher avec plus de filtres",
-    "seeMore": "...Voir plus et rechercher avec plus de filtres",
-    "delete": "Supprimer la source",
-    "label": "Libellé de la source d'émission",
-    "addPlaceholder": "Donnez un titre à votre nouvelle source d'émission",
-    "createEmissionFactor": "Créer un facteur d'émissions",
-    "saved": "Enregistré",
-    "validate": "Valider les données",
-    "unvalidate": "Éditer les données",
-    "mandartoryFields": "Informations obligatoires",
-    "optionalFields": "Informations optionnelles",
-    "resetFESpecific": "Réinitialiser les valeurs par défaut",
-    "duplicate": "Dupliquer la source d'émission",
-    "information": "Information",
-    "oldVersion": "Facteur d'émission issue d'une version dépréciée",
-    "lastValidation": "Dernière validation",
-    "lastEdition": "Dernière modification",
-    "glossary": {
-      "title": "Glossaire",
-      "type": "Type",
-      "typeDescription": "Le type de données est une dénomination introduite par la nouvelle méthode Bilan Carbone®, qui vient en complément du calcul des incertitudes. Pour plus d'informations sur les différents types de données, nous vous invitons à consulter <link>cette page</link>.",
-      "quality": "Qualité",
-      "qualityDescription": "Les incertitudes sont dorénavant calculées grâce à des notes qualitatives apportées sur la qualité du facteur d'émission et la qualité de la donnée d'activité. Les notes associées au facteur d'émission sont directement issues des bases de données, mais celles liées à la donnée d'activité doivent être saisies. Pour plus d'informations sur l'attribution des notes, nous vous invitons à consulter <link>cette page</link>.",
-      "specificEmissionFactorQuality": "Vous pouvez spécifiquement ajuster la qualité du facteur d'émission dans votre source d'émission. La valeur générique du facteur d'émission est indiquée par le symbole {marker}.",
-      "version": "Facteur d'émission d'une ancienne version",
-      "versionDescription": "Vous modifiez une étude qui provient de l'ancien BC+. Ce facteur d'émission n'existant pas dans la version de la base empreinte liée à votre étude ({bcVersion}), si vous le modifiez, vous ne pourrez jamais le remettre."
-    },
-    "deleteDialog": {
-      "button": "Supprimer la source",
-      "delete": "Supprimer cette source d'émission",
-      "title": "Êtes-vous sûr de vouloir supprimer cette source d'émission ?",
-      "description": "<warning>Toutes les données renseignées seront définitivement perdues</warning>, et les éventuels contributeur·rices n'auront plus accès à cette source d'émission.",
-      "accept": "Oui",
-      "decline": "Non"
-    },
-    "duplicateDialog": {
-      "title": "Voulez-vous dupliquer cette source d'émission ?",
-      "content": "Vous pouvez dupliquer cette source d'émission. Vous pourrez ensuite la modifier.",
-      "selectSite": "Merci d'indiquer pour quel site de l'étude vous voulez dupliquer cette source.",
-      "cancel": "Annuler",
-      "confirm": "Confirmer"
-    },
-    "saving": "Sauvegarde en cours...",
-    "status": {
-      "all": "Tous les status",
-      "valid": "Validée",
-      "waiting": "En complétion",
-      "waitingContributor": "En attente d'un·e contributeur·rice",
-      "toVerify": "À vérifier"
-    },
-    "type": {
-      "all": "Tous les types",
-      "Physical": "Physique",
-      "Accounting": "Comptable",
-      "Extrapolated": "Extrapolée",
-      "Statistical": "Statistique",
-      "Approched": "Approchée"
-    },
-    "informations": "Informations :",
-    "results": {
-      "title": "Résultats :",
-      "emission": "Émission :",
-      "confiance": "Intervalle de confiance à 95% :",
-      "alpha": "Alpha :"
-    },
-    "form": {
-      "validate": "Validée",
-      "name": "Nom",
-      "caracterisation": "Caractérisation",
-      "constructionYear": "Année d'acquisition",
-      "emissionFactor": "Facteur d'émission",
-      "activity": "Donnée d'activité",
-      "value": "Valeur donnée d'activité",
-      "sign": "Valeur uniquement positive",
-      "source": "Source et date de la donnée collectée",
-      "type": "Type",
-      "depreciationPeriod": "Durée d'amortissement",
-      "hectare": "Hectare",
-      "duration": "Durée",
-      "years": "ans",
-      "reliability": "Fiabilité",
-      "technicalRepresentativeness": "Représentativité technique",
-      "geographicRepresentativeness": "Représentativité géographique",
-      "temporalRepresentativeness": "Représentativité temporelle",
-      "completeness": "Complétude",
-      "quality": "Qualité",
-      "expand": "Développer les qualités",
-      "shrink": "Simplifier les qualités",
-      "comment": "Hypothèses DA",
-      "tag": "Tag",
-      "create": "Créer {tag}",
-      "see": "Voir",
-      "feComment": "FE souhaité/Hypothèses faites"
-    },
-    "cut": {
-      "form": {
-        "value": "Nombre"
-      }
-    },
-    "emissionFactorDialog": {
-      "title": "Choisir un facteur d'émission",
-      "cancel": "Annuler"
-    },
-    "validation": {
-      "required": "Champs requis"
-    }
-  },
   "quality": {
     "1": "Très mauvaise",
     "2": "Mauvaise",
     "3": "Moyenne",
     "4": "Bonne",
     "5": "Très bonne"
-  },
-  "upload": {
-    "fileTooBig": "Fichier trop gros (taille maximale {size} MB)",
-    "noFileSelected": "Aucun fichier selectionné"
-  },
-  "onboarding": {
-    "title-1": "Bienvenue sur le BC+ ! Avant de commencer, veuillez configurer votre organisation",
-    "titleDescription-1": "Nous avons pré-rempli certaines informations concernant votre organisation (association, entreprise, ...) suite à votre adhésion à l'ABC. Vous pouvez modifier le nom de votre organisation maintenant, ou à tout moment dans le BC+ via la rubrique \"Organisation\".",
-    "title-2": "Gestion de votre équipe",
-    "titleDescription-2": "Vous pouvez d'ores et déjà ajouter vos collaborateur·rices au sein de votre équipe ! Vous pourrez toujours ajouter de nouvelles personnes plus tard via la rubrique \"Mon équipe\" située dans le menu \"Mon organisation\".",
-    "previous": "Précédent",
-    "next": "Suivant",
-    "validate": "Valider",
-    "step1": {
-      "name": "Nom de mon organisation",
-      "role": "Mon rôle au sein de l'organisation",
-      "information": "Mes informations",
-      "firstName": "Prénom",
-      "lastName": "Nom",
-      "adminDescription": "Vous avez été formé au Bilan Carbone® : Le rôle qui vous a été attribué est celui d'administrateur de votre organisation.",
-      "gestionnaireDescription": "Vous n'avez pas été formé au Bilan Carbone® : Le rôle qui vous a été attribué est celui de gestionnaire de votre organisation."
-    },
-    "step2": {
-      "addCollaborator": "Ajouter un·e collaborateur·rice",
-      "email": "Adresse email",
-      "emailPlaceholder": "Ajouter une adresse email ici",
-      "role": "Rôle",
-      "adminDescription": "Possède l'ensemble des droits existants",
-      "collaboratorDescription": "Créé et complète des Bilan Carbone®",
-      "crCollaboratorDescription": "Créé des clients et réalise leur Bilan Carbone®",
-      "gestionnaireDescription": "Gère le compte de l'organisation mais n'a pas accès aux études",
-      "memberDescription": "N'a aucun droit sur l'organisation et n'est pas necessairement formé à la méthode Bilan Carbone®",
-      "validation": {
-        "email": "Adresse email invalide",
-        "requiredEmail": "E-mail obligatoire",
-        "requiredRole": "Rôle obligatoire"
-      }
-    }
-  },
-  "checklist": {
-    "title": "Bien démarrer sur COUNT",
-    "done": "Fait",
-    "CreateAccount": "Créer votre compte",
-    "CreateAccountDetails": "",
-    "AddCollaborator": "Ajouter des collaborateur·rices",
-    "AddCollaboratorDetails": "Ajouter vos collègues pour qu'ils puissent vous aider à établir le Bilan Carbone® de votre entreprise.",
-    "AddClient": "Créer votre premier·ère client·e",
-    "AddClientDetails": "Ajouter votre premier client·e afin de commencer vos empreintes",
-    "AddSiteCR": "Ajouter les sites",
-    "AddSiteCRDetails": "Ajouter des sites à votre <orga>organisation</orga> ou à <client>un de vos clients</client> pour que vous puissiez établir les émissions de chacun des sites. Si votre organisation ou client n'a qu'un site, créer un site 'Tous sites'",
-    "AddSiteCRCollaborator": "Ajouter les sites",
-    "AddSiteCRCollaboratorDetails": "Ajouter des sites à <client>un de vos clients</client> pour que vous puissiez établir les émissions de chacun des sites. Si votre client n'a qu'un site, créer un site 'Tous sites'",
-    "AddSiteOrga": "Ajouter les sites",
-    "AddSiteOrgaDetails": "Ajouter des sites à votre <orga>organisation</orga> pour que vous puissiez établir les émissions de chacun des sites. Si votre organisation n'a qu'un site, créer un site 'Tous sites'",
-    "CreateFirstStudy": "Créer votre première empreinte",
-    "CreateFirstStudyDetails": "C'est parti pour votre première empreinte ! Remplissez les premières informations comme la date, le nom...",
-    "CreateFirstEmissionSource": "Répondez aux premières questions",
-    "CreateFirstEmissionSourceDetails": "Rendez-vous dans le premier poste/sous poste que vous souhaitez renseigner ! Répondez aux questions.",
-    "ConsultResults": "Allez voir vos premiers résultats",
-    "ConsultResultsDetails": "Rendez-vous maintenant dans la page \"Résultats\" pour voir vos émissions, les exporter...",
-    "optional": "Optionnel",
-    "markAsDone": "Marquer comme fait",
-    "go": "Aller",
-    "finished": "Vous êtes prêt à commencer votre utilisation du COUNT ! N'hésitez pas à consulter la <faq>FAQ</faq> ou à nous contacter en cas de besoin."
-  },
-  "formation": {
-    "title": "Formation",
-    "explanation": "Vous trouverez ci dessous la formation de mise à jour de la méthode Bilan Carbone®. Regardez les vidéos, répondez au questionnaire et recevez votre attestation de réussite ! <b>Le temps de visionnage des vidéos est d'environ 2h. Vous pouvez ensuite, quand vous le souhaitez, répondre au test qui dure {time} minutes maximum. Cette formation de mise à niveau est disponible toute l'année 2025.</b>",
-    "warning": "Avertissement",
-    "warningMessage": "<error>Veuillez vérifier sur votre compte BC+ le nom de votre organisation dans la page <i>Mon organisation > Informations générales</i>, ainsi que vos nom et prénom dans votre profil (en haut à droite). Ces informations seront utilisées pour générer votre attestation personnalisée.</error><br></br>Vous êtes actuellement connecté en tant que {name}, de l'organisation {organization} et êtes formé au niveau {level}. Si cette dernière information n'est pas correcte, merci d'envoyer votre attestation de formation à l'adresse <support>support</support>.<br></br><b>Rappel :</b> la formation doit être suivie avec <b>votre compte personnel</b> et <b>votre adresse e-mail nominative</b>, et non avec un compte générique de l'entreprise. Vous pouvez ajouter d'autres membres de votre organisation depuis le BC+ : page <i>Mon organisation > Mon équipe</i>.",
-    "videos": "Vidéos",
-    "videoExplanation": "Notez bien que l'évaluation associée à cette formation « condensée » ne comporte aucun piège si vous visionnez la formation avec attention. Sa réussite vous permettra d'obtenir gratuitement une attestation de formation mise à jour. En revanche, un résultat insuffisant impliquerait de vous réintégrer au parcours de formation intégral (nouveau module Initiation si vous étiez formé M1 sur la V8, ou nouveau module Professionnel si vous étiez formé M2 sur la V8).",
-    "evaluation": "Evaluation des connaissances",
-    "evaluationEnded": "Vous avez déjà répondu au questionnaire",
-    "evaluationBlocked": "L'accès à la formation de mise à jour n'est plus disponible pour votre adhésion.",
-    "evaluationSubtitle": "Veuillez à présent répondre au questionnaire d'évaluation des connaissances afin de recevoir votre attestation de formation de mise à jour. <b>Ce dernier est chronométré et vous aurez au maximum {time} minutes pour répondre aux questions. Vous ne pouvez répondre au questionnaire qu'une seule fois.</b><error> Une fois lancé, impossible de revenir en arrière. Des exercices pratiques sont présents dans le questionnaire. Nous vous invitons, avant de le commencer, à ouvrir le guide en ligne ainsi que l'outil Excel Bilan Carbone® v9 (pour rappel il est disponible dans votre espace adhérent). Ceux-ci seront utiles et nécessaires pour certaines questions.</error>",
-    "acceptation": "J'ai compris que je ne pourrais lancer qu'une seule fois le questionnaire et que je vais avoir un temps limité pour répondre aux questions. Je suis dans les bonnes conditions pour commencer mon test.",
-    "answer": "Répondre au questionnaire",
-    "timer": "Temps restant : ",
-    "alertMessage": "Il ne vous reste que 10 minutes. Passé ce délai, le formulaire restera accessible et vous pourrez toujours transmettre vos réponses. Cependant, si vous dépassez la limite de {time} minutes avant de les envoyer, celles-ci ne seront pas prises en compte et vous ne recevrez pas d'attestation de réussite.",
-    "form": "Questionnaire Typeform",
-    "forbidden": {
-      "title": "Accès bloqué",
-      "message": "Vous n'êtes pas dans notre base de donnée de formés, vous ne pouvez donc pas avoir accès à l'onglet formation pour passer la formation de mise à jour. Si vous pensez que c'est une erreur merci de suivre le processus indiqué dans notre <faq>FAQ</faq>.<br></br><br></br> Si vous contacter le <support>support</support>, merci d'avoir en amont <b>créer un compte</b> sur <abc>le site de l'ABC</abc> avec votre mail de connexion au BC+ (aucune adhésion supplémentaire n'est nécessaire, cela permet uniquement de vous ajouter à notre base de données de formés). Merci également d'envoyer au support <b>votre attestation de formation</b> et de préciser le mail avec lequel vous vous connectez sur le BC+.<br></br><br></br> Si vous avez déjà été en contact avec le support et que vous ne voyez pas de changement, merci d'attendre 1h puis de vous <b>déconnectez et vous reconnectez au BC+.</b>",
-      "backToHome": "Retour à l'accueil"
-    }
   },
   "deactivableFeatures": {
     "title": "Fonctionnalités désactivables",
@@ -2958,21 +1362,6 @@
     "true": "Active",
     "false": "Désactivée",
     "Not authorized": "Vous n'avez pas les droits pour effectuer cette action"
-  },
-  "tiltSimplified": {
-    "comingSoon": {
-      "title": "Bientôt disponible",
-      "message": "Le calculateur d'empreinte simplifié pour les associations est en cours de construction, et sera disponible d'ici quelques mois. Merci de votre patience !"
-    }
-  },
-  "form": {
-    "validation": {
-      "number": "Veuillez saisir un nombre valide",
-      "postalCode": "Veuillez saisir un code postal valide de 5 chiffres",
-      "date": "Veuillez saisir une date valide (JJ/MM/AAAA)",
-      "phone": "Veuillez saisir un numéro de téléphone valide",
-      "required": "Ce champ est obligatoire"
-    }
   },
   "table": {
     "page": "Page {page} sur {total}",
@@ -3013,18 +1402,7 @@
     "atLeastOneValidObjective": "Veuillez ajouter au moins un objectif valide avec année de début, année cible et taux de réduction"
   },
   "documentationUrl": {
-    "dependencyMatrix": "https://www.bilancarbone-methode.com/2-perimetre-de-la-demarche/2.5-identification-des-risques-et-opportunites-de-transition",
-    "flows": "https://www.bilancarbone-methode.com/2-perimetre-de-la-demarche/2.4-perimetre-operationnel",
-    "actionRelevance": "https://www.bilancarbone-methode.com/5-plan-de-transition/5.2-construction-du-plan-daction#caracteriser-la-pertinence-de-laction",
-    "dataType": "https://www.bilancarbone-methode.com/4-comptabilisation/4.2-methode-de-collecte-des-donnees-dactivite#les-differents-types-de-donnees-dactivite",
-    "maturity": "https://www.bilancarbone-methode.com/1-cadrage-de-la-demarche/1.1-definir-son-niveau-de-maturite-bilan-carbone-r",
-    "monetaryRatio": "https://www.bilancarbone-methode.com/4-comptabilisation/4.3-methode-de-selection-des-facteurs-demission#fe-en-ratios-monetaires",
-    "dependencyAndResponsability": "https://www.bilancarbone-methode.com/annexes/annexes/annexe-1-grands-principes-de-comptabilisation-du-bilan-carbone-r#zoom-sur-les-sous-postes-utilisation-en-responsabilite-et-utilisation-en-dependance",
-    "uncertainties": "https://www.bilancarbone-methode.com/4-comptabilisation/4.4-methode-destimation-des-incertitudes/4.4.2-comment-les-determiner#determination-qualitative",
-    "SNBC": "https://www.ecologie.gouv.fr/politiques-publiques/strategie-nationale-bas-carbone-snbc",
-    "SBTi": "https://sciencebasedtargets.org/net-zero",
-    "carbonBudget": "https://www.bilancarbone-methode.com/annexes/glossaire#b",
-    "carbonNeutrality": "https://www.bilancarbone-methode.com/annexes/glossaire#n"
+    "maturity": "https://www.bilancarbone-methode.com/1-cadrage-de-la-demarche/1.1-definir-son-niveau-de-maturite-bilan-carbone-r"
   },
   "publicodes-rules": {
     "général": {

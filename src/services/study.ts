@@ -4,7 +4,6 @@ import {
   simplifiedDisclaimerExportKeys,
 } from '@/constants/exports'
 import { StudyResultUnit } from '@/generated/prisma/enums'
-import type { EmissionFactorWithParts } from '@/db/emissionFactors'
 import type { FullStudy } from '@/db/study'
 import { Translations } from '@/lib'
 import { formatDateFr } from '@/lib/utils/time'
@@ -135,19 +134,10 @@ export const formatComputedResultsForExport = (
 
 export const downloadStudyResults = async (
   study: FullStudy,
-  _begesRules: unknown[],
-  _ghgpRules: unknown[],
-  _emissionFactorsWithParts: EmissionFactorWithParts[],
   tStudy: Translations,
   tExport: Translations,
-  _tPost: Translations,
   tOrga: Translations,
-  _tQuality: Translations,
-  _tBeges: Translations,
-  _tGHGP: Translations,
   tUnits: Translations,
-  _tBase: Translations,
-  _resultsBySite?: BaseResultsBySite,
   resultsByPost?: BaseResultsByPost[],
   selectedSiteId?: string,
 ) => {

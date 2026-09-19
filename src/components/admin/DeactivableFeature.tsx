@@ -1,6 +1,5 @@
 'use client'
 
-import { UserSource } from '@/generated/prisma/enums'
 import { getFeaturesRestictions, RestrictionsTypes } from '@/db/deactivableFeatures'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
 import {
@@ -15,16 +14,15 @@ interface Props {
   restrictions: AsyncReturnType<typeof getFeaturesRestictions>[number]
 }
 
-type DeactivationCriteria<TValue> = {
+type DeactivationCriteria = {
   title: string
-  criterias: TValue[]
+  criterias: RestrictionsTypes[]
   t: (value: string) => string
-  values: TValue[]
+  values: RestrictionsTypes[]
 }
 
 const DeactivableFeature = ({ restrictions }: Props) => {
   const t = useTranslations('deactivableFeatures')
-  const tSource = useTranslations('source')
   const { callServerFunction } = useServerFunction()
   const router = useRouter()
 
@@ -44,20 +42,7 @@ const DeactivableFeature = ({ restrictions }: Props) => {
     })
   }
 
-  const showSourcesRow = false
-
-  const featureDeactivationCriterias: Array<DeactivationCriteria<UserSource>> = [
-    ...(showSourcesRow
-      ? [
-          {
-            title: 'source',
-            criterias: restrictions.deactivatedSources,
-            t: tSource,
-            values: Object.values(UserSource),
-          },
-        ]
-      : []),
-  ]
+  const featureDeactivationCriterias: DeactivationCriteria[] = []
 
   const isCriteriaActive = (criterias: RestrictionsTypes[], value: RestrictionsTypes) =>
     (criterias && !criterias.length) || !criterias.includes(value)
