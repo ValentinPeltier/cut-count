@@ -31,6 +31,7 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
   useEffect(() => {
     if (snackPack.length && !messageInfo) {
       // Set a new snack when we don't have an active one
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setMessageInfo({ ...snackPack[0] })
       setSnackPack((prev) => prev.slice(1))
       setOpen(true)

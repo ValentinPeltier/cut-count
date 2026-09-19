@@ -261,6 +261,7 @@ export const fixUnits = async () => {
   )
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getEmissionFactorImportVersions = async (withArchived: boolean = false) =>
   withServerResponse('getEmissionFactorImportVersions', async () => {
     const session = await auth()

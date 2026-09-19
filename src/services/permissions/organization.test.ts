@@ -39,6 +39,7 @@ jest.mock('../auth', () => ({ dbActualizedAuth: jest.fn() }))
 
 const mockGetAccountById = dbAccount.getAccountById as jest.Mock
 const mockGetOrganizationVersionForRightsCheck = dbOrganization.getOrganizationVersionForRightsCheck as jest.Mock
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mockGetOrganizationVersionIsCR = dbOrganization.getOrganizationVersionIsCR as jest.Mock
 const mockOrganizationVersionExists = dbOrganization.organizationVersionExists as jest.Mock
 const mockGetUserByEmail = dbUser.getUserByEmail as jest.Mock

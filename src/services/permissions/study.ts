@@ -56,6 +56,7 @@ export const filterAllowedStudies = async (user: UserSession, studies: Study[]) 
   return allowedStudies.filter((study) => study !== null)
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const canCreateAStudy = async (user: UserSession, _simplified: boolean = false) => {
   return !!user.organizationVersionId
 }

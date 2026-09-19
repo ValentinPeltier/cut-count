@@ -42,6 +42,7 @@ const Sites = <T extends SitesCommand>({ sites, form, withSelection, columns, ca
 
   const headerCAUnit = tUnit(caUnit ?? defaultCAUnit)
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     columns,
     data: sites,

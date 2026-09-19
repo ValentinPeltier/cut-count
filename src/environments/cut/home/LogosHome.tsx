@@ -14,6 +14,7 @@ const logos = [
   },
 ]
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const LogosHome = (_props: UserSessionProps) => {
   const isCut = true
   return (

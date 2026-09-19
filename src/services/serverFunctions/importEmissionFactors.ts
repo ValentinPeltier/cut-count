@@ -46,6 +46,7 @@ async function checkAuth(requireCreatePermission = true): Promise<AccountWithUse
 }
 
 export async function previewEmissionFactorsFromFile(file: File): Promise<PreviewEmissionFactorsResult> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const account = await checkAuth()
 
   const locale = await getLocale()

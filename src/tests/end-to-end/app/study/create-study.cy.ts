@@ -1,3 +1,4 @@
+import { expect } from 'chai'
 import dayjs from 'dayjs'
 
 const STUDY_NAME = 'CUT e2e study'
@@ -57,9 +58,7 @@ describe('Count! create simplified study', () => {
 
       cy.reload()
 
-      cy.getByTestId('new-study-number-of-tickets', { timeout: 20000 })
-        .find('input')
-        .should('have.value', TICKETS)
+      cy.getByTestId('new-study-number-of-tickets', { timeout: 20000 }).find('input').should('have.value', TICKETS)
     })
   })
 })

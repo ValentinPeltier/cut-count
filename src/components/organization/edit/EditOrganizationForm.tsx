@@ -83,6 +83,7 @@ const EditOrganizationForm = ({ organizationVersion, caUnit, disabled = false }:
     }
   }
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const sites = form.watch('sites')
   return (
     <Form onSubmit={form.handleSubmit(onSubmit)}>

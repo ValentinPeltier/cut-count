@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable react-compiler/react-compiler */
+
 import type { Cnc } from '@/generated/prisma/client'
 
 import Form from '@/lib/components/base/Form'
@@ -60,6 +62,7 @@ const SignUpFormCut = () => {
     }
 
     fetchCNCs()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setCNCs])
 
   useEffect(() => {

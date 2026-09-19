@@ -109,6 +109,7 @@ export const formatComputedResultsForExport = (
   tStudy: Translations,
   tExport: Translations,
   tUnits: Translations,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _environment: string,
 ) => {
   const dataForExport: (string | number)[][] = []

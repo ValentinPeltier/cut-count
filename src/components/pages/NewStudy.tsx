@@ -25,6 +25,7 @@ interface Props {
 const NewStudyPage = ({ organizationVersions, user, defaultOrganizationVersion, caUnit }: Props) => {
   const [organizationVersion, setOrganizationVersion] = useState<OrganizationWithSites>()
   const tNav = useTranslations('nav')
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const tStudy = useTranslations('study')
 
   const form = useForm<CreateStudyCommand>({

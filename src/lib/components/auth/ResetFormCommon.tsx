@@ -39,6 +39,7 @@ const ResetFormCommon = ({ resetPassword, token, setSubmitting, submitting }: Pr
   })
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/incompatible-library
     const { unsubscribe } = watch((values) => setPasswordValidation(computePasswordValidation(values.password ?? '')))
 
     return () => unsubscribe()

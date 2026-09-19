@@ -71,7 +71,9 @@ const mockAddSite = addSite as jest.Mock
 const mockGetRawOrganizationBySiret = getRawOrganizationBySiret as jest.Mock
 const mockGetCompanyName = getCompanyName as jest.Mock
 const mockSendActivationRequest = sendActivationRequest as jest.Mock
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mockGetOrganizationVersionForRightsCheck = getOrganizationVersionForRightsCheck as jest.Mock
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mockOrganizationVersionActiveAccountsCount = organizationVersionActiveAccountsCount as jest.Mock
 const mockActivateEmail = activateEmail as jest.Mock
 
@@ -347,11 +349,7 @@ describe('signUpWithSiretOrCNC', () => {
 
       const result = await signUpWithSiretOrCNC(testEmail, testSiret)
 
-      expect(mockSendActivationRequest).toHaveBeenCalledWith(
-        ['admin@example.com'],
-        testEmail,
-        'Test User',
-      )
+      expect(mockSendActivationRequest).toHaveBeenCalledWith(['admin@example.com'], testEmail, 'Test User')
       expect(result.success).toBe(true)
       if (result.success) {
         expect(result.data).toBe(REQUEST_SENT)

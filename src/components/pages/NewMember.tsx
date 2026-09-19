@@ -4,6 +4,7 @@ import Breadcrumbs from '../breadcrumbs/Breadcrumbs'
 import { UserSessionProps } from '../hoc/withAuth'
 import NewMemberForm from '../team/NewMemberForm'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const NewMemberPage = ({ user }: UserSessionProps) => {
   const tNav = useTranslations('nav')
   const t = useTranslations('newMember')

@@ -1,5 +1,7 @@
-import { COUNT_GOLDEN_STUDY_ID, COUNT_GOLDEN_STUDY_NAME } from '../../../fixtures/count/constants'
+import { expect } from 'chai'
+
 import { sanitizeStudyName } from '@/utils/study'
+import { COUNT_GOLDEN_STUDY_ID, COUNT_GOLDEN_STUDY_NAME } from '../../../fixtures/count/constants'
 
 const RESULTS_PATH = `/etudes/${COUNT_GOLDEN_STUDY_ID}/comptabilisation/resultats`
 const EXPECTED_XLSX_NAME = `resultats_etude_${sanitizeStudyName(COUNT_GOLDEN_STUDY_NAME)}.xlsx`

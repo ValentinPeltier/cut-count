@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable react-compiler/react-compiler */
+
 import type { FullStudy } from '@/db/study'
 import { getSimplifiedPublicodesConfig } from '@/services/publicodes/simplifiedPublicodesConfig'
 import { computeResultsForAllSitesFromSituations } from '@/services/results/computeSimplifiedResults'
@@ -21,6 +23,7 @@ export function usePublicodesResults(study: FullStudy, studySite: string | 'all'
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const config = useMemo(() => getSimplifiedPublicodesConfig(undefined), [study.subPostsConfigVersion])
 
   const studySiteIds = useMemo(() => {
@@ -69,6 +72,7 @@ export function usePublicodesResults(study: FullStudy, studySite: string | 'all'
       }
     }
     load()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [study.id, studySiteIdsKey, config, refreshTrigger, studySiteIds.length])
 
   const results = useMemo(() => {

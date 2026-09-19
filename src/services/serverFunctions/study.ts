@@ -90,6 +90,7 @@ import {
 } from './study.command'
 import { sendInvitation } from './user'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const hasAccessToStudy = (user: UserSession, study: { allowedUsers: { accountId: string }[] }) => {
   return study.allowedUsers.some((allowedUser) => allowedUser.accountId === user.accountId) || getAccountRoleOnStudy
 }
@@ -183,6 +184,7 @@ export const createStudyCommand = async (
     const userCAUnit = (await getUserApplicationSettings(session.user.accountId))?.caUnit
     const caUnit = CA_UNIT_VALUES[userCAUnit || defaultCAUnit]
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { exports: _exports, isPublic, ...studyCommand } = command
 
     const study = {

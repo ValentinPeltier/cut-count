@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable react-compiler/react-compiler */
+
 import { Level } from '@/generated/prisma/enums'
 import { Table as BaseTable, HelpIcon } from '@/lib/components'
 import Block from '@/lib/components/base/Block'
@@ -122,8 +124,10 @@ const TeamTableCommon = ({
       })
     }
     return col
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [t, canUpdateTeam, tLevel, email, tRole])
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     columns,
     data: team,
@@ -173,10 +177,10 @@ const TeamTableCommon = ({
         ]}
       >
         {teamRoles.map((role) => (
-            <p key={role} className="mb-2">
-              <b>{tRole(role)} :</b> {tRole(`${role}_description${crOrga ? '_CR' : ''}`)}
-            </p>
-          ))}
+          <p key={role} className="mb-2">
+            <b>{tRole(role)} :</b> {tRole(`${role}_description${crOrga ? '_CR' : ''}`)}
+          </p>
+        ))}
       </Modal>
       <Modal
         open={!!deletingMember}

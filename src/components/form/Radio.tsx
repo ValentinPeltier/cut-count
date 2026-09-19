@@ -18,6 +18,7 @@ export const FormRadio = <T extends FieldValues>({
   label,
   icon,
   iconPosition = 'before',
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   translation,
   ...radioProps
 }: Props<T> & RadioGroupProps) => {

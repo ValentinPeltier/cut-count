@@ -1,3 +1,4 @@
+/* eslint-disable react-compiler/react-compiler */
 import CenteredLoader from '@/components/base/CenteredLoader'
 import type { FullStudy } from '@/db/study'
 import { usePublicodesSituation } from '@/lib/publicodes/context'
@@ -55,6 +56,7 @@ const AllPostsInfography = ({ study }: Props) => {
         config.getSubPostRuleName,
       ),
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [engine, situation, config, tPost])
 
   const renderedInfographies = useMemo(() => {

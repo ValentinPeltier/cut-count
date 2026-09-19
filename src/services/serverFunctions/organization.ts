@@ -69,6 +69,7 @@ export const updateOrganizationCommand = async (command: UpdateOrganizationComma
     const caUnit = CA_UNIT_VALUES[userCAUnit || defaultCAUnit]
 
     await updateOrganization(command, caUnit)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const isCR = await getOrganizationVersionIsCR(command.organizationVersionId)
   })
 

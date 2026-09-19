@@ -20,6 +20,7 @@ const DebouncedInput = ({
   const previousValue = useRef(initialValue)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setValue(initialValue)
   }, [initialValue])
 
@@ -35,6 +36,7 @@ const DebouncedInput = ({
 
     return () => clearTimeout(timeout)
     // DO NOT FIX, adding onChange will create an infinite re-render of components that use DebouncedInput
+    // eslint-disable-next-line react-compiler/react-compiler
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, debounce])
 

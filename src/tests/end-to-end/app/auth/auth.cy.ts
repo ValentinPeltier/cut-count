@@ -50,9 +50,7 @@ describe('Authentication', () => {
       .should('not.be.disabled')
       .clear()
 
-    cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input').type(
-      'default-0@yopmail.com',
-    )
+    cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input').type('default-0@yopmail.com')
 
     cy.getByTestId('reset-button').should('be.visible').should('not.be.disabled').click()
 
@@ -143,7 +141,9 @@ describe('Authentication', () => {
 
     cy.waitForEmail({
       subject: /Demande d'accès à votre organisation Count/,
-    }).its('subject').should('match', /Demande d'accès à votre organisation Count/)
+    })
+      .its('subject')
+      .should('match', /Demande d'accès à votre organisation Count/)
 
     cy.visit('/')
     cy.login('cut-admin-test@yopmail.com', 'password', { cacheSession: false })

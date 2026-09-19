@@ -2,6 +2,7 @@ import type { EmissionFactor, Prisma } from '@/generated/prisma/client'
 import { Import, SubPost, Unit } from '@/generated/prisma/enums'
 import { unique } from './array'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const isWasteEmissionFactor = (_emissionFactor: Pick<EmissionFactor, 'importedFrom' | 'importedId'>) => false
 
 export const getEmissionFactorValue = (emissionFactor: {

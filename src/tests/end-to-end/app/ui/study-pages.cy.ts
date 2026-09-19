@@ -1,9 +1,5 @@
 import { COUNT_GOLDEN_STUDY_ID } from '../../../fixtures/count/constants'
-import {
-  CUT_FORBIDDEN_STUDY_SUFFIXES,
-  CUT_GOLDEN_STUDY_PATHS,
-  CUT_STUDY_POST_SLUGS,
-} from '../../../fixtures/count/cutPages'
+import { CUT_GOLDEN_STUDY_PATHS, CUT_STUDY_POST_SLUGS } from '../../../fixtures/count/cutPages'
 
 describe('Count! golden study — all study pages', () => {
   before(() => {

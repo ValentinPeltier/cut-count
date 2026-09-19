@@ -1,3 +1,4 @@
+/* eslint-disable react-compiler/react-compiler */
 import {
   getSimplifiedPublicodesConfig,
   SimplifiedPublicodesConfig,
@@ -96,6 +97,7 @@ export function PublicodesSituationProvider<RuleName extends string = string>({
       isLoading,
       error,
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [engine, situation, listLayoutSituations, config, studySiteId, isLoading, error],
   )
 

@@ -28,6 +28,7 @@ export const MultiSelect = ({
 
   useEffect(() => {
     const newValue = typeof value === 'string' ? (value.split(',') as string[]) : (value as string[])
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setSelected(newValue)
   }, [value])
 

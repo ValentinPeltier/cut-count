@@ -13,8 +13,8 @@ import { SiteCAUnit } from '@/generated/prisma/enums'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
 import { BarChart, PieChart } from '@/lib/ui'
 import { customRich } from '@/lib/utils/customRich'
-import type { BaseResultsByPost } from '@/services/posts'
 import { downloadFile } from '@/lib/utils/download'
+import type { BaseResultsByPost } from '@/services/posts'
 import { generateStudySummaryPDF } from '@/services/serverFunctions/pdf'
 import { downloadStudyResults } from '@/services/study'
 import type { BaseResultsBySite } from '@/types/study.types'
@@ -47,7 +47,9 @@ const AllResults = ({
   studySite,
   totalValue,
   computedResults,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   totalValueWithoutDep = totalValue,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   caUnit = SiteCAUnit.K,
   chartOrder = defaultChartOrder,
   showSubLevel = false,

@@ -15,6 +15,7 @@ interface Props {
   exportType: ResultType
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ResultFilters = ({ study, selectedPostIds, onPostFilterChange, exportType }: Props) => {
   const [previousExportType, setPreviousExportType] = useState<string | null>(null)
   const hasInitializedRef = useRef(false)
@@ -35,6 +36,7 @@ const ResultFilters = ({ study, selectedPostIds, onPostFilterChange, exportType 
       const defaultPostItems = envSubPosts
 
       if (previousExportType !== exportType) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setPreviousExportType(exportType)
         hasInitializedRef.current = true
         if (defaultPostItems.length > 0) {

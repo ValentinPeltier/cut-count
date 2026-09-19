@@ -37,8 +37,11 @@ export const canEditOrganizationVersion = (
   return hasEditionRole(isCR, account.role)
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const shouldRenewLicenceText = (_accountOrganizationVersion?: unknown) => ''
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const hasActiveLicence = (_organizationVersion?: unknown) => true
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const hasActiveLicenceForFormation = (_organizationVersion?: unknown) => false

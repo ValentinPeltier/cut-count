@@ -101,6 +101,7 @@ const StudyRightsCut = ({ study }: Props) => {
     setStudySiteData()
   }, [form, siteId, studySiteId])
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const openingHours = form.watch('openingHours')
   const openingHoursHoliday = form.watch('openingHoursHoliday')
 
@@ -125,6 +126,7 @@ const StudyRightsCut = ({ study }: Props) => {
   useEffect(() => {
     onStudyCinemaUpdate()
     // This effect is used to update the study cinema whenever the opening hours or holiday opening hours change.
+    // eslint-disable-next-line react-compiler/react-compiler
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(openingHours), JSON.stringify(openingHoursHoliday)])
 

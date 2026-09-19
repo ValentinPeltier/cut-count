@@ -1,3 +1,5 @@
+import { expect } from 'chai'
+
 import { COUNT_GOLDEN_STUDY_ID } from '../../../fixtures/count/constants'
 
 describe('Count! data entry', () => {
@@ -28,9 +30,7 @@ describe('Count! data entry', () => {
 
   it('persists Publicodes answers after reload', () => {
     cy.loginForEnv('cut')
-    cy.visit(
-      `/etudes/${COUNT_GOLDEN_STUDY_ID}/comptabilisation/saisie-des-donnees/Fonctionnement?subPost=Energie`,
-    )
+    cy.visit(`/etudes/${COUNT_GOLDEN_STUDY_ID}/comptabilisation/saisie-des-donnees/Fonctionnement?subPost=Energie`)
 
     cy.getByTestId('publicodes-save-status', { timeout: 20000 }).should('exist')
     cy.contains('button, [role="tab"]', 'Énergie', { timeout: 20000 }).should('be.visible')

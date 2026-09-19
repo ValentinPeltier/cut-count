@@ -1,3 +1,4 @@
+/* eslint-disable react-compiler/react-compiler */
 import { useBeforeUnload } from '@/hooks/useBeforeUnload'
 import { useLatestRef } from '@/hooks/utils'
 import { useToast } from '@/lib/ui'
@@ -137,6 +138,7 @@ function PublicodesAutoSaveProvider<RuleName extends string = string>({
       setSituation(newSituation, currentListLayoutSituations)
       autoSave.saveSituation(newSituation, currentListLayoutSituations)
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [engine, setSituation, autoSave.saveSituation],
   )
 
@@ -169,6 +171,7 @@ function PublicodesAutoSaveProvider<RuleName extends string = string>({
         })
       }, targetRule)
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [engine],
   )
 
@@ -181,12 +184,14 @@ function PublicodesAutoSaveProvider<RuleName extends string = string>({
       }
       return [...prevRows, newSituationListEntry]
     }, targetRule)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const deleteListLayoutSituation = useCallback((targetRule: RuleName, situationId: string) => {
     patchListLayoutSituation((prevRows) => {
       return prevRows.filter(({ id }) => id !== situationId)
     }, targetRule)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const value = useMemo<PublicodesAutoSaveContextValue<RuleName>>(
@@ -201,6 +206,7 @@ function PublicodesAutoSaveProvider<RuleName extends string = string>({
       lastSaved: autoSave.lastSaved,
       saveError: autoSave.error,
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [updateField, autoSave],
   )
 

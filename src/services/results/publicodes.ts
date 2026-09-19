@@ -12,6 +12,7 @@ export const computeBaseResultsByPostFromEngine = <P extends Post>(
   tPost: (key: string) => string,
   getPostRuleName: (post: P) => string,
   getSubPostRuleName: (subPost: SubPost) => string | undefined,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   environment?: string,
 ) => {
   const postResults = posts

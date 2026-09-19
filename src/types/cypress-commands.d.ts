@@ -12,11 +12,9 @@ type CapturedDownload = {
   bytes: Uint8Array
 }
 
-declare global {
-  interface Window {
-    __cyDownload?: CapturedDownload
-    __cyDownloadReady?: Promise<CapturedDownload>
-  }
+interface Window {
+  __cyDownload?: CapturedDownload
+  __cyDownloadReady?: Promise<CapturedDownload>
 }
 
 declare namespace Cypress {
@@ -28,25 +26,15 @@ declare namespace Cypress {
     resetTestDatabase(): Chainable<void>
     login(email?: string, password?: string, options?: { cacheSession?: boolean }): Chainable<void>
     logout(): Chainable<void>
-    loginForEnv(
-      env: 'cut',
-      email?: string,
-      password?: string,
-      options?: { cacheSession?: boolean },
-    ): Chainable<void>
+    loginForEnv(env: 'cut', email?: string, password?: string, options?: { cacheSession?: boolean }): Chainable<void>
     signup(email?: string, cncOrSiret?: string): Chainable<void>
     clearEmails(): Chainable<void>
     waitForEmail(
       matcher: { to?: string; subject?: string | RegExp },
       options?: { timeout?: number },
     ): Chainable<MailDevEmail>
-    openEmailLink(
-      matcher: { to?: string; subject?: string | RegExp },
-      options?: { timeout?: number },
-    ): Chainable<void>
+    openEmailLink(matcher: { to?: string; subject?: string | RegExp }, options?: { timeout?: number }): Chainable<void>
     stubDownloads(): Chainable<void>
     waitForDownload(extension: string): Chainable<CapturedDownload>
   }
 }
-
-export { }

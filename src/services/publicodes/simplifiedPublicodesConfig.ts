@@ -31,6 +31,7 @@ const CUT_CONFIG: SimplifiedPublicodesConfig<CutPost> = {
 }
 
 export const getSimplifiedPublicodesConfig = (
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _subPostsConfigVersion: string | null | undefined,
 ): SimplifiedPublicodesConfig => {
   return CUT_CONFIG as SimplifiedPublicodesConfig

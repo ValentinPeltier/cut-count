@@ -1,5 +1,6 @@
 import type { UserSession } from 'next-auth'
 import { hasEditAccessOnStudy } from './study'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const isCutContributor = (study: object, session: { user: UserSession }) => {
   return false
 }

@@ -44,6 +44,7 @@ export default function useStudySite(study: FullStudy, allowAll?: boolean) {
       resolvedSite = allowAll ? 'all' : (allSiteIds[0] ?? '')
     }
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setSiteState(resolvedSite)
   }, [allSiteIds, allowAll, router, searchParams, storageKey, study.id, study.sites])
 

@@ -30,6 +30,7 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
   // so rebuilding the columns re-mounts every cell and inputs lose focus while being typed into.
   // `useTranslations` returns a new function on each render, hence the ref.
   const tRef = useRef(t)
+  // eslint-disable-next-line react-hooks/refs
   tRef.current = t
   const { callServerFunction } = useServerFunction()
   const [cncs, setCNCs] = useState<Cnc[] | null>(null)
@@ -111,6 +112,7 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
     const columns = [
       {
         id: 'cncId',
+        // eslint-disable-next-line react-hooks/refs
         header: tRef.current('cnc'),
         accessorKey: 'cncId',
         cell: ({ row, getValue }) =>
@@ -193,6 +195,7 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
       },
       {
         id: 'name',
+        // eslint-disable-next-line react-hooks/refs
         header: tRef.current('namePlaceholder'),
         accessorKey: 'name',
         cell: ({ row, getValue }) =>
@@ -216,6 +219,7 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
       },
       {
         id: 'postalCode',
+        // eslint-disable-next-line react-hooks/refs
         header: tRef.current('postalCode'),
         accessorKey: 'postalCode',
         cell: ({ row, getValue }) =>
@@ -239,6 +243,7 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
       },
       {
         id: 'city',
+        // eslint-disable-next-line react-hooks/refs
         header: tRef.current('city'),
         accessorKey: 'city',
         cell: ({ row, getValue }) =>
@@ -263,6 +268,7 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
     ] as ColumnDef<SitesCommand['sites'][0]>[]
 
     if (form && !withSelection) {
+      // eslint-disable-next-line react-hooks/refs
       columns.push({
         id: 'actions',
         header: '',

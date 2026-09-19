@@ -19,6 +19,7 @@ interface Props {
 const ResetForm = ({ user, token }: Props) => {
   useEffect(() => {
     checkToken(token).then((invalidtoken) => {
+      // eslint-disable-next-line react-hooks/immutability
       setInvalidResetLink(invalidtoken)
     })
   }, [token])

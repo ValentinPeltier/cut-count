@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable @next/next/no-img-element */
+
 import { ChartsPage } from '@/app/(pdf)/preview/etudes/[id]/ChartsPage'
 import '@/app/(pdf)/preview/etudes/[id]/pdf-summary.css'
 import ConsolidatedResultsTable from '@/components/study/results/consolidated/ConsolidatedResultsTable'
@@ -67,6 +69,7 @@ const PDFSummary = ({ study }: Props) => {
 
   useEffect(() => {
     if (results.isLoading) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsLoading(true)
       return
     }

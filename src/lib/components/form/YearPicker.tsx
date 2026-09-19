@@ -5,6 +5,7 @@ import { Control, Controller, FieldPath, FieldValues } from 'react-hook-form'
 
 dayjs.extend(customParseFormat)
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface YearPickerProps<T extends FieldValues, RuleName extends string = string> {
   control: Control<T>
   name: FieldPath<T>

@@ -50,6 +50,7 @@ export default function PublicodesForm<RuleName extends string>({ formLayouts }:
       return { evaluatedFormLayout, isLinkedToPreviousQuestion, key, isApplicable }
     })
     // NOTE: the situation needs to be a dependency to re-evaluate applicability when it changes
+    // eslint-disable-next-line react-compiler/react-compiler
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formLayouts, engine, situation])
 

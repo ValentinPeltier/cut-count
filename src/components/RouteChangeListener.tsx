@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable react-compiler/react-compiler */
+
 import { Context, ORGANIZATION, OTHER, STUDY, useAppContextStore } from '@/store/AppContext'
 import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
@@ -36,6 +38,7 @@ const RouteChangeListener = () => {
     if (contextId !== newContextId) {
       setContextId(newContextId)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 
   return <></>

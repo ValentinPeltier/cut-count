@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable react-compiler/react-compiler */
+
 import { FormAutocomplete } from '@/components/form/Autocomplete'
 import { getOrganizationVersionAccounts } from '@/db/organization'
 import type { FullStudy } from '@/db/study'
@@ -44,6 +46,7 @@ const NewStudyRightForm = ({ study, accounts, existingAccounts, accountRole }: P
       accounts
         .filter((account) => !existingAccounts.includes(account.user.email))
         .filter((account) => !isAdmin(account.role)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [accounts],
   )
 

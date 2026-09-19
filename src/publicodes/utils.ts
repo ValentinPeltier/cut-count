@@ -55,6 +55,7 @@ export const getUpdatedSituationWithInputValue = <RuleName extends string>(
       return currentSituation
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { [dottedName]: _, ...rest } = currentSituation
     return rest as Situation<RuleName>
   }

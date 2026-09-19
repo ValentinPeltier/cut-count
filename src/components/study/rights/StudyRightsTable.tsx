@@ -86,6 +86,7 @@ const StudyRightsTable = ({ user, study, canAddMember, userRoleOnStudy }: Props)
     return columns
   }, [t, canAddMember, user, userRoleOnStudy, study, tStudyRole])
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     columns,
     data: study.allowedUsers,

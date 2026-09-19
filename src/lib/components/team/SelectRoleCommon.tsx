@@ -41,6 +41,7 @@ const SelectRoleCommon = ({
   const { update: updateSession } = useSession()
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setRole(currentRole)
   }, [currentRole])
 

@@ -130,6 +130,7 @@ export default function ListQuestion<RuleName extends string>({
     return columns
   }, [rules])
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable<TableRowData<RuleName>>({
     data: evaluatedListRows,
     columns,

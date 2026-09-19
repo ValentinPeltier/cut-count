@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable react-compiler/react-compiler */
+
 import { FormRadio } from '@/components/form/Radio'
 import type { FullStudy } from '@/db/study'
 import { HelpIcon } from '@/lib/components'
@@ -41,6 +43,7 @@ const StudyPublicStatus = ({ study, disabled }: Props) => {
     },
   })
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const isPublic = form.watch('isPublic')
 
   const onSubmit = useCallback(
@@ -58,6 +61,7 @@ const StudyPublicStatus = ({ study, disabled }: Props) => {
     if (isPublic !== study.isPublic.toString()) {
       onSubmit(form.getValues())
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPublic, study.isPublic, form])
 
   return (

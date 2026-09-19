@@ -18,4 +18,5 @@ export const flattenSubposts = (posts: Post[] | SubPost[] | Record<string, SubPo
   })
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const withInfobulle = (_post: Post) => false

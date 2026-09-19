@@ -70,10 +70,10 @@ const NewMemberFormCommon = ({ teamRoles, addMember }: Props) => {
       />
       <FormSelect control={form.control} translation={t} name="role" label={t('role')} data-testid="new-member-role">
         {Object.keys(teamRoles).map((key) => (
-            <MenuItem key={key} value={key}>
-              {tRole(key)}
-            </MenuItem>
-          ))}
+          <MenuItem key={key} value={key}>
+            {tRole(key)}
+          </MenuItem>
+        ))}
       </FormSelect>
       <LoadingButton type="submit" loading={form.formState.isSubmitting} data-testid="new-member-create-button">
         {t('create')}

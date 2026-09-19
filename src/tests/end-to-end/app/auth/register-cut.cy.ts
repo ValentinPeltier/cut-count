@@ -21,7 +21,9 @@ describe('Register cut', () => {
     cy.waitForEmail({
       to: email,
       subject: /Vous avez activé votre compte sur Count/,
-    }).its('subject').should('match', /Vous avez activé votre compte sur Count/)
+    })
+      .its('subject')
+      .should('match', /Vous avez activé votre compte sur Count/)
   })
 
   it('does create new cut user and organization with SIRET', () => {
@@ -36,7 +38,9 @@ describe('Register cut', () => {
     cy.waitForEmail({
       to: email,
       subject: /Vous avez activé votre compte sur Count/,
-    }).its('subject').should('match', /Vous avez activé votre compte sur Count/)
+    })
+      .its('subject')
+      .should('match', /Vous avez activé votre compte sur Count/)
   })
 
   it('does not create new user and organization when user already in environment', () => {
@@ -71,6 +75,8 @@ describe('Register cut', () => {
 
     cy.waitForEmail({
       subject: /Demande d'accès à votre organisation Count/,
-    }).its('subject').should('match', /Demande d'accès à votre organisation Count/)
+    })
+      .its('subject')
+      .should('match', /Demande d'accès à votre organisation Count/)
   })
 })

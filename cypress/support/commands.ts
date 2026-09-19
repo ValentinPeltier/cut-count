@@ -1,3 +1,5 @@
+import { expect } from 'chai'
+
 Cypress.Commands.add(
   'getByTestId',
   (testId: string, params?: Partial<Cypress.Loggable & Cypress.Timeoutable & Cypress.Withinable & Cypress.Shadow>) =>
@@ -55,12 +57,9 @@ const loginWithOptionalSession = (email: string, password: string, entryPath: st
   )
 }
 
-Cypress.Commands.add(
-  'login',
-  (email = 'admin-0@yopmail.com', password = 'password-0', options: LoginOptions = {}) => {
-    loginWithOptionalSession(email, password, '/login', options)
-  },
-)
+Cypress.Commands.add('login', (email = 'admin-0@yopmail.com', password = 'password-0', options: LoginOptions = {}) => {
+  loginWithOptionalSession(email, password, '/login', options)
+})
 
 Cypress.Commands.add('loginForEnv', (env: 'cut', email?: string, password?: string, options: LoginOptions = {}) => {
   const defaults = ENV_LOGIN_DEFAULTS[env]
@@ -81,8 +80,10 @@ Cypress.Commands.add('signup', (email = 'cut-cnc@yopmail.com', cncOrSiret = '321
   cy.getByTestId('activation-siretOrCNC').should('be.visible')
   cy.getByTestId('activation-button').should('be.visible')
 
-  cy.getByTestId('activation-email').find('input').clear().type(email)
-  cy.getByTestId('activation-siretOrCNC').find('input').clear().type(cncOrSiret)
+  cy.getByTestId('activation-email').find('input').clear()
+  cy.getByTestId('activation-email').find('input').type(email)
+  cy.getByTestId('activation-siretOrCNC').find('input').clear()
+  cy.getByTestId('activation-siretOrCNC').find('input').type(cncOrSiret)
   cy.getByTestId('activation-form-message').should('not.exist')
   cy.getByTestId('activation-button').click()
 
@@ -115,9 +116,9 @@ Cypress.Commands.add('clearEmails', () => {
 Cypress.Commands.add(
   'waitForEmail',
   (matcher: { to?: string; subject?: string | RegExp }, { timeout = 15000 }: { timeout?: number } = {}) => {
-    const deadline = Date.now() + timeout
+    const started = Date.now()
 
-    const attempt = (): Cypress.Chainable<MailDevEmail> =>
+    const poll = (): Cypress.Chainable<MailDevEmail> =>
       cy.request(`${MAILDEV_API}/email`).then((response) => {
         const emails = response.body as MailDevEmail[]
         const match = [...emails].reverse().find((email) => {
@@ -132,16 +133,17 @@ Cypress.Commands.add(
         if (match) {
           return cy.wrap(match)
         }
-        if (Date.now() > deadline) {
+        if (Date.now() - started > timeout) {
           throw new Error(
-            `Timed out waiting for MailDev email${matcher.to ? ` to ${matcher.to}` : ''}${matcher.subject ? ` with subject ${matcher.subject}` : ''
+            `Timed out waiting for MailDev email${matcher.to ? ` to ${matcher.to}` : ''}${
+              matcher.subject ? ` with subject ${matcher.subject}` : ''
             }`,
           )
         }
-        return cy.wait(500).then(attempt)
+        return cy.wait(500).then(poll)
       })
 
-    return attempt()
+    return poll()
   },
 )
 

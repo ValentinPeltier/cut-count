@@ -305,9 +305,7 @@ export const activateEmail = async (email: string, fromReset: boolean = false) =
     ) {
       const accounts = await getAccountFromUserOrganization(accountWithUserToUserSession(account))
       await sendActivationRequest(
-        accounts
-          .filter((a) => a.role === Role.ADMIN && a.status == UserStatus.ACTIVE)
-          .map((a) => a.user.email),
+        accounts.filter((a) => a.role === Role.ADMIN && a.status == UserStatus.ACTIVE).map((a) => a.user.email),
         email.toLowerCase(),
         `${user.firstName} ${user.lastName}`,
       )
@@ -353,6 +351,7 @@ export const updateUserSettings = async (command: EditSettingsCommand) =>
 
 export const getUserCheckedItems = async () => withServerResponse('getUserCheckedItems', async () => [])
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const addUserChecklistItem = async (_step: string) =>
   withServerResponse('addUserChecklistItem', async () => undefined)
 
@@ -512,6 +511,7 @@ export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string) =>
     return EMAIL_SENT
   })
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const signUpWithSchool = async (_email: string, _country: string, _school: unknown) =>
   withServerResponse('signUpWithSchool', async () => {
     throw new Error(NOT_AUTHORIZED)

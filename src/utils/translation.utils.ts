@@ -1,6 +1,7 @@
 import frMessages from '@/i18n/translations/fr.json'
 import { LocaleType } from '@/lib/i18n/config'
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const COMMON_MESSAGE_KEYS = [
   'common',
   'saveStatus',
@@ -21,6 +22,7 @@ const COMMON_MESSAGE_KEYS = [
 
 export type CommonTranslations = Pick<typeof frMessages, (typeof COMMON_MESSAGE_KEYS)[number]>
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function getCommonTranslations(_locale?: LocaleType): CommonTranslations {
   const {
     common,
@@ -82,6 +84,7 @@ export function extractAllForms(value: string): string[] {
 
 export type BcTranslations = typeof frMessages
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function getBcTranslations(_locale?: LocaleType): BcTranslations {
   return frMessages
 }

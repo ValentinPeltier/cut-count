@@ -56,6 +56,7 @@ const ResultsTableAndGraphs = <T extends BasicTypeCharts & { tagFamily?: { id: s
         if (!TableComponent) {
           return null
         }
+        // eslint-disable-next-line react-hooks/static-components
         return <TableComponent resultsUnit={resultsUnit} data={computedResults} />
       }
       case TabsPossibilities.pieChart:

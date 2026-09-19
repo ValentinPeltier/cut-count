@@ -1,3 +1,4 @@
+/* eslint-disable react-compiler/react-compiler */
 import CarbonIntensity from '@/components/study/results/consolidated/CarbonIntensity'
 import type { FullStudy } from '@/db/study'
 import { StudyResultUnit } from '@/generated/prisma/enums'
@@ -42,6 +43,7 @@ const CarbonIntensitiesCut = ({ study, studySite, withDepValue }: Props) => {
       ]
     }
     return [1, 1, 1, 1, 1, 1]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [studySite])
 
   const intensities = [

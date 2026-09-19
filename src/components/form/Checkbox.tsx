@@ -13,6 +13,7 @@ export const FormCheckbox = <T extends FieldValues>({
   name,
   control,
   label,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   translation,
   ...checkboxProps
 }: Props<T> & CheckboxProps) => {
