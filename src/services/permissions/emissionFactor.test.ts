@@ -42,6 +42,19 @@ describe('EmissionFactor permissions service', () => {
 
       expect(canReadEmissionFactor(account, emissionFactor)).toBe(false)
     })
+
+    it('returns false if manually imported and account has no organization', () => {
+      const account = {
+        ...(getMockedDbAccount({ organizationVersionId: null }) as AccountWithUser),
+        organizationVersion: null,
+      }
+      const emissionFactor = {
+        importedFrom: Import.Manual,
+        organizationId: 'mocked-organization-id',
+      } as EmissionFactor
+
+      expect(canReadEmissionFactor(account, emissionFactor)).toBe(false)
+    })
   })
 
   describe('canEditEmissionFactor', () => {

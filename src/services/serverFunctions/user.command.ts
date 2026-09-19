@@ -42,7 +42,7 @@ export const SignUpCommandValidation = z.object({
     .email()
     .trim()
     .transform((email) => email.toLowerCase()),
-  siretOrCNC: z.string().min(1).max(14).optional(),
+  siretOrCNC: z.string().max(14).optional(),
 })
 
 export type SignUpCommand = z.infer<typeof SignUpCommandValidation>

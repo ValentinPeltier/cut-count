@@ -8,6 +8,10 @@
   width: 100%;
 }
 
+.requiredMark {
+  color: var(--error-100);
+}
+
 .red,
 .bottomLink {
   align-self: center;

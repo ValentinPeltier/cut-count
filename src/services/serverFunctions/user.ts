@@ -290,8 +290,17 @@ export const activateEmail = async (email: string, fromReset: boolean = false) =
     const user = await getUserByEmail(email.toLowerCase())
     const account = (await getAccountById(user?.accounts[0]?.id || '')) as AccountWithUser
 
-    if (!user || !account || !account.organizationVersionId || account.status === UserStatus.ACTIVE) {
+    if (!user || !account || account.status === UserStatus.ACTIVE) {
       throw new Error(NOT_AUTHORIZED)
+    }
+
+    if (!account.organizationVersionId) {
+      if (account.status !== UserStatus.VALIDATED && account.status !== UserStatus.PENDING_REQUEST) {
+        throw new Error(NOT_AUTHORIZED)
+      }
+      await validateUser(account.id)
+      await sendActivation(email, fromReset)
+      return EMAIL_SENT
     }
 
     const accountOrgaVersion = await getOrganizationVersionForRightsCheck(account.organizationVersionId)
@@ -433,11 +442,18 @@ export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string) =>
       throw new Error(NOT_AUTHORIZED)
     }
 
+    const trimmedSiretOrCNC = siretOrCNC.trim()
+    if (!trimmedSiretOrCNC) {
+      await validateUser(account.id)
+      await sendActivation(trimmedEmail, false)
+      return EMAIL_SENT
+    }
+
     let organizationVersion = null
 
-    const CNC = await findCncByCncCode(siretOrCNC)
+    const CNC = await findCncByCncCode(trimmedSiretOrCNC)
     if (CNC) {
-      organization = await getRawOrganizationBySiteCNC(siretOrCNC)
+      organization = await getRawOrganizationBySiteCNC(trimmedSiretOrCNC)
       organizationVersion = organization?.id ? await getOrganizationVersionByOrganizationId(organization.id) : null
 
       if (!organizationVersion) {
@@ -460,27 +476,27 @@ export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string) =>
       }
     }
 
-    if (!organizationVersion && siretOrCNC.length < 9) {
+    if (!organizationVersion && trimmedSiretOrCNC.length < 9) {
       throw new Error(UNKNOWN_SIRET_OR_CNC)
     }
 
     if (!organizationVersion) {
       let companyName = ''
 
-      organization = await getRawOrganizationBySiret(siretOrCNC)
+      organization = await getRawOrganizationBySiret(trimmedSiretOrCNC)
 
       if (!organization?.id) {
-        companyName = (await getCompanyName(siretOrCNC)) || ''
+        companyName = (await getCompanyName(trimmedSiretOrCNC)) || ''
 
         if (companyName === '') {
-          console.error('Company name not found for siretOrCNC:', siretOrCNC)
+          console.error('Company name not found for siretOrCNC:', trimmedSiretOrCNC)
           throw new Error(UNKNOWN_SIRET_OR_CNC)
         }
       }
 
       organizationVersion = organization?.id
         ? await getOrganizationVersionByOrganizationId(organization.id)
-        : await createOrganizationWithVersion({ wordpressId: siretOrCNC, name: companyName }, {})
+        : await createOrganizationWithVersion({ wordpressId: trimmedSiretOrCNC, name: companyName }, {})
     }
 
     if (!organizationVersion) {

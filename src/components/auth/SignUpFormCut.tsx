@@ -76,7 +76,7 @@ const SignUpFormCut = () => {
     setMessage('')
     setSubmitting(true)
 
-    const activation = await signUpWithSiretOrCNC(getValues().email, siretOrCNC)
+    const activation = await signUpWithSiretOrCNC(getValues().email, getValues().siretOrCNC ?? siretOrCNC)
     setSubmitting(false)
 
     if (activation.success) {
@@ -95,7 +95,14 @@ const SignUpFormCut = () => {
           control={control}
           name="email"
           className={authStyles.input}
-          label={t('email')}
+          label={
+            <>
+              {t('email')}{' '}
+              <span className={authStyles.requiredMark} aria-hidden="true">
+                *
+              </span>
+            </>
+          }
           placeholder={t('emailPlaceholder')}
           data-testid="activation-email"
         />
@@ -111,9 +118,7 @@ const SignUpFormCut = () => {
             }))}
           name="siretOrCNC"
           label={t('siretOrCNC')}
-          helperText={t('siretOrCNCPlaceholder')}
           freeSolo
-          disableClearable
           onInputChange={(_, value) => {
             setSiretOrCNC(value)
             setValue('siretOrCNC', value)

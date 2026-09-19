@@ -1,43 +1,28 @@
-enum Role {
-  ADMIN
-  DEFAULT
+enum UserSource {
+  CRON
+  TUNISIE
 }
 
-model Account {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
-  userId    String   @unique @map("user_id")
-  user      User     @relation(fields: [userId], references: [id])
-
-  importedFileDate DateTime? @map("imported_file_date")
-
-  organizationVersion           OrganizationVersion?  @relation(fields: [organizationVersionId], references: [id])
-  onboardedOrganizationVersions OrganizationVersion[] @relation("organizationVersionOnboarder")
-  organizationVersionId         String?               @map("organization_version_id")
-
-  feedbackDate DateTime? @map("feedback_date")
-
-  role Role
-
-  createdStudies          Study[]
-  allowedStudies          UserOnStudy[]
-  userApplicationSettings UserApplicationSettings?
-
-  status UserStatus
-
-  @@map("accounts")
+enum UserStatus {
+  IMPORTED
+  PENDING_REQUEST
+  VALIDATED
+  ACTIVE
 }
 
-model UserApplicationSettings {
-  id                           String     @id @default(uuid())
-  accountId                    String?    @unique @map("account_id")
-  account                      Account?   @relation(fields: [accountId], references: [id])
-  validatedEmissionSourcesOnly Boolean    @default(true) @map("validated_emission_sources_only")
-  caUnit                       SiteCAUnit @default(K) @map("ca_unit")
+model User {
+  id         String     @id @default(uuid())
+  level      Level?
+  firstName  String     @map("first_name")
+  lastName   String     @map("last_name")
+  email      String     @unique
+  password   String?
+  resetToken String?    @map("reset_token")
+  accounts   Account[]
+  source     UserSource @default(CRON)
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
 
-  @@map("user_application_settings")
+  @@map("users")
 }

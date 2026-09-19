@@ -45,17 +45,11 @@
     "Email sent": "Vous allez recevoir un mail pour finaliser l'activation de votre compte.",
     "Not authorized": "Cet email est déjà inscrit avec un compte CUT ou il y a eu un soucis lors de sa création. N'hésitez pas à consulter <link>la FAQ</link> ou à contacter <support>le support</support> si vous pensez qu'il s'agit d'une erreur.",
     "support": "Un problème est survenu. Réessayez. Si cela ne fonctionne pas, contactez notre support",
-    "validation": {
-      "email": "Veuillez entrer un email",
-      "siretOrCNC": "Veuillez entrer un numéro CNC (recommandé) ou Siret"
-    },
     "description": "Créez un compte sur CUT en entrant votre email ainsi qu'un numéro CNC (recommandé) ou Siret",
-    "siretOrCNC": "Numéro CNC (recommandé) ou Siret",
-    "siretOrCNCPlaceholder": "Votre numéro CNC (recommandé) ou Siret",
-    "siretOrCNCRequired": "Veuillez entrer un numéro CNC (recommandé) ou Siret",
+    "siretOrCNC": "Numéro CNC (recommandé) ou SIRET",
     "clear": "Supprimer la valeur",
-    "Unknown CNC": "Ce code CNC n'est pas reconnu. Veuillez vérifier votre saisie ou contacter le support si vous pensez qu'il s'agit d'une erreur.",
-    "Unknown SIRET or CNC": "Ce Siret ou code CNC n'est pas reconnu. Veuillez vérifier votre saisie ou contacter le support si vous pensez qu'il s'agit d'une erreur.",
+    "Unknown CNC": "Ce numéro CNC n'est pas reconnu. Veuillez vérifier votre saisie ou contacter le support si vous pensez qu'il s'agit d'une erreur.",
+    "Unknown SIRET or CNC": "Ce numéro CNC ou SIRET n'est pas reconnu. Veuillez vérifier votre saisie ou contacter le support si vous pensez qu'il s'agit d'une erreur.",
     "No recipient": "Impossible d'envoyer la demande : aucun administrateur actif trouvé pour cette organisation. Contactez <support>le support</support> si vous pensez qu'il s'agit d'une erreur."
   },
   "navigation": {
@@ -607,6 +601,12 @@
     },
     "alert": {
       "info": "Le calculateur Count vous permet d’estimer l’impact sur le climat de votre activité. Il s’agit avant tout d’un outil de sensibilisation. Il ne s'agit pas d'une démarche de transition bas carbone mais d'une empreinte carbone simplifiée — au sens du <link>Guide de communication autour de la comptabilité carbone</link> — centrée sur les principaux postes d’émissions liés à l’activité des salles de cinéma."
+    },
+    "noOrganization": {
+      "title": "Bienvenue sur Count",
+      "message": "Votre compte n'est pas encore rattaché à une organisation. Vous pouvez consulter les études auxquelles vous collaborez ou rejoindre une organisation pour créer vos propres empreintes.",
+      "cta": "Rejoindre une organisation",
+      "collaborationHint": "Les études auxquelles vous êtes invité·e en tant que collaborateur·rice sont listées ci-dessous."
     }
   },
   "exports": {
@@ -1279,6 +1279,12 @@
     "MAX_TONNAGE": "tonnage max"
   },
   "organization": {
+    "onboarding": {
+      "title": "Rejoindre une organisation",
+      "description": "Votre compte n'est rattaché à aucune organisation pour le moment.",
+      "instructions": "Pour créer une organisation ou demander à rejoindre une structure existante, renseignez votre adresse e-mail et votre numéro CNC ou SIRET sur le formulaire d'inscription.",
+      "registerCta": "S'inscrire ou rattacher mon organisation"
+    },
     "create": "Nouvelle Organisation",
     "modify": "Modifier",
     "myOrganization": "Organisation",

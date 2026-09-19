@@ -33,9 +33,11 @@ async function checkAuth(requireCreatePermission = true): Promise<AccountWithUse
       throw new Error(NOT_AUTHORIZED)
     }
   } else {
+    const organizationId = account.organizationVersion?.organizationId
     if (
+      !organizationId ||
       !canReadEmissionFactor(account, {
-        organizationId: account.organizationVersion.organizationId,
+        organizationId,
         importedFrom: Import.Manual,
       })
     ) {
@@ -104,7 +106,10 @@ export async function importEmissionFactorsFromFile(
     return { success: false, warnings: result.warnings }
   }
 
-  const organizationId = account.organizationVersion.organizationId
+  const organizationId = account.organizationVersion?.organizationId
+  if (!organizationId) {
+    throw new Error(NOT_AUTHORIZED)
+  }
 
   for (const row of result.rows) {
     const { data, parts, locale: rowLocale } = buildCreateInput(row, organizationId, locale)
@@ -122,7 +127,10 @@ export async function exportManualEmissionFactorsToFile(): Promise<ArrayBuffer> 
   const baseTranslations = bc.emissionFactors.base
   const qualityTranslations = bc.quality as Record<string, string>
 
-  const organizationId = account.organizationVersion.organizationId
+  const organizationId = account.organizationVersion?.organizationId
+  if (!organizationId) {
+    throw new Error(NOT_AUTHORIZED)
+  }
   const emissionFactors = await getManualEmissionFactorsByOrganization(organizationId)
 
   const header = buildEmissionFactorsHeader(locale)
