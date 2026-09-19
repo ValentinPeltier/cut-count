@@ -20,6 +20,7 @@ src/publicodes/rules/publicodes-build/
 coverage/
 cypress/screenshots/
 cypress/videos/
+cypress/downloads/
 
 # logs
 logs/
