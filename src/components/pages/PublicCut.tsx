@@ -53,6 +53,7 @@ const PublicCutPage = ({ children, question }: Props) => {
               alt="logo"
               width={400}
               height={400}
+              sizes="(max-width: 900px) min(80vw, 320px), 400px"
               className={classNames(styles.image, 'w100')}
               priority
             />

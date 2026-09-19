@@ -135,11 +135,11 @@ Cypress.Commands.add(
         }
         if (Date.now() - started > timeout) {
           throw new Error(
-            `Timed out waiting for MailDev email${matcher.to ? ` to ${matcher.to}` : ''}${
-              matcher.subject ? ` with subject ${matcher.subject}` : ''
+            `Timed out waiting for MailDev email${matcher.to ? ` to ${matcher.to}` : ''}${matcher.subject ? ` with subject ${matcher.subject}` : ''
             }`,
           )
         }
+        // eslint-disable-next-line cypress/no-unnecessary-waiting
         return cy.wait(500).then(poll)
       })
 

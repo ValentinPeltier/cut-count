@@ -4,6 +4,9 @@ import createNextIntlPlugin from 'next-intl/plugin'
 const withNextIntl = createNextIntlPlugin()
 
 const nextConfig: NextConfig = {
+  experimental: {
+    optimizePackageImports: ['@mui/material', '@mui/icons-material', '@mui/x-date-pickers'],
+  },
   serverExternalPackages: ['@sparticuz/chromium', 'puppeteer-core'],
   outputFileTracingIncludes: {
     '/*': ['./node_modules/@sparticuz/chromium/**/*', './node_modules/puppeteer-core/**/*'],

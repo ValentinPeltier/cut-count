@@ -48,12 +48,17 @@
 }
 
 .richLinks a {
-  color: white;
+  color: #2c303a;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
 }
 
 .richLinksCut a {
-  color: white;
+  color: #2c303a;
   font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
 }
 
 .image {

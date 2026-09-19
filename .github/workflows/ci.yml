@@ -213,7 +213,7 @@ jobs:
         uses: foo-software/lighthouse-check-action@a80267da2e0244b8a2e457a8575fc47590615852
         with:
           device: all
-          urls: http://localhost:3000
+          urls: http://localhost:3000/login
           outputDirectory: ${{ github.workspace }}/tmp/artifacts
 
       - name: Verify Lighthouse scores

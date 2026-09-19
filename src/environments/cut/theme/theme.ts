@@ -106,7 +106,7 @@ const cutTheme = createTheme(base, {
           },
         },
         contained: {
-          color: '#F4F7F9',
+          color: base.palette.primary.contrastText,
         },
       },
     },

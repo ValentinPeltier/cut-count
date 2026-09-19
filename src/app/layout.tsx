@@ -30,6 +30,9 @@ const RootLayout = async ({ children }: Readonly<Props>) => {
   const providerOptions = { key: 'mui', nonce: (await headers()).get('x-nonce') || undefined, prepend: true }
   return (
     <html lang={locale} className={'CUT'}>
+      <head>
+        <link rel="preconnect" href="https://fonts.cdnfonts.com" crossOrigin="" />
+      </head>
       <body>
         <AppRouterCacheProvider options={providerOptions}>
           <NextIntlClientProvider messages={messages}>
