@@ -3,7 +3,7 @@ import { getToken } from 'next-auth/jwt'
 import { NextRequest, NextResponse } from 'next/server'
 
 const LOCALE_COOKIE = 'NEXT_LOCALE'
-const publicRoutes = ['/login', '/register', '/reset-password', '/activation', '/count']
+const publicRoutes = ['/login', '/register', '/reset-password', '/activation']
 const assetsRoutes = ['/_next', '/img']
 
 const logos = ['https://base-empreinte.ademe.fr', 'https://www.legifrance.gouv.fr', ''].join(' ')
@@ -17,13 +17,6 @@ const normalizeCookies = (response: NextResponse) => {
 
 export async function proxy(req: NextRequest) {
   const pathname = req.nextUrl.pathname
-
-  if (pathname === '/count' || pathname.startsWith('/count/')) {
-    const rest = pathname === '/count' ? '/login' : pathname.replace(/^\/count/, '')
-    const url = new URL(rest || '/login', req.url)
-    url.search = req.nextUrl.search
-    return normalizeCookies(NextResponse.redirect(url))
-  }
 
   if (![...publicRoutes, ...assetsRoutes].find((route) => pathname.startsWith(route))) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })

@@ -16,9 +16,9 @@ export const CUT_DASHBOARD_PAGES: { path: string; testId: string }[] = [
 
 /** Public Count! routes (no auth). */
 export const CUT_PUBLIC_PAGES: { path: string; testId: string }[] = [
-  { path: '/count/login', testId: 'input-email' },
-  { path: '/count/register', testId: 'activation-email' },
-  { path: '/count/reset-password', testId: 'input-email' },
+  { path: '/login', testId: 'input-email' },
+  { path: '/register', testId: 'activation-email' },
+  { path: '/reset-password', testId: 'input-email' },
 ]
 
 /** Study sub-routes for the golden seeded study (relative to `/etudes/:id`). */
