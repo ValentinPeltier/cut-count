@@ -34,12 +34,6 @@
       ]
     }
   },
-  "ts-node": {
-    "experimentalResolver": true,
-    "compilerOptions": {
-      "module": "commonjs"
-    }
-  },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",

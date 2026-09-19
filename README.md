@@ -27,7 +27,7 @@ cp .env.example .env
 docker-compose up -d
 yarn prisma migrate deploy
 yarn seed
-yarn compile:publicodes
+yarn publicodes:compile
 yarn dev
 ```
 
@@ -46,9 +46,9 @@ yarn cypress              # Cypress e2e
 yarn db:generate          # Prisma client → src/generated/prisma
 yarn prisma migrate dev   # create/apply migrations
 yarn seed                 # seed database
-yarn compile:publicodes   # compile Count Publicodes YAML
-yarn publicodes-count:watch
-yarn publicodes-count:translate
+yarn publicodes:compile   # compile Count Publicodes YAML
+yarn publicodes:watch
+yarn publicodes:translate
 yarn db:test:reset        # reset + seed the test database
 ```
 
@@ -71,18 +71,11 @@ See `src/scripts/` for additional importers.
 yarn db:test:reset          # reset + seed the test database
 yarn test                   # unit + Publicodes
 yarn test:watch
-yarn publicodes-count:test
+yarn publicodes:test
 yarn dev:test               # app on port 3001 against the test DB
 yarn cypress
 yarn cypress:gui
 ```
-
-## Deploy on Scalingo
-
-`Procfile`:
-
-- `web`: `node .next/standalone/server.js`
-- `postdeploy`: `yarn prisma migrate deploy`
 
 ## Dependency upgrades
 
