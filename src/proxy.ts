@@ -8,31 +8,53 @@ const assetsRoutes = ['/_next', '/img']
 
 const logos = ['https://base-empreinte.ademe.fr', 'https://www.legifrance.gouv.fr', ''].join(' ')
 
-const nonce = Buffer.from(crypto.randomUUID()).toString('base64')
-
 const normalizeCookies = (response: NextResponse) => {
   response.cookies.set(LOCALE_COOKIE, Locale.FR)
   return response
 }
 
-export async function proxy(req: NextRequest) {
-  const pathname = req.nextUrl.pathname
+const isPublicPath = (pathname: string) =>
+  publicRoutes.some((route) => pathname === route || pathname.startsWith(`${route}/`))
 
-  if (![...publicRoutes, ...assetsRoutes].find((route) => pathname.startsWith(route))) {
-    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+const isHttpsRequest = (req: NextRequest) =>
+  req.nextUrl.protocol === 'https:' || req.headers.get('x-forwarded-proto') === 'https'
 
-    if (!token) {
-      const loginUrl = new URL('/login', req.url)
-      return normalizeCookies(NextResponse.redirect(loginUrl))
-    }
+const buildContentSecurityPolicy = (pathname: string, nonce: string) => {
+  const isPublic = isPublicPath(pathname)
+
+  if (isPublic) {
+    return `
+      default-src 'self';
+      script-src 'self' 'unsafe-inline';
+      style-src 'self' 'unsafe-inline' https://fonts.cdnfonts.com;
+      img-src 'self' data: ${logos};
+      font-src 'self' https://fonts.cdnfonts.com;
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+      frame-ancestors 'none';
+      frame-src 'self' https://www.youtube.com;
+      connect-src 'self';
+    `
+      .replace(/\s{2,}/g, ' ')
+      .trim()
   }
 
-  const nonceRestriction = process.env.NODE_ENV === 'development' ? "'unsafe-inline' 'unsafe-eval'" : `'nonce-${nonce}'`
+  const scriptSrc =
+    process.env.NODE_ENV === 'development'
+      ? `'self' 'unsafe-inline' 'unsafe-eval'`
+      : `'self' 'nonce-${nonce}' 'strict-dynamic'`
 
-  const cspHeader = `
+  const styleSrc =
+    process.env.NODE_ENV === 'development'
+      ? `'self' 'unsafe-inline' https://fonts.cdnfonts.com`
+      : `'self' 'nonce-${nonce}' https://fonts.cdnfonts.com`
+
+  return `
     default-src 'self';
-    script-src 'self' ${nonceRestriction};
-    style-src 'self' ${nonceRestriction} https://fonts.cdnfonts.com;
+    script-src ${scriptSrc};
+    style-src ${styleSrc};
+    style-src-attr 'unsafe-inline';
     img-src 'self' data: ${logos};
     font-src 'self' https://fonts.cdnfonts.com;
     object-src 'none';
@@ -42,16 +64,46 @@ export async function proxy(req: NextRequest) {
     frame-src 'self' https://www.youtube.com;
     connect-src 'self';
   `
-  const contentSecurityPolicyHeader = cspHeader.replace(/\s{2,}/g, ' ').trim()
+    .replace(/\s{2,}/g, ' ')
+    .trim()
+}
+
+export async function proxy(req: NextRequest) {
+  const pathname = req.nextUrl.pathname
+  const isPublic = isPublicPath(pathname)
+  const nonce = Buffer.from(crypto.randomUUID()).toString('base64')
+
+  if (isPublic) {
+    if (pathname === '/login') {
+      const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+      if (token) {
+        return normalizeCookies(NextResponse.redirect(new URL('/', req.url)))
+      }
+    }
+  } else if (!assetsRoutes.find((route) => pathname.startsWith(route))) {
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+
+    if (!token) {
+      const loginUrl = new URL('/login', req.url)
+      return normalizeCookies(NextResponse.redirect(loginUrl))
+    }
+  }
+
+  const contentSecurityPolicyHeader = buildContentSecurityPolicy(pathname, nonce)
 
   const requestHeaders = new Headers(req.headers)
-  requestHeaders.set('x-nonce', nonce)
+  if (!isPublic) {
+    requestHeaders.set('x-nonce', nonce)
+  }
   requestHeaders.set('Content-Security-Policy', contentSecurityPolicyHeader)
 
   const response = NextResponse.next({ request: { headers: requestHeaders } })
   response.headers.set('Content-Security-Policy', contentSecurityPolicyHeader)
   response.headers.set('X-Content-Type-Options', 'nosniff')
-  response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
+
+  if (isHttpsRequest(req)) {
+    response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
+  }
 
   return normalizeCookies(response)
 }
