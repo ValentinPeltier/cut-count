@@ -210,13 +210,6 @@ table {
   cursor: pointer;
 }
 
-.typeform {
-  height: 500px;
-  div {
-    height: 100%;
-  }
-}
-
 .cardContainer {
   gap: 1rem;
   padding-right: 3rem;

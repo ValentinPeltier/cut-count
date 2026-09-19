@@ -31,16 +31,16 @@ export async function proxy(req: NextRequest) {
 
   const cspHeader = `
     default-src 'self';
-    script-src 'self' ${nonceRestriction} https://embed.typeform.com;
-    style-src 'self' ${nonceRestriction} https://fonts.cdnfonts.com https://embed.typeform.com;
+    script-src 'self' ${nonceRestriction};
+    style-src 'self' ${nonceRestriction} https://fonts.cdnfonts.com;
     img-src 'self' data: ${logos};
     font-src 'self' https://fonts.cdnfonts.com;
     object-src 'none';
     base-uri 'self';
     form-action 'self';
     frame-ancestors 'none';
-    frame-src 'self' https://www.youtube.com https://form.typeform.com;
-    connect-src 'self' https://api.typeform.com;
+    frame-src 'self' https://www.youtube.com;
+    connect-src 'self';
   `
   const contentSecurityPolicyHeader = cspHeader.replace(/\s{2,}/g, ' ').trim()
 

@@ -153,11 +153,6 @@ const AllResults = ({
       <Box component="section" className="mb2">
         <Typography>
           {customRich(tResults, 'simplifiedFeedback', {
-            questionnaire: (children) => (
-              <Link href={process.env.NEXT_PUBLIC_CUT_FEEDBACK_TYPEFORM_LINK ?? ''} target="_blank">
-                <strong>{children}</strong>
-              </Link>
-            ),
             formation: (children) => (
               <Link href={process.env.NEXT_PUBLIC_FORMATION_URL ?? ''} target="_blank">
                 <strong>{children}</strong>

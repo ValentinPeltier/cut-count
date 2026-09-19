@@ -300,7 +300,7 @@
         "uncertaintyPerPostDescription2": "Par ailleurs, plus le nombre de sources d'émission est important au sein d'un poste, moins l'incertitude de ce poste sera grande. Cela est dû au fait que deux incertitudes se compensent, car il n'est généralement pas certain que l'erreur soit faite dans le même sens. Pour donner un exemple concret, lorsque l'on mesure deux cordes, il est possible de surestimer la longueur de la première, et de sous-estimer celle de la seconde. Par conséquent, l'incertitude sur la longueur de la somme des deux cordes sera inférieure à la somme des deux incertitudes prises séparément."
       },
       "resultsWord": "Rapport Bilan Carbone®",
-      "simplifiedFeedback": "Bravo ! Vous venez de réaliser l'empreinte carbone simplifiée de votre cinéma. C'est une excellente initiation à la comptabilité carbone ! Nous vous remercions de bien vouloir remplir <questionnaire>ce questionnaire</questionnaire>, afin de nous aider à améliorer l'outil et à corriger d'éventuels bugs ! <br></br><br></br>L'Union Européenne s'est engagée, en ratifiant l'Accord de Paris, à la neutralité carbone d'ici 2050. Pour contribuer à cet objectif, votre cinéma devrait réduire son impact de 5% par an. L'empreinte carbone simplifiée que vous venez d'obtenir peut déjà vous permettre de mieux comprendre comment réduire votre impact, en identifiant vos activités les plus émissives.<br></br><br></br>Nous vous invitons à refaire cette empreinte carbone simplifiée l'année prochaine pour vérifier que vous êtes sur la bonne trajectoire, ou, mieux encore, à établir un véritable Bilan Carbone® afin de gagner en précision dans l'estimation de vos émissions et établir un véritable plan de transition ! Pour commencer, rien de plus simple, il vous suffit de <formation>vous former</formation> à la méthode, ou de nous contacter à l'adresse <email>count@cut-collectif.fr</email>, ou encore de prendre contact avec un autre <prestataire>prestataire Bilan Carbone®</prestataire>."
+      "simplifiedFeedback": "Bravo ! Vous venez de réaliser l'empreinte carbone simplifiée de votre cinéma. C'est une excellente initiation à la comptabilité carbone ! <br></br><br></br>L'Union Européenne s'est engagée, en ratifiant l'Accord de Paris, à la neutralité carbone d'ici 2050. Pour contribuer à cet objectif, votre cinéma devrait réduire son impact de 5% par an. L'empreinte carbone simplifiée que vous venez d'obtenir peut déjà vous permettre de mieux comprendre comment réduire votre impact, en identifiant vos activités les plus émissives.<br></br><br></br>Nous vous invitons à refaire cette empreinte carbone simplifiée l'année prochaine pour vérifier que vous êtes sur la bonne trajectoire, ou, mieux encore, à établir un véritable Bilan Carbone® afin de gagner en précision dans l'estimation de vos émissions et établir un véritable plan de transition ! Pour commencer, rien de plus simple, il vous suffit de <formation>vous former</formation> à la méthode, ou de nous contacter à l'adresse <email>count@cut-collectif.fr</email>, ou encore de prendre contact avec un autre <prestataire>prestataire Bilan Carbone®</prestataire>."
     },
     "questions": {
       "actions": "Actions",
@@ -2964,13 +2964,6 @@
       "title": "Bientôt disponible",
       "message": "Le calculateur d'empreinte simplifié pour les associations est en cours de construction, et sera disponible d'ici quelques mois. Merci de votre patience !"
     }
-  },
-  "feedback": {
-    "title": "Donnez votre avis sur le BC+ !",
-    "body": " Si vous avez quelques minutes, nous serions ravis d'avoir vos retours sur le BC+ ! Ceux-ci nous permettront de répondre aux mieux à vos besoins avec nos prochains développements. Si ce n'est pas le bon moment, vous pouvez reportez votre réponse.",
-    "reject": "Ne pas répondre",
-    "delay": "Plus tard ({time} jours)",
-    "answer": "Je donne mon avis"
   },
   "form": {
     "validation": {

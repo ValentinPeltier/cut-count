@@ -12,7 +12,6 @@ import {
   getAccountsFromUser,
 } from '@/db/account'
 import { findCncByCncCode } from '@/db/cnc'
-import { isFeatureActive } from '@/db/deactivableFeatures'
 import {
   createOrganizationWithVersion,
   getOrganizationVersionByOrganizationId,
@@ -29,7 +28,6 @@ import {
   deleteUserFromOrga,
   getUserApplicationSettings,
   getUserByEmail,
-  getUserFeedbackDate,
   getUsers,
   getUserSourceById,
   handleAddingUser,
@@ -37,7 +35,6 @@ import {
   updateAccount,
   updateUser,
   updateUserApplicationSettings,
-  updateUserFeedbackDate,
   updateUserResetTokenForEmail,
   UserWithAccounts,
   validateUser,
@@ -57,7 +54,7 @@ import {
 import { EMAIL_SENT, MORE_THAN_ONE, NOT_AUTHORIZED } from '@/lib/services/permissions/check'
 import { updateUserResetToken } from '@/lib/services/serverFunctions/user'
 import { AddMemberCommand } from '@/lib/services/serverFunctions/user.command'
-import { DAY, HOUR, TIME_IN_MS, YEAR } from '@/lib/utils/time'
+import { DAY, HOUR, TIME_IN_MS } from '@/lib/utils/time'
 import { AccountWithUser } from '@/types/account.types'
 import { withServerResponse } from '@/utils/serverResponse'
 import { getRoleToSetForUntrained } from '@/utils/user'
@@ -406,49 +403,6 @@ export const getUserActiveAccounts = async () =>
     }
     const accounts = await getAccountsFromUser(session.user)
     return accounts.filter((account) => account.status === UserStatus.ACTIVE)
-  })
-
-export const displayFeedBackForm = async () =>
-  withServerResponse('displayFeedBackForm', async () => {
-    const session = await auth()
-    if (!session || !session.user) {
-      return false
-    }
-
-    const [userFeedbackDate, activeFeature] = await Promise.all([
-      getUserFeedbackDate(session.user.accountId),
-      isFeatureActive(DeactivatableFeature.Creation),
-    ])
-
-    if (!userFeedbackDate || !activeFeature) {
-      return false
-    }
-    if (!userFeedbackDate.feedbackDate || new Date() > new Date(userFeedbackDate.feedbackDate)) {
-      return true
-    }
-    return false
-  })
-
-export const delayFeeback = async () =>
-  withServerResponse('delayFeeback', async () => {
-    const session = await auth()
-    if (!session || !session.user) {
-      throw new Error(NOT_AUTHORIZED)
-    }
-    const now = new Date()
-    const feedbackDate = new Date(now.getTime() + Number(process.env.NEXT_PUBLIC_FEEDBACK_TYPEFORM_DELAY))
-    updateUserFeedbackDate(session.user.accountId, feedbackDate)
-  })
-
-export const answerFeeback = async () =>
-  withServerResponse('answerFeeback', async () => {
-    const session = await auth()
-    if (!session || !session.user) {
-      throw new Error(NOT_AUTHORIZED)
-    }
-    const now = new Date()
-    const feedbackDate = new Date(now.getTime() + 10 * YEAR * TIME_IN_MS)
-    updateUserFeedbackDate(session.user.accountId, feedbackDate)
   })
 
 export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string) =>
