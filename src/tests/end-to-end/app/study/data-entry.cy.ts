@@ -40,9 +40,11 @@ describe('Count! data entry', () => {
 
     cy.getByTestId(`publicodes-field-${gasField}`, { timeout: 20000 })
       .should('exist')
-      .within(() => {
-        cy.get('input').filter(':visible').first().clear({ force: true }).type(gasValue, { force: true }).blur()
-      })
+      .find('input.MuiInputBase-input')
+      .first()
+      .clear()
+      .type(gasValue)
+      .blur()
 
     cy.getByTestId('publicodes-save-status', { timeout: 20000 }).should('have.attr', 'data-status', 'saved')
 
@@ -50,14 +52,11 @@ describe('Count! data entry', () => {
 
     cy.getByTestId(`publicodes-field-${gasField}`, { timeout: 20000 })
       .should('exist')
-      .within(() => {
-        cy.get('input')
-          .filter(':visible')
-          .first()
-          .invoke('val')
-          .then((value) => {
-            expect(String(value).replace(/[^\d]/g, '')).to.eq(gasValue)
-          })
+      .find('input.MuiInputBase-input')
+      .first()
+      .invoke('val')
+      .then((value) => {
+        expect(String(value).replace(/[^\d]/g, '')).to.eq(gasValue)
       })
   })
 })
