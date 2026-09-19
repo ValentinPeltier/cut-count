@@ -78,6 +78,26 @@ const users = async () => {
     },
   })
 
+  await prisma.cnc.create({
+    data: {
+      cncCode: '5678',
+      nom: 'Cinéma e2e nouveau',
+      codeInsee: '75001',
+      commune: 'Paris',
+      ecrans: 5,
+    },
+  })
+
+  await prisma.cnc.create({
+    data: {
+      cncCode: '5699',
+      nom: 'Cinéma e2e inscription dupliquée',
+      codeInsee: '75003',
+      commune: 'Paris',
+      ecrans: 3,
+    },
+  })
+
   const unOnboardedOrganization = await prisma.organization.create({
     data: {
       name: faker.company.name(),
@@ -348,19 +368,15 @@ const users = async () => {
   )
 
   if (cncRecord) {
-    const cutOrganizationIds = organizationVersions.map((orgVersion) => orgVersion.organizationId)
-    const cutSites = sites.filter(
-      (site) => site.organizationId && cutOrganizationIds.includes(site.organizationId),
+    const e2eJoinOrganizationSite = sites.find(
+      (site) => site.organizationId === regularOrganizationVersions[0]?.organizationId,
     )
-
-    await Promise.all(
-      cutSites.map((site) =>
-        prisma.site.update({
-          where: { id: site.id },
-          data: { cncId: cncRecord.id },
-        }),
-      ),
-    )
+    if (e2eJoinOrganizationSite) {
+      await prisma.site.update({
+        where: { id: e2eJoinOrganizationSite.id },
+        data: { cncId: cncRecord.id },
+      })
+    }
   }
 
   const levels = Object.keys(Level)
@@ -595,6 +611,36 @@ const users = async () => {
       },
     },
   })
+
+  studies.push(
+    await prisma.study.create({
+      include: { sites: true },
+      data: {
+        name: 'Étude collègue e2e',
+        createdById: defaultUserWithAccount.accounts[0].account.id,
+        ownerAccountId: defaultUserWithAccount.accounts[0].account.id,
+        startDate: new Date(),
+        endDate: faker.date.future(),
+        isPublic: true,
+        level: Level.Initial,
+        organizationVersionId: defaultUserWithAccount.accounts[0].account.organizationVersionId as string,
+        sites: {
+          createMany: {
+            data: faker.helpers
+              .arrayElements(organizationVersionSites, { min: 1, max: organizationVersionSites.length })
+              .map((site) => ({
+                siteId: site.id,
+                etp: site.etp,
+                ca: site.ca,
+              })),
+          },
+        },
+        allowedUsers: {
+          create: { role: StudyRole.Validator, accountId: defaultUserWithAccount.accounts[0].account.id },
+        },
+      },
+    }),
+  )
 
   studies.push(
     await prisma.study.create({
