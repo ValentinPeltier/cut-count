@@ -1,0 +1,106 @@
+enum SiteCAUnit {
+  U // Unit (1)
+  K // Kilo (1000)
+  M // Million (1000000)
+}
+
+model OrganizationVersion {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  organizationId String       @unique
+  organization   Organization @relation(fields: [organizationId], references: [id])
+
+  isCR Boolean @default(false) @map("is_cr")
+
+  userAccounts Account[]
+  studies      Study[]
+
+  onboarded   Boolean  @default(false)
+  onboarderId String?  @map("onboarder_id")
+  onboarder   Account? @relation("organizationVersionOnboarder", fields: [onboarderId], references: [id])
+
+  parentId String?               @map("parent_id")
+  parent   OrganizationVersion?  @relation("childOrganizationVersions", fields: [parentId], references: [id])
+  childs   OrganizationVersion[] @relation("childOrganizationVersions")
+
+  @@map("organization_versions")
+}
+
+model Site {
+  id      String  @id @default(uuid())
+  oldBCId String? @map("old_bc_id")
+
+  name String
+  etp  Int    @default(0)
+  ca   Float  @default(0)
+
+  postalCode String? @map("postal_code")
+  city       String?
+  address    String?
+
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  organizationId String?       @map("organization_id")
+
+  ownerAccountId String?  @map("owner_account_id")
+  ownerAccount   Account? @relation("SiteOwner", fields: [ownerAccountId], references: [id])
+
+  studies StudySite[]
+
+  cncId String?
+  cnc   Cnc?    @relation(fields: [cncId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("sites")
+}
+
+model CncVersion {
+  id        String   @id @default(uuid())
+  year      Int      @unique
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+
+  cncs       Cnc[]
+  studySites StudySite[]
+
+  @@map("cnc_versions")
+}
+
+model Cnc {
+  id String @id @default(uuid())
+
+  cncVersionId String?     @map("cnc_version_id")
+  cncVersion   CncVersion? @relation(fields: [cncVersionId], references: [id])
+  cncCode      String?     @unique @map("cnc_code")
+
+  regionCNC               String?  @map("region_cnc")
+  numeroAuto              String?  @unique @map("numero_auto")
+  nom                     String?  @map("nom")
+  adresse                 String?  @map("adresse")
+  codeInsee               String?  @map("code_insee")
+  commune                 String?  @map("commune")
+  dep                     String?  @map("dep")
+  ecrans                  Int?     @map("ecrans")
+  fauteuils               Int?     @map("fauteuils")
+  semainesActivite        Int?     @map("semaines_activite")
+  seances                 Int?     @map("seances")
+  entrees2024             Int?     @map("entrees2024")
+  entrees2023             Int?     @map("entrees2023")
+  entrees2022             Int?     @map("entrees2022")
+  evolutionEntrees        Float?   @map("evolution_entrees")
+  trancheEntrees          String?  @map("tranche_entrees")
+  genre                   String?  @map("genre")
+  multiplexe              Boolean? @map("multiplexe")
+  latitude                Float?   @map("latitude")
+  longitude               Float?   @map("longitude")
+  numberOfProgrammedFilms Int      @default(0) @map("number_of_programmed_films")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  Site      Site[]
+
+  @@map("cncs")
+}

@@ -31,6 +31,7 @@ export const createRealStudy = async (prisma: PrismaClient, creator: Account) =>
       level: Level.Initial,
       simplified: true,
       createdBy: { connect: { id: creator.id } },
+      ownerAccount: { connect: { id: creator.id } },
       organizationVersion: { connect: { id: creator.organizationVersionId } },
       allowedUsers: {
         create: { accountId: creator.id, role: StudyRole.Validator },

@@ -6,6 +6,7 @@ import {
   getAccountByEmailAndOrganizationVersionId,
   getAccountsFromOrganization,
 } from '@/db/account'
+import { prismaClient } from '@/db/client.server'
 import { findCncByCncCode, updateNumberOfProgrammedFilms } from '@/db/cnc'
 import {
   getOrganizationVersionById,
@@ -172,6 +173,79 @@ export const createStudyCommand = async (
     }
 
     const studySites = sites.filter((site) => site.selected)
+    const userCAUnit = (await getUserApplicationSettings(session.user.accountId))?.caUnit
+    const caUnit = CA_UNIT_VALUES[userCAUnit || defaultCAUnit]
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { exports: _exports, isPublic, ...studyCommand } = command
+
+    const isPersonalStudy = !organizationVersionId && !session.user.organizationVersionId
+
+    if (isPersonalStudy) {
+      if (validator !== session.user.email) {
+        throw new Error(NOT_AUTHORIZED)
+      }
+
+      const ownedSites = await Promise.all(
+        studySites.map((site) =>
+          prismaClient.site.create({
+            data: {
+              name: site.name,
+              etp: site.etp ?? 0,
+              ca: site.ca ? site.ca * caUnit : 0,
+              postalCode: site.postalCode,
+              city: site.city,
+              ownerAccountId: session.user.accountId,
+            },
+          }),
+        ),
+      )
+
+      const study = {
+        ...studyCommand,
+        createdBy: { connect: { id: session.user.accountId } },
+        ownerAccount: { connect: { id: session.user.accountId } },
+        isPublic: false,
+        resultsUnit: resultsUnit || StudyResultUnit.T,
+        allowedUsers: {
+          createMany: { data: rights },
+        },
+        sites: {
+          createMany: {
+            data: ownedSites.map((ownedSite, index) => ({
+              siteId: ownedSite.id,
+              etp: studySites[index].etp ?? ownedSite.etp,
+              ca: studySites[index].ca ? studySites[index].ca! * caUnit : ownedSite.ca,
+            })),
+          },
+        },
+      } satisfies Prisma.StudyCreateInput
+
+      if (!(await canCreateSpecificStudy(session.user, study, null))) {
+        throw new Error(NOT_AUTHORIZED)
+      }
+
+      try {
+        const createdStudy = await createStudy(study, true, tx)
+        if (createdStudy.simplified) {
+          await Promise.all(
+            createdStudy.sites.map(async (site) => {
+              await saveSituationInDB(createdStudy.id, site.id, {}, {}, '')
+              await updateSituationWithStudySiteData(site.id, site, createdStudy.simplified)
+            }),
+          )
+        }
+        return { id: createdStudy.id }
+      } catch (e) {
+        console.error(e)
+        throw new Error(NOT_AUTHORIZED)
+      }
+    }
+
+    if (!organizationVersionId) {
+      throw new Error(NOT_AUTHORIZED)
+    }
+
     const organizationSites = await getOrgSitesWithCNCByOrgVersionId(organizationVersionId)
     if (!organizationSites) {
       throw new Error(NOT_AUTHORIZED)
@@ -181,15 +255,10 @@ export const createStudyCommand = async (
       throw new Error(NOT_AUTHORIZED)
     }
 
-    const userCAUnit = (await getUserApplicationSettings(session.user.accountId))?.caUnit
-    const caUnit = CA_UNIT_VALUES[userCAUnit || defaultCAUnit]
-
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { exports: _exports, isPublic, ...studyCommand } = command
-
     const study = {
       ...studyCommand,
       createdBy: { connect: { id: session.user.accountId } },
+      ownerAccount: { connect: { id: session.user.accountId } },
       organizationVersion: { connect: { id: organizationVersionId } },
       isPublic: isPublic === 'true',
       resultsUnit: resultsUnit || StudyResultUnit.T,
@@ -373,7 +442,7 @@ export const changeStudyCinema = async (studySiteId: string, cncId: string, data
         enhancedUpdateData.distanceToParis = calculatedDistanceToParis
       }
 
-      Object.assign(enhancedUpdateData, mapCncToStudySite(cncData, currentSite))
+      Object.assign(enhancedUpdateData, mapCncToStudySite(cncData, { ...currentSite, ...updateData }))
     }
 
     const finalUpdateData = enhancedUpdateData
@@ -582,6 +651,7 @@ export const newStudyRight = async (right: NewStudyRightCommand) =>
 
     if (
       existingAccount &&
+      studyWithRights.organizationVersion &&
       isAdminOnStudyOrga(
         accountWithUserToUserSession(existingAccount as AccountWithUser),
         studyWithRights.organizationVersion,
@@ -595,6 +665,7 @@ export const newStudyRight = async (right: NewStudyRightCommand) =>
       existingAccount &&
       existingUser &&
       studyWithRights.isPublic &&
+      studyWithRights.organizationVersionId &&
       (await isInOrgaOrParentFromId(existingAccount.organizationVersionId, studyWithRights.organizationVersionId))
     ) {
       const defaultRole = getUserRoleOnPublicStudy(
@@ -645,6 +716,7 @@ export const changeStudyRole = async (studyId: string, email: string, studyRole:
 
     if (
       existingAccount &&
+      studyWithRights.organizationVersion &&
       isAdminOnStudyOrga(
         accountWithUserToUserSession(existingAccount as AccountWithUser),
         studyWithRights.organizationVersion,
@@ -666,6 +738,7 @@ export const changeStudyRole = async (studyId: string, email: string, studyRole:
       existingAccount &&
       existingUser &&
       studyWithRights.isPublic &&
+      studyWithRights.organizationVersionId &&
       (await isInOrgaOrParentFromId(existingAccount.organizationVersionId, studyWithRights.organizationVersionId))
     ) {
       const defaultRole = getUserRoleOnPublicStudy(
@@ -712,10 +785,13 @@ export const findStudiesWithSites = async (siteIds: string[]) =>
         (studySite.study.allowedUsers.some((allowedUser) => allowedUser.accountId === user.accountId) ||
           getAccountRoleOnStudy(user, {
             ...studySite.study,
-            organizationVersion: {
-              id: studySite.study.organizationVersion.id,
-              parentId: studySite.study.organizationVersion.parentId,
-            },
+            organizationVersion: studySite.study.organizationVersion
+              ? {
+                  id: studySite.study.organizationVersion.id,
+                  parentId: studySite.study.organizationVersion.parentId,
+                }
+              : null,
+            ownerAccountId: studySite.study.ownerAccountId,
             allowedUsers: studySite.study.allowedUsers.map((allowedUser) => ({
               role: StudyRole.Reader,
               account: { id: allowedUser.accountId, user: { email: '' } },
@@ -727,7 +803,7 @@ export const findStudiesWithSites = async (siteIds: string[]) =>
         const targetedSite = unauthorizedStudySites.find(
           (unauthorizedStudySite) =>
             unauthorizedStudySite.site.name === studySite.site.name &&
-            unauthorizedStudySite.site.organization.id === studySite.site.organization.id,
+            unauthorizedStudySite.site.organization?.id === studySite.site.organization?.id,
         )
         if (!targetedSite) {
           unauthorizedStudySites.push({ site: studySite.site, study: studySite.study, count: 1 })
@@ -785,10 +861,10 @@ export const getStudyOrganizationMembers = async (studyId: string) =>
       throw new Error(NOT_AUTHORIZED)
     }
     if (
-      study.organizationVersion.id !== userOrganizationId &&
-      study.organizationVersion.parentId !== userOrganizationId
+      !study.organizationVersion ||
+      (study.organizationVersion.id !== userOrganizationId && study.organizationVersion.parentId !== userOrganizationId)
     ) {
       throw new Error(NOT_AUTHORIZED)
     }
-    return getAccountsFromOrganization(study.organizationVersionId)
+    return getAccountsFromOrganization(study.organizationVersionId!)
   })

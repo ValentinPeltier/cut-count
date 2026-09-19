@@ -9,6 +9,11 @@ interface Props {
 
 const TopLeftNavBar = ({ user }: Props) => {
   const t = useTranslations('navigation')
+
+  if (!user.organizationVersionId) {
+    return <NavbarLink href="/organisations">{t('organizations')}</NavbarLink>
+  }
+
   return (
     <>
       {isAdmin(user.role) && (

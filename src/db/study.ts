@@ -218,6 +218,7 @@ export const getAllowedStudiesByAccount = async (user: UserSession) => {
           ],
         },
         { allowedUsers: { some: { accountId: user.accountId } } },
+        { ownerAccountId: user.accountId },
       ],
     },
   })
@@ -402,6 +403,7 @@ export const getStudiesForCards = async (ids: string[]) => {
       simplified: true,
       level: true,
       isPublic: true,
+      ownerAccountId: true,
       allowedUsers: {
         select: {
           role: true,
@@ -609,6 +611,7 @@ export const getStudiesSitesFromIds = async (siteIds: string[]) =>
           name: true,
           isPublic: true,
           level: true,
+          ownerAccountId: true,
           allowedUsers: { select: { accountId: true } },
           organizationVersionId: true,
           simplified: true,

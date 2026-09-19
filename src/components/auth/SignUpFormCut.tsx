@@ -24,7 +24,11 @@ import { useForm } from 'react-hook-form'
 import { FormAutocomplete } from '../form/Autocomplete'
 import authStyles from './Auth.module.css'
 
-const SignUpFormCut = () => {
+interface Props {
+  defaultEmail?: string
+}
+
+const SignUpFormCut = ({ defaultEmail }: Props) => {
   const contactMail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL
   const faq = process.env.NEXT_PUBLIC_FAQ_LINK
 
@@ -44,7 +48,7 @@ const SignUpFormCut = () => {
     mode: 'onBlur',
     reValidateMode: 'onChange',
     defaultValues: {
-      email: searchParams.get('email') ?? '',
+      email: searchParams.get('email') ?? defaultEmail ?? '',
       siretOrCNC: '',
     },
   })
@@ -66,17 +70,17 @@ const SignUpFormCut = () => {
   }, [setCNCs])
 
   useEffect(() => {
-    const email = searchParams.get('email')
+    const email = searchParams.get('email') ?? defaultEmail
     if (email) {
       setValue('email', email)
     }
-  }, [searchParams, setValue])
+  }, [defaultEmail, searchParams, setValue])
 
   const onSubmit = async () => {
     setMessage('')
     setSubmitting(true)
 
-    const activation = await signUpWithSiretOrCNC(getValues().email, siretOrCNC)
+    const activation = await signUpWithSiretOrCNC(getValues().email, getValues().siretOrCNC ?? siretOrCNC)
     setSubmitting(false)
 
     if (activation.success) {
@@ -95,7 +99,14 @@ const SignUpFormCut = () => {
           control={control}
           name="email"
           className={authStyles.input}
-          label={t('email')}
+          label={
+            <>
+              {t('email')}{' '}
+              <span className={authStyles.requiredMark} aria-hidden="true">
+                *
+              </span>
+            </>
+          }
           placeholder={t('emailPlaceholder')}
           data-testid="activation-email"
         />
@@ -111,9 +122,7 @@ const SignUpFormCut = () => {
             }))}
           name="siretOrCNC"
           label={t('siretOrCNC')}
-          helperText={t('siretOrCNCPlaceholder')}
           freeSolo
-          disableClearable
           onInputChange={(_, value) => {
             setSiretOrCNC(value)
             setValue('siretOrCNC', value)
@@ -123,7 +132,10 @@ const SignUpFormCut = () => {
           {t('validate')}
         </LoadingButton>
         {message && (
-          <p className={classNames(!success ? 'error' : '')} data-testid="activation-form-message">
+          <p
+            className={classNames(success ? authStyles.successMessage : 'error')}
+            data-testid="activation-form-message"
+          >
             {customRich(t, message, {
               support: (children) => <Link href={`mailto:${contactMail}`}>{children}</Link>,
               link: (children) => (

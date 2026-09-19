@@ -20,7 +20,8 @@ const UserView = async ({ account }: Props) => {
   const t = await getTranslations('home')
   const tAction = await getTranslations('common.action')
 
-  const title = t('title')
+  const hasOrganization = !!account.organizationVersionId
+  const title = hasOrganization ? t('title') : t('noOrganization.title')
   const navigation = await getTranslations('home.navigation')
 
   return (
@@ -31,43 +32,54 @@ const UserView = async ({ account }: Props) => {
             <Typography data-testid="title" variant="h4" className={styles.titleInBox}>
               {title}
             </Typography>
-            {Array.from({ length: infoLength }, (_, i) => (
-              <Box key={i} className={classNames('flex align-center', styles.bulletPoint)}>
-                <Typography>{i + 1}.</Typography>
-                <Typography>{t(`info.${i}`)}</Typography>
-              </Box>
-            ))}
+            {hasOrganization ? (
+              Array.from({ length: infoLength }, (_, i) => (
+                <Box key={i} className={classNames('flex align-center', styles.bulletPoint)}>
+                  <Typography>{i + 1}.</Typography>
+                  <Typography>{t(`info.${i}`)}</Typography>
+                </Box>
+              ))
+            ) : (
+              <Typography data-testid="home-no-organization-message">{t('noOrganization.message')}</Typography>
+            )}
           </Box>
           <Box className="flex align-center">
-            <Link href="/organisations" className={styles.startButtonLink}>
+            <Link href={hasOrganization ? '/organisations' : '/register'} className={styles.startButtonLink}>
               <Box className={classNames('flex-cc px2 py1', styles.startButton)} component="button">
                 <Typography variant="h6" className={styles.startButtonText}>
-                  {tAction('start')}
+                  {hasOrganization ? tAction('start') : t('noOrganization.cta')}
                 </Typography>
               </Box>
             </Link>
           </Box>
         </Box>
-        <Box className="flex gapped1 mt1">
-          <LinkCard
-            href={`/organisations/${account.organizationVersionId}/modifier`}
-            icon={<CinemaOutlinedIcon className={styles.icon} />}
-            title={customRich(navigation, 'sites.title')}
-            message={customRich(navigation, 'sites.message')}
-          />
-          <LinkCard
-            href="/equipe"
-            icon={<Groups2OutlinedIcon className={styles.icon} />}
-            title={customRich(navigation, 'collaborators.title')}
-            message={customRich(navigation, 'collaborators.message')}
-          />
-          <LinkCard
-            href="/organisations"
-            icon={<DiagramOutlinedIcon className={styles.icon} />}
-            title={customRich(navigation, 'footprints.title')}
-            message={customRich(navigation, 'footprints.message')}
-          />
-        </Box>
+        {hasOrganization && (
+          <Box className="flex gapped1 mt1">
+            <LinkCard
+              href={`/organisations/${account.organizationVersionId}/modifier`}
+              icon={<CinemaOutlinedIcon className={styles.icon} />}
+              title={customRich(navigation, 'sites.title')}
+              message={customRich(navigation, 'sites.message')}
+            />
+            <LinkCard
+              href="/equipe"
+              icon={<Groups2OutlinedIcon className={styles.icon} />}
+              title={customRich(navigation, 'collaborators.title')}
+              message={customRich(navigation, 'collaborators.message')}
+            />
+            <LinkCard
+              href="/organisations"
+              icon={<DiagramOutlinedIcon className={styles.icon} />}
+              title={customRich(navigation, 'footprints.title')}
+              message={customRich(navigation, 'footprints.message')}
+            />
+          </Box>
+        )}
+        {!hasOrganization && (
+          <Alert severity="info" data-testid="home-collaboration-studies-hint">
+            {t('noOrganization.collaborationHint')}
+          </Alert>
+        )}
         <Alert severity="info" className="mb-2">
           {customRich(t, 'alert.info', {
             link: (chunks) => (

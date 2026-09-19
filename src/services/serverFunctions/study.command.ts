@@ -31,7 +31,7 @@ const optionalDateValidation = () =>
     .refine((val) => val === null || dayjs(val).isValid(), setCustomMessage('invalidDate'))
 
 const BaseStudyValidation = z.object({
-  organizationVersionId: z.string(),
+  organizationVersionId: z.string().optional(),
   name: z.string().trim().min(1),
   validator: z.email().trim(),
   startDate: dateValidation(),

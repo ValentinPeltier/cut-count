@@ -4,11 +4,11 @@ import { redirect } from 'next/navigation'
 
 const CountSignUpPage = async () => {
   const session = await auth()
-  if (session) {
+  if (session?.user.organizationVersionId) {
     redirect('/')
   }
 
-  return <SignUpFormCut />
+  return <SignUpFormCut defaultEmail={session?.user.email} />
 }
 
 export default CountSignUpPage

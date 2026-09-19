@@ -46,7 +46,10 @@ model Study {
   oldBCId String? @map("old_bc_id")
 
   createdById String  @map("created_by_account_id")
-  createdBy   Account @relation(fields: [createdById], references: [id])
+  createdBy   Account @relation("StudyCreator", fields: [createdById], references: [id])
+
+  ownerAccountId String  @map("owner_account_id")
+  ownerAccount   Account @relation("StudyOwner", fields: [ownerAccountId], references: [id])
 
   name                  String
   isPublic              Boolean         @map("is_public")
@@ -59,8 +62,8 @@ model Study {
   subPostsConfigVersion String?         @map("sub_posts_config_version")
   resultsUnit           StudyResultUnit @default(T) @map("results_unit")
 
-  organizationVersion   OrganizationVersion @relation(fields: [organizationVersionId], references: [id])
-  organizationVersionId String              @map("organization_version_id")
+  organizationVersion   OrganizationVersion? @relation(fields: [organizationVersionId], references: [id])
+  organizationVersionId String?              @map("organization_version_id")
 
   allowedUsers UserOnStudy[]
   sites        StudySite[]

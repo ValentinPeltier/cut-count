@@ -43,7 +43,7 @@ const TeamTable = ({ user, team, crOrga }: Props) => {
             data.studies.map((study) => ({
               id: study.id,
               name: study.name,
-              organization: study.organizationVersion.organization.name,
+              organization: study.organizationVersion?.organization.name ?? '',
             })),
           )
         } else {

@@ -20,15 +20,16 @@ export type StudyWithRoleFields = {
   level: Level
   isPublic: boolean
   simplified: boolean
+  ownerAccountId?: string
   organizationVersion: {
     id: string
     parentId: string | null
-  }
+  } | null
   allowedUsers: { role: StudyRole; account: { id: string; user: { email: string } } }[]
 }
 
 export const getAccountRoleOnStudy = (user: UserSession, study: StudyWithRoleFields) => {
-  if (isAdminOnStudyOrga(user, study.organizationVersion)) {
+  if (study.organizationVersion && isAdminOnStudyOrga(user, study.organizationVersion)) {
     return hasSufficientLevel(user.level, study.level) ? StudyRole.Validator : StudyRole.Reader
   }
 
@@ -37,7 +38,11 @@ export const getAccountRoleOnStudy = (user: UserSession, study: StudyWithRoleFie
     return hasSufficientLevel(user.level, study.level) ? right.role : StudyRole.Reader
   }
 
-  if (study.isPublic && isInOrgaOrParent(user.organizationVersionId, study.organizationVersion)) {
+  if (
+    study.isPublic &&
+    study.organizationVersion &&
+    isInOrgaOrParent(user.organizationVersionId, study.organizationVersion)
+  ) {
     return getUserRoleOnPublicStudy(user, study.level)
   }
 

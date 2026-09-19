@@ -16,15 +16,22 @@ export const canReadStudy = async (user: UserSession | UserWithAllowedStudies, s
     return false
   }
 
-  const study = await getStudyById(studyId, user.organizationVersionId)
+  const userOrganizationVersionId = 'organizationVersionId' in user ? user.organizationVersionId : null
+  const accountId = 'accountId' in user ? user.accountId : user.id
+  const study = await getStudyById(studyId, userOrganizationVersionId)
 
   if (!study) {
     return false
   }
 
+  if (study.ownerAccountId === accountId) {
+    return true
+  }
+
   if (
-    isAdminOnStudyOrga(user as UserSession, study.organizationVersion) ||
-    (study.isPublic && isInOrgaOrParent(user.organizationVersionId, study.organizationVersion))
+    study.organizationVersion &&
+    (isAdminOnStudyOrga(user as UserSession, study.organizationVersion) ||
+      (study.isPublic && isInOrgaOrParent(userOrganizationVersionId, study.organizationVersion)))
   ) {
     return true
   }
@@ -58,7 +65,7 @@ export const filterAllowedStudies = async (user: UserSession, studies: Study[]) 
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const canCreateAStudy = async (user: UserSession, _simplified: boolean = false) => {
-  return !!user.organizationVersionId
+  return !!user.accountId
 }
 
 const canCreateSpecificStudyCommon = async (accountId: string, organizationVersionId: string) => {
@@ -88,14 +95,26 @@ const canCreateSpecificStudySimplified = async (accountId: string, organizationV
 export const canCreateSpecificStudy = async (
   user: UserSession,
   _study: Prisma.StudyCreateInput,
-  organizationVersionId: string,
+  organizationVersionId: string | null | undefined,
 ) => {
+  if (!organizationVersionId) {
+    const dbAccount = await getAccountById(user.accountId)
+    return !!dbAccount && !dbAccount.organizationVersionId
+  }
   return canCreateSpecificStudySimplified(user.accountId, organizationVersionId)
 }
 
 const canEditStudy = async (user: UserSession, study: FullStudy) => {
+  if (!study.organizationVersionId) {
+    if (study.ownerAccountId !== user.accountId) {
+      return false
+    }
+    const userRightsOnStudy = getAccountRoleOnStudy(user, study)
+    return !!userRightsOnStudy && hasEditionRights(userRightsOnStudy)
+  }
+
   const organizationVersion = await getOrganizationVersionForRightsCheck(
-    study.organizationVersion.parentId ? study.organizationVersion.parentId : study.organizationVersionId,
+    study.organizationVersion!.parentId ? study.organizationVersion!.parentId : study.organizationVersionId,
   )
   if (!organizationVersion) {
     return false
@@ -105,7 +124,7 @@ const canEditStudy = async (user: UserSession, study: FullStudy) => {
     return false
   }
 
-  if (isAdminOnStudyOrga(user, study.organizationVersion)) {
+  if (study.organizationVersion && isAdminOnStudyOrga(user, study.organizationVersion)) {
     return true
   }
 
@@ -185,7 +204,7 @@ export const canAddRightOnStudy = (
 }
 
 export const canAddContributorOnStudy = (user: UserSession, study: FullStudy) => {
-  if (isAdminOnStudyOrga(user, study.organizationVersion)) {
+  if (study.organizationVersion && isAdminOnStudyOrga(user, study.organizationVersion)) {
     return true
   }
 
@@ -232,9 +251,14 @@ export const canReadStudyDetail = async (user: UserSession, study: StudyWithRole
   }
 
   if (
-    isAdminOnStudyOrga(user, study.organizationVersion) ||
-    (study.isPublic && isInOrgaOrParent(user.organizationVersionId, study.organizationVersion))
+    study.organizationVersion &&
+    (isAdminOnStudyOrga(user, study.organizationVersion) ||
+      (study.isPublic && isInOrgaOrParent(user.organizationVersionId, study.organizationVersion)))
   ) {
+    return true
+  }
+
+  if (study.ownerAccountId === user.accountId) {
     return true
   }
 

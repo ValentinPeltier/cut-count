@@ -16,9 +16,9 @@ const NewStudyRightPage = async ({ study, user }: Props) => {
   const tNav = await getTranslations('nav')
   const t = await getTranslations('study.rights.new')
 
-  const accounts = await getOrganizationVersionAccounts(
-    study.organizationVersion.parentId || study.organizationVersion.id,
-  )
+  const accounts = study.organizationVersion
+    ? await getOrganizationVersionAccounts(study.organizationVersion.parentId || study.organizationVersion.id)
+    : []
   const accountRole = getAccountRoleOnStudy(user, study)
 
   if (!accountRole) {
@@ -33,7 +33,7 @@ const NewStudyRightPage = async ({ study, user }: Props) => {
         current={tNav('newStudyRight')}
         links={[
           { label: tNav('home'), link: '/' },
-          study.organizationVersion.isCR
+          study.organizationVersion?.isCR
             ? {
                 label: study.organizationVersion.organization.name,
                 link: `/organisations/${study.organizationVersion.id}`,

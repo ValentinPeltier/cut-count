@@ -78,6 +78,26 @@ const users = async () => {
     },
   })
 
+  await prisma.cnc.create({
+    data: {
+      cncCode: '5678',
+      nom: 'Cinéma e2e nouveau',
+      codeInsee: '75001',
+      commune: 'Paris',
+      ecrans: 5,
+    },
+  })
+
+  await prisma.cnc.create({
+    data: {
+      cncCode: '5699',
+      nom: 'Cinéma e2e inscription dupliquée',
+      codeInsee: '75003',
+      commune: 'Paris',
+      ecrans: 3,
+    },
+  })
+
   const unOnboardedOrganization = await prisma.organization.create({
     data: {
       name: faker.company.name(),
@@ -160,6 +180,24 @@ const users = async () => {
       organizationVersionId: clientLessOrganizationVersion.id,
       role: Role.DEFAULT,
       userId: clientLessUser.id,
+      status: UserStatus.ACTIVE,
+    },
+  })
+
+  const noOrganizationUser = await prisma.user.create({
+    data: {
+      email: 'no-organization@yopmail.com',
+      firstName: faker.person.firstName(),
+      lastName: faker.person.lastName(),
+      password: await signPassword('no-organization'),
+      level: Level.Initial,
+    },
+  })
+
+  await prisma.account.create({
+    data: {
+      role: Role.DEFAULT,
+      userId: noOrganizationUser.id,
       status: UserStatus.ACTIVE,
     },
   })
@@ -330,17 +368,15 @@ const users = async () => {
   )
 
   if (cncRecord) {
-    const cutOrganizationIds = organizationVersions.map((orgVersion) => orgVersion.organizationId)
-    const cutSites = sites.filter((site) => cutOrganizationIds.includes(site.organizationId))
-
-    await Promise.all(
-      cutSites.map((site) =>
-        prisma.site.update({
-          where: { id: site.id },
-          data: { cncId: cncRecord.id },
-        }),
-      ),
+    const e2eJoinOrganizationSite = sites.find(
+      (site) => site.organizationId === regularOrganizationVersions[0]?.organizationId,
     )
+    if (e2eJoinOrganizationSite) {
+      await prisma.site.update({
+        where: { id: e2eJoinOrganizationSite.id },
+        data: { cncId: cncRecord.id },
+      })
+    }
   }
 
   const levels = Object.keys(Level)
@@ -445,6 +481,7 @@ const users = async () => {
         include: { sites: true },
         data: {
           createdById: creator.accounts[0].account.id,
+          ownerAccountId: creator.accounts[0].account.id,
           startDate: new Date(),
           endDate: faker.date.future(),
           isPublic: faker.datatype.boolean(),
@@ -579,8 +616,39 @@ const users = async () => {
     await prisma.study.create({
       include: { sites: true },
       data: {
+        name: 'Étude collègue e2e',
+        createdById: defaultUserWithAccount.accounts[0].account.id,
+        ownerAccountId: defaultUserWithAccount.accounts[0].account.id,
+        startDate: new Date(),
+        endDate: faker.date.future(),
+        isPublic: true,
+        level: Level.Initial,
+        organizationVersionId: defaultUserWithAccount.accounts[0].account.organizationVersionId as string,
+        sites: {
+          createMany: {
+            data: faker.helpers
+              .arrayElements(organizationVersionSites, { min: 1, max: organizationVersionSites.length })
+              .map((site) => ({
+                siteId: site.id,
+                etp: site.etp,
+                ca: site.ca,
+              })),
+          },
+        },
+        allowedUsers: {
+          create: { role: StudyRole.Validator, accountId: defaultUserWithAccount.accounts[0].account.id },
+        },
+      },
+    }),
+  )
+
+  studies.push(
+    await prisma.study.create({
+      include: { sites: true },
+      data: {
         id: '88c93e88-7c80-4be4-905b-f0bbd2ccc779',
         createdById: defaultUserWithAccount.accounts[0].account.id,
+        ownerAccountId: defaultUserWithAccount.accounts[0].account.id,
         startDate: new Date(),
         endDate: faker.date.future(),
         isPublic: false,
@@ -620,6 +688,7 @@ const users = async () => {
       data: {
         id: '88c93e88-7c80-4be4-905b-f0bbd2ccc840',
         createdById: cutAdminAccount.account.id,
+        ownerAccountId: cutAdminAccount.account.id,
         startDate: new Date(),
         endDate: faker.date.future(),
         isPublic: false,

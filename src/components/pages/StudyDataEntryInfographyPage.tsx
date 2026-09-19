@@ -30,7 +30,7 @@ const StudyDataEntryInfographyPage = ({ study, userRole, canDeleteStudy, organiz
         current={tStudyNav('dataEntry')}
         links={[
           { label: tNav('home'), link: '/' },
-          study.organizationVersion.isCR
+          study.organizationVersion?.isCR
             ? {
                 label: study.organizationVersion.organization.name,
                 link: `/organisations/${study.organizationVersion.id}`,

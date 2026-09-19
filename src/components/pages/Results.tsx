@@ -17,7 +17,7 @@ const ResultsPage = ({ study }: Props) => {
         current={tStudyNav('results')}
         links={[
           { label: tNav('home'), link: '/' },
-          study.organizationVersion.isCR
+          study.organizationVersion?.isCR
             ? {
                 label: study.organizationVersion.organization.name,
                 link: `/organisations/${study.organizationVersion.id}`,
