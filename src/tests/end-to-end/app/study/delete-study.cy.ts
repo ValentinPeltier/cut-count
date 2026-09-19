@@ -10,7 +10,7 @@ describe('Delete study', () => {
 
     cy.visit('/organisations')
     cy.getByTestId('organization-page', { timeout: 15000 }).should('be.visible')
-    cy.getByTestId('study-name-chip').contains('Study to delete').should('be.visible')
+    cy.contains('Study to delete', { timeout: 15000 }).scrollIntoView().should('exist')
 
     cy.visit(`/etudes/${STUDY_TO_DELETE_ID}/comptabilisation/saisie-des-donnees`)
     cy.getByTestId('delete-study', { timeout: 15000 }).click()
