@@ -12,7 +12,7 @@ describe('Team', () => {
   })
 
   it('admins can edit team member role', () => {
-    cy.login('admin-1@yopmail.com', 'password-1')
+    cy.login('admin-1@yopmail.com', 'admin-1')
     cy.visit('/equipe')
     cy.getByTestId('team-table-row')
       .eq(0)
@@ -22,7 +22,7 @@ describe('Team', () => {
   })
 
   it('defaults cannot edit team member role', () => {
-    cy.login('default-1@yopmail.com', 'password-1')
+    cy.login('default-1@yopmail.com', 'default-1')
     cy.visit('/equipe')
     cy.getByTestId('team-table-row')
       .eq(0)
@@ -32,7 +32,7 @@ describe('Team', () => {
   })
 
   it('should change a member role', () => {
-    cy.login('admin-1@yopmail.com', 'password-1')
+    cy.login('admin-1@yopmail.com', 'admin-1')
     cy.visit('/equipe')
 
     cy.contains('[data-testid="team-table-row"]', 'admin-1@yopmail.com').within(() => {
@@ -62,7 +62,7 @@ describe('Team', () => {
   it('should add a new member', () => {
     cy.clearEmails()
     cy.intercept('POST', '/reset-password/*').as('reset-password')
-    cy.login('admin-1@yopmail.com', 'password-1')
+    cy.login('admin-1@yopmail.com', 'admin-1')
     cy.visit('/equipe')
 
     cy.getByTestId('pending-invitation').should('not.exist')

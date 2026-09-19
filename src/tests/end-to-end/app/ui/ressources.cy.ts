@@ -4,7 +4,7 @@ describe('Count! resources page', () => {
   })
 
   beforeEach(() => {
-    cy.loginForEnv('cut')
+    cy.login()
   })
 
   it('opens resources from dashboard navigation', () => {

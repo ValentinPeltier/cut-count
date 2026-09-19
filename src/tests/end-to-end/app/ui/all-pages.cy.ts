@@ -19,7 +19,7 @@ describe('Count! pages', () => {
   describe('authenticated pages', () => {
     // loginForEnv uses cy.session — first test logs in, the rest restore cookies for the same user.
     beforeEach(() => {
-      cy.loginForEnv('cut')
+      cy.login()
     })
 
     CUT_DASHBOARD_PAGES.forEach(({ path, testId }) => {

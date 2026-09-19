@@ -7,7 +7,7 @@ Cypress.Commands.add(
 )
 
 const ENV_LOGIN_DEFAULTS: Record<string, { email: string; password: string }> = {
-  cut: { email: 'admin-0@yopmail.com', password: 'password-0' },
+  cut: { email: 'admin-0@yopmail.com', password: 'admin-0' },
 }
 
 const ENV_ENTRY_PATHS: Record<string, string> = {
@@ -26,8 +26,12 @@ const fillAndSubmitLogin = (email: string, password: string, entryPath = '/login
     .should('be.visible')
     .should('not.be.disabled')
     .type(email)
-  cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input').type(password)
-  cy.getByTestId('login-button').click()
+    .should('have.value', email)
+  cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input')
+    .should('be.visible')
+    .should('not.be.disabled')
+    .type(password)
+  cy.getByTestId('login-button').should('be.visible').should('not.be.disabled').click()
   cy.wait('@login')
 }
 
@@ -57,7 +61,7 @@ const loginWithOptionalSession = (email: string, password: string, entryPath: st
   )
 }
 
-Cypress.Commands.add('login', (email = 'admin-0@yopmail.com', password = 'password-0', options: LoginOptions = {}) => {
+Cypress.Commands.add('login', (email = 'admin-0@yopmail.com', password = 'admin-0', options: LoginOptions = {}) => {
   loginWithOptionalSession(email, password, '/login', options)
 })
 

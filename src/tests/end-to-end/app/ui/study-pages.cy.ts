@@ -7,7 +7,7 @@ describe('Count! golden study — all study pages', () => {
   })
 
   beforeEach(() => {
-    cy.loginForEnv('cut')
+    cy.login()
   })
 
   CUT_GOLDEN_STUDY_PATHS.forEach((suffix) => {
