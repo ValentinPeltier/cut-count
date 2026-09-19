@@ -99,11 +99,11 @@ DATABASE_URL='mysql://count:count@localhost:3306/count' \
 
 ## File map (execution order)
 
-| Order | File | Role |
-| ----- | ---- | ---- |
-| 1 | `01-export-from-source-pgsql.sh` | Export CUT data from shared PG (`cut_export` build + dump) |
-| 2 | `02-import-into-target-pgsql.sql` | Load dump into target PG tenant schemas |
-| 3 | `03-migrate-pg-to-mysql.ts` | PostgreSQL → MySQL via Prisma |
+| Order | File                              | Role                                                       |
+| ----- | --------------------------------- | ---------------------------------------------------------- |
+| 1     | `01-export-from-source-pgsql.sh`  | Export CUT data from shared PG (`cut_export` build + dump) |
+| 2     | `02-import-into-target-pgsql.sql` | Load dump into target PG tenant schemas                    |
+| 3     | `03-migrate-pg-to-mysql.ts`       | PostgreSQL → MySQL via Prisma                              |
 
 ---
 

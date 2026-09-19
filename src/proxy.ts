@@ -24,9 +24,7 @@ const buildContentSecurityPolicy = (pathname: string, nonce: string) => {
 
   if (isPublic) {
     const scriptSrc =
-      process.env.NODE_ENV === 'development'
-        ? `'self' 'unsafe-inline' 'unsafe-eval'`
-        : `'self' 'unsafe-inline'`
+      process.env.NODE_ENV === 'development' ? `'self' 'unsafe-inline' 'unsafe-eval'` : `'self' 'unsafe-inline'`
 
     return `
       default-src 'self';

@@ -17,7 +17,7 @@ describe('Count! pages', () => {
   })
 
   describe('authenticated pages', () => {
-    // loginForEnv uses cy.session — first test logs in, the rest restore cookies for the same user.
+    // cy.login uses cy.session — first test logs in, the rest restore cookies for the same user.
     beforeEach(() => {
       cy.login()
     })
