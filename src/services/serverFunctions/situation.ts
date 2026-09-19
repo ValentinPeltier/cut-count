@@ -37,17 +37,12 @@ export const loadSituation = async (studyId: string, studySiteId: string) =>
     return await getSituationByStudySite(studySiteId)
   })
 
-export const loadSituations = async (studyId: string, studySiteIds: string[], skipAuthCheck = false) =>
+export const loadSituations = async (studyId: string, studySiteIds: string[]) =>
   withServerResponse('getSituationsFromDB', async () => {
-    // NOTE: we can skip auth check for PDF generation since the token was
-    // validated at page level. The authentication is already handled by
-    // withPdfAuth.
-    if (!skipAuthCheck) {
-      const hasAccess = await hasReadAccessOnStudy(studyId)
-      if (!hasAccess) {
-        console.error('loadSituations: user not authorized', studyId)
-        throw new Error(NOT_AUTHORIZED)
-      }
+    const hasAccess = await hasReadAccessOnStudy(studyId)
+    if (!hasAccess) {
+      console.error('loadSituations: user not authorized', studyId)
+      throw new Error(NOT_AUTHORIZED)
     }
 
     return await getSituationsByStudySites(studySiteIds)

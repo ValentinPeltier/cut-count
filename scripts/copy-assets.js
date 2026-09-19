@@ -39,6 +39,8 @@ const extraCopies = [
   ['src/i18n/translations', 'src/i18n/translations'],
   ['src/lib/services/email/views', 'src/lib/services/email/views'],
   ['private/ressources', 'private/ressources'],
+  ['node_modules/@sparticuz/chromium', 'node_modules/@sparticuz/chromium'],
+  ['node_modules/puppeteer-core', 'node_modules/puppeteer-core'],
 ]
 
 async function main() {

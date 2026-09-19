@@ -4,21 +4,27 @@
     size: A4;
   }
 
+  html,
   body {
+    height: auto !important;
+    overflow: visible !important;
     margin: 0;
     padding: 0;
   }
 }
 
 .page-break-before {
+  break-before: page !important;
   page-break-before: always !important;
 }
 
 .page-break-after {
+  break-after: page !important;
   page-break-after: always !important;
 }
 
 .page-break-avoid {
+  break-inside: avoid !important;
   page-break-inside: avoid !important;
 }
 
@@ -29,6 +35,7 @@
 }
 
 .pdf-content.page-break-before {
+  break-before: page !important;
   page-break-before: always !important;
 }
 
@@ -47,7 +54,7 @@
   background: var(--mui-palette-primary-main);
 }
 
-.pdf-page-header img {
+.pdf-page-header-logo {
   height: 2.5rem;
   width: auto;
 }
@@ -65,7 +72,7 @@
   gap: 1.25rem;
 }
 
-.pdf-page-footer-logos img {
+.pdf-page-footer-logo {
   height: 1.875rem;
   width: auto;
 }
@@ -227,5 +234,11 @@
 
   .pdf-general-data {
     page-break-inside: avoid;
+  }
+
+  .pdf-container {
+    min-height: auto;
+    height: auto;
+    overflow: visible;
   }
 }

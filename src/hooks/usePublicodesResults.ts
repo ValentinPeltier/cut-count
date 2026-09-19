@@ -15,11 +15,7 @@ interface UsePublicodesResultsReturn extends BaseResultsBySite {
   refresh: () => void
 }
 
-export function usePublicodesResults(
-  study: FullStudy,
-  studySite: string | 'all',
-  skipAuthCheck = false,
-): UsePublicodesResultsReturn {
+export function usePublicodesResults(study: FullStudy, studySite: string | 'all'): UsePublicodesResultsReturn {
   const tPost = useTranslations('emissionFactors.post')
   const [situationBySiteId, setSituationsBySiteId] = useState<Record<string, Situation<string>>>({})
   const [isLoading, setIsLoading] = useState(true)
@@ -53,7 +49,7 @@ export function usePublicodesResults(
         setIsLoading(true)
         setError(null)
 
-        const result = await loadSituations(study.id, studySiteIds, skipAuthCheck)
+        const result = await loadSituations(study.id, studySiteIds)
         if (!result.success) {
           throw new Error(result.errorMessage || 'Failed to load situations')
         }
@@ -76,7 +72,7 @@ export function usePublicodesResults(
       }
     }
     load()
-  }, [study.id, studySiteIdsKey, config, refreshTrigger, skipAuthCheck, studySiteIds.length])
+  }, [study.id, studySiteIdsKey, config, refreshTrigger, studySiteIds.length])
 
   const results = useMemo(() => {
     if (!config || Object.keys(situationBySiteId).length === 0) {

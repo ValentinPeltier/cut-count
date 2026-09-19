@@ -1,10 +1,9 @@
-
 import { FullStudy, getStudyById } from '@/db/study'
-import { getUserById } from '@/db/user'
 import NotFound from '@/lib/components/pages/NotFound'
 import { LocaleType } from '@/lib/i18n/config'
-import jwt from 'jsonwebtoken'
-import { headers } from 'next/headers'
+import { hasReadAccessOnStudy } from '@/services/permissions/study'
+import { dbActualizedAuth } from '@/services/auth'
+import { getLocale } from 'next-intl/server'
 import React from 'react'
 
 export type PdfAuthProps = {
@@ -30,47 +29,22 @@ const withPdfAuth = (WrappedComponent: React.ComponentType<any & PdfAuthProps>) 
       return <NotFound />
     }
 
-    let study: FullStudy | null = null
-    let locale: LocaleType | null = null
-
-    const headersList = await headers()
-    const url = headersList.get('x-url')
-
-    let pdfToken: string | null = null
-    if (url) {
-      try {
-        const urlObj = new URL(url)
-        pdfToken = urlObj.searchParams.get('t')
-      } catch (error) {
-        console.error('Invalid URL in x-url header:', error)
-      }
+    const session = await dbActualizedAuth()
+    if (!session?.user) {
+      return <NotFound />
     }
 
-    if (pdfToken) {
-      try {
-        const payload = jwt.verify(pdfToken, process.env.PDF_JWT_SECRET!) as {
-          userId: string
-          studyId: string
-          organizationVersionId: string
-          locale: string
-        }
-
-        if (payload.studyId === studyId) {
-          const pdfUser = await getUserById(payload.userId)
-          if (pdfUser) {
-            study = await getStudyById(studyId, payload.organizationVersionId)
-            locale = payload.locale as LocaleType
-          }
-        }
-      } catch (error) {
-        console.error('PDF auth failed:', error)
-      }
+    const hasAccess = await hasReadAccessOnStudy(studyId)
+    if (!hasAccess) {
+      return <NotFound />
     }
 
+    const study = await getStudyById(studyId, session.user.organizationVersionId)
     if (!study) {
       return <NotFound />
     }
 
+    const locale = (await getLocale()) as LocaleType
     return <WrappedComponent {...props} study={study} locale={locale} />
   }
 

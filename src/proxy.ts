@@ -3,7 +3,7 @@ import { getToken } from 'next-auth/jwt'
 import { NextRequest, NextResponse } from 'next/server'
 
 const LOCALE_COOKIE = 'NEXT_LOCALE'
-const publicRoutes = ['/login', '/register', '/reset-password', '/activation', '/preview', '/count']
+const publicRoutes = ['/login', '/register', '/reset-password', '/activation', '/count']
 const assetsRoutes = ['/_next', '/img']
 
 const logos = ['https://base-empreinte.ademe.fr', 'https://www.legifrance.gouv.fr', ''].join(' ')
@@ -54,7 +54,6 @@ export async function proxy(req: NextRequest) {
   const requestHeaders = new Headers(req.headers)
   requestHeaders.set('x-nonce', nonce)
   requestHeaders.set('Content-Security-Policy', contentSecurityPolicyHeader)
-  requestHeaders.set('x-url', req.url)
 
   const response = NextResponse.next({ request: { headers: requestHeaders } })
   response.headers.set('Content-Security-Policy', contentSecurityPolicyHeader)

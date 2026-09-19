@@ -1,7 +1,7 @@
 'use client'
 
-import { ChartsPage } from '@/app/(public)/preview/etudes/[id]/ChartsPage'
-import '@/app/(public)/preview/etudes/[id]/pdf-summary.css'
+import { ChartsPage } from '@/app/(pdf)/preview/etudes/[id]/ChartsPage'
+import '@/app/(pdf)/preview/etudes/[id]/pdf-summary.css'
 import ConsolidatedResultsTable from '@/components/study/results/consolidated/ConsolidatedResultsTable'
 import type { FullStudy } from '@/db/study'
 import cutTheme from '@/environments/cut/theme/theme'
@@ -12,7 +12,6 @@ import { convertSimplifiedEnvToBilanCarbone } from '@/services/posts'
 import { getTotalValueFromBaseResults } from '@/services/results/publicodes'
 import { ThemeProvider } from '@mui/material/styles'
 import { useTranslations } from 'next-intl'
-import Image from 'next/image'
 import React, { useEffect, useMemo, useState } from 'react'
 import CarbonIntensitiesCut from '../results/CarbonIntensitiesCut'
 
@@ -56,13 +55,7 @@ const PDFSummary = ({ study }: Props) => {
 
   const [sitesData, setSitesData] = useState<SiteData[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const results = usePublicodesResults(
-    study,
-    'all',
-    // NOTE: we skip auth check here because authentification is already
-    // handled by withPdfAuth.
-    true,
-  )
+  const results = usePublicodesResults(study, 'all')
   // NOTE: should it be in the usePublicodesResults hook instead?
   const aggregatedTotalValue = useMemo(() => {
     return getTotalValueFromBaseResults(results.aggregated, study.resultsUnit)
@@ -73,6 +66,11 @@ const PDFSummary = ({ study }: Props) => {
   }, [results.aggregated])
 
   useEffect(() => {
+    if (results.isLoading) {
+      setIsLoading(true)
+      return
+    }
+
     const loadData = async () => {
       try {
         setIsLoading(true)
@@ -100,9 +98,9 @@ const PDFSummary = ({ study }: Props) => {
     }
 
     loadData()
-  }, [study, results.bySite])
+  }, [study, results.bySite, results.isLoading])
 
-  if (isLoading) {
+  if (isLoading || results.isLoading) {
     return (
       <ThemeProvider theme={cutTheme}>
         <div className="pdf-container">
@@ -120,15 +118,19 @@ const PDFSummary = ({ study }: Props) => {
     <ThemeProvider theme={cutTheme}>
       <div className="pdf-container" data-testid="pdf-container">
         <div className="pdf-page-header flex align-center justify-center">
-          <Image src="/logos/cut/logo-filled.svg" alt="COUNT Logo" width={100} height={40} />
+          <img src="/logos/cut/logo-filled.svg" alt="COUNT Logo" className="pdf-page-header-logo" />
         </div>
 
         <div className="pdf-page-footer flex align-center justify-between">
           <div className="pdf-page-footer-logos flex align-center">
-            <Image src="/logos/cut/CUT.svg" alt="CUT Logo" width={80} height={30} />
-            <Image src="/logos/cut/ABC.svg" alt="ABC Logo" width={80} height={30} />
-            <Image src="/logos/cut/CNC.svg" alt="CNC Logo" width={80} height={30} />
-            <Image src="/logos/cut/France3_2025_blanc.png" alt="France 2030 Logo" width={80} height={30} />
+            <img src="/logos/cut/CUT.svg" alt="CUT Logo" className="pdf-page-footer-logo" />
+            <img src="/logos/cut/ABC.svg" alt="ABC Logo" className="pdf-page-footer-logo" />
+            <img src="/logos/cut/CNC.svg" alt="CNC Logo" className="pdf-page-footer-logo" />
+            <img
+              src="/logos/cut/France3_2025_blanc.png"
+              alt="France 2030 Logo"
+              className="pdf-page-footer-logo"
+            />
           </div>
         </div>
 
