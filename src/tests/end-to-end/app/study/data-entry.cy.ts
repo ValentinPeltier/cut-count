@@ -35,11 +35,11 @@ describe('Count! data entry', () => {
     cy.getByTestId('publicodes-save-status', { timeout: 20000 }).should('exist')
     cy.contains('button, [role="tab"]', 'Énergie', { timeout: 20000 }).should('exist')
 
-    // Prefer a mid-page field so the sticky header does not cover it.
     const gasField = 'fonctionnement . énergie . gaz . consommation'
     const gasValue = '4321'
 
-    cy.getByTestId(`publicodes-field-${gasField}`, { timeout: 20000 }).should('exist')
+    cy.getByTestId(`publicodes-field-${gasField}`, { timeout: 20000 })
+      .should('exist')
       .within(() => {
         cy.get('input').filter(':visible').first().clear({ force: true }).type(gasValue, { force: true }).blur()
       })
@@ -48,7 +48,8 @@ describe('Count! data entry', () => {
 
     cy.reload()
 
-    cy.getByTestId(`publicodes-field-${gasField}`, { timeout: 20000 }).should('exist')
+    cy.getByTestId(`publicodes-field-${gasField}`, { timeout: 20000 })
+      .should('exist')
       .within(() => {
         cy.get('input')
           .filter(':visible')
