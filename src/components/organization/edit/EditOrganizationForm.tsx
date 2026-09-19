@@ -115,7 +115,7 @@ const EditOrganizationForm = ({ organizationVersion, caUnit, disabled = false }:
                 <li key={studySite.id}>
                   {customRich(tStudySites, 'existingSite', {
                     name: () =>
-                      `${studySite.site.name}${studySite.study.organizationVersion.isCR ? ` (${studySite.site.organization.name})` : ''}`,
+                      `${studySite.site.name}${studySite.study.organizationVersion?.isCR ? ` (${studySite.site.organization?.name ?? ''})` : ''}`,
                     link: () => <Link href={`/etudes/${studySite.studyId}/cadrage`}>{studySite.study.name}</Link>,
                   })}
                 </li>
@@ -124,7 +124,7 @@ const EditOrganizationForm = ({ organizationVersion, caUnit, disabled = false }:
               sitesOnError.unauthorizedStudySites.map((studySite) => (
                 <li key={studySite.site.name}>
                   {tStudySites('existingUnauthorizedSite', {
-                    name: `${studySite.site.name}${studySite.study.organizationVersion.isCR ? ` (${studySite.site.organization.name})` : ''}`,
+                    name: `${studySite.site.name}${studySite.study.organizationVersion?.isCR ? ` (${studySite.site.organization?.name ?? ''})` : ''}`,
                     count: studySite.count,
                   })}
                 </li>

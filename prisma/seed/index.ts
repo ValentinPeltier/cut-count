@@ -164,6 +164,24 @@ const users = async () => {
     },
   })
 
+  const noOrganizationUser = await prisma.user.create({
+    data: {
+      email: 'no-organization@yopmail.com',
+      firstName: faker.person.firstName(),
+      lastName: faker.person.lastName(),
+      password: await signPassword('no-organization'),
+      level: Level.Initial,
+    },
+  })
+
+  await prisma.account.create({
+    data: {
+      role: Role.DEFAULT,
+      userId: noOrganizationUser.id,
+      status: UserStatus.ACTIVE,
+    },
+  })
+
   const organizationVersionCutSignup = await prisma.organizationVersion.create({
     data: {
       organizationId: (
@@ -331,7 +349,9 @@ const users = async () => {
 
   if (cncRecord) {
     const cutOrganizationIds = organizationVersions.map((orgVersion) => orgVersion.organizationId)
-    const cutSites = sites.filter((site) => cutOrganizationIds.includes(site.organizationId))
+    const cutSites = sites.filter(
+      (site) => site.organizationId && cutOrganizationIds.includes(site.organizationId),
+    )
 
     await Promise.all(
       cutSites.map((site) =>
@@ -445,6 +465,7 @@ const users = async () => {
         include: { sites: true },
         data: {
           createdById: creator.accounts[0].account.id,
+          ownerAccountId: creator.accounts[0].account.id,
           startDate: new Date(),
           endDate: faker.date.future(),
           isPublic: faker.datatype.boolean(),
@@ -581,6 +602,7 @@ const users = async () => {
       data: {
         id: '88c93e88-7c80-4be4-905b-f0bbd2ccc779',
         createdById: defaultUserWithAccount.accounts[0].account.id,
+        ownerAccountId: defaultUserWithAccount.accounts[0].account.id,
         startDate: new Date(),
         endDate: faker.date.future(),
         isPublic: false,
@@ -620,6 +642,7 @@ const users = async () => {
       data: {
         id: '88c93e88-7c80-4be4-905b-f0bbd2ccc840',
         createdById: cutAdminAccount.account.id,
+        ownerAccountId: cutAdminAccount.account.id,
         startDate: new Date(),
         endDate: faker.date.future(),
         isPublic: false,

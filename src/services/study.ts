@@ -47,7 +47,7 @@ const buildResultsTableRows = (results: BaseResultsByPost[], resultsUnit: StudyR
 }
 
 const buildStudyMetadataRows = (study: FullStudy, siteLabel: string, tExport: Translations): (string | number)[][] => [
-  [tExport('simplified.metadata.organization'), study.organizationVersion.organization.name],
+  [tExport('simplified.metadata.organization'), study.organizationVersion?.organization.name ?? ''],
   [tExport('simplified.metadata.site'), siteLabel],
   [tExport('simplified.metadata.startDate'), formatDateFr(study.startDate)],
   [tExport('simplified.metadata.endDate'), formatDateFr(study.endDate)],

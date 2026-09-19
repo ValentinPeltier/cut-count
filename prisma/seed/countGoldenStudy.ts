@@ -58,6 +58,7 @@ export const createCountGoldenStudy = async (prisma: PrismaClient) => {
       simplified: true,
       resultsUnit: StudyResultUnit.T,
       createdById: cutAccount.id,
+      ownerAccountId: cutAccount.id,
       organizationVersionId: cutAccount.organizationVersionId,
       sites: {
         create: {

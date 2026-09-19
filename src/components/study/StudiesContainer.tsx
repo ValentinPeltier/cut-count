@@ -62,7 +62,10 @@ const StudiesContainer = async ({ user, organizationVersionId, isCR, simplified 
   const [orgaStudies, otherStudies] = isOrgaHomePage
     ? studies.reduce(
         (res, study) => {
-          res[study.organizationVersion.id === user.organizationVersionId ? 0 : 1].push(study)
+          const isOwnOrganizationStudy = user.organizationVersionId
+            ? study.organizationVersion?.id === user.organizationVersionId
+            : study.ownerAccountId === user.accountId
+          res[isOwnOrganizationStudy ? 0 : 1].push(study)
           return res
         },
         [[] as StudyCardItem[], [] as StudyCardItem[]],
@@ -78,7 +81,11 @@ const StudiesContainer = async ({ user, organizationVersionId, isCR, simplified 
 
   const creationUrl = organizationVersionId ? `/organisations/${organizationVersionId}/etudes/creer` : '/etudes/creer'
 
-  const activeLicence = !!(organizationVersion && hasActiveLicence(organizationVersion))
+  const canCreateStudy = await canCreateAStudy(user, simplified)
+  const activeLicence =
+    organizationVersion != null
+      ? hasActiveLicence(organizationVersion)
+      : canCreateStudy && !user.organizationVersionId
 
   const displaySimplifiedStudies = showSeparateSimplifiedList
   const hasStudies = studies.length > 0
@@ -88,7 +95,7 @@ const StudiesContainer = async ({ user, organizationVersionId, isCR, simplified 
       {!!footprintStudies.length && (
         <Studies
           studies={footprintStudies}
-          canAddStudy={(await canCreateAStudy(user)) && !isCR && activeLicence}
+          canAddStudy={canCreateStudy && !isCR && activeLicence}
           creationUrl={creationUrl}
           user={user}
           collaborations={!organizationVersionId && isCR}
@@ -109,7 +116,7 @@ const StudiesContainer = async ({ user, organizationVersionId, isCR, simplified 
         <Studies studies={collaborationStudies} canAddStudy={false} user={user} collaborations />
       )}
     </>
-  ) : (await canCreateAStudy(user, simplified)) ? (
+  ) : canCreateStudy ? (
     !isCR && (
       <MUIBox component="section" className="mt1">
         <Block>

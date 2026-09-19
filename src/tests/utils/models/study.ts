@@ -58,6 +58,7 @@ export const mockedStudy = {
 }
 
 export const mockedDdStudy = {
+  ownerAccountId: mockedAccountId,
   ...mockedStudy,
   oldBCId: null,
   realizationStartDate: null,
@@ -174,6 +175,7 @@ export const getMockedStudyCreateInput = (props: Partial<Prisma.StudyCreateInput
   ...mockedDdStudy,
   organizationVersion: { connect: { id: mockedOrganizationVersionId } },
   createdBy: { connect: { id: mockedUser.id } },
+  ownerAccount: { connect: { id: mockedAccountId } },
   ...props,
 })
 

@@ -58,7 +58,7 @@ const StudyPostsPageContainer = ({ post, currentSubPost, study }: Props) => {
         current={tPost(post)}
         links={[
           { label: tNav('home'), link: '/' },
-          study.organizationVersion.isCR
+          study.organizationVersion?.isCR
             ? {
                 label: study.organizationVersion.organization.name,
                 link: `/organisations/${study.organizationVersion.id}`,

@@ -198,72 +198,81 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
         // eslint-disable-next-line react-hooks/refs
         header: tRef.current('namePlaceholder'),
         accessorKey: 'name',
-        cell: ({ row, getValue }) =>
-          row.original.cncId && !disabled && form ? (
-            <>
-              {withSelection ? (
+        cell: ({ row, getValue }) => {
+          if (!disabled && form) {
+            if (withSelection) {
+              return row.original.cncId ? (
                 <div className="align-center">{getValue<string>()}</div>
               ) : (
-                <FormTextField
-                  data-testid="edit-site-name"
-                  control={form.control}
-                  name={`sites.${row.index}.name`}
-                  placeholder={tRef.current('namePlaceholder')}
-                  size="small"
-                />
-              )}
-            </>
-          ) : (
-            getValue<string>()
-          ),
+                getValue<string>()
+              )
+            }
+            return (
+              <FormTextField
+                data-testid="edit-site-name"
+                control={form.control}
+                name={`sites.${row.index}.name`}
+                placeholder={tRef.current('namePlaceholder')}
+                size="small"
+              />
+            )
+          }
+          return getValue<string>()
+        },
       },
       {
         id: 'postalCode',
         // eslint-disable-next-line react-hooks/refs
         header: tRef.current('postalCode'),
         accessorKey: 'postalCode',
-        cell: ({ row, getValue }) =>
-          row.original.cncId && !disabled && form ? (
-            <>
-              {withSelection ? (
+        cell: ({ row, getValue }) => {
+          if (!disabled && form) {
+            if (withSelection) {
+              return row.original.cncId ? (
                 <div className="align-center">{getValue<string>()}</div>
               ) : (
-                <FormTextField
-                  data-testid="organization-sites-postal-code"
-                  control={form.control}
-                  name={`sites.${row.index}.postalCode`}
-                  placeholder={tRef.current('postalCodePlaceholder')}
-                  size="small"
-                />
-              )}
-            </>
-          ) : (
-            getValue<string>()
-          ),
+                getValue<string>()
+              )
+            }
+            return (
+              <FormTextField
+                data-testid="organization-sites-postal-code"
+                control={form.control}
+                name={`sites.${row.index}.postalCode`}
+                placeholder={tRef.current('postalCodePlaceholder')}
+                size="small"
+              />
+            )
+          }
+          return getValue<string>()
+        },
       },
       {
         id: 'city',
         // eslint-disable-next-line react-hooks/refs
         header: tRef.current('city'),
         accessorKey: 'city',
-        cell: ({ row, getValue }) =>
-          row.original.cncId && !disabled && form ? (
-            <>
-              {withSelection ? (
+        cell: ({ row, getValue }) => {
+          if (!disabled && form) {
+            if (withSelection) {
+              return row.original.cncId ? (
                 <div className="align-center">{getValue<string>()}</div>
               ) : (
-                <FormTextField
-                  data-testid="organization-sites-city"
-                  control={form.control}
-                  name={`sites.${row.index}.city`}
-                  placeholder={tRef.current('cityPlaceholder')}
-                  size="small"
-                />
-              )}
-            </>
-          ) : (
-            getValue<string>()
-          ),
+                getValue<string>()
+              )
+            }
+            return (
+              <FormTextField
+                data-testid="organization-sites-city"
+                control={form.control}
+                name={`sites.${row.index}.city`}
+                placeholder={tRef.current('cityPlaceholder')}
+                size="small"
+              />
+            )
+          }
+          return getValue<string>()
+        },
       },
     ] as ColumnDef<SitesCommand['sites'][0]>[]
 

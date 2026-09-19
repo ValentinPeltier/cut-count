@@ -1,4 +1,5 @@
 'use client'
+import PersonalStudySiteStep from '@/components/study/organization/PersonalStudySiteStep'
 import SelectOrganization from '@/components/study/organization/Select'
 import { OrganizationWithSites } from '@/db/account'
 import { getOrganizationVersionAccounts } from '@/db/organization'
@@ -20,10 +21,18 @@ interface Props {
   accounts: Awaited<ReturnType<typeof getOrganizationVersionAccounts>>
   defaultOrganizationVersion?: OrganizationWithSites
   caUnit: SiteCAUnit
+  isPersonalStudy?: boolean
 }
 
-const NewStudyPage = ({ organizationVersions, user, defaultOrganizationVersion, caUnit }: Props) => {
+const NewStudyPage = ({
+  organizationVersions,
+  user,
+  defaultOrganizationVersion,
+  caUnit,
+  isPersonalStudy = false,
+}: Props) => {
   const [organizationVersion, setOrganizationVersion] = useState<OrganizationWithSites>()
+  const [personalStudyReady, setPersonalStudyReady] = useState(false)
   const tNav = useTranslations('nav')
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const tStudy = useTranslations('study')
@@ -35,12 +44,27 @@ const NewStudyPage = ({ organizationVersions, user, defaultOrganizationVersion, 
     defaultValues: {
       name: '',
       validator: user.email,
-      isPublic: 'true',
+      isPublic: isPersonalStudy ? 'false' : 'true',
       startDate: dayjs().toISOString(),
       realizationStartDate: dayjs().toISOString(),
-      organizationVersionId: (defaultOrganizationVersion ?? organizationVersions[0])?.id || '',
-      sites:
-        (defaultOrganizationVersion ?? organizationVersions[0])?.organization.sites.map((site) => ({
+      organizationVersionId: isPersonalStudy
+        ? undefined
+        : (defaultOrganizationVersion ?? organizationVersions[0])?.id || '',
+      sites: isPersonalStudy
+        ? [
+            {
+              id: crypto.randomUUID(),
+              name: '',
+              etp: 0,
+              ca: 0,
+              selected: true,
+              postalCode: '',
+              city: '',
+              cncId: '',
+              cncCode: '',
+            },
+          ]
+        : (defaultOrganizationVersion ?? organizationVersions[0])?.organization.sites.map((site) => ({
           ...site,
           ca: site.ca ? displayCA(site.ca, CA_UNIT_VALUES[caUnit]) : 0,
           selected: false,
@@ -67,7 +91,13 @@ const NewStudyPage = ({ organizationVersions, user, defaultOrganizationVersion, 
             : undefined,
         ].filter((link) => link !== undefined)}
       />
-      {organizationVersion ? (
+      {isPersonalStudy ? (
+        personalStudyReady ? (
+          <NewStudyFormCut form={form} />
+        ) : (
+          <PersonalStudySiteStep form={form} caUnit={caUnit} onContinue={() => setPersonalStudyReady(true)} />
+        )
+      ) : organizationVersion ? (
         <NewStudyFormCut form={form} />
       ) : (
         <SelectOrganization

@@ -40,9 +40,13 @@ model Site {
   city       String?
   address    String?
 
-  organization   Organization @relation(fields: [organizationId], references: [id])
-  organizationId String       @map("organization_id")
-  studies        StudySite[]
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  organizationId String?       @map("organization_id")
+
+  ownerAccountId String?  @map("owner_account_id")
+  ownerAccount   Account? @relation("SiteOwner", fields: [ownerAccountId], references: [id])
+
+  studies StudySite[]
 
   cncId String?
   cnc   Cnc?    @relation(fields: [cncId], references: [id])

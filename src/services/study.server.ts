@@ -10,6 +10,10 @@ export const getStudyParentOrganizationVersionId = async (
     throw Error("Study doesn't exist")
   }
 
+  if (!study.organizationVersion) {
+    throw new Error('Study is not attached to an organization')
+  }
+
   return study.organizationVersion.parentId || study.organizationVersion.id
 }
 

@@ -11,18 +11,20 @@ import { hasActiveLicence } from '@/utils/organization'
 import { redirect } from 'next/navigation'
 
 const NewStudy = async ({ user, isCut }: UserSessionProps & StudyCreationProps) => {
-  if (!user.organizationVersionId || !(await canCreateAStudy(user, isCut))) {
+  if (!(await canCreateAStudy(user, isCut))) {
     return <NotFound />
   }
 
+  const isPersonalStudy = !user.organizationVersionId
+
   const [organizationVersions, accounts] = await Promise.all([
-    getAccountOrganizationVersions(user.accountId),
-    getOrganizationVersionAccounts(user.organizationVersionId),
+    isPersonalStudy ? Promise.resolve([]) : getAccountOrganizationVersions(user.accountId),
+    isPersonalStudy ? Promise.resolve([]) : getOrganizationVersionAccounts(user.organizationVersionId),
   ])
 
-  const organizationVersionId = organizationVersions.find(
-    (organizationVersion) => organizationVersion.id === user.organizationVersionId,
-  )?.id
+  const organizationVersionId = isPersonalStudy
+    ? null
+    : organizationVersions.find((organizationVersion) => organizationVersion.id === user.organizationVersionId)?.id
 
   if (organizationVersionId) {
     const organizationVersion = await getOrganizationVersionForRightsCheck(organizationVersionId)
@@ -34,7 +36,15 @@ const NewStudy = async ({ user, isCut }: UserSessionProps & StudyCreationProps) 
   const userSettings = await getUserSettings()
   const caUnit = userSettings.success ? userSettings.data?.caUnit || defaultCAUnit : defaultCAUnit
 
-  return <NewStudyPage organizationVersions={organizationVersions} user={user} accounts={accounts} caUnit={caUnit} />
+  return (
+    <NewStudyPage
+      organizationVersions={organizationVersions}
+      user={user}
+      accounts={accounts}
+      caUnit={caUnit}
+      isPersonalStudy={isPersonalStudy}
+    />
+  )
 }
 
 export default withAuth(withStudyCreation(NewStudy))
