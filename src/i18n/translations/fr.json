@@ -55,7 +55,8 @@
     "siretOrCNCRequired": "Veuillez entrer un numéro CNC (recommandé) ou Siret",
     "clear": "Supprimer la valeur",
     "Unknown CNC": "Ce code CNC n'est pas reconnu. Veuillez vérifier votre saisie ou contacter le support si vous pensez qu'il s'agit d'une erreur.",
-    "Unknown SIRET or CNC": "Ce Siret ou code CNC n'est pas reconnu. Veuillez vérifier votre saisie ou contacter le support si vous pensez qu'il s'agit d'une erreur."
+    "Unknown SIRET or CNC": "Ce Siret ou code CNC n'est pas reconnu. Veuillez vérifier votre saisie ou contacter le support si vous pensez qu'il s'agit d'une erreur.",
+    "No recipient": "Impossible d'envoyer la demande : aucun administrateur actif trouvé pour cette organisation. Contactez <support>le support</support> si vous pensez qu'il s'agit d'une erreur."
   },
   "navigation": {
     "home": "Accueil",
