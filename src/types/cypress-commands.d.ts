@@ -26,7 +26,6 @@ declare namespace Cypress {
     resetTestDatabase(): Chainable<void>
     login(email?: string, password?: string, options?: { cacheSession?: boolean }): Chainable<void>
     logout(): Chainable<void>
-    loginForEnv(env: 'cut', email?: string, password?: string, options?: { cacheSession?: boolean }): Chainable<void>
     signup(email?: string, cncOrSiret?: string): Chainable<void>
     clearEmails(): Chainable<void>
     waitForEmail(

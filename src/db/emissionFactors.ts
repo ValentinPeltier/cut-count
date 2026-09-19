@@ -5,6 +5,11 @@ import { EmissionFactorCommand, UpdateEmissionFactorCommand } from '@/services/s
 import { FeFilters } from '@/types/filters'
 import { unique } from '@/utils/array'
 import { getEmissionFactorSubPostsMap, isMonetaryEmissionFactor } from '@/utils/emissionFactors'
+import {
+  emissionFactorSubPostsSelect,
+  emissionFactorSubPostsUpdateInput,
+  mapEmissionFactorSubPosts,
+} from '@/utils/emissionFactorSubPosts'
 import { flattenSubposts } from '@/utils/post'
 import { Session } from 'next-auth'
 import { prismaClient } from './client.server'
@@ -42,7 +47,7 @@ const otherSelectEmissionFactor = {
   geographicRepresentativeness: true,
   temporalRepresentativeness: true,
   completeness: true,
-  subPosts: true,
+  subPosts: emissionFactorSubPostsSelect,
   co2f: true,
   ch4f: true,
   ch4b: true,
@@ -75,7 +80,7 @@ const selectEmissionFactor = {
   geographicRepresentativeness: true,
   temporalRepresentativeness: true,
   completeness: true,
-  subPosts: true,
+  subPosts: emissionFactorSubPostsSelect,
   co2f: true,
   ch4f: true,
   ch4b: true,
@@ -99,6 +104,20 @@ const selectEmissionFactor = {
   versions: versionsSelect,
   emissionFactorParts: { select: { type: true, totalCo2: true } },
 } as Prisma.EmissionFactorSelect
+
+type EmissionFactorWithSubPostRows = {
+  subPosts: { subPost: SubPost }[]
+}
+
+const mapEmissionFactorWithSubPosts = <T extends EmissionFactorWithSubPostRows>(
+  emissionFactor: T,
+): Omit<T, 'subPosts'> & { subPosts: SubPost[] } => {
+  const { subPosts, ...rest } = emissionFactor
+  return { ...rest, subPosts: mapEmissionFactorSubPosts(subPosts) }
+}
+
+const mapEmissionFactorsWithSubPosts = <T extends EmissionFactorWithSubPostRows>(emissionFactors: T[]) =>
+  emissionFactors.map(mapEmissionFactorWithSubPosts)
 
 type EmissionFactorVersion = {
   importVersionId: string
@@ -191,8 +210,8 @@ const getBaseFilterForEmissionFactors = (
 
   const commonEmissionFactorFilters = {
     subPosts: filters.subPosts.some((sp) => sp === 'all')
-      ? { isEmpty: false }
-      : { hasSome: getEmissionFactorSubPostsMap(filters.subPosts as SubPost[]) },
+      ? { some: {} }
+      : { some: { subPost: { in: getEmissionFactorSubPostsMap(filters.subPosts as SubPost[]) } } },
     ...(filters.archived ? {} : { status: { not: EmissionFactorStatus.Archived } }),
     ...(filters.units.length > 0
       ? {
@@ -219,13 +238,13 @@ const getBaseFilterForEmissionFactors = (
         filters.search
           ? {
               OR: [
-                { title: { contains: filters.search, mode: Prisma.QueryMode.insensitive } },
-                { attribute: { contains: filters.search, mode: Prisma.QueryMode.insensitive } },
-                { frontiere: { contains: filters.search, mode: Prisma.QueryMode.insensitive } },
+                { title: { contains: filters.search } },
+                { attribute: { contains: filters.search } },
+                { frontiere: { contains: filters.search } },
               ],
             }
           : {},
-        filters.locations.length > 0 ? { location: { in: filters.locations, mode: Prisma.QueryMode.insensitive } } : {},
+        filters.locations.length > 0 ? { location: { in: filters.locations } } : {},
       ],
     },
   }
@@ -257,7 +276,7 @@ const getDefaultEmissionFactors = async (
   })
 
   return emissionFactorsMetadata.map((metadata) => ({
-    ...metadata.emissionFactor,
+    ...mapEmissionFactorWithSubPosts(metadata.emissionFactor),
     metaData: {
       language: metadata.language,
       title: metadata.title,
@@ -299,41 +318,50 @@ export const getAllEmissionFactors = async (
   }
 }
 
-export const getEmissionFactorById = (id: string) =>
-  prismaClient.emissionFactor.findUnique({
+export const getEmissionFactorById = async (id: string) => {
+  const emissionFactor = await prismaClient.emissionFactor.findUnique({
     where: {
       id,
     },
     select: selectEmissionFactor,
   })
 
-export const getAllEmissionFactorsByIds = (ids: string[], organizationId: string) =>
-  prismaClient.emissionFactor.findMany({
-    where: {
-      id: { in: ids },
-      OR: [{ organizationId: null }, { organizationId }],
-    },
-    select: selectEmissionFactor,
-    orderBy: { createdAt: 'desc' },
-  })
+  return emissionFactor ? mapEmissionFactorWithSubPosts(emissionFactor) : null
+}
 
-export const getEmissionFactorsByIdsAndSource = (ids: string[], source: Import) =>
-  prismaClient.emissionFactor.findMany({
-    where: {
-      id: { in: ids },
-      importedFrom: source,
-    },
-    select: selectEmissionFactor,
-  })
+export const getAllEmissionFactorsByIds = async (ids: string[], organizationId: string) =>
+  mapEmissionFactorsWithSubPosts(
+    await prismaClient.emissionFactor.findMany({
+      where: {
+        id: { in: ids },
+        OR: [{ organizationId: null }, { organizationId }],
+      },
+      select: selectEmissionFactor,
+      orderBy: { createdAt: 'desc' },
+    }),
+  )
 
-export const getEmissionFactorsByImportedIdsAndVersion = (ids: string[], importVersionId: string) =>
-  prismaClient.emissionFactor.findMany({
-    where: {
-      importedId: { in: ids },
-      versions: { some: { importVersionId } },
-    },
-    select: selectEmissionFactor,
-  })
+export const getEmissionFactorsByIdsAndSource = async (ids: string[], source: Import) =>
+  mapEmissionFactorsWithSubPosts(
+    await prismaClient.emissionFactor.findMany({
+      where: {
+        id: { in: ids },
+        importedFrom: source,
+      },
+      select: selectEmissionFactor,
+    }),
+  )
+
+export const getEmissionFactorsByImportedIdsAndVersion = async (ids: string[], importVersionId: string) =>
+  mapEmissionFactorsWithSubPosts(
+    await prismaClient.emissionFactor.findMany({
+      where: {
+        importedId: { in: ids },
+        versions: { some: { importVersionId } },
+      },
+      select: selectEmissionFactor,
+    }),
+  )
 
 export const createEmissionFactorWithParts = (
   emissionFactor: Prisma.EmissionFactorCreateInput,
@@ -371,7 +399,7 @@ export const updateEmissionFactor = async (
     organization: { connect: { id: accountOrganizationVersion?.organizationId } },
     unit: unit as Unit,
     isMonetary: isMonetaryEmissionFactor(command),
-    subPosts: flattenSubposts(subPosts),
+    subPosts: emissionFactorSubPostsUpdateInput(flattenSubposts(subPosts)),
   }
 
   await prismaClient.$transaction(async (transaction) => {
@@ -472,8 +500,8 @@ export const getEmissionFactorsWithPartsInIds = async (ids: string[]) =>
 
 export type EmissionFactorWithParts = AsyncReturnType<typeof getEmissionFactorsWithPartsInIds>[0]
 
-export const getEmissionFactorDetailsById = async (id: string) =>
-  prismaClient.emissionFactor.findUnique({
+export const getEmissionFactorDetailsById = async (id: string) => {
+  const emissionFactor = await prismaClient.emissionFactor.findUnique({
     where: { id },
     select: {
       ...selectEmissionFactor,
@@ -490,6 +518,9 @@ export const getEmissionFactorDetailsById = async (id: string) =>
       },
     },
   })
+
+  return emissionFactor ? mapEmissionFactorWithSubPosts(emissionFactor) : null
+}
 export type DetailedEmissionFactor = AsyncReturnType<typeof getEmissionFactorDetailsById>
 
 export const getEmissionFactorImportVersionsBC = async (withArchived?: boolean) => {
@@ -523,11 +554,13 @@ export const getEmissionFactorVersionsBySource = async (source: Import) =>
 export const getManualEmissionFactors = async (units: Unit[]) =>
   prismaClient.emissionFactor.findMany({ where: { importedFrom: Import.Manual, unit: { in: units } } })
 
-export const getManualEmissionFactorsByOrganization = (organizationId: string) =>
-  prismaClient.emissionFactor.findMany({
-    where: { importedFrom: Import.Manual, organizationId, status: EmissionFactorStatus.Valid },
-    select: selectEmissionFactor,
-  })
+export const getManualEmissionFactorsByOrganization = async (organizationId: string) =>
+  mapEmissionFactorsWithSubPosts(
+    await prismaClient.emissionFactor.findMany({
+      where: { importedFrom: Import.Manual, organizationId, status: EmissionFactorStatus.Valid },
+      select: selectEmissionFactor,
+    }),
+  )
 
 export const setEmissionFactorUnitAsCustom = async (id: string, unit: string) =>
   prismaClient.emissionFactor.update({ where: { id }, data: { unit: Unit.CUSTOM, customUnit: unit } })
@@ -614,7 +647,7 @@ export const findEmissionFactorsByNameAndUnit = (
   prismaClient.emissionFactor.findMany({
     where: {
       ...(unit ? { AND: [{ OR: [{ unit }, { customUnit: unit }] }] } : {}),
-      metaData: { some: { language: locale, title: { equals: title, mode: Prisma.QueryMode.insensitive } } },
+      metaData: { some: { language: locale, title: { equals: title } } },
       status: { not: EmissionFactorStatus.Archived },
       OR: getOrganizationAndImportedVersionsFilters(organizationId, versionIds),
     },

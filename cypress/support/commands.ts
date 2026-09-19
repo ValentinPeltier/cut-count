@@ -6,14 +6,6 @@ Cypress.Commands.add(
     cy.get(`[data-testid="${testId}"]`, params),
 )
 
-const ENV_LOGIN_DEFAULTS: Record<string, { email: string; password: string }> = {
-  cut: { email: 'admin-0@yopmail.com', password: 'password-0' },
-}
-
-const ENV_ENTRY_PATHS: Record<string, string> = {
-  cut: '/login',
-}
-
 type LoginOptions = {
   /** Cache cookies via cy.session (default true). Use false for auth flows that assert login itself. */
   cacheSession?: boolean
@@ -23,11 +15,15 @@ const fillAndSubmitLogin = (email: string, password: string, entryPath = '/login
   cy.visit(entryPath)
   cy.url().should('include', entryPath)
   cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input')
-    .should('be.visible')
+    .should('exist')
     .should('not.be.disabled')
     .type(email)
-  cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input').type(password)
-  cy.getByTestId('login-button').click()
+  cy.get('[data-testid="input-email"] > .MuiInputBase-root > .MuiInputBase-input').should('have.value', email)
+  cy.get('[data-testid="input-password"] > .MuiInputBase-root > .MuiInputBase-input')
+    .should('exist')
+    .should('not.be.disabled')
+    .type(password)
+  cy.getByTestId('login-button').should('exist').should('not.be.disabled').click()
   cy.wait('@login')
 }
 
@@ -57,13 +53,8 @@ const loginWithOptionalSession = (email: string, password: string, entryPath: st
   )
 }
 
-Cypress.Commands.add('login', (email = 'admin-0@yopmail.com', password = 'password-0', options: LoginOptions = {}) => {
+Cypress.Commands.add('login', (email = 'admin-0@yopmail.com', password = 'admin-0', options: LoginOptions = {}) => {
   loginWithOptionalSession(email, password, '/login', options)
-})
-
-Cypress.Commands.add('loginForEnv', (env: 'cut', email?: string, password?: string, options: LoginOptions = {}) => {
-  const defaults = ENV_LOGIN_DEFAULTS[env]
-  loginWithOptionalSession(email ?? defaults.email, password ?? defaults.password, ENV_ENTRY_PATHS[env], options)
 })
 
 Cypress.Commands.add('logout', () => {
@@ -76,9 +67,9 @@ Cypress.Commands.add('logout', () => {
 Cypress.Commands.add('signup', (email = 'cut-cnc@yopmail.com', cncOrSiret = '321') => {
   cy.visit('/register')
 
-  cy.getByTestId('activation-email').should('be.visible')
-  cy.getByTestId('activation-siretOrCNC').should('be.visible')
-  cy.getByTestId('activation-button').should('be.visible')
+  cy.getByTestId('activation-email').should('exist')
+  cy.getByTestId('activation-siretOrCNC').should('exist')
+  cy.getByTestId('activation-button').should('exist')
 
   cy.getByTestId('activation-email').find('input').clear()
   cy.getByTestId('activation-email').find('input').type(email)

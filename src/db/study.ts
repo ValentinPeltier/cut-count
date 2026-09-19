@@ -12,6 +12,27 @@ import { cache } from 'react'
 import { getAccountOrganizationVersions } from './account'
 import { prismaClient } from './client.server'
 
+const assertStudyEmissionFactorVersionsMatchImport = async (
+  entries: { source: Import; importVersionId: string }[],
+  client: Prisma.TransactionClient | typeof prismaClient = prismaClient,
+) => {
+  if (entries.length === 0) {
+    return
+  }
+
+  const versions = await client.emissionFactorImportVersion.findMany({
+    where: { id: { in: [...new Set(entries.map((entry) => entry.importVersionId))] } },
+    select: { id: true, source: true },
+  })
+  const sourceByVersionId = new Map(versions.map((version) => [version.id, version.source]))
+
+  for (const entry of entries) {
+    if (sourceByVersionId.get(entry.importVersionId) !== entry.source) {
+      throw new Error(`Import version ${entry.importVersionId} does not match source ${entry.source}`)
+    }
+  }
+}
+
 export const createStudy = async (
   data: Prisma.StudyCreateInput,
   shouldCreateFEVersions = true,
@@ -42,6 +63,7 @@ export const createStudy = async (
       source: importVersion.source,
       importVersionId: importVersion.id,
     }))
+    await assertStudyEmissionFactorVersionsMatchImport(studyEmissionFactorVersions, client)
     await client.studyEmissionFactorVersion.createMany({ data: studyEmissionFactorVersions })
   }
   return dbStudy
@@ -546,11 +568,18 @@ export const updateStudyEmissionFactorVersion = async (
   source: Import,
   importVersionId?: string,
   tx?: Prisma.TransactionClient,
-) =>
-  (tx ?? prismaClient).studyEmissionFactorVersion.update({
+) => {
+  const client = tx ?? prismaClient
+
+  if (importVersionId) {
+    await assertStudyEmissionFactorVersionsMatchImport([{ source, importVersionId }], client)
+  }
+
+  return client.studyEmissionFactorVersion.update({
     where: { studyId_source: { studyId, source } },
     data: { importVersionId },
   })
+}
 
 export const deleteStudy = async (id: string) => {
   return prismaClient.$transaction(async (transaction) => {
@@ -753,6 +782,10 @@ export const addSourceToStudy = async (source: Import, studyId: string) => {
   ])
 
   if (study && !!importVersion && (await isSourceForEnv()).includes(source)) {
+    if (importVersion.source !== source) {
+      throw new Error(`Import version ${importVersion.id} does not match source ${source}`)
+    }
+
     await prismaClient.studyEmissionFactorVersion.createMany({
       data: { studyId: study.id, source, importVersionId: importVersion.id },
       skipDuplicates: true,

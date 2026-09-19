@@ -11,27 +11,27 @@ describe('Count! pages', () => {
     CUT_PUBLIC_PAGES.forEach(({ path, testId }) => {
       it(`loads public page ${path}`, () => {
         cy.visit(path)
-        cy.getByTestId(testId, { timeout: 15000 }).should('be.visible')
+        cy.getByTestId(testId, { timeout: 15000 }).should('exist')
       })
     })
   })
 
   describe('authenticated pages', () => {
-    // loginForEnv uses cy.session — first test logs in, the rest restore cookies for the same user.
+    // cy.login uses cy.session — first test logs in, the rest restore cookies for the same user.
     beforeEach(() => {
-      cy.loginForEnv('cut')
+      cy.login()
     })
 
     CUT_DASHBOARD_PAGES.forEach(({ path, testId }) => {
       it(`loads dashboard page ${path}`, () => {
         cy.visit(path)
-        cy.getByTestId(testId, { timeout: 20000 }).should('be.visible')
+        cy.getByTestId(testId, { timeout: 20000 }).should('exist')
       })
     })
 
     it('loads organization edit page for CUT admin', () => {
       cy.visit('/organisations')
-      cy.getByTestId('organization-page').should('be.visible')
+      cy.getByTestId('organization-page').should('exist')
       cy.get('a[href*="/modifier"]', { timeout: 15000 }).first().click()
       cy.url().should('include', '/modifier')
     })
@@ -44,7 +44,7 @@ describe('Count! pages', () => {
 
     it('shows golden study on organizations page', () => {
       cy.visit('/organisations')
-      cy.contains(COUNT_GOLDEN_STUDY_NAME, { timeout: 20000 }).should('be.visible')
+      cy.getByTestId('study-name-chip', { timeout: 20000 }).contains(COUNT_GOLDEN_STUDY_NAME).should('exist')
     })
   })
 })

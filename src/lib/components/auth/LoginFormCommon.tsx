@@ -66,6 +66,7 @@ const LoginFormCommon = ({ errorMessageCustom, getResetLink, getActivationLink, 
           label={t('email')}
           placeholder={t('emailPlaceholder')}
           data-testid="input-email"
+          autoComplete="email"
           trim
         />
         <FormTextField
@@ -87,6 +88,7 @@ const LoginFormCommon = ({ errorMessageCustom, getResetLink, getActivationLink, 
           iconPosition="after"
           data-testid="input-password"
           type={showPassword ? 'text' : 'password'}
+          autoComplete="current-password"
           error={!!errorMessage}
         />
         <Link data-testid="reset-password-link" className={styles.link} href={getResetLink(email)} prefetch={false}>

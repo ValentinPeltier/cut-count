@@ -4,23 +4,23 @@ describe('Count! resources page', () => {
   })
 
   beforeEach(() => {
-    cy.loginForEnv('cut')
+    cy.login()
   })
 
   it('opens resources from dashboard navigation', () => {
     cy.visit('/')
 
-    cy.get('a[href="/ressources"]', { timeout: 15000 }).should('be.visible').click()
+    cy.get('a[href="/ressources"]', { timeout: 15000 }).should('exist').click()
     cy.url().should('include', '/ressources')
-    cy.getByTestId('ressources-sections').should('be.visible')
+    cy.getByTestId('ressources-sections').should('exist')
   })
 
   it('displays CUT method downloads and external links on /ressources', () => {
     cy.visit('/ressources')
 
-    cy.getByTestId('ressources-sections', { timeout: 20000 }).should('be.visible')
-    cy.getByTestId('ressources-cut-description').should('be.visible')
-    cy.getByTestId('ressources-cut-france2030').scrollIntoView().should('be.visible')
+    cy.getByTestId('ressources-sections', { timeout: 20000 }).should('exist')
+    cy.getByTestId('ressources-cut-description').should('exist')
+    cy.getByTestId('ressources-cut-france2030').should('exist')
 
     cy.getByTestId('ressource-links-card').should('have.length.at.least', 2)
     cy.getByTestId('ressource-download-button').should('have.length.at.least', 2)

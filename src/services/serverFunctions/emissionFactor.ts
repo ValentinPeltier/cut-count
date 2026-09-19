@@ -25,6 +25,7 @@ import type { IsSuccess } from '@/lib/utils/serverResponse'
 import { unitsMatrix } from '@/services/importEmissionFactor/historyUnits'
 import { FeFilters } from '@/types/filters'
 import { ManualEmissionFactorUnitList } from '@/utils/emissionFactors'
+import { emissionFactorSubPostsCreateInput } from '@/utils/emissionFactorSubPosts'
 import { hasActiveLicence } from '@/utils/organization'
 import { flattenSubposts } from '@/utils/post'
 import { withServerResponse } from '@/utils/serverResponse'
@@ -46,7 +47,7 @@ export const getFELocations = async () => {
       language: locale,
       location: { not: null },
       emissionFactor: {
-        subPosts: { isEmpty: false },
+        subPosts: { some: {} },
         OR: [
           { organizationId: session.user.organizationId },
           { AND: [{ versions: { some: { importVersion: { source: { not: Import.Manual } } } } }] },
@@ -207,7 +208,7 @@ export const createEmissionFactorCommand = async ({
         status: EmissionFactorStatus.Valid,
         organization: { connect: { id: account.organizationVersion?.organizationId } },
         unit,
-        subPosts: flattenSubposts(subPosts),
+        subPosts: emissionFactorSubPostsCreateInput(flattenSubposts(subPosts)),
         metaData: { create: { language: local, title: name, attribute, comment } },
       },
       parts,

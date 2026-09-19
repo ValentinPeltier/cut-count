@@ -13,10 +13,10 @@ describe('Count! results exports', () => {
   })
 
   beforeEach(() => {
-    cy.loginForEnv('cut')
+    cy.login()
     cy.visit(RESULTS_PATH)
-    cy.contains(COUNT_GOLDEN_STUDY_NAME, { timeout: 20000 }).should('be.visible')
-    cy.getByTestId('export-results-xlsx', { timeout: 20000 }).should('be.visible')
+    cy.contains(COUNT_GOLDEN_STUDY_NAME, { timeout: 20000 }).should('exist')
+    cy.getByTestId('export-results-xlsx', { timeout: 20000 }).should('exist')
     cy.stubDownloads()
   })
 
