@@ -2,38 +2,30 @@ import { getRessources } from '@/utils/ressources'
 
 import { Locale } from '@/lib/i18n/config'
 import { Translations } from '@/lib'
-import { getEnvVar } from '@/lib/environment'
 import { getLocale } from 'next-intl/server'
 
 jest.mock('next-intl/server', () => ({
   getLocale: jest.fn(),
 }))
 
-jest.mock('@/lib/environment', () => ({
-  getEnvVar: jest.fn(),
-}))
-
 const t = ((key: string) => key) as Translations
 
 describe('getRessources', () => {
+  const originalEnv = process.env
+
   beforeEach(() => {
     jest.clearAllMocks()
+    process.env = { ...originalEnv }
+  })
+
+  afterEach(() => {
+    process.env = originalEnv
   })
 
   test('CUT environment exposes method download keys used on /ressources', async () => {
     jest.mocked(getLocale).mockResolvedValue(Locale.FR)
-    jest.mocked(getEnvVar).mockImplementation(async (key) => {
-      if (key === 'CONTACT_FORM_URL') {
-        return 'https://contact.form'
-      }
-      if (key === 'FAQ_LINK') {
-        return 'https://faq.fr'
-      }
-      if (key === 'SUPPORT_EMAIL') {
-        return 'support@count.fr'
-      }
-      return ''
-    })
+    process.env.NEXT_PUBLIC_FAQ_LINK = 'https://faq.fr'
+    process.env.NEXT_PUBLIC_SUPPORT_EMAIL = 'support@count.fr'
 
     const resources = await getRessources(t)
     const methodsSection = resources.find((section) => section.title === 'countMethods')

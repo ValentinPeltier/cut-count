@@ -23,8 +23,8 @@ import { FormAutocomplete } from '../form/Autocomplete'
 import authStyles from './Auth.module.css'
 
 const SignUpFormCut = () => {
-  const contactMail = process.env.NEXT_PUBLIC_CUT_SUPPORT_EMAIL
-  const faq = process.env.NEXT_PUBLIC_CUT_FAQ_LINK
+  const contactMail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL
+  const faq = process.env.NEXT_PUBLIC_FAQ_LINK
 
   const t = useTranslations('signup')
   const tForm = useTranslations('login.form')

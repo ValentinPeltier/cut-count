@@ -1,11 +1,8 @@
 # dependencies
 node_modules/
 
-# env (track only .env*.dist)
+# env
 .env
-.env.*
-!.env.dist
-!.env.test.dist
 
 # Next.js
 .next/

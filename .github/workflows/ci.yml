@@ -1,9 +1,5 @@
 name: CI
-on:
-  pull_request:
-    types: [opened, synchronize]
-  push:
-    branches: [master, develop]
+on: pull_request
 permissions:
   contents: read
 jobs:
@@ -17,7 +13,7 @@ jobs:
           node-version: 26.9.0
           cache: 'yarn'
       - name: Copy .env
-        run: cp .env.dist .env
+        run: cp .env.example .env
       - name: Install dependencies
         run: yarn install --immutable --immutable-cache --check-cache
       - name: Generate prisma files
@@ -40,9 +36,7 @@ jobs:
           node-version: 26.9.0
           cache: 'yarn'
       - name: Copy .env
-        run: cp .env.dist .env
-      - name: Copy .env.test
-        run: cp .env.test.dist .env.test
+        run: cp .env.example .env
       - name: Install dependencies
         run: yarn install --immutable --immutable-cache --check-cache
       - name: Prebuild application
@@ -63,7 +57,7 @@ jobs:
           node-version: 26.9.0
           cache: 'yarn'
       - name: Copy .env
-        run: cp .env.dist .env
+        run: cp .env.example .env
       - name: Install dependencies
         run: yarn install --immutable --immutable-cache --check-cache
       - name: Prebuild application
@@ -118,9 +112,7 @@ jobs:
       - name: Run maildev
         run: docker run -d -p 1080:1080 -p 1025:1025 maildev/maildev
       - name: Copy .env
-        run: cp .env.dist .env
-      - name: Copy .env.test
-        run: cp .env.test.dist .env.test
+        run: cp .env.example .env
       - name: Install dependencies
         run: yarn install --immutable --immutable-cache --check-cache
       - name: Prebuild application
@@ -180,7 +172,7 @@ jobs:
       - name: Run maildev
         run: docker run -d -p 1080:1080 -p 1025:1025 maildev/maildev
       - name: Copy .env
-        run: cp .env.dist .env
+        run: cp .env.example .env
       - name: Install dependencies
         run: yarn install --immutable --immutable-cache --check-cache
       - name: Prebuild application

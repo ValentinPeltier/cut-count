@@ -9,7 +9,7 @@ import Link from 'next/link'
 const LoginForm = () => {
   'use memo'
 
-  const support = process.env.NEXT_PUBLIC_CUT_SUPPORT_EMAIL
+  const support = process.env.NEXT_PUBLIC_SUPPORT_EMAIL
   const t = useTranslations('login.form')
 
   const getResetLink = (email: string) => getEnvRoute(`reset-password?email=${email}`)

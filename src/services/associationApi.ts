@@ -7,9 +7,9 @@ export const getValidAssociationNameBySiret = async (siret: string): Promise<str
   }
 
   try {
-    const result = await axios.get(`${process.env.INSEE_SERVICE_URL}/${trimmedSiret}`, {
+    const result = await axios.get(`${process.env.INSEE_SIRENE_API_URL}/${trimmedSiret}`, {
       headers: {
-        'X-INSEE-Api-Key-Integration': process.env.INSEE_API_SECRET,
+        'X-INSEE-Api-Key-Integration': process.env.INSEE_SIRENE_API_SECRET,
       },
     })
 
@@ -55,9 +55,9 @@ export const getCompanyName = async (siret: string) => {
     return null
   }
 
-  const result = await axios.get(`${process.env.INSEE_SERVICE_URL}/${trimmedSiret}`, {
+  const result = await axios.get(`${process.env.INSEE_SIRENE_API_URL}/${trimmedSiret}`, {
     headers: {
-      'X-INSEE-Api-Key-Integration': process.env.INSEE_API_SECRET,
+      'X-INSEE-Api-Key-Integration': process.env.INSEE_SIRENE_API_SECRET,
     },
   })
 

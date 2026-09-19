@@ -23,7 +23,7 @@ type userAndAccountsAndOrganizationVersion = {
 }
 
 const adapter = new PrismaPg({
-  connectionString: process.env.POSTGRES_PRISMA_URL,
+  connectionString: process.env.DATABASE_URL,
 })
 
 const prisma = new PrismaClient({
@@ -410,36 +410,36 @@ const users = async () => {
       return { user, accounts: [{ account, organizationVersion }] }
     }),
     ...Object.keys(Role).flatMap((role) => [
-        ...Array.from({ length: 2 }).map(async (_, index) => {
-          const user = await prisma.user.create({
-            data: {
-              email: `cut-env-${role.toLocaleLowerCase()}-${index}@yopmail.com`,
-              firstName: faker.person.firstName(),
-              lastName: faker.person.lastName(),
-              password: await signPassword(`password-${index}`),
-              level: levels[index % levels.length] as Level,
-            },
-          })
+      ...Array.from({ length: 2 }).map(async (_, index) => {
+        const user = await prisma.user.create({
+          data: {
+            email: `cut-env-${role.toLocaleLowerCase()}-${index}@yopmail.com`,
+            firstName: faker.person.firstName(),
+            lastName: faker.person.lastName(),
+            password: await signPassword(`password-${index}`),
+            level: levels[index % levels.length] as Level,
+          },
+        })
 
-          const account = await prisma.account.create({
-            data: {
-              organizationVersionId: cutOrganizationVersions[index % cutOrganizationVersions.length].id,
-              role: getRolesFromEnvironment(role as Role),
-              userId: user.id,
-              status: UserStatus.ACTIVE,
-            },
-          })
-          if (!account.organizationVersionId) {
-            return { user, accounts: [{ account, organizationVersion: { organizationId: null } }] }
-          }
-          const organizationVersion = await prisma.organizationVersion.findFirst({
-            where: { id: account.organizationVersionId },
-          })
-          if (!organizationVersion) {
-            return { user, accounts: [{ account, organizationVersion: { organizationId: null } }] }
-          }
-          return { user, accounts: [{ account, organizationVersion }] }
-        }),
+        const account = await prisma.account.create({
+          data: {
+            organizationVersionId: cutOrganizationVersions[index % cutOrganizationVersions.length].id,
+            role: getRolesFromEnvironment(role as Role),
+            userId: user.id,
+            status: UserStatus.ACTIVE,
+          },
+        })
+        if (!account.organizationVersionId) {
+          return { user, accounts: [{ account, organizationVersion: { organizationId: null } }] }
+        }
+        const organizationVersion = await prisma.organizationVersion.findFirst({
+          where: { id: account.organizationVersionId },
+        })
+        if (!organizationVersion) {
+          return { user, accounts: [{ account, organizationVersion: { organizationId: null } }] }
+        }
+        return { user, accounts: [{ account, organizationVersion }] }
+      }),
       ...Array.from({ length: 2 }).map(async (_, index) => {
         const user = await prisma.user.create({
           data: {

@@ -289,8 +289,8 @@ const PDFSummary = ({ study }: Props) => {
                     se faire former
                   </a>{' '}
                   à la méthode, ou par nous contacter à l'adresse{' '}
-                  <a href={`mailto:${process.env.NEXT_PUBLIC_CUT_SUPPORT_EMAIL ?? ''}`}>
-                    {process.env.NEXT_PUBLIC_CUT_SUPPORT_EMAIL ?? ''}
+                  <a href={`mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? ''}`}>
+                    {process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? ''}
                   </a>
                   , ou par se faire accompagner par un{' '}
                   <a href={process.env.NEXT_PUBLIC_ACTORS_URL ?? ''} target="_blank">

@@ -7,9 +7,9 @@ type CustomRichParams = {
 }
 
 export const customRich = (t: Translations, key: string, params: CustomRichParams = {}) => {
-  const faq = process.env.NEXT_PUBLIC_CUT_FAQ_LINK
-  const support = process.env.NEXT_PUBLIC_CUT_SUPPORT_EMAIL
-  const abc = process.env.NEXT_PUBLIC_CUT_ABC_SITE
+  const faq = process.env.NEXT_PUBLIC_FAQ_LINK
+  const support = process.env.NEXT_PUBLIC_SUPPORT_EMAIL
+  const abc = process.env.NEXT_PUBLIC_ABC_SITE
 
   return t.rich(key, {
     error: (children) => <span className="error">{children}</span>,

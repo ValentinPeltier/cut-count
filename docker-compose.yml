@@ -33,5 +33,5 @@ services:
     image: maildev/maildev
     container_name: count-maildev
     ports:
-      - '1080:1080'
-      - '1025:1025'
+      - '1080:1080' # Web UI
+      - '1025:1025' # SMTP server

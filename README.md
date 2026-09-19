@@ -23,8 +23,7 @@ Cinema carbon-footprint app for Association Bilan Carbone. Single Next.js 16 app
 
 ```bash
 yarn install
-cp .env.dist .env
-cp .env.test.dist .env.test
+cp .env.example .env
 docker-compose up -d
 yarn prisma migrate deploy
 yarn seed
@@ -66,7 +65,7 @@ See `src/scripts/` for additional importers.
 
 ## Tests
 
-`.env.test` is an overlay on `.env`: only the test DB (Postgres 5433), `NODE_ENV`, and ports 3001. Copy both dist files first (`cp .env.dist .env` and `cp .env.test.dist .env.test`).
+`.env.test` is tracked and overlays `.env`: test DB (Postgres 5433), `NODE_ENV`, and ports 3001. Copy `.env.example` → `.env` first.
 
 ```bash
 yarn db:test:reset          # reset + seed the test database

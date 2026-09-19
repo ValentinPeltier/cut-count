@@ -1,16 +1,12 @@
 import { Translations } from '@/lib'
-import { getEnvVar } from '@/lib/environment'
 import { Locale } from '@/lib/i18n/config'
 import { getLocale } from 'next-intl/server'
 
 export const getRessources = async (t: Translations) => {
   const locale = await getLocale()
 
-  const contactForm = await getEnvVar('CONTACT_FORM_URL')
-
-  const faq = await getEnvVar('FAQ_LINK')
-
-  const supportEmail = await getEnvVar('SUPPORT_EMAIL')
+  const faq = process.env.NEXT_PUBLIC_FAQ_LINK ?? ''
+  const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? ''
 
   const methodUrl =
     locale === Locale.FR
@@ -24,7 +20,7 @@ export const getRessources = async (t: Translations) => {
         { title: t('openCarbonPractice'), link: 'https://www.opencarbonpractice.com/rejoindre-la-communaute' },
         {
           title: t('contacterViaFormulaire', { supportEmail }),
-          link: contactForm,
+          link: `mailto:${supportEmail}`,
           isTranslated: true,
         },
       ],

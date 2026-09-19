@@ -1,6 +1,5 @@
 import type { Level, Prisma } from '@/generated/prisma/client'
 import { Import, StudyRole } from '@/generated/prisma/enums'
-import { getEnvVar } from '@/lib/environment'
 import { isSourceForEnv } from '@/services/importEmissionFactor/import'
 import { filterAllowedStudies } from '@/services/permissions/study'
 import { ChangeStudyCinemaCommand } from '@/services/serverFunctions/study.command'
@@ -152,14 +151,14 @@ const normalizeAllowedUsers = (
     return organizationVersionId && allowedUser.account.organizationVersionId === organizationVersionId
       ? { ...allowedUser, account: { ...allowedUser.account, readerOnly } }
       : {
-          ...allowedUser,
-          account: {
-            ...allowedUser.account,
-            organizationVersionId: undefined,
-            level: undefined,
-            readerOnly,
-          },
-        }
+        ...allowedUser,
+        account: {
+          ...allowedUser.account,
+          organizationVersionId: undefined,
+          level: undefined,
+          readerOnly,
+        },
+      }
   })
 
 export const getOrganizationVersionStudiesOrderedByStartDate = async (
@@ -247,15 +246,15 @@ export const getAllowedStudyIdByAccount = async (account: UserSession) => {
         { allowedUsers: { some: { accountId: account.id, role: { notIn: [StudyRole.Reader] } } } },
         ...(isAllowedOnPublicStudies
           ? [
-              {
-                AND: [
-                  { organizationVersionId: { in: organizationVersionIds } },
-                  ...(isAdmin(account.role)
-                    ? []
-                    : [{ isPublic: true, level: { in: getAllowedLevels(account.level) } }]),
-                ],
-              },
-            ]
+            {
+              AND: [
+                { organizationVersionId: { in: organizationVersionIds } },
+                ...(isAdmin(account.role)
+                  ? []
+                  : [{ isPublic: true, level: { in: getAllowedLevels(account.level) } }]),
+              ],
+            },
+          ]
           : []),
       ],
     },
@@ -295,17 +294,17 @@ export const getAllowedStudiesByUserAndOrganization = async (
       ...(isAdminOnOrga(user, organizationVersion)
         ? {}
         : {
-            OR: [
-              { allowedUsers: { some: { accountId: user.accountId } } },
-              { isPublic: true, organizationVersionId: user.organizationVersionId as string },
-              {
-                isPublic: true,
-                organizationVersionId: {
-                  in: childOrganizations.map((childOrganization) => childOrganization.id),
-                },
+          OR: [
+            { allowedUsers: { some: { accountId: user.accountId } } },
+            { isPublic: true, organizationVersionId: user.organizationVersionId as string },
+            {
+              isPublic: true,
+              organizationVersionId: {
+                in: childOrganizations.map((childOrganization) => childOrganization.id),
               },
-            ],
-          }),
+            },
+          ],
+        }),
     },
   })
   return filterAllowedStudies(user, studies)
@@ -635,8 +634,8 @@ export const getStudiesSitesFromIds = async (siteIds: string[]) =>
   })
 
 export const getSourceCutImportVersionIds = async () => {
-  const cutFeLegifrance = (await getEnvVar('FE_LEGIFRANCE_VERSION')) || ''
-  const cutFeBaseEmpreinte = (await getEnvVar('FE_BASE_EMPREINTE_VERSION')) || ''
+  const cutFeLegifrance = process.env.EF_LEGIFRANCE_VERSION || ''
+  const cutFeBaseEmpreinte = process.env.EF_BASE_EMPREINTE_VERSION || ''
   return prismaClient.emissionFactorImportVersion.findMany({
     select: { id: true, source: true },
     where: {

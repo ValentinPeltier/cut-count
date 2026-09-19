@@ -6,7 +6,7 @@ import { writeFileSync } from 'fs'
 // One shot script to get all FE with fabrication part
 
 const adapter = new PrismaPg({
-  connectionString: process.env.POSTGRES_PRISMA_URL,
+  connectionString: process.env.DATABASE_URL,
   ssl: { rejectUnauthorized: false },
 })
 

@@ -1,12 +1,10 @@
 
 import Block from '@/lib/components/base/Block'
-import { getEnvVar } from '@/lib/environment'
 import { getTranslations } from 'next-intl/server'
 import Link from 'next/link'
 import styles from './styles.module.css'
 
 const LegalNotices = async () => {
-  const contactMail = await getEnvVar('CONTACT_EMAIL')
   const t = await getTranslations('legalNotices')
   return (
     <Block>
@@ -25,12 +23,7 @@ const LegalNotices = async () => {
           <span>{t('publisher.siret')}</span>
           <span>{t('publisher.office')}</span>
           <span>{t('publisher.phone')}</span>
-          <span>
-            {t('publisher.mail')}{' '}
-            <a data-testid="contact-mail" href={`mailto:${contactMail}`}>
-              {contactMail}
-            </a>
-          </span>
+          <span>{t('publisher.mail')}</span>
           <span>{t('publisher.vat')}</span>
         </p>
 

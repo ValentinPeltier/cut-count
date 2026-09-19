@@ -1,4 +1,3 @@
-import { getEnvVar } from '@/lib/environment'
 import ejs from 'ejs'
 import fs from 'fs'
 import { getTranslations } from 'next-intl/server'
@@ -25,9 +24,9 @@ export const sendEmail = async (
     throw new Error('No recipient')
   }
 
-  const faq = await getEnvVar('FAQ_LINK')
-  const support = await getEnvVar('SUPPORT_EMAIL')
-  const from = await getEnvVar('MAIL_USER')
+  const faq = process.env.NEXT_PUBLIC_FAQ_LINK ?? ''
+  const support = process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? ''
+  const from = process.env.MAIL_USER
 
   const t = await getTranslations('email.body')
 

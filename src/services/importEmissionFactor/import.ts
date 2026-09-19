@@ -2,7 +2,6 @@ import { KG_CO2E_PREFIX } from '@/constants/import'
 import type { Prisma } from '@/generated/prisma/client'
 import { EmissionFactorBase, EmissionFactorPartType, EmissionFactorStatus, Import, SubPost, Unit } from '@/generated/prisma/enums'
 import { getSourceLatestImportVersionId } from '@/db/study'
-import { getEnvVar } from '@/lib/environment'
 import { serializeSimpleCsvRecord } from '@/lib/utils/csv'
 import { isMonetaryEmissionFactor } from '@/utils/emissionFactors'
 import { unitsMatrix } from './historyUnits'
@@ -148,7 +147,7 @@ export const mergeRowWithOverride = (
     if (normalizeValue(overrideVal) !== normalizeValue(oldVal)) {
       const key = col as keyof ImportEmissionFactor
       if (key in merged) {
-        ;(merged[key] as string | number) = numberColumns.includes(key) ? Number(overrideVal) : overrideVal
+        ; (merged[key] as string | number) = numberColumns.includes(key) ? Number(overrideVal) : overrideVal
       }
     }
   }
@@ -741,7 +740,7 @@ export const addSourceToStudies = async (source: Import, transaction: Prisma.Tra
 }
 
 export const isSourceForEnv = async (): Promise<Import[]> => {
-  const envVar = await getEnvVar('FE_SOURCES_IMPORT')
+  const envVar = process.env.EF_SOURCES_IMPORT
 
   if (!envVar) {
     return []

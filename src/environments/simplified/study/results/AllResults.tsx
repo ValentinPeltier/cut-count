@@ -143,7 +143,7 @@ const AllResults = ({
               </Link>
             ),
             email: (children) => (
-              <Link href={`mailto:${process.env.NEXT_PUBLIC_CUT_SUPPORT_EMAIL ?? ''}`} target="_blank">
+              <Link href={`mailto:${process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? ''}`} target="_blank">
                 <strong>{children}</strong>
               </Link>
             ),
