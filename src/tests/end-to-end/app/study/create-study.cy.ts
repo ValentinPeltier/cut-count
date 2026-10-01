@@ -77,10 +77,12 @@ describe('Count! create study', () => {
       cy.contains(STUDY_NAME, { timeout: 20000 }).should('exist')
 
       cy.visit(`/etudes/${studyId}/cadrage`)
-      cy.intercept({ method: 'POST', url: '**/etudes/**/cadrage**' }).as('updateCinema')
+      cy.intercept({ method: 'POST', url: '**/etudes/**/cadrage**' }).as('cadragePost')
       cy.getByTestId('new-study-number-of-tickets', { timeout: 20000 }).should('exist')
+      // Opening hours auto-save runs once the form is ready; drain it before editing tickets.
+      cy.wait('@cadragePost', { timeout: 15000 })
       cy.getByTestId('new-study-number-of-tickets').find('input').clear().type(TICKETS).blur()
-      cy.wait('@updateCinema', { timeout: 15000 })
+      cy.wait('@cadragePost', { timeout: 15000 })
 
       cy.reload()
 

@@ -367,16 +367,12 @@ const users = async () => {
     }),
   )
 
-  if (cncRecord) {
-    const e2eJoinOrganizationSite = sites.find(
-      (site) => site.organizationId === regularOrganizationVersions[0]?.organizationId,
-    )
-    if (e2eJoinOrganizationSite) {
-      await prisma.site.update({
-        where: { id: e2eJoinOrganizationSite.id },
-        data: { cncId: cncRecord.id },
-      })
-    }
+  if (cncRecord && regularOrganizationVersions[0]) {
+    // Every site on the default CUT org must have CNC data so e2e can pick any site when creating a study.
+    await prisma.site.updateMany({
+      where: { organizationId: regularOrganizationVersions[0].organizationId },
+      data: { cncId: cncRecord.id },
+    })
   }
 
   const levels = Object.keys(Level)
