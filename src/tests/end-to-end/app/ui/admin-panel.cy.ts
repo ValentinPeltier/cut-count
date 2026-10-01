@@ -1,3 +1,5 @@
+import { expect } from 'chai'
+
 describe('Admin panel', () => {
   before(() => {
     cy.resetTestDatabase()
@@ -42,6 +44,19 @@ describe('Admin panel', () => {
       cy.url().should('include', '/administration')
       cy.getByTestId('admin-panel-page', { timeout: 15000 }).should('exist')
       cy.contains('h1', "Panneau d'administration").should('exist')
+    })
+
+    it('exports study data as an xlsx file', () => {
+      cy.visit('/administration')
+      cy.getByTestId('admin-panel-page', { timeout: 15000 }).should('exist')
+      cy.stubDownloads()
+
+      cy.getByTestId('admin-studies-export-xlsx').click()
+
+      cy.waitForDownload('xlsx').then((download) => {
+        expect(download.fileName).to.eq('export-count.xlsx')
+        expect(Array.from(download.bytes.slice(0, 2))).to.deep.equal([0x50, 0x4b])
+      })
     })
   })
 })

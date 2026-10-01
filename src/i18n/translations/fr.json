@@ -697,7 +697,10 @@
     "version": "Version du BC+ : "
   },
   "adminPanel": {
-    "title": "Panneau d'administration"
+    "title": "Panneau d'administration",
+    "exportStudies": "Exporter les études",
+    "exportStudiesLoading": "Export en cours",
+    "exportStudiesFilename": "export-count.xlsx"
   },
   "settings": {
     "title": "Mes paramètres d'application",

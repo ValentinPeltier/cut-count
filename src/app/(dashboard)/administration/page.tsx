@@ -1,3 +1,4 @@
+import AdminStudiesExportButton from '@/components/admin/AdminStudiesExportButton'
 import withAuth, { UserSessionProps } from '@/components/hoc/withAuth'
 import Block from '@/lib/components/base/Block'
 import { isSuperAdmin } from '@/utils/user'
@@ -11,7 +12,11 @@ const Administration = ({ user }: UserSessionProps) => {
 
   const t = useTranslations('adminPanel')
 
-  return <Block title={t('title')} as="h1" data-testid="admin-panel-page" />
+  return (
+    <Block title={t('title')} as="h1" data-testid="admin-panel-page">
+      <AdminStudiesExportButton />
+    </Block>
+  )
 }
 
 export default withAuth(Administration)
