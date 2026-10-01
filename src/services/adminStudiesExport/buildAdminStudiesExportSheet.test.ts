@@ -44,12 +44,7 @@ describe('buildAdminStudiesExportSheet', () => {
 
     expect(data[0]).toEqual(['', 'Count golden cinema'])
     expect(data.map((row) => row[0])).toEqual(
-      expect.arrayContaining([
-        'Données générales',
-        "Données d'entrée",
-        'Adresse mail',
-        "Données d'impact (en tCO2)",
-      ]),
+      expect.arrayContaining(['Données générales', "Données d'entrée", 'Adresse mail', "Données d'impact (en tCO2)"]),
     )
     expect(data.some((row) => row[0] === 'Par ensemble (en tCO2)')).toBe(false)
     expect(data.some((row) => row.includes('CHEMIN') || row.includes('DONNEES SOUHAITEES'))).toBe(false)

@@ -20,7 +20,6 @@
     "lint:fix": "prettier --write . && eslint --fix .",
     "test": "yarn test:unit && yarn test:rules && yarn test:e2e",
     "test:unit": "dotenv -e .env.test -e .env -- jest",
-    "test:unit:watch": "dotenv -e .env.test -e .env -- jest --watch",
     "test:rules": "yarn rules:compile && cd src/publicodes/rules && vitest run --reporter=tree --config vitest.config.ts",
     "test:e2e": "start-server-and-test 'yarn dev:test' http://127.0.0.1:3001 'yarn test:e2e:run'",
     "test:e2e:gui": "start-server-and-test 'yarn dev:test' http://127.0.0.1:3001 'yarn test:e2e:open'",

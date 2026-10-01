@@ -7,8 +7,8 @@ import AppBar from '@/lib/ui/navbar/AppBar'
 import NavbarButton from '@/lib/ui/navbar/NavbarButton'
 import NavbarLink from '@/lib/ui/navbar/NavbarLink'
 import { isSuperAdmin } from '@/utils/user'
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
 import { Box, Container, Toolbar } from '@mui/material'
@@ -37,11 +37,7 @@ const Navbar = ({ user }: Props) => {
             <Box>
               <div className="h100 align-center">
                 {isSuperAdmin(user.role) && (
-                  <NavbarButton
-                    href="/administration"
-                    aria-label={t('adminPanel')}
-                    data-testid="admin-panel-link"
-                  >
+                  <NavbarButton href="/administration" aria-label={t('adminPanel')} data-testid="admin-panel-link">
                     <AdminPanelSettingsIcon />
                   </NavbarButton>
                 )}

@@ -2,14 +2,7 @@ import { Role, UserStatus } from '@/generated/prisma/enums'
 import { CutRoles } from '@/services/roles'
 import { getMockedAuthUser } from '@/tests/utils/models/user'
 import { expect } from '@jest/globals'
-import {
-  canEditMemberRole,
-  findUserInfo,
-  getRoleToSetForUntrained,
-  getTeamRoles,
-  isAdmin,
-  isSuperAdmin,
-} from './user'
+import { canEditMemberRole, findUserInfo, getRoleToSetForUntrained, getTeamRoles, isAdmin, isSuperAdmin } from './user'
 
 describe('userUtils functions', () => {
   describe('isAdmin', () => {

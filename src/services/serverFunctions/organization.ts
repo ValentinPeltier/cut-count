@@ -17,11 +17,12 @@ import {
 } from '@/db/organization'
 import { deleteStudyMemberFromOrganization, getAllowedStudiesByAccountIdAndOrganizationId } from '@/db/study'
 import { getUserApplicationSettings, getUserByEmail, updateAccount } from '@/db/user'
-import type { Account, User } from '@/generated/prisma/client'
+import type { Account } from '@/generated/prisma/client'
 import { StudyRole } from '@/generated/prisma/enums'
 import { getLocale } from '@/i18n/locale'
 import { NOT_AUTHORIZED } from '@/lib/services/permissions/check'
 import { AddMemberCommand } from '@/lib/services/serverFunctions/user.command'
+import type { AssignableOrganizationRole } from '@/services/roles'
 import { uniqueByKey } from '@/utils/array'
 import { CA_UNIT_VALUES, defaultCAUnit } from '@/utils/number'
 import { withServerResponse } from '@/utils/serverResponse'
@@ -148,8 +149,9 @@ export const onboardOrganizationVersionCommand = async (command: OnboardingComma
       let collaborators: AddMemberCommand[] = []
       if (command.collaborators && command.collaborators?.length > 0) {
         const fileredCollaborators = uniqueByKey(command.collaborators, 'email').filter(
-          (collaborator) => !!collaborator.email && !!collaborator.role,
-        ) as { email: User['email']; role: Account['role'] }[]
+          (collaborator): collaborator is { email: string; role: AssignableOrganizationRole } =>
+            !!collaborator.email && !!collaborator.role,
+        )
 
         collaborators = fileredCollaborators.map((collaborator) => ({
           ...collaborator,

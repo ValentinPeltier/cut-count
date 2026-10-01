@@ -1,8 +1,8 @@
 import type { Prisma } from '@/generated/prisma/client'
 import { Role, UserStatus } from '@/generated/prisma/enums'
 import { canBeUntrainedRole } from '@/lib/utils/user'
-import { AccountWithUser } from '@/types/account.types'
 import { isAssignableOrganizationRole } from '@/services/roles'
+import { AccountWithUser } from '@/types/account.types'
 import { canEditMemberRole } from '@/utils/user'
 import { UserSession } from 'next-auth'
 
