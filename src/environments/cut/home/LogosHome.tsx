@@ -6,9 +6,9 @@ import { Box } from '@mui/material'
 import styles from './LogosHome.module.css'
 
 const logos = [
-  { src: '/logos/cut/Republique_francaise.png', alt: 'Logo de la république française', priority: true },
+  { src: '/img/Republique_francaise.png', alt: 'Logo de la république française', priority: true },
   {
-    src: '/logos/cut/Banques_des_territoires.svg',
+    src: '/img/Banques_des_territoires.svg',
     alt: 'Logo du groupe la caisse des dépots',
     priority: true,
   },

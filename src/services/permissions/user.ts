@@ -2,6 +2,7 @@ import type { Prisma } from '@/generated/prisma/client'
 import { Role, UserStatus } from '@/generated/prisma/enums'
 import { canBeUntrainedRole } from '@/lib/utils/user'
 import { AccountWithUser } from '@/types/account.types'
+import { isAssignableOrganizationRole } from '@/services/roles'
 import { canEditMemberRole } from '@/utils/user'
 import { UserSession } from 'next-auth'
 
@@ -23,6 +24,11 @@ export const canAddMember = (
   if (organizationVersionId !== user.organizationVersionId) {
     return false
   }
+
+  if (!isAssignableOrganizationRole(_member.role)) {
+    return false
+  }
+
   return true
 }
 
@@ -64,6 +70,10 @@ export const canChangeRole = (user: UserSession, member: AccountWithUser | null,
   }
 
   if (!member.user.level && !canBeUntrainedRole(newRole)) {
+    return false
+  }
+
+  if (!isAssignableOrganizationRole(newRole) || member.role === Role.SUPER_ADMIN) {
     return false
   }
 

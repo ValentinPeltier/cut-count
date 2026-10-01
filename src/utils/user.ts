@@ -4,7 +4,10 @@ import { Role, UserStatus } from '@/generated/prisma/enums'
 import { CutRoles } from '@/services/roles'
 import { UserSession } from 'next-auth'
 
-export const isAdmin = (userRole: Role): boolean => userRole === Role.ADMIN
+export const isAdmin = (userRole: Role): boolean =>
+  userRole === Role.ADMIN || userRole === Role.SUPER_ADMIN
+
+export const isSuperAdmin = (userRole: Role): boolean => userRole === Role.SUPER_ADMIN
 
 export const findUserInfo = (user: UserSession) =>
   ({

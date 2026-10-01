@@ -58,6 +58,7 @@
     "team": "Mes Collaborateur·rices",
     "help": "Aide",
     "profile": "Profil",
+    "adminPanel": "Panneau d'administration",
     "organizations": "Mes Empreintes",
     "information": "Mes Cinémas",
     "selectAccount": "Sélection du compte"
@@ -541,7 +542,6 @@
       "firstName": "Prénom",
       "lastName": "Nom",
       "email": "Email",
-      "level": "Formation",
       "role": "Rôle",
       "action": " ",
       "deleteMember": "Supprimer le·a membre",
@@ -557,6 +557,7 @@
     "noLevel": "Non formé·e"
   },
   "role": {
+    "SUPER_ADMIN": "Super administrateur·rice",
     "ADMIN": "Administrateur·rice",
     "ADMIN_description": "Un administrateur·rice possède tous les droits sur le compte de l'organisation ainsi que sur l'ensemble des études pour son organisation (qu'elles soient partagées à l'équipe ou confidentielles).",
     "guide": "Guide des rôles",
@@ -694,6 +695,12 @@
     "update": "Mettre à jour",
     "updating": "Mise à jour",
     "version": "Version du BC+ : "
+  },
+  "adminPanel": {
+    "title": "Panneau d'administration",
+    "exportStudies": "Exporter les études",
+    "exportStudiesLoading": "Export en cours",
+    "exportStudiesFilename": "export-count.xlsx"
   },
   "settings": {
     "title": "Mes paramètres d'application",

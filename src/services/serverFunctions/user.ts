@@ -56,7 +56,7 @@ import { AddMemberCommand } from '@/lib/services/serverFunctions/user.command'
 import { DAY, HOUR, TIME_IN_MS } from '@/lib/utils/time'
 import { AccountWithUser } from '@/types/account.types'
 import { withServerResponse } from '@/utils/serverResponse'
-import { getRoleToSetForUntrained } from '@/utils/user'
+import { getRoleToSetForUntrained, isAdmin } from '@/utils/user'
 import { accountWithUserToUserSession, userSessionToDbUser } from '@/utils/userAccounts'
 import jwt from 'jsonwebtoken'
 import { UserSession } from 'next-auth'
@@ -314,7 +314,7 @@ export const activateEmail = async (email: string, fromReset: boolean = false) =
     ) {
       const accounts = await getAccountFromUserOrganization(accountWithUserToUserSession(account))
       await sendActivationRequest(
-        accounts.filter((a) => a.role === Role.ADMIN && a.status == UserStatus.ACTIVE).map((a) => a.user.email),
+        accounts.filter((a) => isAdmin(a.role) && a.status == UserStatus.ACTIVE).map((a) => a.user.email),
         email.toLowerCase(),
         `${user.firstName} ${user.lastName}`,
       )
@@ -519,7 +519,7 @@ export const signUpWithSiretOrCNC = async (email: string, siretOrCNC: string) =>
       const accounts = await getAccountFromUserOrganization(accountWithUserToUserSession(createdAccount))
 
       await sendActivationRequest(
-        accounts.filter((a) => a.role === Role.ADMIN).map((a) => a.user.email),
+        accounts.filter((a) => isAdmin(a.role)).map((a) => a.user.email),
         trimmedEmail,
         `${user.firstName} ${user.lastName}`,
       )

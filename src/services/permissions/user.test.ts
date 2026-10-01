@@ -80,6 +80,12 @@ describe('User permission functions', () => {
       expect(result).toBe(true)
       expect(mockCanEditMemberRole).toHaveBeenCalledTimes(1)
     })
+
+    it('returns false when role is SUPER_ADMIN', () => {
+      mockCanEditMemberRole.mockReturnValue(true)
+      const result = canAddMember(adminUser, { role: Role.SUPER_ADMIN }, mockedOrganizationVersionId)
+      expect(result).toBe(false)
+    })
   })
 
   describe('canDeleteMember', () => {
@@ -193,6 +199,24 @@ describe('User permission functions', () => {
       const trainedResult = canChangeRole(adminUser, getMockedDbAccount() as AccountWithUser, Role.ADMIN)
       expect(trainedResult).toBe(true)
       expect(mockCanEditMemberRole).toHaveBeenCalledTimes(2)
+    })
+
+    it('returns false when assigning SUPER_ADMIN', () => {
+      mockCanEditMemberRole.mockReturnValue(true)
+      mockCanBeUntrainedRole.mockReturnValue(true)
+      const result = canChangeRole(adminUser, getMockedDbAccount() as AccountWithUser, Role.SUPER_ADMIN)
+      expect(result).toBe(false)
+    })
+
+    it('returns false when member is SUPER_ADMIN', () => {
+      mockCanEditMemberRole.mockReturnValue(true)
+      mockCanBeUntrainedRole.mockReturnValue(true)
+      const result = canChangeRole(
+        adminUser,
+        getMockedDbAccount({ role: Role.SUPER_ADMIN }) as AccountWithUser,
+        Role.ADMIN,
+      )
+      expect(result).toBe(false)
     })
   })
 })

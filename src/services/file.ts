@@ -12,16 +12,6 @@ export const download = (fileContent: string[] | ArrayBuffer[], fileName: string
   downloadFile(fileContent, fileName, fileType)
 }
 
-export const downloadFromUrl = (url: string, fileName: string) => {
-  const proxyUrl = `/api/download?url=${encodeURIComponent(url)}&fileName=${encodeURIComponent(fileName)}`
-  const a = document.createElement('a')
-  a.href = proxyUrl
-  a.download = fileName
-  document.body.appendChild(a)
-  a.click()
-  document.body.removeChild(a)
-}
-
 export const isAllowedFileType = async (file: File, allowedTypes: string[]) => {
   const fileType = (await fileTypeFromBlob(file))?.mime
   return fileType && allowedTypes.includes(fileType)

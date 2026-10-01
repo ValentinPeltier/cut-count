@@ -9,6 +9,7 @@ import { TableActionButton } from '@/lib/components/base/TableActionButton'
 import Modal from '@/lib/components/modals/Modal'
 import { ApiResponse } from '@/lib/utils/serverResponse'
 import { RoleBcOrMip } from '@/lib/utils/types'
+import { isAssignableOrganizationRole } from '@/services/roles'
 import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { useTranslations } from 'next-intl'
 import { useCallback, useMemo, useState } from 'react'
@@ -22,7 +23,6 @@ export type TeamMemberCommon = {
     lastName: string
     level: Level | null
   }
-  formationName?: string | null
   role: RoleBcOrMip
   updatedAt: Date
 }
@@ -67,7 +67,6 @@ const TeamTableCommon = ({
 }: Props) => {
   const t = useTranslations('team.table')
   const tAction = useTranslations('common.action')
-  const tLevel = useTranslations('level')
   const tRole = useTranslations('role')
   const [displayRoles, setDisplayRoles] = useState(false)
 
@@ -82,16 +81,13 @@ const TeamTableCommon = ({
     ]
 
     col.push({
-      header: t('level'),
-      accessorFn: (member: TeamMemberCommon) =>
-        member.formationName ? member.formationName : tLevel(member.user.level ? member.user.level : 'noLevel'),
-    })
-
-    col.push({
       header: t('role'),
       accessorKey: 'role',
       cell: ({ getValue, row }) => {
         const role = getValue() as RoleBcOrMip
+        if (!isAssignableOrganizationRole(role)) {
+          return <>{tRole(role)}</>
+        }
         return canUpdateTeam ? (
           <SelectRoleCommon
             currentUserEmail={email}
@@ -125,7 +121,7 @@ const TeamTableCommon = ({
     }
     return col
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [t, canUpdateTeam, tLevel, email, tRole])
+  }, [t, canUpdateTeam, email, tRole])
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({

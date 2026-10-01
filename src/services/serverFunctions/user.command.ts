@@ -1,4 +1,5 @@
-import { Role, SiteCAUnit } from '@/generated/prisma/enums'
+import { SiteCAUnit } from '@/generated/prisma/enums'
+import { ASSIGNABLE_ORGANIZATION_ROLES } from '@/services/roles'
 import z from 'zod'
 
 export const EditProfileCommandValidation = z.object({
@@ -22,7 +23,7 @@ export const OnboardingCommandValidation = z.object({
             .email()
             .trim()
             .transform((email) => email.toLowerCase()),
-          role: z.enum(Role),
+          role: z.enum(ASSIGNABLE_ORGANIZATION_ROLES),
         }),
       ]),
     )

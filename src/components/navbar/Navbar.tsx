@@ -6,6 +6,8 @@ import { signOutEnv } from '@/lib/services/auth/auth.utils'
 import AppBar from '@/lib/ui/navbar/AppBar'
 import NavbarButton from '@/lib/ui/navbar/NavbarButton'
 import NavbarLink from '@/lib/ui/navbar/NavbarLink'
+import { isSuperAdmin } from '@/utils/user'
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
@@ -34,6 +36,15 @@ const Navbar = ({ user }: Props) => {
           <div className="flex gapped1">
             <Box>
               <div className="h100 align-center">
+                {isSuperAdmin(user.role) && (
+                  <NavbarButton
+                    href="/administration"
+                    aria-label={t('adminPanel')}
+                    data-testid="admin-panel-link"
+                  >
+                    <AdminPanelSettingsIcon />
+                  </NavbarButton>
+                )}
                 <NavbarButton rel="noreferrer noopener" href="/ressources" aria-label={t('help')}>
                   <HelpOutlineIcon />
                 </NavbarButton>

@@ -2,7 +2,7 @@
 import { useMemo } from 'react'
 
 export const Logo = () => {
-  const logo = useMemo(() => ({ src: '/logos/cut/logo.svg', alt: 'Logo de COUNT', width: 98, height: 48 }), [])
+  const logo = useMemo(() => ({ src: '/img/logo.svg', alt: 'Logo de COUNT', width: 98, height: 48 }), [])
 
   return (
     <div className="h100 align-center gapped1">

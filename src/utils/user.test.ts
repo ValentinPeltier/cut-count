@@ -2,12 +2,23 @@ import { Role, UserStatus } from '@/generated/prisma/enums'
 import { CutRoles } from '@/services/roles'
 import { getMockedAuthUser } from '@/tests/utils/models/user'
 import { expect } from '@jest/globals'
-import { canEditMemberRole, findUserInfo, getRoleToSetForUntrained, getTeamRoles, isAdmin } from './user'
+import {
+  canEditMemberRole,
+  findUserInfo,
+  getRoleToSetForUntrained,
+  getTeamRoles,
+  isAdmin,
+  isSuperAdmin,
+} from './user'
 
 describe('userUtils functions', () => {
   describe('isAdmin', () => {
     test('should return true for ADMIN', () => {
       expect(isAdmin(Role.ADMIN)).toBe(true)
+    })
+
+    test('should return true for SUPER_ADMIN', () => {
+      expect(isAdmin(Role.SUPER_ADMIN)).toBe(true)
     })
 
     test('should return false for DEFAULT', () => {
@@ -16,9 +27,18 @@ describe('userUtils functions', () => {
     })
   })
 
+  describe('isSuperAdmin', () => {
+    test('should return true only for SUPER_ADMIN', () => {
+      expect(isSuperAdmin(Role.SUPER_ADMIN)).toBe(true)
+      expect(isSuperAdmin(Role.ADMIN)).toBe(false)
+      expect(isSuperAdmin(Role.DEFAULT)).toBe(false)
+    })
+  })
+
   describe('canEditMemberRole', () => {
-    test('should return true only for ADMIN', () => {
+    test('should return true for organization admins', () => {
       expect(canEditMemberRole(getMockedAuthUser({ role: Role.ADMIN }))).toBe(true)
+      expect(canEditMemberRole(getMockedAuthUser({ role: Role.SUPER_ADMIN }))).toBe(true)
       expect(canEditMemberRole(getMockedAuthUser({ role: Role.DEFAULT }))).toBe(false)
     })
   })

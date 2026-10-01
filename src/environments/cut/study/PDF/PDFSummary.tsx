@@ -121,15 +121,15 @@ const PDFSummary = ({ study }: Props) => {
     <ThemeProvider theme={cutTheme}>
       <div className="pdf-container" data-testid="pdf-container">
         <div className="pdf-page-header flex align-center justify-center">
-          <img src="/logos/cut/logo-filled.svg" alt="COUNT Logo" className="pdf-page-header-logo" />
+          <img src="/img/logo-filled.svg" alt="COUNT Logo" className="pdf-page-header-logo" />
         </div>
 
         <div className="pdf-page-footer flex align-center justify-between">
           <div className="pdf-page-footer-logos flex align-center">
-            <img src="/logos/cut/CUT.svg" alt="CUT Logo" className="pdf-page-footer-logo" />
-            <img src="/logos/cut/ABC.svg" alt="ABC Logo" className="pdf-page-footer-logo" />
-            <img src="/logos/cut/CNC.svg" alt="CNC Logo" className="pdf-page-footer-logo" />
-            <img src="/logos/cut/France3_2025_blanc.png" alt="France 2030 Logo" className="pdf-page-footer-logo" />
+            <img src="/img/CUT.svg" alt="CUT Logo" className="pdf-page-footer-logo" />
+            <img src="/img/ABC.svg" alt="ABC Logo" className="pdf-page-footer-logo" />
+            <img src="/img/CNC.svg" alt="CNC Logo" className="pdf-page-footer-logo" />
+            <img src="/img/France3_2025_blanc.png" alt="France 2030 Logo" className="pdf-page-footer-logo" />
           </div>
         </div>
 
