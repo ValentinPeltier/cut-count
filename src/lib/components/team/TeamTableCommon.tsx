@@ -23,7 +23,6 @@ export type TeamMemberCommon = {
     lastName: string
     level: Level | null
   }
-  formationName?: string | null
   role: RoleBcOrMip
   updatedAt: Date
 }
@@ -68,7 +67,6 @@ const TeamTableCommon = ({
 }: Props) => {
   const t = useTranslations('team.table')
   const tAction = useTranslations('common.action')
-  const tLevel = useTranslations('level')
   const tRole = useTranslations('role')
   const [displayRoles, setDisplayRoles] = useState(false)
 
@@ -81,12 +79,6 @@ const TeamTableCommon = ({
       { header: t('lastName'), accessorKey: 'user.lastName' },
       { header: t('email'), accessorKey: 'user.email' },
     ]
-
-    col.push({
-      header: t('level'),
-      accessorFn: (member: TeamMemberCommon) =>
-        member.formationName ? member.formationName : tLevel(member.user.level ? member.user.level : 'noLevel'),
-    })
 
     col.push({
       header: t('role'),
@@ -129,7 +121,7 @@ const TeamTableCommon = ({
     }
     return col
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [t, canUpdateTeam, tLevel, email, tRole])
+  }, [t, canUpdateTeam, email, tRole])
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
