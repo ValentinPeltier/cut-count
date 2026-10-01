@@ -10,6 +10,10 @@ describe('userUtils functions', () => {
       expect(isAdmin(Role.ADMIN)).toBe(true)
     })
 
+    test('should return true for SUPER_ADMIN', () => {
+      expect(isAdmin(Role.SUPER_ADMIN)).toBe(true)
+    })
+
     test('should return false for DEFAULT', () => {
       expect(isAdmin(Role.DEFAULT)).toBe(false)
       expect(isAdmin('OTHER_ROLE' as Role)).toBe(false)
@@ -17,8 +21,9 @@ describe('userUtils functions', () => {
   })
 
   describe('canEditMemberRole', () => {
-    test('should return true only for ADMIN', () => {
+    test('should return true for organization admins', () => {
       expect(canEditMemberRole(getMockedAuthUser({ role: Role.ADMIN }))).toBe(true)
+      expect(canEditMemberRole(getMockedAuthUser({ role: Role.SUPER_ADMIN }))).toBe(true)
       expect(canEditMemberRole(getMockedAuthUser({ role: Role.DEFAULT }))).toBe(false)
     })
   })

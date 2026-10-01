@@ -9,6 +9,7 @@ import { TableActionButton } from '@/lib/components/base/TableActionButton'
 import Modal from '@/lib/components/modals/Modal'
 import { ApiResponse } from '@/lib/utils/serverResponse'
 import { RoleBcOrMip } from '@/lib/utils/types'
+import { isAssignableOrganizationRole } from '@/services/roles'
 import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
 import { useTranslations } from 'next-intl'
 import { useCallback, useMemo, useState } from 'react'
@@ -92,6 +93,9 @@ const TeamTableCommon = ({
       accessorKey: 'role',
       cell: ({ getValue, row }) => {
         const role = getValue() as RoleBcOrMip
+        if (!isAssignableOrganizationRole(role)) {
+          return <>{tRole(role)}</>
+        }
         return canUpdateTeam ? (
           <SelectRoleCommon
             currentUserEmail={email}

@@ -1,4 +1,4 @@
-import { Role } from '@/generated/prisma/enums'
+import { ASSIGNABLE_ORGANIZATION_ROLES } from '@/services/roles'
 import z from 'zod'
 
 export const AddMemberCommandValidation = z.object({
@@ -8,7 +8,7 @@ export const AddMemberCommandValidation = z.object({
     .transform((email) => email.toLowerCase()),
   firstName: z.string().trim().min(1),
   lastName: z.string().trim().min(1),
-  role: z.enum(Role),
+  role: z.enum(ASSIGNABLE_ORGANIZATION_ROLES),
 })
 
 export type AddMemberCommand = z.infer<typeof AddMemberCommandValidation>

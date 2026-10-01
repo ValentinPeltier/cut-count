@@ -431,6 +431,14 @@ const users = async () => {
     ),
   )
 
+  await toUserWithAccounts(
+    'super-admin-0@yopmail.com',
+    Role.SUPER_ADMIN,
+    cutOrganizationVersions[0].id,
+    Level.Advanced,
+    'super-admin-0',
+  )
+
   await prisma.account.create({
     data: {
       organizationVersionId: regularOrganizationVersions[1].id,

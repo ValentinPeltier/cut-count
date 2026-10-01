@@ -557,6 +557,7 @@
     "noLevel": "Non formé·e"
   },
   "role": {
+    "SUPER_ADMIN": "Super administrateur·rice",
     "ADMIN": "Administrateur·rice",
     "ADMIN_description": "Un administrateur·rice possède tous les droits sur le compte de l'organisation ainsi que sur l'ensemble des études pour son organisation (qu'elles soient partagées à l'équipe ou confidentielles).",
     "guide": "Guide des rôles",
