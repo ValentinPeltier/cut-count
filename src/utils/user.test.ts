@@ -2,7 +2,14 @@ import { Role, UserStatus } from '@/generated/prisma/enums'
 import { CutRoles } from '@/services/roles'
 import { getMockedAuthUser } from '@/tests/utils/models/user'
 import { expect } from '@jest/globals'
-import { canEditMemberRole, findUserInfo, getRoleToSetForUntrained, getTeamRoles, isAdmin } from './user'
+import {
+  canEditMemberRole,
+  findUserInfo,
+  getRoleToSetForUntrained,
+  getTeamRoles,
+  isAdmin,
+  isSuperAdmin,
+} from './user'
 
 describe('userUtils functions', () => {
   describe('isAdmin', () => {
@@ -17,6 +24,14 @@ describe('userUtils functions', () => {
     test('should return false for DEFAULT', () => {
       expect(isAdmin(Role.DEFAULT)).toBe(false)
       expect(isAdmin('OTHER_ROLE' as Role)).toBe(false)
+    })
+  })
+
+  describe('isSuperAdmin', () => {
+    test('should return true only for SUPER_ADMIN', () => {
+      expect(isSuperAdmin(Role.SUPER_ADMIN)).toBe(true)
+      expect(isSuperAdmin(Role.ADMIN)).toBe(false)
+      expect(isSuperAdmin(Role.DEFAULT)).toBe(false)
     })
   })
 

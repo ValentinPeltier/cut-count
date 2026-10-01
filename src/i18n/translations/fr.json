@@ -58,6 +58,7 @@
     "team": "Mes Collaborateur·rices",
     "help": "Aide",
     "profile": "Profil",
+    "adminPanel": "Panneau d'administration",
     "organizations": "Mes Empreintes",
     "information": "Mes Cinémas",
     "selectAccount": "Sélection du compte"
@@ -695,6 +696,9 @@
     "update": "Mettre à jour",
     "updating": "Mise à jour",
     "version": "Version du BC+ : "
+  },
+  "adminPanel": {
+    "title": "Panneau d'administration"
   },
   "settings": {
     "title": "Mes paramètres d'application",
