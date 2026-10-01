@@ -49,7 +49,7 @@ const PublicCutPage = ({ children, question }: Props) => {
           <Box className="justify-around flex-col gapped1" minHeight="400px" px="1rem" py="2rem">
             <Typography className="title-h2">{t('welcome')}</Typography>
             <Image
-              src="/logos/cut/logo-filled.svg"
+              src="/img/logo-filled.svg"
               alt="logo"
               width={400}
               height={400}
@@ -68,19 +68,13 @@ const PublicCutPage = ({ children, question }: Props) => {
         </Box>
         <p className={styles.richLinks}>{question}</p>
         <Box className="justify-between" padding="1.2rem">
-          <Image
-            className={styles.france2030Logo}
-            src="/logos/cut/france_2030.png"
-            alt="logo"
-            width={204}
-            height={198}
-          />
+          <Image className={styles.france2030Logo} src="/img/france_2030.png" alt="logo" width={204} height={198} />
           <Typography textAlign="justify" width="75%" fontSize="0.8rem" display="flex" alignItems="center">
             {t('explanation2')}
           </Typography>
         </Box>
         <Box className="justify-between" padding="1rem">
-          <Image className={styles.france2030Logo} src="/logos/cut/CINEO.png" alt="logo" width={80} height={78} />
+          <Image className={styles.france2030Logo} src="/img/CINEO.png" alt="logo" width={80} height={78} />
           <Typography textAlign="justify" width="75%" fontSize="0.8rem" display="flex" alignItems="center">
             {t('cineo')}
           </Typography>
@@ -102,7 +96,7 @@ const PublicCutPage = ({ children, question }: Props) => {
                   setLocale(language.target)
                 }}
               >
-                <Image alt={language.name} src={`/logos/${language.code}.svg`} width={30} height={20} />
+                <Image alt={language.name} src={`/img/${language.code}.svg`} width={30} height={20} />
               </button>
             ))}
           </div>
