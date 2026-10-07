@@ -13,13 +13,13 @@ export const CustomFormLabel = ({ label, icon, iconPosition, className }: Props)
   if (icon) {
     return (
       <IconLabel icon={icon} iconPosition={iconPosition} className={classNames('mb-2', className)}>
-        <Typography fontWeight="bold">{label}</Typography>
+        <Typography sx={{ fontWeight: 'bold' }}>{label}</Typography>
       </IconLabel>
     )
   }
 
   return (
-    <Typography fontWeight="bold" className={classNames('mb-2', className)}>
+    <Typography sx={{ fontWeight: 'bold' }} className={classNames('mb-2', className)}>
       {label}
     </Typography>
   )

@@ -4,7 +4,7 @@ import { EvaluatedTableLayout } from '@/publicodes/form/layouts'
 import { usePublicodesTranslation } from '@/publicodes/hooks'
 import { Paper, TableContainer } from '@mui/material'
 import { EvaluatedFormElement } from '@publicodes/forms'
-import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import { ColumnDef, StockFeatures, stockFeatures, useTable } from '@tanstack/react-table'
 import { useTranslations } from 'next-intl'
 import { useMemo, useRef } from 'react'
 
@@ -46,7 +46,7 @@ export default function TableQuestion<RuleName extends string>({
     }))
   }, [evaluatedRows])
 
-  const columns = useMemo<ColumnDef<TableRowData<RuleName>>[]>(() => {
+  const columns = useMemo<ColumnDef<StockFeatures, TableRowData<RuleName>>[]>(() => {
     return headers.map((header, colIndex) => ({
       id: `col-${colIndex}`,
       header: () => tLayoutRef.current(header),
@@ -69,11 +69,10 @@ export default function TableQuestion<RuleName extends string>({
     }))
   }, [headers])
 
-  // eslint-disable-next-line react-hooks/incompatible-library
-  const table = useReactTable<TableRowData<RuleName>>({
+  const table = useTable<typeof stockFeatures, TableRowData<RuleName>>({
+    features: stockFeatures,
     data: tableData,
     columns,
-    getCoreRowModel: getCoreRowModel(),
     getRowId: (row) => row.id,
   })
 

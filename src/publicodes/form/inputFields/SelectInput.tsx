@@ -67,8 +67,10 @@ const SelectInput = <RuleName extends string>({
         onChange={handleChange}
         onBlur={onBlur}
         MenuProps={{
-          PaperProps: {
-            className: `${styles.selectMenuPaper} ${styles.normal}`,
+          slotProps: {
+            paper: {
+              className: `${styles.selectMenuPaper} ${styles.normal}`,
+            },
           },
         }}
       >

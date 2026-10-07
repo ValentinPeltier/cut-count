@@ -2,7 +2,6 @@
 
 import NewPasswordFormCommon from '@/lib/components/auth/NewPasswordFormCommon'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
-import { getEnvRoute } from '@/lib/services/email/utils'
 import { resetPassword } from '@/services/serverFunctions/user'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
@@ -12,7 +11,7 @@ const NewPasswordForm = () => {
   const { callServerFunction } = useServerFunction()
   const router = useRouter()
 
-  const loginLink = getEnvRoute('login')
+  const loginLink = '/login'
 
   const resetPasswordHandler = async (email: string) => {
     callServerFunction(() => resetPassword(email.toLowerCase()), {

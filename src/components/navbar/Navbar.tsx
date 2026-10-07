@@ -9,7 +9,7 @@ import NavbarLink from '@/lib/ui/navbar/NavbarLink'
 import { isSuperAdmin } from '@/utils/user'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
+import HelpOutlinedIcon from '@mui/icons-material/HelpOutlined'
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew'
 import { Box, Container, Toolbar } from '@mui/material'
 import classNames from 'classnames'
@@ -42,7 +42,7 @@ const Navbar = ({ user }: Props) => {
                   </NavbarButton>
                 )}
                 <NavbarButton rel="noreferrer noopener" href="/ressources" aria-label={t('help')}>
-                  <HelpOutlineIcon />
+                  <HelpOutlinedIcon />
                 </NavbarButton>
                 <NavbarButton aria-label={t('profile')} href="/profil">
                   <AccountCircleIcon />

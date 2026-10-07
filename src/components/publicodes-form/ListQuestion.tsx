@@ -7,7 +7,7 @@ import { usePublicodesTranslation } from '@/publicodes/hooks'
 import { ContentCopy, Delete } from '@mui/icons-material'
 import { Box, IconButton, Paper, TableContainer } from '@mui/material'
 import { EvaluatedFormElement } from '@publicodes/forms'
-import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import { ColumnDef, StockFeatures, stockFeatures, useTable } from '@tanstack/react-table'
 import { useTranslations } from 'next-intl'
 import { Situation } from 'publicodes'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
@@ -81,8 +81,8 @@ export default function ListQuestion<RuleName extends string>({
   const handleDuplicateRowRef = useRef(handleDuplicateRow)
   handleDuplicateRowRef.current = handleDuplicateRow
 
-  const columns = useMemo<ColumnDef<TableRowData<RuleName>>[]>(() => {
-    const columns: ColumnDef<TableRowData<RuleName>>[] = rules.map((rule, colIndex) => ({
+  const columns = useMemo<ColumnDef<StockFeatures, TableRowData<RuleName>>[]>(() => {
+    const columns: ColumnDef<StockFeatures, TableRowData<RuleName>>[] = rules.map((rule, colIndex) => ({
       id: `col-${colIndex}`,
       header: () => getQuestionRef.current(rule),
       cell: ({ row }) => {
@@ -98,13 +98,13 @@ export default function ListQuestion<RuleName extends string>({
       },
     }))
 
-    const columnAction: ColumnDef<TableRowData<RuleName>> = {
+    const columnAction: ColumnDef<StockFeatures, TableRowData<RuleName>> = {
       id: 'col-actions',
       header: () => tStudyQuestionsRef.current('actions'),
       cell: ({ row }) => {
         const tableRow = row.original as TableRowData<RuleName>
         return (
-          <Box display="flex">
+          <Box sx={{ display: 'flex' }}>
             <IconButton
               title={tActionRef.current('duplicate')}
               aria-label="duplicate"
@@ -130,11 +130,10 @@ export default function ListQuestion<RuleName extends string>({
     return columns
   }, [rules])
 
-  // eslint-disable-next-line react-hooks/incompatible-library
-  const table = useReactTable<TableRowData<RuleName>>({
+  const table = useTable<typeof stockFeatures, TableRowData<RuleName>>({
+    features: stockFeatures,
     data: evaluatedListRows,
     columns,
-    getCoreRowModel: getCoreRowModel(),
     getRowId: (row) => row.id,
   })
 

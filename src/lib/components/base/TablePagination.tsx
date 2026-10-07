@@ -1,17 +1,17 @@
 import { Button } from '@/lib/ui'
 import { FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, TextField } from '@mui/material'
-import { Table } from '@tanstack/react-table'
+import { ReactTable, RowData, StockFeatures } from '@tanstack/react-table'
 import classNames from 'classnames'
 import { useTranslations } from 'next-intl'
 import { ChangeEvent } from 'react'
 import styles from './Table.module.css'
 
-interface Props<TData> {
-  table: Table<TData>
+interface Props<TData extends RowData> {
+  table: ReactTable<StockFeatures, TData>
   paginations: number[]
 }
 
-export const Pagination = <TData,>({ table, paginations }: Props<TData>) => {
+export const Pagination = <TData extends RowData>({ table, paginations }: Props<TData>) => {
   const t = useTranslations('table')
 
   const onPaginationChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +39,7 @@ export const Pagination = <TData,>({ table, paginations }: Props<TData>) => {
       </Button>
       <p>
         {t('page', {
-          page: table.getState().pagination.pageIndex + 1,
+          page: table.state.pagination.pageIndex + 1,
           total: (table.getPageCount() || 1).toLocaleString(),
         })}
       </p>
@@ -51,7 +51,7 @@ export const Pagination = <TData,>({ table, paginations }: Props<TData>) => {
           htmlInput: { min: 1, max: table.getPageCount() },
           input: { onWheel: (event) => (event.target as HTMLInputElement).blur() },
         }}
-        defaultValue={table.getState().pagination.pageIndex + 1}
+        defaultValue={table.state.pagination.pageIndex + 1}
         onChange={onPaginationChange}
       />
       <FormControl className={styles.selector}>
@@ -59,7 +59,7 @@ export const Pagination = <TData,>({ table, paginations }: Props<TData>) => {
         <Select
           id="emissions-paginator-count-selector"
           labelId="emissions-paginator-count-selector"
-          value={table.getState().pagination.pageSize}
+          value={table.state.pagination.pageSize}
           onChange={(e) => table.setPageSize(Number(e.target.value))}
           input={<OutlinedInput label={t('items')} />}
         >

@@ -45,7 +45,7 @@ const AllResultsPublicodes = ({ study, chartOrder = defaultChartOrder, caUnit, s
   if (isLoading || error) {
     return (
       <Block title={study.name} as="h2" description={tStudyNav('results')} bold descriptionColor="primary">
-        <Box display="flex" justifyContent="center" alignItems="center" minHeight={200}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 200 }}>
           {error ? <p>{error}</p> : <CircularProgress />}
         </Box>
       </Block>

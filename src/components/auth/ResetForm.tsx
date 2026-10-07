@@ -4,7 +4,6 @@ import ResetFormCommon from '@/lib/components/auth/ResetFormCommon'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
 import ResetLinkAlreadyUsed from '@/lib/components/pages/ResetLinkAlreadyUsed'
 import { signOutEnv } from '@/lib/services/auth/auth.utils'
-import { getEnvRoute } from '@/lib/services/email/utils'
 import { checkToken, reset } from '@/services/serverFunctions/auth'
 import { UserSession } from 'next-auth'
 import { useTranslations } from 'next-intl'
@@ -40,7 +39,7 @@ const ResetForm = ({ user, token }: Props) => {
     return <ResetLinkAlreadyUsed />
   }
 
-  const loginLink = getEnvRoute('login')
+  const loginLink = '/login'
 
   const resetPassword = async (password: string, token: string) => {
     await callServerFunction(() => reset(password, token), {

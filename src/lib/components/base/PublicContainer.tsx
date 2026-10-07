@@ -17,7 +17,7 @@ const PublicContainer = ({ children }: Props) => {
   return (
     <StyledPublicContainer className={classNames(styles.fullWidth, 'w100 h100 flex-cc')}>
       <div className={classNames(styles.container, 'mt1 mb1')}>
-        <Box bgcolor="white" className="flex">
+        <Box sx={{ bgcolor: 'white' }} className="flex">
           {children}
         </Box>
       </div>

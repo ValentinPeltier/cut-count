@@ -68,7 +68,7 @@ export const FormAutocomplete = <T extends FieldValues>({
                     'data-testid': `${name}-autocomplete-helper-text`,
                   },
                   input: {
-                    ...params.InputProps,
+                    ...params.slotProps.input,
                     endAdornment: (
                       <>
                         {value && (
@@ -82,7 +82,7 @@ export const FormAutocomplete = <T extends FieldValues>({
                             </IconButton>
                           </InputAdornment>
                         )}
-                        {params.InputProps.endAdornment}
+                        {params.slotProps.input.endAdornment}
                       </>
                     ),
                   },

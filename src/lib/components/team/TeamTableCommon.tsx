@@ -10,7 +10,7 @@ import Modal from '@/lib/components/modals/Modal'
 import { ApiResponse } from '@/lib/utils/serverResponse'
 import { RoleBcOrMip } from '@/lib/utils/types'
 import { isAssignableOrganizationRole } from '@/services/roles'
-import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import { ColumnDef, StockFeatures, stockFeatures, useTable } from '@tanstack/react-table'
 import { useTranslations } from 'next-intl'
 import { useCallback, useMemo, useState } from 'react'
 import SelectRoleCommon from './SelectRoleCommon'
@@ -71,7 +71,7 @@ const TeamTableCommon = ({
   const [displayRoles, setDisplayRoles] = useState(false)
 
   const columns = useMemo(() => {
-    const col: ColumnDef<TeamMemberCommon>[] = [
+    const col: ColumnDef<StockFeatures, TeamMemberCommon>[] = [
       {
         header: t('firstName'),
         accessorKey: 'user.firstName',
@@ -123,11 +123,10 @@ const TeamTableCommon = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [t, canUpdateTeam, email, tRole])
 
-  // eslint-disable-next-line react-hooks/incompatible-library
-  const table = useReactTable({
+  const table = useTable({
+    features: stockFeatures,
     columns,
     data: team,
-    getCoreRowModel: getCoreRowModel(),
   })
 
   const onClose = useCallback(() => {
