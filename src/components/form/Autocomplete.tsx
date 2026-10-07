@@ -66,11 +66,6 @@ export const FormAutocomplete = <T extends FieldValues>({
                   // Keep Autocomplete's slotProps (especially htmlInput from getInputProps).
                   // Overwriting slotProps entirely drops value/onChange wiring on MUI 9+.
                   ...params.slotProps,
-                  formHelperText: {
-                    ...params.slotProps?.formHelperText,
-                    // @ts-expect-error: Known missing props in TS
-                    'data-testid': `${name}-autocomplete-helper-text`,
-                  },
                   input: {
                     ...params.slotProps?.input,
                     endAdornment: (
@@ -96,7 +91,9 @@ export const FormAutocomplete = <T extends FieldValues>({
             )}
           />
           {(error?.message || helperText) && (
-            <FormHelperText className={styles.helper}>{error?.message ?? helperText}</FormHelperText>
+            <FormHelperText className={styles.helper} data-testid={`${name}-autocomplete-helper-text`}>
+              {error?.message ?? helperText}
+            </FormHelperText>
           )}
         </FormControl>
       )}
