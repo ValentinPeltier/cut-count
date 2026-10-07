@@ -543,7 +543,7 @@
       "lastName": "Nom",
       "email": "Email",
       "role": "Rôle",
-      "action": " ",
+      "action": "Actions",
       "deleteMember": "Supprimer le·a membre",
       "userDeletion": "Suppression d'un·e utilisateur·rice",
       "userDeletionDescription": "Êtes vous sur de vouloir supprimer cet·te utilisateur·rice ? Il n'aura plus accès au compte de votre organisation, mais aura toujours accès aux études pour lesquelles il a été invité par d'autres organisations.",

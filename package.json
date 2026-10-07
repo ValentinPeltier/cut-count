@@ -29,6 +29,7 @@
     "rules:compile": "cd src/publicodes/rules && publicodes compile",
     "rules:watch": "cd src/publicodes/rules && publicodes compile --watch",
     "rules:translate": "yarn rules:compile && yarn script scripts/i18n/generate-translation-file.tsx -m cut",
+    "i18n:check": "node scripts/i18n/check-translations.mjs",
     "db": "prisma",
     "db:seed": "dotenv -e .env -- env NODE_ENV=development tsx prisma/seed/index.ts",
     "db:generate": "rm -rf src/generated/prisma && prisma generate",

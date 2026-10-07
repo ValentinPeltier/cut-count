@@ -1,7 +1,8 @@
 name: CI
 
 on:
-  pull_request:
+  pull_request: {}
+  workflow_dispatch: {}
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
@@ -15,6 +16,21 @@ env:
   NODE_VERSION: '26.9.0'
 
 jobs:
+  i18n-check:
+    timeout-minutes: 5
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Check translation key parity and non-empty values
+        run: node scripts/i18n/check-translations.mjs
+
   lint-typecheck:
     timeout-minutes: 10
     runs-on: ubuntu-latest
@@ -82,7 +98,7 @@ jobs:
   e2e-tests:
     timeout-minutes: 30
     runs-on: ubuntu-latest
-    needs: [lint-typecheck, unit-tests, build]
+    needs: [i18n-check, lint-typecheck, unit-tests, build]
     strategy:
       fail-fast: false
       matrix:
@@ -107,6 +123,11 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 10
+      maildev:
+        image: maildev/maildev:2.2.1
+        ports:
+          - 1080:1080
+          - 1025:1025
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -115,9 +136,6 @@ jobs:
         uses: ./.github/actions/setup-app
         with:
           node-version: ${{ env.NODE_VERSION }}
-
-      - name: Start Maildev
-        run: docker run -d --name maildev -p 1080:1080 -p 1025:1025 maildev/maildev:2.2.1
 
       - name: Migrate and seed test database
         run: yarn db:test:seed

@@ -1,7 +1,7 @@
+import enMessages from '@/i18n/translations/en.json'
 import frMessages from '@/i18n/translations/fr.json'
-import { LocaleType } from '@/lib/i18n/config'
+import { Locale, LocaleType } from '@/lib/i18n/config'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const COMMON_MESSAGE_KEYS = [
   'common',
   'saveStatus',
@@ -22,43 +22,13 @@ const COMMON_MESSAGE_KEYS = [
 
 export type CommonTranslations = Pick<typeof frMessages, (typeof COMMON_MESSAGE_KEYS)[number]>
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function getCommonTranslations(_locale?: LocaleType): CommonTranslations {
-  const {
-    common,
-    saveStatus,
-    signup,
-    navigation,
-    study,
-    locale,
-    login,
-    spinner,
-    error,
-    email,
-    nav,
-    team,
-    level,
-    role,
-    newMember,
-  } = frMessages
+function getMessagesForLocale(locale?: LocaleType): typeof frMessages {
+  return locale === Locale.EN ? (enMessages as typeof frMessages) : frMessages
+}
 
-  return {
-    common,
-    saveStatus,
-    signup,
-    navigation,
-    study,
-    locale,
-    login,
-    spinner,
-    error,
-    email,
-    nav,
-    team,
-    level,
-    role,
-    newMember,
-  }
+export function getCommonTranslations(locale?: LocaleType): CommonTranslations {
+  const messages = getMessagesForLocale(locale)
+  return Object.fromEntries(COMMON_MESSAGE_KEYS.map((key) => [key, messages[key]])) as CommonTranslations
 }
 
 /**
@@ -84,7 +54,6 @@ export function extractAllForms(value: string): string[] {
 
 export type BcTranslations = typeof frMessages
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function getBcTranslations(_locale?: LocaleType): BcTranslations {
-  return frMessages
+export function getBcTranslations(locale?: LocaleType): BcTranslations {
+  return getMessagesForLocale(locale)
 }
