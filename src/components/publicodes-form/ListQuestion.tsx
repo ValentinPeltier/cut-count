@@ -10,7 +10,7 @@ import { EvaluatedFormElement } from '@publicodes/forms'
 import { ColumnDef, StockFeatures, stockFeatures, useTable } from '@tanstack/react-table'
 import { useTranslations } from 'next-intl'
 import { Situation } from 'publicodes'
-import { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 
 interface ListLayoutProps<RuleName extends string> {
   listLayout: EvaluatedListLayout<RuleName>
@@ -27,6 +27,15 @@ type TableRowData<RuleName extends string> = {
   elements: Array<EvaluatedFormElement<RuleName>>
 }
 
+type ListQuestionTableMeta<RuleName extends string> = {
+  tAction: ReturnType<typeof useTranslations>
+  tStudyQuestions: ReturnType<typeof useTranslations>
+  getQuestion: (rule: RuleName) => string
+  onListChange: (situationId: string, ruleName: RuleName, value: string | number | boolean | undefined) => void
+  handleDeleteRow: (rowId: string) => void
+  handleDuplicateRow: (rowId: string) => void
+}
+
 export default function ListQuestion<RuleName extends string>({
   listLayout: { targetRule, evaluatedListRows, rules },
 }: ListLayoutProps<RuleName>) {
@@ -34,15 +43,6 @@ export default function ListQuestion<RuleName extends string>({
   const tStudyQuestions = useTranslations('study.questions')
   const { getQuestionTranslation: getQuestion } = usePublicodesTranslation()
   const { updateListLayoutSituation, createNewListLayoutSituation, deleteListLayoutSituation } = usePublicodesForm()
-
-  // `columns` must stay referentially stable: TanStack uses each `cell` function as a component type,
-  // so rebuilding the columns re-mounts every cell and inputs lose focus while being typed into.
-  const tActionRef = useRef(tAction)
-  tActionRef.current = tAction
-  const tStudyQuestionsRef = useRef(tStudyQuestions)
-  tStudyQuestionsRef.current = tStudyQuestions
-  const getQuestionRef = useRef(getQuestion)
-  getQuestionRef.current = getQuestion
 
   useEffect(() => {
     if (evaluatedListRows.length === 0) {
@@ -56,8 +56,6 @@ export default function ListQuestion<RuleName extends string>({
     },
     [updateListLayoutSituation, targetRule],
   )
-  const onListChangeRef = useRef(onListChange)
-  onListChangeRef.current = onListChange
 
   const handleAddRow = useCallback(() => {
     createNewListLayoutSituation(targetRule)
@@ -69,8 +67,6 @@ export default function ListQuestion<RuleName extends string>({
     },
     [deleteListLayoutSituation, targetRule],
   )
-  const handleDeleteRowRef = useRef(handleDeleteRow)
-  handleDeleteRowRef.current = handleDeleteRow
 
   const handleDuplicateRow = useCallback(
     (rowId: string) => {
@@ -78,55 +74,62 @@ export default function ListQuestion<RuleName extends string>({
     },
     [createNewListLayoutSituation, targetRule],
   )
-  const handleDuplicateRowRef = useRef(handleDuplicateRow)
-  handleDuplicateRowRef.current = handleDuplicateRow
 
+  // `columns` must stay referentially stable: TanStack uses each `cell` function as a component type,
+  // so rebuilding the columns re-mounts every cell and inputs lose focus while being typed into.
+  // Unstable handlers/translations are read from `table.options.meta` at render time instead of refs.
   const columns = useMemo<ColumnDef<StockFeatures, TableRowData<RuleName>>[]>(() => {
     const columns: ColumnDef<StockFeatures, TableRowData<RuleName>>[] = rules.map((rule, colIndex) => ({
       id: `col-${colIndex}`,
-      header: () => getQuestionRef.current(rule),
-      cell: ({ row }) => {
+      header: ({ table }) => {
+        const meta = table.options.meta as ListQuestionTableMeta<RuleName>
+        return meta.getQuestion(rule)
+      },
+      cell: ({ row, table }) => {
+        const meta = table.options.meta as ListQuestionTableMeta<RuleName>
         const formElement = row.original.elements[colIndex]
         if (!formElement) {
           return null
         }
 
         const onChange = (ruleName: RuleName, value: string | number | boolean | undefined) => {
-          onListChangeRef.current(row.original.id, ruleName, value)
+          meta.onListChange(row.original.id, ruleName, value)
         }
         return <InputField key={`${row.id}-col-${formElement.id}`} formElement={formElement} onChange={onChange} />
       },
     }))
 
-    const columnAction: ColumnDef<StockFeatures, TableRowData<RuleName>> = {
+    columns.push({
       id: 'col-actions',
-      header: () => tStudyQuestionsRef.current('actions'),
-      cell: ({ row }) => {
+      header: ({ table }) => {
+        const meta = table.options.meta as ListQuestionTableMeta<RuleName>
+        return meta.tStudyQuestions('actions')
+      },
+      cell: ({ row, table }) => {
+        const meta = table.options.meta as ListQuestionTableMeta<RuleName>
         const tableRow = row.original as TableRowData<RuleName>
         return (
           <Box sx={{ display: 'flex' }}>
             <IconButton
-              title={tActionRef.current('duplicate')}
+              title={meta.tAction('duplicate')}
               aria-label="duplicate"
               color="primary"
-              onClick={() => handleDuplicateRowRef.current(tableRow.id)}
+              onClick={() => meta.handleDuplicateRow(tableRow.id)}
             >
               <ContentCopy />
             </IconButton>
             <IconButton
-              title={tActionRef.current('delete')}
+              title={meta.tAction('delete')}
               aria-label="delete"
               color="error"
-              onClick={() => handleDeleteRowRef.current(tableRow.id)}
+              onClick={() => meta.handleDeleteRow(tableRow.id)}
             >
               <Delete />
             </IconButton>
           </Box>
         )
       },
-    }
-
-    columns.push(columnAction)
+    })
     return columns
   }, [rules])
 
@@ -134,6 +137,14 @@ export default function ListQuestion<RuleName extends string>({
     features: stockFeatures,
     data: evaluatedListRows,
     columns,
+    meta: {
+      tAction,
+      tStudyQuestions,
+      getQuestion,
+      onListChange,
+      handleDeleteRow,
+      handleDuplicateRow,
+    } satisfies ListQuestionTableMeta<RuleName>,
     getRowId: (row) => row.id,
   })
 

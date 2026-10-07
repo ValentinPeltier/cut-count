@@ -6,7 +6,7 @@ import { Paper, TableContainer } from '@mui/material'
 import { EvaluatedFormElement } from '@publicodes/forms'
 import { ColumnDef, StockFeatures, stockFeatures, useTable } from '@tanstack/react-table'
 import { useTranslations } from 'next-intl'
-import { useMemo, useRef } from 'react'
+import { useMemo } from 'react'
 
 interface TableLayoutProps<RuleName extends string> {
   tableLayout: EvaluatedTableLayout<RuleName>
@@ -22,22 +22,18 @@ type TableRowData<RuleName extends string> = {
   elements: Array<EvaluatedFormElement<RuleName>>
 }
 
+type TableQuestionTableMeta<RuleName extends string> = {
+  tLayout: ReturnType<typeof useTranslations>
+  getTitleTranslation: (rule: RuleName) => string
+  onChange: OnFieldChange<RuleName>
+}
+
 export default function TableQuestion<RuleName extends string>({
   tableLayout: { title, headers, evaluatedRows },
   onChange,
 }: TableLayoutProps<RuleName>) {
   const tLayout = useTranslations('publicodes-layout.table')
   const { getTitleTranslation } = usePublicodesTranslation()
-
-  // `columns` must stay referentially stable: TanStack uses each `cell` function as a component type,
-  // so rebuilding the columns re-mounts every cell and inputs lose focus while being typed into.
-  // `useTranslations` / translation helpers often return a new function on each render, hence the refs.
-  const tLayoutRef = useRef(tLayout)
-  tLayoutRef.current = tLayout
-  const getTitleTranslationRef = useRef(getTitleTranslation)
-  getTitleTranslationRef.current = getTitleTranslation
-  const onChangeRef = useRef(onChange)
-  onChangeRef.current = onChange
 
   const tableData = useMemo<TableRowData<RuleName>[]>(() => {
     return evaluatedRows.map((row, rowIndex) => ({
@@ -46,11 +42,18 @@ export default function TableQuestion<RuleName extends string>({
     }))
   }, [evaluatedRows])
 
+  // `columns` must stay referentially stable: TanStack uses each `cell` function as a component type,
+  // so rebuilding the columns re-mounts every cell and inputs lose focus while being typed into.
+  // Unstable handlers/translations are read from `table.options.meta` at render time instead of refs.
   const columns = useMemo<ColumnDef<StockFeatures, TableRowData<RuleName>>[]>(() => {
     return headers.map((header, colIndex) => ({
       id: `col-${colIndex}`,
-      header: () => tLayoutRef.current(header),
-      cell: ({ row }) => {
+      header: ({ table }) => {
+        const meta = table.options.meta as TableQuestionTableMeta<RuleName>
+        return meta.tLayout(header)
+      },
+      cell: ({ row, table }) => {
+        const meta = table.options.meta as TableQuestionTableMeta<RuleName>
         const formElement = row.original.elements[colIndex]
         if (!formElement) {
           return null
@@ -59,10 +62,10 @@ export default function TableQuestion<RuleName extends string>({
         // TODO: could we have a cleaner way to distinguish between value and inputs ?
         // FIXME: the first column isn't translated for now
         return colIndex === 0 ? (
-          <p>{getTitleTranslationRef.current(formElement.id)}</p>
+          <p>{meta.getTitleTranslation(formElement.id)}</p>
         ) : (
           <div className="w100 justify-center">
-            <InputField formElement={formElement} onChange={onChangeRef.current} />
+            <InputField formElement={formElement} onChange={meta.onChange} />
           </div>
         )
       },
@@ -73,6 +76,11 @@ export default function TableQuestion<RuleName extends string>({
     features: stockFeatures,
     data: tableData,
     columns,
+    meta: {
+      tLayout,
+      getTitleTranslation,
+      onChange,
+    } satisfies TableQuestionTableMeta<RuleName>,
     getRowId: (row) => row.id,
   })
 
