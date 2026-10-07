@@ -205,30 +205,13 @@ jobs:
       - name: Wait for server
         run: yarn wait-on http://127.0.0.1:3000 --timeout 60000
 
-      - name: Create Lighthouse output directory
-        run: mkdir -p ${{ github.workspace }}/tmp/artifacts
-
+      # Pin to release commit (12.6.2)
       - name: Run Lighthouse
-        id: lighthouse
-        # Pin to release commit (v12.0.1); avoid floating @master.
-        uses: foo-software/lighthouse-check-action@a80267da2e0244b8a2e457a8575fc47590615852
+        uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18
         with:
-          device: all
-          urls: http://localhost:3000/login
-          outputDirectory: ${{ github.workspace }}/tmp/artifacts
-
-      - name: Verify Lighthouse scores
-        uses: foo-software/lighthouse-check-status-action@2b9d5101f7a0de86ddb153a0d77ad7046aac1052
-        with:
-          lighthouseCheckResults: ${{ steps.lighthouse.outputs.lighthouseCheckResults }}
-          minAccessibilityScore: '100'
-          minBestPracticesScore: '95'
-
-      - name: Upload Lighthouse reports
-        uses: actions/upload-artifact@v7
-        if: always()
-        with:
-          name: lighthouse-reports
-          path: ${{ github.workspace }}/tmp/artifacts
-          retention-days: 7
-          if-no-files-found: ignore
+          urls: |
+            http://127.0.0.1:3000/login
+          configPath: .github/lighthouserc.json
+          uploadArtifacts: true
+          artifactName: lighthouse-reports
+          runs: '1'
