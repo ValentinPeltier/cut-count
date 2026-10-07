@@ -1,4 +1,20 @@
 services:
+  app:
+    build: .
+    container_name: count-app
+    ports:
+      - '3000:3000'
+    env_file: .env
+    environment:
+      DATABASE_URL: mysql://count:count@db:3306/count
+      MAIL_HOST: maildev
+    depends_on:
+      db:
+        condition: service_healthy
+      maildev:
+        condition: service_started
+    restart: unless-stopped
+
   db:
     image: mysql:8.0
     container_name: count-db
@@ -9,24 +25,20 @@ services:
       MYSQL_DATABASE: count
     ports:
       - '3306:3306'
+    volumes:
+      - db-data:/var/lib/mysql
     healthcheck:
-      test: ['CMD', 'mysqladmin', 'ping', '-h', '127.0.0.1', '-u', 'count', '-pcount']
-      interval: 5s
-      timeout: 5s
-      retries: 10
-
-  db_test:
-    image: mysql:8.0
-    container_name: count-db-test
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: count
-      MYSQL_PASSWORD: count
-      MYSQL_DATABASE: count_test
-    ports:
-      - '3307:3306'
-    healthcheck:
-      test: ['CMD', 'mysqladmin', 'ping', '-h', '127.0.0.1', '-u', 'count', '-pcount']
+      test:
+        [
+          'CMD',
+          'mysqladmin',
+          'ping',
+          '-h',
+          '127.0.0.1',
+          '-u',
+          'count',
+          '-pcount',
+        ]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -37,3 +49,6 @@ services:
     ports:
       - '1080:1080' # Web UI
       - '1025:1025' # SMTP server
+
+volumes:
+  db-data:

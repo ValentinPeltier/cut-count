@@ -8,12 +8,8 @@ concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
-
 env:
-  # Pin to the same Node line as production (Scalingo).
-  NODE_VERSION: '26.9.0'
+  NODE_VERSION: '26'
 
 jobs:
   i18n-check:
@@ -116,7 +112,7 @@ jobs:
           MYSQL_PASSWORD: count
           MYSQL_DATABASE: count_test
         ports:
-          # Match .env.test (local docker-compose db_test).
+          # Match .env.test
           - 3307:3306
         options: >-
           --health-cmd "mysqladmin ping -h 127.0.0.1 -u count -pcount"
@@ -137,9 +133,6 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Migrate and seed test database
-        run: yarn db:test:seed
-
       - name: Download build artifact
         uses: actions/download-artifact@v8
         with:
@@ -149,16 +142,10 @@ jobs:
       - name: Extract build artifact
         run: tar -xzf /tmp/ci-build/next-build.tgz -C .
 
-      - name: Start test server
-        run: yarn start:test &
-
-      - name: Wait for test server
-        run: yarn wait-on http://127.0.0.1:3001/login --timeout 60000
-
       - name: Run e2e tests
         env:
           NODE_OPTIONS: --max-old-space-size=4096
-        run: yarn test:e2e:run --spec "src/tests/end-to-end/app/${{ matrix.group }}/**/*.cy.ts" --headless
+        run: bash scripts/e2e-ci.sh --spec "src/tests/end-to-end/app/${{ matrix.group }}/**/*.cy.ts" --headless
 
       - name: Upload e2e screenshots
         uses: actions/upload-artifact@v7

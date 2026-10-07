@@ -10,8 +10,7 @@
   "scripts": {
     "postinstall": "yarn db:generate",
     "dev": "next dev",
-    "dev:test": "dotenv -e .env.test -e .env -- next dev --port 3001",
-    "start:test": "dotenv -e .env.test -e .env -- env PORT=3001 node .next/standalone/server.js",
+    "with-test-env": "dotenv -e .env.test -e .env --",
     "prebuild": "yarn rules:compile",
     "build": "next build && node scripts/copy-assets.js",
     "start": "node -r dotenv/config .next/standalone/server.js dotenv_config_path=.env",
@@ -19,22 +18,19 @@
     "lint": "prettier --check . && eslint .",
     "lint:fix": "prettier --write . && eslint --fix .",
     "test": "yarn test:unit && yarn test:rules && yarn test:e2e",
-    "test:unit": "dotenv -e .env.test -e .env -- jest",
+    "test:unit": "yarn with-test-env jest",
     "test:rules": "yarn rules:compile && cd src/publicodes/rules && vitest run --reporter=tree --config vitest.config.ts",
-    "test:e2e": "start-server-and-test 'yarn dev:test' http://127.0.0.1:3001 'yarn test:e2e:run'",
-    "test:e2e:gui": "start-server-and-test 'yarn dev:test' http://127.0.0.1:3001 'yarn test:e2e:open'",
-    "test:e2e:run": "dotenv -e .env.test -e .env -- cypress run",
-    "test:e2e:open": "dotenv -e .env.test -e .env -- cypress open",
+    "test:e2e": "bash scripts/e2e.sh",
+    "test:e2e:gui": "bash scripts/e2e.sh --gui",
     "script": "dotenv -e .env -- tsx",
     "rules:compile": "cd src/publicodes/rules && publicodes compile",
     "rules:watch": "cd src/publicodes/rules && publicodes compile --watch",
     "rules:translate": "yarn rules:compile && yarn script scripts/i18n/generate-translation-file.tsx -m cut",
     "i18n:check": "node scripts/i18n/check-translations.mjs",
     "db": "prisma",
-    "db:seed": "dotenv -e .env -- env NODE_ENV=development tsx prisma/seed/index.ts",
-    "db:generate": "rm -rf src/generated/prisma && prisma generate",
-    "db:test:reset": "dotenv -e .env.test -e .env -- prisma migrate reset --force && dotenv -e .env.test -e .env -- tsx prisma/seed/index.ts",
-    "db:test:seed": "dotenv -e .env.test -e .env -- prisma migrate deploy && dotenv -e .env.test -e .env -- tsx prisma/seed/index.ts"
+    "db:seed": "prisma db seed",
+    "db:test:prepare": "yarn with-test-env prisma migrate deploy && yarn with-test-env tsx prisma/seed/index.ts",
+    "db:generate": "rm -rf src/generated/prisma && prisma generate"
   },
   "prisma": {
     "seed": "dotenv -e .env -- env NODE_ENV=development tsx prisma/seed/index.ts"

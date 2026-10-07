@@ -79,7 +79,7 @@ DATABASE_URL='mysql://count:count@localhost:3306/count' \
 - **`sub_posts`:** PostgreSQL enum arrays on `emission_factors` are expanded into `emission_factor_sub_posts` on MySQL.
 - **Verification:** the script compares PostgreSQL `sub_posts` cardinality with MySQL junction row counts.
 
-Start MySQL locally with `docker compose up -d db` (or `db_test` on port 3307 for tests).
+Start MySQL locally with `docker compose up -d db`. E2e tests start their own throwaway MySQL on port 3307.
 
 ---
 
@@ -111,6 +111,6 @@ DATABASE_URL='mysql://count:count@localhost:3306/count' \
 
 1. Point the application `DATABASE_URL` at MySQL.
 2. Run `yarn db:seed` only if you need reference/dev seed data on top of migrated production data (usually not on production).
-3. Run the test suite (`yarn test:unit`, `yarn test:e2e`) against a MySQL test database (`yarn db:test:seed`).
+3. Run the test suite (`yarn test:unit`, `yarn test:e2e`). `yarn test:e2e` provisions its own MySQL test database.
 
 PostgreSQL migration history is archived in `prisma/schema/migrations_postgresql/`. Only `prisma/schema/migrations/` is used for MySQL.

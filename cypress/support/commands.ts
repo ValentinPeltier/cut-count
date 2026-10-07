@@ -158,7 +158,10 @@ Cypress.Commands.add(
 Cypress.Commands.add('resetTestDatabase', () => {
   // Seed recreates users with new ids — invalidate any cached next-auth cookies.
   Cypress.session.clearAllSavedSessions()
-  cy.exec('yarn db:test:seed', { timeout: 180000 })
+  cy.exec(
+    'yarn db:test:prepare',
+    { timeout: 180000 },
+  )
 })
 
 type CapturedDownload = {

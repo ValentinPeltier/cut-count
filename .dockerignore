@@ -1,0 +1,16 @@
+node_modules
+.next
+.git
+.github
+cypress
+coverage
+tmp
+*.md
+.env
+.env.*
+!.env.example
+!.env.test.example
+**/*.cy.ts
+**/__tests__
+**/*.test.ts
+**/*.test.tsx
