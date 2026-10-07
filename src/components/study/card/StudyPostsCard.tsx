@@ -1,7 +1,7 @@
 import type { FullStudy } from '@/db/study'
 import { Post } from '@/lib/utils/charts'
 import { withInfobulle } from '@/utils/post'
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline'
+import HelpOutlinedIcon from '@mui/icons-material/HelpOutlined'
 import classNames from 'classnames'
 import { useTranslations } from 'next-intl'
 import PostIcon from '../infography/icons/PostIcon'
@@ -40,7 +40,7 @@ const StudyPostsCard = ({ study, post, studySite, setSite, setGlossary }: Props)
                 <PostIcon className={styles.icon} post={post} />
                 {tPost(post)}
                 {withInfobulle(post) && (
-                  <HelpOutlineIcon
+                  <HelpOutlinedIcon
                     className={classNames(styles.icon, 'pointer ml-2')}
                     onClick={() => setGlossary(post)}
                     aria-label={tPost('glossary')}

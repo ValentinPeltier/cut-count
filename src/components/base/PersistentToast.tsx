@@ -29,7 +29,7 @@ const PersistentToast = ({ title, subtitle, onClose, icon }: Props) => {
           <div className="flex align-center gapped1">
             {icon || <CheckCircleIcon className={styles.icon} />}
             <div className="flex-col">
-              <Typography fontWeight={'bold'}>{title}</Typography>
+              <Typography sx={{ fontWeight: 'bold' }}>{title}</Typography>
               {subtitle && <Typography className={styles.subtitle}>{subtitle}</Typography>}
             </div>
           </div>

@@ -1,7 +1,7 @@
-import nodemailer from 'nodemailer'
+import nodemailer, { type Transporter } from 'nodemailer'
 import SMTPTransport from 'nodemailer/lib/smtp-transport'
 
-let transporter: nodemailer.Transporter | undefined
+let transporter: Transporter | undefined
 
 export const getTransporter = async () => {
   if (transporter) {

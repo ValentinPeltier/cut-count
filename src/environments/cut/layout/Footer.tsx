@@ -12,29 +12,27 @@ const Footer = () => {
       className={classNames('flex justify-center align-center', styles.container)}
       container
       spacing={2}
-      columnGap={2}
-      bottom={0}
-      bgcolor={palette.grey[500]}
+      sx={{ columnGap: 2, bottom: 0, bgcolor: palette.grey[500] }}
     >
       <Grid className="flex justify-center align-center" size={size}>
-        <Box className="flex-col" gap={2}>
-          <Box display="flex">
+        <Box className="flex-col" sx={{ gap: 2 }}>
+          <Box sx={{ display: 'flex' }}>
             <Image width={150} height={96} src="/img/CUT.svg" alt="Cut Logo" className={styles.cutLogo} />
           </Box>
         </Box>
       </Grid>
       <Grid className="flex justify-center align-center" size={size}>
-        <Box component="article" className="flex-col" gap={2}>
+        <Box component="article" className="flex-col" sx={{ gap: 2 }}>
           <Image width={154} height={55} src="/img/ABC.svg" alt="ABC Logo" />
         </Box>
       </Grid>
       <Grid className="flex justify-center align-center" size={size}>
-        <Box component="article" className="flex align-center" gap={2}>
+        <Box component="article" className="flex align-center" sx={{ gap: 2 }}>
           <Image width={92} height={90} src="/img/France3_2025_blanc.png" alt="Logo de France 3" />
         </Box>
       </Grid>
       <Grid className="flex justify-center align-center" size={size}>
-        <Box component="article" className="flex-col" gap={2}>
+        <Box component="article" className="flex-col" sx={{ gap: 2 }}>
           <Image width={172} height={37} src="/img/CNC.svg" alt="CNC Logo" />
         </Box>
       </Grid>

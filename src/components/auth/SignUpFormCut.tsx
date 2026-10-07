@@ -8,7 +8,6 @@ import Form from '@/lib/components/base/Form'
 import LoadingButton from '@/lib/components/base/LoadingButton'
 import { FormTextField } from '@/lib/components/form/TextField'
 import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
-import { getEnvRoute } from '@/lib/services/email/utils'
 import { customRich } from '@/lib/utils/customRich'
 import { getAllCNCs } from '@/services/serverFunctions/cnc'
 import { signUpWithSiretOrCNC } from '@/services/serverFunctions/user'
@@ -123,7 +122,10 @@ const SignUpFormCut = ({ defaultEmail }: Props) => {
           name="siretOrCNC"
           label={t('siretOrCNC')}
           freeSolo
-          onInputChange={(_, value) => {
+          onInputChange={(_, value, reason) => {
+            if (reason !== 'input' && reason !== 'clear') {
+              return
+            }
             setSiretOrCNC(value)
             setValue('siretOrCNC', value)
           }}
@@ -148,7 +150,7 @@ const SignUpFormCut = ({ defaultEmail }: Props) => {
         )}
         <div className={authStyles.bottomLink}>
           {tForm('alreadyRegistered')}
-          <Link className="ml-2" href={getEnvRoute('login')} prefetch={false}>
+          <Link className="ml-2" href="/login" prefetch={false}>
             {tForm('login')}
           </Link>
         </div>

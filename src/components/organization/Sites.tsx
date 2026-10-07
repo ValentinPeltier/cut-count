@@ -7,7 +7,7 @@ import { Button } from '@/lib/ui'
 import { SitesCommand } from '@/services/serverFunctions/study.command'
 import { defaultCAUnit } from '@/utils/number'
 import { Checkbox, FormControlLabel } from '@mui/material'
-import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import { ColumnDef, StockFeatures, stockFeatures, useTable } from '@tanstack/react-table'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { UseFormReturn, UseFormSetValue } from 'react-hook-form'
@@ -19,7 +19,7 @@ interface Props<T extends SitesCommand> {
   form?: UseFormReturn<T>
   sites: SitesCommand['sites']
   withSelection?: boolean
-  columns: ColumnDef<TypeDef>[]
+  columns: ColumnDef<StockFeatures, TypeDef>[]
   caUnit?: SiteCAUnit
   disabled?: boolean
 }
@@ -42,11 +42,10 @@ const Sites = <T extends SitesCommand>({ sites, form, withSelection, columns, ca
 
   const headerCAUnit = tUnit(caUnit ?? defaultCAUnit)
 
-  // eslint-disable-next-line react-hooks/incompatible-library
-  const table = useReactTable({
+  const table = useTable({
+    features: stockFeatures,
     columns,
     data: sites,
-    getCoreRowModel: getCoreRowModel(),
   })
 
   return !form && sites.length === 0 ? (

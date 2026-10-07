@@ -1,26 +1,26 @@
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Table as MuiTable, TableBody, TableCell, TableHead, TableRow } from '@mui/material'
-import { flexRender, Table as ReactTable, Row } from '@tanstack/react-table'
+import { flexRender, ReactTable, Row, RowData, StockFeatures } from '@tanstack/react-table'
 import classNames from 'classnames'
 import { ReactNode } from 'react'
 import styles from './Table.module.css'
 import { Pagination } from './TablePagination'
 
-interface Props<TData> {
+interface Props<TData extends RowData> {
   title?: string
-  table: ReactTable<TData>
+  table: ReactTable<StockFeatures, TData>
   paginations?: number[]
   className?: string
   children?: ReactNode
-  customRow?: (row: Row<TData>) => React.ReactNode
+  customRow?: (row: Row<StockFeatures, TData>) => React.ReactNode
   testId: string
   size?: 'small' | 'medium'
   firstHeader?: ReactNode
   sortable?: boolean
 }
 
-export const Table = <TData,>({
+export const Table = <TData extends RowData>({
   title,
   table,
   paginations,

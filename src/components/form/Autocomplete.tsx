@@ -63,12 +63,11 @@ export const FormAutocomplete = <T extends FieldValues>({
                   },
                 }}
                 slotProps={{
-                  formHelperText: {
-                    // @ts-expect-error: Known missing props in TS
-                    'data-testid': `${name}-autocomplete-helper-text`,
-                  },
+                  // Keep Autocomplete's slotProps (especially htmlInput from getInputProps).
+                  // Overwriting slotProps entirely drops value/onChange wiring on MUI 9+.
+                  ...params.slotProps,
                   input: {
-                    ...params.InputProps,
+                    ...params.slotProps?.input,
                     endAdornment: (
                       <>
                         {value && (
@@ -76,13 +75,13 @@ export const FormAutocomplete = <T extends FieldValues>({
                             <IconButton
                               data-testid={`${name}-clear`}
                               aria-label={translation('clear')}
-                              onClick={() => onChange({ target: { value: '' } }, null)}
+                              onClick={() => onChange('')}
                             >
                               <ClearIcon />
                             </IconButton>
                           </InputAdornment>
                         )}
-                        {params.InputProps.endAdornment}
+                        {params.slotProps?.input?.endAdornment}
                       </>
                     ),
                   },
@@ -92,7 +91,9 @@ export const FormAutocomplete = <T extends FieldValues>({
             )}
           />
           {(error?.message || helperText) && (
-            <FormHelperText className={styles.helper}>{error?.message ?? helperText}</FormHelperText>
+            <FormHelperText className={styles.helper} data-testid={`${name}-autocomplete-helper-text`}>
+              {error?.message ?? helperText}
+            </FormHelperText>
           )}
         </FormControl>
       )}

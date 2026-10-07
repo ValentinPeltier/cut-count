@@ -42,17 +42,16 @@ yarn build                # production build + standalone asset copy
 yarn start                # node .next/standalone/server.js
 yarn typecheck            # TypeScript check
 yarn lint                 # Prettier + ESLint
-yarn lint:fix            # auto-fix Prettier + ESLint
+yarn lint:fix             # auto-fix Prettier + ESLint
 yarn test                 # unit + rules + e2e
 yarn test:unit            # unit tests only
-yarn test:e2e             # starts app on 3001, then runs e2e
+yarn test:e2e             # throwaway MySQL and Maildev, dev server on 3001, then Cypress
 yarn db:generate          # Prisma client → src/generated/prisma
 yarn db migrate dev       # create/apply migrations
 yarn db:seed              # seed database
 yarn rules:compile        # compile Count Publicodes YAML
 yarn rules:watch
 yarn rules:translate
-yarn db:test:reset        # reset + seed the test database
 ```
 
 ## Import scripts
@@ -68,20 +67,19 @@ See `src/scripts/` for additional importers.
 
 ## Tests
 
-`.env.test` overlays `.env`: test DB (MySQL 3307), `NODE_ENV`, and ports 3001. Copy `.env.example` → `.env` and `.env.test.example` → `.env.test` first.
+`.env.test` overlays `.env`: test DB (MySQL 3307), `NODE_ENV`, and port 3001. Copy `.env.example` → `.env` and `.env.test.example` → `.env.test` first. `yarn test:e2e` starts throwaway MySQL (port 3307) and Maildev (ports 1025 and 1080) containers, migrates and seeds, starts the Next.js dev server, runs Cypress, then removes the containers. CI uses `scripts/e2e-ci.sh` against the standalone production build; MySQL and Maildev are provided by the workflow.
 
 PostgreSQL migration history is archived under `prisma/schema/migrations_postgresql/`. Only `prisma/schema/migrations/` is applied on MySQL.
 
 To copy data from a fully migrated PostgreSQL database into MySQL, see [scripts/pgsql-to-mysql/README.md](scripts/pgsql-to-mysql/README.md).
 
 ```bash
-yarn db:test:reset          # reset + seed the test database
 yarn test                   # unit + rules + e2e
 yarn test:unit
 yarn test:unit:watch
 yarn test:rules
-yarn test:e2e               # starts the app on port 3001, then runs e2e
-yarn test:e2e:gui           # same, with the e2e UI
+yarn test:e2e               # dev server on port 3001, then Cypress CLI
+yarn test:e2e:gui           # same, with the Cypress UI
 ```
 
 ## Dependency upgrades

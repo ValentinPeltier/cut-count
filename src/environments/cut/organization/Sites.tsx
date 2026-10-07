@@ -11,7 +11,7 @@ import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
 import { getAllCNCs } from '@/services/serverFunctions/cnc'
 import { SitesCommand } from '@/services/serverFunctions/study.command'
 import { Autocomplete, TextField } from '@mui/material'
-import { ColumnDef } from '@tanstack/react-table'
+import { ColumnDef, StockFeatures } from '@tanstack/react-table'
 import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Controller, UseFormReturn } from 'react-hook-form'
@@ -262,7 +262,7 @@ const Sites = ({ sites, form, withSelection, disabled = false }: Props) => {
           return getValue<string>()
         },
       },
-    ] as ColumnDef<SitesCommand['sites'][0]>[]
+    ] as ColumnDef<StockFeatures, SitesCommand['sites'][0]>[]
 
     if (form && !withSelection) {
       // eslint-disable-next-line react-hooks/refs

@@ -24,7 +24,7 @@ export const FormDatePicker = <T extends FieldValues>({
   clearable = false,
   fullWidth = false,
   ...datePickerProps
-}: Props<T> & DatePickerProps<true>) => {
+}: Props<T> & DatePickerProps) => {
   return (
     <Controller
       name={name}
@@ -32,7 +32,7 @@ export const FormDatePicker = <T extends FieldValues>({
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <FormControl error={!!error} fullWidth={fullWidth}>
           {label ? (
-            <Typography fontWeight="bold" className="mb-2">
+            <Typography sx={{ fontWeight: 'bold' }} className="mb-2">
               {label}
             </Typography>
           ) : null}
@@ -41,7 +41,8 @@ export const FormDatePicker = <T extends FieldValues>({
             slotProps={{
               textField: {
                 error: !!error,
-                //@ts-expect-error: Missing in MUI Props
+                // data-testid is forwarded to the DOM but is not part of the picker text-field slot type.
+                // @ts-expect-error data-testid is not declared on PickersTextField slot props
                 'data-testid': dataTestId,
                 className: styles.datePickerInput,
               },

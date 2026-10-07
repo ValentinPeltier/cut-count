@@ -730,7 +730,7 @@ const users = async () => {
 const SEED_LOCK_NAME = 'count_seed'
 
 const main = async () => {
-  // Cypress (and parallel local runs) can call db:test:seed concurrently against count_test.
+  // Cypress (and parallel local runs) can seed concurrently against count_test.
   // Serialize the wipe+seed so we never hit unique constraint races on users.email.
   await prisma.$executeRaw`SELECT GET_LOCK(${SEED_LOCK_NAME}, 300)`
   try {

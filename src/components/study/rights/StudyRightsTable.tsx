@@ -9,7 +9,7 @@ import { useServerFunction } from '@/lib/components/hooks/useServerFunction'
 import Modal from '@/lib/components/modals/Modal'
 import { Toast, ToastColors } from '@/lib/ui'
 import { deleteStudyMember } from '@/services/serverFunctions/study'
-import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import { ColumnDef, StockFeatures, stockFeatures, useTable } from '@tanstack/react-table'
 import { UserSession } from 'next-auth'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
@@ -42,7 +42,7 @@ const StudyRightsTable = ({ user, study, canAddMember, userRoleOnStudy }: Props)
   const router = useRouter()
 
   const columns = useMemo(() => {
-    const columns: ColumnDef<AllowedUser>[] = [
+    const columns: ColumnDef<StockFeatures, AllowedUser>[] = [
       {
         header: t('email'),
         accessorKey: 'account.user.email',
@@ -86,11 +86,10 @@ const StudyRightsTable = ({ user, study, canAddMember, userRoleOnStudy }: Props)
     return columns
   }, [t, canAddMember, user, userRoleOnStudy, study, tStudyRole])
 
-  // eslint-disable-next-line react-hooks/incompatible-library
-  const table = useReactTable({
+  const table = useTable({
+    features: stockFeatures,
     columns,
     data: study.allowedUsers,
-    getCoreRowModel: getCoreRowModel(),
   })
 
   const deleteMember = async (member: AllowedUser) => {

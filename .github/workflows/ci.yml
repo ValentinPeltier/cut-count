@@ -8,12 +8,8 @@ concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
-
 env:
-  # Pin to the same Node line as production (Scalingo).
-  NODE_VERSION: '26.9.0'
+  NODE_VERSION: '26'
 
 jobs:
   i18n-check:
@@ -116,7 +112,7 @@ jobs:
           MYSQL_PASSWORD: count
           MYSQL_DATABASE: count_test
         ports:
-          # Match .env.test (local docker-compose db_test).
+          # Match .env.test
           - 3307:3306
         options: >-
           --health-cmd "mysqladmin ping -h 127.0.0.1 -u count -pcount"
@@ -137,9 +133,6 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Migrate and seed test database
-        run: yarn db:test:seed
-
       - name: Download build artifact
         uses: actions/download-artifact@v8
         with:
@@ -149,16 +142,10 @@ jobs:
       - name: Extract build artifact
         run: tar -xzf /tmp/ci-build/next-build.tgz -C .
 
-      - name: Start test server
-        run: yarn start:test &
-
-      - name: Wait for test server
-        run: yarn wait-on http://127.0.0.1:3001/login --timeout 60000
-
       - name: Run e2e tests
         env:
           NODE_OPTIONS: --max-old-space-size=4096
-        run: yarn test:e2e:run --spec "src/tests/end-to-end/app/${{ matrix.group }}/**/*.cy.ts" --headless
+        run: bash scripts/e2e-ci.sh --spec "src/tests/end-to-end/app/${{ matrix.group }}/**/*.cy.ts" --headless
 
       - name: Upload e2e screenshots
         uses: actions/upload-artifact@v7
@@ -172,7 +159,7 @@ jobs:
   lighthouse:
     timeout-minutes: 10
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: [i18n-check, lint-typecheck, unit-tests, build]
     services:
       mysql:
         image: mysql:8.0
@@ -218,30 +205,13 @@ jobs:
       - name: Wait for server
         run: yarn wait-on http://127.0.0.1:3000 --timeout 60000
 
-      - name: Create Lighthouse output directory
-        run: mkdir -p ${{ github.workspace }}/tmp/artifacts
-
+      # Pin to release commit (12.6.2)
       - name: Run Lighthouse
-        id: lighthouse
-        # Pin to release commit (v12.0.1); avoid floating @master.
-        uses: foo-software/lighthouse-check-action@a80267da2e0244b8a2e457a8575fc47590615852
+        uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18
         with:
-          device: all
-          urls: http://localhost:3000/login
-          outputDirectory: ${{ github.workspace }}/tmp/artifacts
-
-      - name: Verify Lighthouse scores
-        uses: foo-software/lighthouse-check-status-action@2b9d5101f7a0de86ddb153a0d77ad7046aac1052
-        with:
-          lighthouseCheckResults: ${{ steps.lighthouse.outputs.lighthouseCheckResults }}
-          minAccessibilityScore: '100'
-          minBestPracticesScore: '95'
-
-      - name: Upload Lighthouse reports
-        uses: actions/upload-artifact@v7
-        if: always()
-        with:
-          name: lighthouse-reports
-          path: ${{ github.workspace }}/tmp/artifacts
-          retention-days: 7
-          if-no-files-found: ignore
+          urls: |
+            http://127.0.0.1:3000/login
+          configPath: .github/lighthouserc.json
+          uploadArtifacts: true
+          artifactName: lighthouse-reports
+          runs: '1'
