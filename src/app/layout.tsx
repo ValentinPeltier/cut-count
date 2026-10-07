@@ -2,8 +2,8 @@ import { ZodConfigClientProvider } from '@/components/providers/zod.provider'
 import RouteChangeListener from '@/components/RouteChangeListener'
 import '@/css/index.css'
 
+import { getLocale } from '@/i18n/locale'
 import { Providers, configureZod } from '@/lib'
-import { Locale, LocaleType } from '@/lib/i18n/config'
 import type { Metadata } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server'
@@ -18,10 +18,10 @@ interface Props {
 }
 
 const RootLayout = async ({ children }: Readonly<Props>) => {
-  const t = await getTranslations()
-  const locale = Locale.FR
+  const locale = await getLocale()
   setRequestLocale(locale)
-  configureZod(locale as LocaleType, t)
+  const t = await getTranslations()
+  configureZod(locale, t)
   const messages = await getMessages()
 
   return (
@@ -30,7 +30,7 @@ const RootLayout = async ({ children }: Readonly<Props>) => {
         <link rel="preconnect" href="https://fonts.cdnfonts.com" crossOrigin="" />
       </head>
       <body>
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           <RouteChangeListener />
           <Providers>
             <ZodConfigClientProvider>{children}</ZodConfigClientProvider>

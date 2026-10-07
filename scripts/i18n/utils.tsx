@@ -22,7 +22,7 @@ import { Locale, LocaleType } from '@/lib/i18n/config'
 export { Locale }
 
 // For backward-compatibility, mapping LocaleType to string[] where needed
-export const AVAILABLE_LOCALES: LocaleType[] = [Locale.FR]
+export const AVAILABLE_LOCALES: LocaleType[] = [Locale.FR, Locale.EN]
 // LocaleType already includes all supported locale codes as string values
 
 export const AVAILABLE_MODELS = ['cut'] as const

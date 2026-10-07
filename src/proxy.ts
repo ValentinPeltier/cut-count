@@ -1,15 +1,17 @@
-import { Locale } from '@/lib/i18n/config'
+import { LOCALE_COOKIE, resolveLocaleCookie } from '@/i18n/localeCookie'
 import { getToken } from 'next-auth/jwt'
 import { NextRequest, NextResponse } from 'next/server'
 
-const LOCALE_COOKIE = 'NEXT_LOCALE'
 const publicRoutes = ['/login', '/register', '/reset-password', '/activation']
 const assetsRoutes = ['/_next', '/img']
 
 const logos = ['https://base-empreinte.ademe.fr', 'https://www.legifrance.gouv.fr', ''].join(' ')
 
-const normalizeCookies = (response: NextResponse) => {
-  response.cookies.set(LOCALE_COOKIE, Locale.FR)
+const ensureLocaleCookie = (req: NextRequest, response: NextResponse) => {
+  const fallback = resolveLocaleCookie(req.cookies.get(LOCALE_COOKIE)?.value)
+  if (fallback) {
+    response.cookies.set(LOCALE_COOKIE, fallback)
+  }
   return response
 }
 
@@ -80,7 +82,7 @@ export async function proxy(req: NextRequest) {
     if (pathname === '/login') {
       const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
       if (token) {
-        return normalizeCookies(NextResponse.redirect(new URL('/', req.url)))
+        return ensureLocaleCookie(req, NextResponse.redirect(new URL('/', req.url)))
       }
     }
   } else if (!assetsRoutes.find((route) => pathname.startsWith(route))) {
@@ -88,7 +90,7 @@ export async function proxy(req: NextRequest) {
 
     if (!token) {
       const loginUrl = new URL('/login', req.url)
-      return normalizeCookies(NextResponse.redirect(loginUrl))
+      return ensureLocaleCookie(req, NextResponse.redirect(loginUrl))
     }
   }
 
@@ -108,7 +110,7 @@ export async function proxy(req: NextRequest) {
     response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
   }
 
-  return normalizeCookies(response)
+  return ensureLocaleCookie(req, response)
 }
 
 export const config = {

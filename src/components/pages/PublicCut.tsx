@@ -40,7 +40,10 @@ const PublicCutPage = ({ children, question }: Props) => {
     getLocale().then(setLocale)
   }, [])
 
-  const languages = [{ name: tLocale('fr'), code: 'FR', target: Locale.FR }]
+  const languages = [
+    { name: tLocale('fr'), code: 'FR', target: Locale.FR },
+    { name: tLocale('en'), code: 'EN', target: Locale.EN },
+  ]
 
   return (
     <PublicContainer>
@@ -91,9 +94,10 @@ const PublicCutPage = ({ children, question }: Props) => {
                 className={classNames(styles.flag, 'flex', {
                   [styles.selected]: language.target === locale,
                 })}
-                onClick={() => {
-                  switchLocale(language.target)
+                onClick={async () => {
+                  await switchLocale(language.target)
                   setLocale(language.target)
+                  window.location.reload()
                 }}
               >
                 <Image alt={language.name} src={`/img/${language.code}.svg`} width={30} height={20} />

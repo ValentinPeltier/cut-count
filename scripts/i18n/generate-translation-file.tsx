@@ -19,7 +19,7 @@ const getI18nUnitKey = (unit: string) => unit.trim().replace(/\./g, '/')
 const { model } = getArgs()
 
 // Définition statique des locales prises en charge pour chaque modèle
-const LOCALES_CUT = [Locale.FR] as const
+const LOCALES_CUT = [Locale.FR, Locale.EN] as const
 const getLocales = () => {
   switch (model) {
     case 'cut':
