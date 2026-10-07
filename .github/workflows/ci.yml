@@ -159,7 +159,7 @@ jobs:
   lighthouse:
     timeout-minutes: 10
     runs-on: ubuntu-latest
-    needs: [build]
+    needs: [i18n-check, lint-typecheck, unit-tests, build]
     services:
       mysql:
         image: mysql:8.0
