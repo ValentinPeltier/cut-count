@@ -122,7 +122,10 @@ const SignUpFormCut = ({ defaultEmail }: Props) => {
           name="siretOrCNC"
           label={t('siretOrCNC')}
           freeSolo
-          onInputChange={(_, value) => {
+          onInputChange={(_, value, reason) => {
+            if (reason !== 'input' && reason !== 'clear') {
+              return
+            }
             setSiretOrCNC(value)
             setValue('siretOrCNC', value)
           }}
