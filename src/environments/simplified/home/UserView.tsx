@@ -25,8 +25,8 @@ const UserView = async ({ account }: Props) => {
   const navigation = await getTranslations('home.navigation')
 
   return (
-    <div className={styles.block}>
-      <Box component="section" className="flex-col h100 gapped15">
+    <div className={classNames(styles.block, !hasOrganization && styles.blockCompact)}>
+      <Box component="section" className={classNames('flex-col gapped15', hasOrganization && 'h100')}>
         <Box className={classNames('align-center p2 gapped1 hauto', styles.styledBoxContainer, styles.styledBoxInfo)}>
           <Box className={classNames('flex-col', styles.leftContent)}>
             <Typography data-testid="title" variant="h4" className={styles.titleInBox}>

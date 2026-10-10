@@ -21,39 +21,15 @@ const isPublicPath = (pathname: string) =>
 const isHttpsRequest = (req: NextRequest) =>
   req.nextUrl.protocol === 'https:' || req.headers.get('x-forwarded-proto') === 'https'
 
-const buildContentSecurityPolicy = (pathname: string, nonce: string) => {
-  const isPublic = isPublicPath(pathname)
-
-  if (isPublic) {
-    const scriptSrc =
-      process.env.NODE_ENV === 'development' ? `'self' 'unsafe-inline' 'unsafe-eval'` : `'self' 'unsafe-inline'`
-
-    return `
-      default-src 'self';
-      script-src ${scriptSrc};
-      style-src 'self' 'unsafe-inline' https://fonts.cdnfonts.com;
-      img-src 'self' data: ${logos};
-      font-src 'self' https://fonts.cdnfonts.com;
-      object-src 'none';
-      base-uri 'self';
-      form-action 'self';
-      frame-ancestors 'none';
-      frame-src 'self' https://www.youtube.com;
-      connect-src 'self';
-    `
-      .replace(/\s{2,}/g, ' ')
-      .trim()
-  }
-
+const buildContentSecurityPolicy = (nonce: string) => {
+  // One CSP for all routes: soft navigations keep the document CSP, so public vs
+  // authenticated policies must not diverge (otherwise Emotion styles lose their nonce).
   const scriptSrc =
     process.env.NODE_ENV === 'development'
       ? `'self' 'unsafe-inline' 'unsafe-eval'`
       : `'self' 'nonce-${nonce}' 'strict-dynamic'`
 
-  const styleSrc =
-    process.env.NODE_ENV === 'development'
-      ? `'self' 'unsafe-inline' https://fonts.cdnfonts.com`
-      : `'self' 'nonce-${nonce}' https://fonts.cdnfonts.com`
+  const styleSrc = process.env.NODE_ENV === 'development' ? `'self' 'unsafe-inline'` : `'self' 'nonce-${nonce}'`
 
   return `
     default-src 'self';
@@ -61,7 +37,7 @@ const buildContentSecurityPolicy = (pathname: string, nonce: string) => {
     style-src ${styleSrc};
     style-src-attr 'unsafe-inline';
     img-src 'self' data: ${logos};
-    font-src 'self' https://fonts.cdnfonts.com;
+    font-src 'self';
     object-src 'none';
     base-uri 'self';
     form-action 'self';
@@ -94,12 +70,10 @@ export async function proxy(req: NextRequest) {
     }
   }
 
-  const contentSecurityPolicyHeader = buildContentSecurityPolicy(pathname, nonce)
+  const contentSecurityPolicyHeader = buildContentSecurityPolicy(nonce)
 
   const requestHeaders = new Headers(req.headers)
-  if (!isPublic) {
-    requestHeaders.set('x-nonce', nonce)
-  }
+  requestHeaders.set('x-nonce', nonce)
   requestHeaders.set('Content-Security-Policy', contentSecurityPolicyHeader)
 
   const response = NextResponse.next({ request: { headers: requestHeaders } })

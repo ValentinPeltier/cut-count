@@ -1,9 +1,7 @@
 import withAuth, { UserSessionProps } from '@/components/hoc/withAuth'
 import Navbar from '@/components/navbar/Navbar'
 import { getAccountOrganizationVersions } from '@/db/account'
-import CutThemeProvider from '@/environments/cut/theme/CutThemeProvider'
 import DashboardProviders from '@/lib/DashboardProviders'
-import { MuiAppProvidersWithNonce } from '@/lib/MuiAppProviders'
 import { Box } from '@mui/material'
 import styles from './layout.module.css'
 
@@ -14,29 +12,23 @@ interface Props {
 const NavLayout = async ({ children, user: account }: Props & UserSessionProps) => {
   if (account.needsAccountSelection) {
     return (
-      <MuiAppProvidersWithNonce>
-        <DashboardProviders>
-          <main className={styles.content}>{children}</main>
-        </DashboardProviders>
-      </MuiAppProvidersWithNonce>
+      <DashboardProviders>
+        <main className={styles.content}>{children}</main>
+      </DashboardProviders>
     )
   }
 
   await getAccountOrganizationVersions(account.accountId)
 
   return (
-    <MuiAppProvidersWithNonce>
-      <CutThemeProvider>
-        <DashboardProviders>
-          <Box className="flex-col h100">
-            <Navbar user={account} />
-            <Box component="main" className={styles.content}>
-              {children}
-            </Box>
-          </Box>
-        </DashboardProviders>
-      </CutThemeProvider>
-    </MuiAppProvidersWithNonce>
+    <DashboardProviders>
+      <Box className="flex-col h100">
+        <Navbar user={account} />
+        <Box component="main" className={styles.content}>
+          {children}
+        </Box>
+      </Box>
+    </DashboardProviders>
   )
 }
 

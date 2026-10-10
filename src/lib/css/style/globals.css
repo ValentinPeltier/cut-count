@@ -5,7 +5,7 @@
   font-weight: 800;
   src:
     local('Gilroy-Bold'),
-    url('https://fonts.cdnfonts.com/s/16219/Gilroy-Bold.woff') format('woff');
+    url('/fonts/Gilroy-Bold.woff') format('woff');
 }
 @font-face {
   font-family: 'Gilroy-Heavy';
@@ -14,7 +14,7 @@
   font-weight: 700;
   src:
     local('Gilroy-Heavy'),
-    url('https://fonts.cdnfonts.com/s/16219/Gilroy-Heavy.woff') format('woff');
+    url('/fonts/Gilroy-Heavy.woff') format('woff');
 }
 @font-face {
   font-family: 'Gilroy-Light';
@@ -23,7 +23,7 @@
   font-weight: 300;
   src:
     local('Gilroy-Light'),
-    url('https://fonts.cdnfonts.com/s/16219/Gilroy-Light.woff') format('woff');
+    url('/fonts/Gilroy-Light.woff') format('woff');
 }
 @font-face {
   font-family: 'Gilroy-Medium';
@@ -32,7 +32,7 @@
   font-weight: 500;
   src:
     local('Gilroy-Medium'),
-    url('https://fonts.cdnfonts.com/s/16219/Gilroy-Medium.woff') format('woff');
+    url('/fonts/Gilroy-Medium.woff') format('woff');
 }
 @font-face {
   font-family: 'Gilroy-Regular';
@@ -41,7 +41,7 @@
   font-weight: 400;
   src:
     local('Gilroy-Regular'),
-    url('https://fonts.cdnfonts.com/s/16219/Gilroy-Regular.woff') format('woff');
+    url('/fonts/Gilroy-Regular.woff') format('woff');
 }
 
 * {

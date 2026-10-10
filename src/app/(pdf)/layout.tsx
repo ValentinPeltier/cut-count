@@ -1,17 +1,10 @@
-import CutThemeProvider from '@/environments/cut/theme/CutThemeProvider'
-import { MuiAppProvidersWithNonce } from '@/lib/MuiAppProviders'
 import { ReactNode } from 'react'
 
 interface Props {
   children: ReactNode
 }
 
-const PdfLayout = async ({ children }: Props) => {
-  return (
-    <MuiAppProvidersWithNonce>
-      <CutThemeProvider>{children}</CutThemeProvider>
-    </MuiAppProvidersWithNonce>
-  )
-}
+/** PDF routes share the root Emotion/theme providers; no dashboard chrome. */
+const PdfLayout = ({ children }: Props) => children
 
 export default PdfLayout

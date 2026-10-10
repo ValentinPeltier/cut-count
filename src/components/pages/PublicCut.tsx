@@ -29,9 +29,8 @@ const StyledLoginForm = styled(Container)(({ theme }) => ({
 
 interface Props {
   children: ReactNode
-  question: ReactNode
 }
-const PublicCutPage = ({ children, question }: Props) => {
+const PublicCutPage = ({ children }: Props) => {
   const t = useTranslations('login')
   const tLocale = useTranslations('locale')
   const [locale, setLocale] = useState<LocaleType>(defaultLocale)
@@ -51,14 +50,16 @@ const PublicCutPage = ({ children, question }: Props) => {
         <Box sx={{ p: '0.1rem', borderBottom: '1px solid', borderColor: 'success.light' }}>
           <Box className="justify-around flex-col gapped1" sx={{ minHeight: '400px', px: '1rem', py: '2rem' }}>
             <Typography className="title-h2">{t('welcome')}</Typography>
-            <Image
+            {/* Native img: next/image priority preload often mismatches SVG usage and warns in console */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src="/img/logo-filled.svg"
               alt="logo"
               width={400}
               height={400}
-              sizes="(max-width: 900px) min(80vw, 320px), 400px"
               className={classNames(styles.image, 'w100')}
-              priority
+              fetchPriority="high"
+              decoding="async"
             />
             <Typography className="title-h6 bold">{t('subtext')}</Typography>
             <div className="justify-center">
@@ -69,7 +70,7 @@ const PublicCutPage = ({ children, question }: Props) => {
             </Typography>
           </Box>
         </Box>
-        <p className={styles.richLinks}>{question}</p>
+        <p className={styles.richLinks}>{customRich(t, 'question', {})}</p>
         <Box className="justify-between" sx={{ padding: '1.2rem' }}>
           <Image className={styles.france2030Logo} src="/img/france_2030.png" alt="logo" width={204} height={198} />
           <Typography

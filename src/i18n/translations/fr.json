@@ -43,14 +43,14 @@
     "validate": "Valider",
     "Request sent": "Une demande d'activation de votre compte a été envoyé à vos collègues",
     "Email sent": "Vous allez recevoir un mail pour finaliser l'activation de votre compte.",
-    "Not authorized": "Cet email est déjà inscrit avec un compte CUT ou il y a eu un soucis lors de sa création. N'hésitez pas à consulter <link>la FAQ</link> ou à contacter <support>le support</support> si vous pensez qu'il s'agit d'une erreur.",
+    "Not authorized": "Cet email est déjà inscrit avec un compte CUT ou il y a eu un soucis lors de sa création. N'hésitez pas à consulter <link>la FAQ</link> ou à contacter <supportLink>le support</supportLink> si vous pensez qu'il s'agit d'une erreur.",
     "support": "Un problème est survenu. Réessayez. Si cela ne fonctionne pas, contactez notre support",
     "description": "Créez un compte sur CUT en entrant votre email ainsi qu'un numéro CNC (recommandé) ou Siret",
     "siretOrCNC": "Numéro CNC (recommandé) ou SIRET",
     "clear": "Supprimer la valeur",
     "Unknown CNC": "Ce numéro CNC n'est pas reconnu. Veuillez vérifier votre saisie ou contacter le support si vous pensez qu'il s'agit d'une erreur.",
     "Unknown SIRET or CNC": "Ce numéro CNC ou SIRET n'est pas reconnu. Veuillez vérifier votre saisie ou contacter le support si vous pensez qu'il s'agit d'une erreur.",
-    "No recipient": "Impossible d'envoyer la demande : aucun administrateur actif trouvé pour cette organisation. Contactez <support>le support</support> si vous pensez qu'il s'agit d'une erreur."
+    "No recipient": "Impossible d'envoyer la demande : aucun administrateur actif trouvé pour cette organisation. Contactez <supportLink>le support</supportLink> si vous pensez qu'il s'agit d'une erreur."
   },
   "navigation": {
     "home": "Accueil",
@@ -140,7 +140,7 @@
         "marketBased": "Une partie des différences entre le GHG Protocol en market-based et le Bilan Carbone® provient simplement de la différence de résultats entre les méthodes <green>location-based</green> et <purple>market-based</purple>.",
         "fabrication": "Vous avez utilisé des facteurs d'émission utilisant les distances (passager.km, ...) pour des véhicules opérés. Les émissions liées à la fabrication de ces véhicules ne sont pas prises en compte dans le GHG Protocol. Veuillez utiliser le poste Immobilisations pour les émissions de fabrication des véhicules acquis l'année du bilan.",
         "additionalMissing": "+ {count, plural,  =1 {1 autre source} other {# autres sources}} d'émission",
-        "unexplainedDifference": "Certaines différences ne peuvent être expliquées pour votre étude et peuvent être liées à des problèmes de calcul de l'outil. Si vous le pouvez, merci de nous contacter à l'adresse <support>support</support>."
+        "unexplainedDifference": "Certaines différences ne peuvent être expliquées pour votre étude et peuvent être liées à des problèmes de calcul de l'outil. Si vous le pouvez, merci de nous contacter à l'adresse <supportLink>support</supportLink>."
       },
       "noData": "Aucune donnée à afficher",
       "uncertainties": {
@@ -437,8 +437,8 @@
       }
     },
     "subtext": "Le premier calculateur d'impact écologique dédié aux salles de cinéma.",
-    "explanation": "Cet outil a été développé par l'association <b>CUT ! Cinéma Uni pour la Transition,</b> en coopération avec <b><abcAssociation>l'ABC, association pour la Transition bas carbone.</abcAssociation></b>",
-    "question": "Une question ? Lisez la <faq>FAQ</faq> ou <support>contactez-nous</support> !",
+    "explanation": "Cet outil a été développé par l'association <b>CUT ! Cinéma Uni pour la Transition,</b> en coopération avec <b><abcLink>l'ABC, association pour la Transition bas carbone.</abcLink></b>",
+    "question": "Une question ? Lisez la <faqLink>FAQ</faqLink> ou <supportLink>contactez-nous</supportLink> !",
     "cineo": "Outil développé grâce aux Bilans Carbone® de Cineo",
     "explanation2": "Opération soutenue par l'État dans le cadre du dispositif « Soutenir les alternatives vertes 2 » de France 2030, opéré par la Banque des territoires (Caisse des Dépôts)"
   },
