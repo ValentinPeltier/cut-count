@@ -43,14 +43,14 @@
     "validate": "Validate",
     "Request sent": "An activation request for your account has been sent to your colleagues",
     "Email sent": "You will receive an email to complete your account activation.",
-    "Not authorized": "This email is already registered with a CUT account, or an issue occurred during its creation. Feel free to check the <link>FAQ</link> or contact <support>support</support> if you think this is an error.",
+    "Not authorized": "This email is already registered with a CUT account, or an issue occurred during its creation. Feel free to check the <link>FAQ</link> or contact <supportLink>support</support> if you think this is an error.",
     "support": "A problem occurred. Please try again. If it still does not work, contact our support",
     "description": "Create a CUT account by entering your email and a CNC number (recommended) or SIRET",
     "siretOrCNC": "CNC number (recommended) or SIRET",
     "clear": "Clear value",
     "Unknown CNC": "This CNC number is not recognized. Please check your entry or contact support if you think this is an error.",
     "Unknown SIRET or CNC": "This CNC or SIRET number is not recognized. Please check your entry or contact support if you think this is an error.",
-    "No recipient": "Unable to send the request: no active administrator found for this organization. Contact <support>support</support> if you think this is an error."
+    "No recipient": "Unable to send the request: no active administrator found for this organization. Contact <supportLink>support</support> if you think this is an error."
   },
   "navigation": {
     "home": "Home",
@@ -140,7 +140,7 @@
         "marketBased": "Some of the differences between market-based GHG Protocol and Bilan Carbone® simply come from the difference in results between <green>location-based</green> and <purple>market-based</purple> methods.",
         "fabrication": "You used emission factors based on distances (passenger.km, ...) for operated vehicles. Emissions related to manufacturing these vehicles are not accounted for in the GHG Protocol. Please use the Fixed assets category for manufacturing emissions from vehicles acquired in the inventory year.",
         "additionalMissing": "+ {count, plural,  =1 {1 other emission source} other {# other emission sources}}",
-        "unexplainedDifference": "Some differences cannot be explained for your study and may be related to calculation issues in the tool. If you can, please contact us at <support>support</support>."
+        "unexplainedDifference": "Some differences cannot be explained for your study and may be related to calculation issues in the tool. If you can, please contact us at <supportLink>support</support>."
       },
       "noData": "No data to display",
       "uncertainties": {
@@ -437,8 +437,8 @@
       }
     },
     "subtext": "The first ecological impact calculator dedicated to movie theaters.",
-    "explanation": "This tool was developed by the association <b>CUT ! Cinéma Uni pour la Transition,</b> in cooperation with <b>l'ABC, association pour la Transition bas carbone.</b>",
-    "question": "Any question ? Find the <faq>FAQ</faq> or <support>contact us </support> !",
+    "explanation": "This tool was developed by the association <b>CUT ! Cinéma Uni pour la Transition,</b> in cooperation with <b><abcLink>l'ABC, association pour la Transition bas carbone.</abcLink></b>",
+    "question": "Any question ? Find the <faqLink>FAQ</faq> or <supportLink>contact us </support> !",
     "cineo": "Tool developed thanks to the Bilan Carbone® assessments of Cineo",
     "explanation2": "Operation supported by the State under the ‘Supporting Green Alternatives 2’ program of France 2030, managed by Banque des Territoires (Caisse des Dépôts)."
   },
