@@ -29,9 +29,8 @@ const StyledLoginForm = styled(Container)(({ theme }) => ({
 
 interface Props {
   children: ReactNode
-  question: ReactNode
 }
-const PublicCutPage = ({ children, question }: Props) => {
+const PublicCutPage = ({ children }: Props) => {
   const t = useTranslations('login')
   const tLocale = useTranslations('locale')
   const [locale, setLocale] = useState<LocaleType>(defaultLocale)
@@ -69,7 +68,7 @@ const PublicCutPage = ({ children, question }: Props) => {
             </Typography>
           </Box>
         </Box>
-        <p className={styles.richLinks}>{question}</p>
+        <p className={styles.richLinks}>{customRich(t, 'question', {})}</p>
         <Box className="justify-between" sx={{ padding: '1.2rem' }}>
           <Image className={styles.france2030Logo} src="/img/france_2030.png" alt="logo" width={204} height={198} />
           <Typography
