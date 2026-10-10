@@ -28,9 +28,6 @@ const RootLayout = async ({ children }: Readonly<Props>) => {
 
   return (
     <html lang={locale} className={'CUT'}>
-      <head>
-        <link rel="preconnect" href="https://fonts.cdnfonts.com" crossOrigin="" />
-      </head>
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <RouteChangeListener />

@@ -31,8 +31,8 @@ const buildContentSecurityPolicy = (nonce: string) => {
 
   const styleSrc =
     process.env.NODE_ENV === 'development'
-      ? `'self' 'unsafe-inline' https://fonts.cdnfonts.com`
-      : `'self' 'nonce-${nonce}' https://fonts.cdnfonts.com`
+      ? `'self' 'unsafe-inline'`
+      : `'self' 'nonce-${nonce}'`
 
   return `
     default-src 'self';
@@ -40,7 +40,7 @@ const buildContentSecurityPolicy = (nonce: string) => {
     style-src ${styleSrc};
     style-src-attr 'unsafe-inline';
     img-src 'self' data: ${logos};
-    font-src 'self' https://fonts.cdnfonts.com;
+    font-src 'self';
     object-src 'none';
     base-uri 'self';
     form-action 'self';
