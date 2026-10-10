@@ -21,7 +21,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NODE_ENV=production
 ENV DATABASE_URL=mysql://count:count@localhost:3306/count
-RUN yarn build
+RUN yarn db:generate && yarn build
 
 FROM base AS runner
 ENV NODE_ENV=production
