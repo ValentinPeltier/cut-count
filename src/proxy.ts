@@ -29,10 +29,7 @@ const buildContentSecurityPolicy = (nonce: string) => {
       ? `'self' 'unsafe-inline' 'unsafe-eval'`
       : `'self' 'nonce-${nonce}' 'strict-dynamic'`
 
-  const styleSrc =
-    process.env.NODE_ENV === 'development'
-      ? `'self' 'unsafe-inline'`
-      : `'self' 'nonce-${nonce}'`
+  const styleSrc = process.env.NODE_ENV === 'development' ? `'self' 'unsafe-inline'` : `'self' 'nonce-${nonce}'`
 
   return `
     default-src 'self';
