@@ -1,6 +1,10 @@
 import * as z from 'zod'
 import { Translations } from './translation'
 
+// Avoid Zod's `new Function("")` capability probe — it violates CSP without 'unsafe-eval'
+// and shows up as a console error even though Zod catches the failure.
+z.config({ jitless: true })
+
 export function configureZod(locale: string, t?: Translations) {
   if (locale === 'en') {
     z.config(z.locales.en())
