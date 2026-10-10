@@ -28,6 +28,27 @@ ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 
+# Shared libraries required by @sparticuz/chromium (headless_shell).
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+    libnss3 \
+    libnspr4 \
+    libexpat1 \
+    libatk1.0-0 \
+    libatk-bridge2.0-0 \
+    libcups2 \
+    libdrm2 \
+    libxkbcommon0 \
+    libxcomposite1 \
+    libxdamage1 \
+    libxfixes3 \
+    libxrandr2 \
+    libgbm1 \
+    libasound2 \
+    libpango-1.0-0 \
+    libcairo2 \
+  && rm -rf /var/lib/apt/lists/*
+
 RUN addgroup --system --gid 1001 nodejs \
   && adduser --system --uid 1001 --ingroup nodejs nextjs
 
