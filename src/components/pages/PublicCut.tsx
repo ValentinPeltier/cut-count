@@ -50,14 +50,16 @@ const PublicCutPage = ({ children }: Props) => {
         <Box sx={{ p: '0.1rem', borderBottom: '1px solid', borderColor: 'success.light' }}>
           <Box className="justify-around flex-col gapped1" sx={{ minHeight: '400px', px: '1rem', py: '2rem' }}>
             <Typography className="title-h2">{t('welcome')}</Typography>
-            <Image
+            {/* Native img: next/image priority preload often mismatches SVG usage and warns in console */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src="/img/logo-filled.svg"
               alt="logo"
               width={400}
               height={400}
-              sizes="(max-width: 900px) min(80vw, 320px), 400px"
               className={classNames(styles.image, 'w100')}
-              priority
+              fetchPriority="high"
+              decoding="async"
             />
             <Typography className="title-h6 bold">{t('subtext')}</Typography>
             <div className="justify-center">
