@@ -438,7 +438,7 @@
     },
     "subtext": "The first ecological impact calculator dedicated to movie theaters.",
     "explanation": "This tool was developed by the association <b>CUT ! Cinéma Uni pour la Transition,</b> in cooperation with <b><abcLink>l'ABC, association pour la Transition bas carbone.</abcLink></b>",
-    "question": "Any question ? Find the <faqLink>FAQ</faq> or <supportLink>contact us </support> !",
+    "question": "Any question ? Find the <faqLink>FAQ</faqLink> or <supportLink>contact us</supportLink> !",
     "cineo": "Tool developed thanks to the Bilan Carbone® assessments of Cineo",
     "explanation2": "Operation supported by the State under the ‘Supporting Green Alternatives 2’ program of France 2030, managed by Banque des Territoires (Caisse des Dépôts)."
   },
