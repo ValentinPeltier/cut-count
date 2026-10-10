@@ -5,6 +5,12 @@
   ); /* 48px top bar + 150px footer + 48px padding top + 32px padding bottom */
 }
 
+/* Without org cards, shrink to content so StudiesContainer isn't pushed down */
+.blockCompact {
+  min-height: unset;
+  height: auto;
+}
+
 .styledBoxContainer {
   border-radius: 0.5rem;
 }
