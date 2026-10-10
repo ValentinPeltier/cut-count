@@ -3,7 +3,7 @@ import { getToken } from 'next-auth/jwt'
 import { NextRequest, NextResponse } from 'next/server'
 
 const publicRoutes = ['/login', '/register', '/reset-password', '/activation']
-const assetsRoutes = ['/_next', '/img']
+const assetsRoutes = ['/_next', '/img', '/fonts']
 
 const logos = ['https://base-empreinte.ademe.fr', 'https://www.legifrance.gouv.fr', ''].join(' ')
 
@@ -90,7 +90,7 @@ export async function proxy(req: NextRequest) {
 export const config = {
   matcher: [
     {
-      source: '/((?!_next/static|_next/image|favicon.ico|images|logos|api/auth|api/ressources/*).*)',
+      source: '/((?!_next/static|_next/image|favicon.ico|images|logos|fonts|api/auth|api/ressources/*).*)',
       missing: [
         { type: 'header', key: 'next-router-prefetch' },
         { type: 'header', key: 'purpose', value: 'prefetch' },
